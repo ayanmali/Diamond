@@ -75,15 +75,38 @@ type VendorWallet struct {
 	DateCreated      int64
 }
 
+type Customer struct {
+	Email           string
+	WalletAddresses []string
+}
+
+func createCustomer(string email, []string walletAddresses) *Customer {
+	return &Customer(
+		email,
+		walletAddresses,
+	)
+}
+
+func(customer *Customer) EditCustomerEmail(string newEmail) {
+	customer.Email = newEmail
+}
+
+func(customer *Customer) AddWalletAddress(string address) {
+	customer.WalletAddresses = append(customer.WalletAddresses, address)
+}
+
 // Defining the struct of a simple one time payment
 type SimplePayment struct {
 	Amount                float64
 	VendorWalletAddress   string
 	VendorWalletId        int64
 	Currency              Currency
+	Customer              Customer
 	CustomerWalletAddress string
 	Timestamp             int64
 	Status                PaymentStatus
+	VendorComments        string
+	CustomerComments      string
 }
 
 // Creates a new wallet for the vendor

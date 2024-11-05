@@ -1,7 +1,5 @@
-import (
-	"fmt"
-)
+package main
 
 func main() {
-	var chain = Blockchain "ETH";
+	chain := ETH
 }
