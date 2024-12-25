@@ -8,7 +8,3 @@ public enum Currency {
         return name();
     }
 }
-
-// public class Orders {
-
-// }

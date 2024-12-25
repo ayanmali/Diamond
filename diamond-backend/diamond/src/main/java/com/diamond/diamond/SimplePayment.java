@@ -1,5 +1,7 @@
 package com.diamond.diamond;
 
+import java.time.Instant;
+
 public class SimplePayment {
 
     private double amount;
