@@ -1,2 +1,5 @@
 *.exe
+.vscode
 credentials.go
+diamond-backend.zip
+diamond-gateway

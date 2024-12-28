@@ -1,0 +1,26 @@
+services:
+  # api:
+  #   build:
+  #     context: ./diamond-backend/diamond
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "8080:8080"
+  #   volumes:
+  #     - "./diamond-backend:/api"
+  #   env_file:
+  #     - ./diamond-backend/diamond/.env
+  #   depends_on:
+  #     - postgres
+
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=diamond_db'
+      - 'POSTGRES_PASSWORD=postgres'
+      - 'POSTGRES_USER=postgres'
+    ports:
+      - '5430:5432'
+  redis:
+    image: 'redis:latest'
+    ports:
+      - '6379:6379'

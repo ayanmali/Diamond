@@ -18,7 +18,7 @@ import jakarta.persistence.Table;
 
 @Table(name = "users")
 @Entity
-public class User implements UserDetails {
+public class User implements UserDetails { // Implementing the UserDetails interface to use user data for authentication
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -48,6 +48,7 @@ public class User implements UserDetails {
         return List.of();
     }
 
+    @Override
     public String getPassword() {
         return password;
     }

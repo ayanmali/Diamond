@@ -11,15 +11,14 @@ import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 
-@Service
+@Component
 public class JwtService {
 
     // Server-side secret key used to validate the JWT
@@ -36,10 +35,9 @@ public class JwtService {
         // Initializing the claims map to be used for creating tokens
         Map<String, Object> claims = new HashMap<>();
 
-        claims.put("access", true); // for the access token
-
+        //claims.put("access", true); // for the access token
         // Generating the token
-        return createToken(claims, userDetails.getUsername(), accessTokenExpiration);
+        return buildToken(claims, userDetails.getUsername(), accessTokenExpiration);
     }
 
     public String generateRefreshToken(UserDetails userDetails) {
@@ -49,10 +47,10 @@ public class JwtService {
         claims.put("refresh", true); // for the refresh token
 
         // Generating the token
-        return createToken(claims, userDetails.getUsername(), refreshTokenExpiration);
+        return buildToken(claims, userDetails.getUsername(), refreshTokenExpiration);
     }
 
-    private String createToken(Map<String, Object> claims, String subject, Long expiration) {
+    private String buildToken(Map<String, Object> claims, String subject, Long expiration) {
         SecretKey key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
         return Jwts
                 .builder()
@@ -96,7 +94,7 @@ public class JwtService {
     }
 
     /* 
-     * Decodes the secret key
+     * Decodes the JWT secret key
      */
     private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
