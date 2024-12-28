@@ -1,0 +1,3 @@
+- SecurityConfig.java - add OAuth login and JWT authentication
+- Redis caching:
+    - for username/password login

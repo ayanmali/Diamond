@@ -4,15 +4,16 @@ import java.time.Instant;
 
 public class SimplePayment {
 
-    private double amount;
-    private VendorWallet businessWallet;
-    private Currency currency;
+    private final double amount;
+    private final VendorWallet businessWallet;
+    private final Currency currency;
     private Customer customer;
     private CustomerWallet customerWallet;
-    private long timestamp;
+    private final long timeSent;
+    private long timePaid;
     private PaymentStatus paymentStatus;
     private String locationPaid;
-    private String vendorComments;
+    private final String vendorComments;
     private String customerComments;
 
     /* Constructor method */
@@ -22,7 +23,7 @@ public class SimplePayment {
         this.currency = currency;
         this.customer = customer;
         this.vendorComments = vendorComments;
-        this.timestamp = Instant.now().toEpochMilli();
+        this.timeSent = Instant.now().toEpochMilli();
         this.paymentStatus = PaymentStatus.PENDING;
     }
 
@@ -31,7 +32,58 @@ public class SimplePayment {
         this.customer = customer;
         this.customerWallet = customerWallet;
         this.customerComments = customerComments;
+        this.timePaid = Instant.now().toEpochMilli();
+        // this.paymentStatus = PaymentStatus.SUCCEEDED;
 
         // todo: add payment logic w/ crypto api
     }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public VendorWallet getBusinessWallet() {
+        return businessWallet;
+    }
+
+    public Currency getCurrency() {
+        return currency;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public CustomerWallet getCustomerWallet() {
+        return customerWallet;
+    }
+
+    public long getTimeSent() {
+        return timeSent;
+    }
+
+    public long getTimePaid() {
+        return timePaid;
+    }
+
+    public PaymentStatus getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public String getLocationPaid() {
+        return locationPaid;
+    }
+
+    public String getVendorComments() {
+        return vendorComments;
+    }
+
+    public String getCustomerComments() {
+        return customerComments;
+    }
+
+    public void cashOut(VendorWallet wallet, double amount, Currency currency) {
+        // todo: add logic for cashing out stablecoins to a bank account
+    }
+
 }

@@ -26,10 +26,10 @@ public class JwtService {
     private String secretKey;
     // How long until the access token expires
     @Value("${jwt.access.expiration}")
-    private Long accessTokenExpiration;
+    private long accessTokenExpiration;
     // How long until the refresh token expires
     @Value("${jwt.refresh.expiration}")
-    private Long refreshTokenExpiration;
+    private long refreshTokenExpiration;
 
     public String generateAccessToken(UserDetails userDetails) {
         // Initializing the claims map to be used for creating tokens
@@ -99,5 +99,13 @@ public class JwtService {
     private Key getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    public long getAccessExpiration() {
+        return accessTokenExpiration;
+    }
+
+    public long getRefreshExpiration() {
+        return refreshTokenExpiration;
     }
 }

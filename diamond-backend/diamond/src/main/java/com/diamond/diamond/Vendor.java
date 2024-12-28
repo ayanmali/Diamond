@@ -6,15 +6,15 @@ import java.util.List;
 
 public class Vendor {
 
-    private long id;
-    private List<VendorWallet> wallets;
+    private final long id;
+    private final List<VendorWallet> wallets;
     private String businessName;
     private double totalUsdcBalance;
     private double totalEurcBalance;
     private double totalSolBalance;
     private double totalBaseEthBalance;
-    private String primaryEmail;
-    private long dateCreated;
+    private final String primaryEmail;
+    private final long dateCreated;
 
     /* Constructor method */
     public Vendor(String businessName, String email) {
@@ -35,4 +35,55 @@ public class Vendor {
         this.wallets.add(wallet);
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public List<VendorWallet> getWallets() {
+        return wallets;
+    }
+
+    public String getBusinessName() {
+        return businessName;
+    }
+
+    public double getTotalUsdcBalance() {
+        return totalUsdcBalance;
+    }
+
+    public double getTotalEurcBalance() {
+        return totalEurcBalance;
+    }
+
+    public double getTotalSolBalance() {
+        return totalSolBalance;
+    }
+
+    public double getTotalBaseEthBalance() {
+        return totalBaseEthBalance;
+    }
+
+    public String getPrimaryEmail() {
+        return primaryEmail;
+    }
+
+    public long getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setTotalUsdcBalance(double totalUsdcBalance) {
+        this.totalUsdcBalance = totalUsdcBalance;
+    }
+
+    public void setTotalEurcBalance(double totalEurcBalance) {
+        this.totalEurcBalance = totalEurcBalance;
+    }
+
+    public void setTotalSolBalance(double totalSolBalance) {
+        this.totalSolBalance = totalSolBalance;
+    }
+
+    public void setTotalBaseEthBalance(double totalBaseEthBalance) {
+        this.totalBaseEthBalance = totalBaseEthBalance;
+    }
 }
