@@ -1,0 +1,33 @@
+syntax="proto3";
+package proto;
+
+option go_package = "github.com/ayanmali/diamond/go-service/proto"
+
+service StableSwaps {
+    // RPC for swapping stablecoins into spot tokens
+    rpc SwapStablesToSpot(SwapSpotRequest) returns (SwapSpotResponse) {}
+    // RPC for swapping stablecoins into fiat currency
+    rpc SwapStablesToFiat() returns (string) {}
+}
+
+// Structure of an rpc request
+message SwapSpotRequest {
+    int64 vendorID;
+    string walletAddress;
+    string initialCurrency;
+    float amount; 
+    string targetToken;
+}
+
+// Structure of an rpc response
+message SwapSpotResponse {
+    string response;
+}
+
+message SwapFiatRequest {
+    
+}
+
+message SwapFiatResponse {
+
+}
