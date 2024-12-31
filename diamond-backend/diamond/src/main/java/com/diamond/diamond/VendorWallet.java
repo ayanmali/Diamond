@@ -6,33 +6,35 @@ import java.time.Instant;
 
 public class VendorWallet {
 
+    private final long id;
     private final String address;
     private final String privateKey;
     private final List<String> recoveryPhrase;
     private String secondaryKey;
     private String tertiaryKey;
-    private final long walletId;
     private String walletName;
+    private final long vendorId;
     private final Blockchain chain;
-    private double usdcBalance;
-    private double eurcBalance;
-    private double solBalance;
-    private double baseEthBalance;
+    private double USDCBalance;
+    private double EURCBalance;
+    private double SOLBalance;
+    private double baseETHBalance;
     private final long dateCreated;
 
     /* Constructor Method */
-    public VendorWallet(String address, String walletName, Blockchain chain) {
+    public VendorWallet(String address, String walletName, long vendorId, Blockchain chain) {
         this.address = address;
         this.walletName = walletName;
+        this.vendorId = vendorId;
         this.chain = chain;
 
         this.privateKey = "private_key";
         this.recoveryPhrase = Arrays.asList("recovery", "phrase");
-        this.walletId = 0;
-        this.usdcBalance = 0;
-        this.eurcBalance = 0;
-        this.solBalance = 0;
-        this.baseEthBalance = 0;
+        this.id = 0;
+        this.USDCBalance = 0;
+        this.EURCBalance = 0;
+        this.SOLBalance = 0;
+        this.baseETHBalance = 0;
         this.dateCreated = Instant.now().toEpochMilli();
     }
 
@@ -56,32 +58,36 @@ public class VendorWallet {
         return tertiaryKey;
     }
 
-    public long getWalletId() {
-        return walletId;
+    public long getId() {
+        return id;
     }
 
     public String getWalletName() {
         return walletName;
     }
 
+    public long getVendorId() {
+        return vendorId;
+    }
+
     public Blockchain getChain() {
         return chain;
     }
 
-    public double getUsdcBalance() {
-        return usdcBalance;
+    public double getUSDCBalance() {
+        return USDCBalance;
     }
 
-    public double getEurcBalance() {
-        return eurcBalance;
+    public double getEURCBalance() {
+        return EURCBalance;
     }
 
-    public double getSolBalance() {
-        return solBalance;
+    public double getSOLBalance() {
+        return SOLBalance;
     }
 
-    public double getBaseEthBalance() {
-        return baseEthBalance;
+    public double getBaseETHBalance() {
+        return baseETHBalance;
     }
 
     public long getDateCreated() {
@@ -92,19 +98,19 @@ public class VendorWallet {
         this.walletName = walletName;
     }
 
-    public void setUsdcBalance(double usdcBalance) {
-        this.usdcBalance = usdcBalance;
+    public void setUSDCBalance(double usdcBalance) {
+        this.USDCBalance = usdcBalance;
     }
 
-    public void setEurcBalance(double eurcBalance) {
-        this.eurcBalance = eurcBalance;
+    public void setEURCBalance(double eurcBalance) {
+        this.EURCBalance = eurcBalance;
     }
 
-    public void setSolBalance(double solBalance) {
-        this.solBalance = solBalance;
+    public void setSOLBalance(double solBalance) {
+        this.SOLBalance = solBalance;
     }
 
-    public void setBaseEthBalance(double baseEthBalance) {
-        this.baseEthBalance = baseEthBalance;
+    public void setBaseETHBalance(double baseEthBalance) {
+        this.baseETHBalance = baseEthBalance;
     }
 }

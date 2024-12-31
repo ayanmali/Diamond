@@ -9,10 +9,10 @@ public class Vendor {
     private final long id;
     private final List<VendorWallet> wallets;
     private String businessName;
-    private double totalUsdcBalance;
-    private double totalEurcBalance;
-    private double totalSolBalance;
-    private double totalBaseEthBalance;
+    private double totalUSDCBalance;
+    private double totalEURCBalance;
+    private double totalSOLBalance;
+    private double totalBaseETHBalance;
     private final String primaryEmail;
     private final long dateCreated;
 
@@ -23,11 +23,10 @@ public class Vendor {
 
         this.id = 0;
         this.wallets = new ArrayList<>();
-        this.businessName = businessName;
-        this.totalUsdcBalance = 0;
-        this.totalEurcBalance = 0;
-        this.totalSolBalance = 0;
-        this.totalBaseEthBalance = 0;
+        this.totalUSDCBalance = 0;
+        this.totalEURCBalance = 0;
+        this.totalSOLBalance = 0;
+        this.totalBaseETHBalance = 0;
         this.dateCreated = Instant.now().toEpochMilli();
     }
 
@@ -47,20 +46,20 @@ public class Vendor {
         return businessName;
     }
 
-    public double getTotalUsdcBalance() {
-        return totalUsdcBalance;
+    public double getTotalUSDCBalance() {
+        return totalUSDCBalance;
     }
 
-    public double getTotalEurcBalance() {
-        return totalEurcBalance;
+    public double getTotalEURCBalance() {
+        return totalEURCBalance;
     }
 
-    public double getTotalSolBalance() {
-        return totalSolBalance;
+    public double getTotalSOLBalance() {
+        return totalSOLBalance;
     }
 
-    public double getTotalBaseEthBalance() {
-        return totalBaseEthBalance;
+    public double getTotalBaseETHBalance() {
+        return totalBaseETHBalance;
     }
 
     public String getPrimaryEmail() {
@@ -71,19 +70,19 @@ public class Vendor {
         return dateCreated;
     }
 
-    public void setTotalUsdcBalance(double totalUsdcBalance) {
-        this.totalUsdcBalance = totalUsdcBalance;
+    public void setTotalUSDCBalance(double totalUSDCBalance) {
+        this.totalUSDCBalance = totalUSDCBalance;
     }
 
-    public void setTotalEurcBalance(double totalEurcBalance) {
-        this.totalEurcBalance = totalEurcBalance;
+    public void setTotalEURCBalance(double totalEURCBalance) {
+        this.totalEURCBalance = totalEURCBalance;
     }
 
-    public void setTotalSolBalance(double totalSolBalance) {
-        this.totalSolBalance = totalSolBalance;
+    public void setTotalSOLBalance(double totalSOLBalance) {
+        this.totalSOLBalance = totalSOLBalance;
     }
 
-    public void setTotalBaseEthBalance(double totalBaseEthBalance) {
-        this.totalBaseEthBalance = totalBaseEthBalance;
+    public void setTotalBaseEthBalance(double totalBaseETHBalance) {
+        this.totalBaseETHBalance = totalBaseETHBalance;
     }
 }
