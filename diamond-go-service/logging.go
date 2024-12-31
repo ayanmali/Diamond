@@ -8,16 +8,16 @@ import (
 
 // Custom middleware type
 type LoggingService struct {
-	next Service
+	next SwapperService
 }
 
-func NewLoggingService(next Service) Service {
+func NewLoggingService(next SwapperService) SwapperService {
 	return &LoggingService{next: next}
 }
 
 // implementing the interface
 func (s *LoggingService) SwapStablesToSpot(ctxt context.Context, vendorWallet VendorWallet, initialCurrency Currency, amount float64, targetToken Blockchain) (err error) {
-	// middleware executes after the service has executed
+	// middleware executes after the service has been called
 	defer func(start time.Time) {
 		// Logging to the terminal
 		fmt.Printf("amount=%.4f currency=%v target=%v err=%s took=%v", amount, initialCurrency, targetToken, err, time.Since(start))
@@ -27,13 +27,24 @@ func (s *LoggingService) SwapStablesToSpot(ctxt context.Context, vendorWallet Ve
 	return s.next.SwapStablesToSpot(ctxt, vendorWallet, initialCurrency, amount, targetToken)
 }
 
-func (s *LoggingService) SwapStablesToFiat(ctxt context.Context, vendorWallet VendorWallet, currency Currency, amount float64) (err error) {
-	// middleware executes after the service has executed
+func (s *LoggingService) SwapStablesToFiat(ctxt context.Context, vendorWallet VendorWallet, stableCurrency Currency, amount float64) (err error) {
+	// middleware executes after the service has been called
 	defer func(start time.Time) {
 		// Logging to the terminal
-		fmt.Printf("amount=%f currency=%v err=%s took=%v", amount, currency, err, time.Since(start))
+		fmt.Printf("amount=%f currency=%v err=%s took=%v", amount, stableCurrency, err, time.Since(start))
 	}(time.Now())
 
 	// continue by calling the service
-	return s.next.SwapStablesToFiat(ctxt, vendorWallet, currency, amount)
+	return s.next.SwapStablesToFiat(ctxt, vendorWallet, stableCurrency, amount)
+}
+
+func (s *LoggingService) SwapSpotToFiat(ctxt context.Context, vendorWallet VendorWallet, amount float64) (err error) {
+	// middleware executes after the service has been called
+	defer func(start time.Time) {
+		// Logging to the terminal
+		fmt.Printf("amount=%f chain=%v err=%s took=%v", amount, vendorWallet.Chain, err, time.Since(start))
+	}(time.Now())
+
+	// continue by calling the service
+	return s.next.SwapSpotToFiat(ctxt, vendorWallet, amount)
 }
