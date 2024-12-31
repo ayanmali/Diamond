@@ -46,7 +46,7 @@ import (
 
 func main() {
 	// Specify the port to listen for client requests
-	port := 6000
+	port := 5000
 	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", port))
 	if err != nil {
 		log.Fatalf("failed to listen on port %d: %v\n", port, err)

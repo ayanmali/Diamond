@@ -10,7 +10,8 @@ import (
 	"fmt"
 )
 
-// Interface to define the method(s) for a service
+// Interface to define the method(s) (business logic) for a service
+// Used for the actual business logic + logging middleware
 type SwapperService interface {
 	SwapStablesToSpot(ctxt context.Context, vendorWallet VendorWallet, initialCurrency Currency, amount float64, targetToken Blockchain) error // method for swapping stablecoins into spot tokens
 	SwapStablesToFiat(ctxt context.Context, vendorWallet VendorWallet, stableCurrency Currency, amount float64) error                          // method for swapping stablecoins into fiat currency (USD, CAD, EUR, etc)
