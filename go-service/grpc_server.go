@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 
-	"github.com/ayanmali/diamond/go-service/proto"
+	"github.com/ayanmali/Diamond/go-srvc/proto"
 )
 
 type GRPCSwapperServer struct {
