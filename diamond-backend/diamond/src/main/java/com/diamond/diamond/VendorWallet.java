@@ -1,8 +1,10 @@
+
 package com.diamond.diamond;
 
-import java.util.List;
-import java.util.Arrays;
 import java.time.Instant;
+import java.util.Arrays;
+import java.util.List;
+
 
 public class VendorWallet {
 
@@ -17,8 +19,8 @@ public class VendorWallet {
     private final Blockchain chain;
     private double USDCBalance;
     private double EURCBalance;
-    private double SOLBalance;
-    private double baseETHBalance;
+    private double USDTBalance;
+    private double spotTokenBalance;
     private final long dateCreated;
 
     /* Constructor Method */
@@ -33,8 +35,7 @@ public class VendorWallet {
         this.id = 0;
         this.USDCBalance = 0;
         this.EURCBalance = 0;
-        this.SOLBalance = 0;
-        this.baseETHBalance = 0;
+        this.spotTokenBalance = 0;
         this.dateCreated = Instant.now().toEpochMilli();
     }
 
@@ -82,12 +83,12 @@ public class VendorWallet {
         return EURCBalance;
     }
 
-    public double getSOLBalance() {
-        return SOLBalance;
+    public double getUSDTBalance() {
+        return USDTBalance;
     }
 
-    public double getBaseETHBalance() {
-        return baseETHBalance;
+    public double getSpotTokenBalance() {
+        return spotTokenBalance;
     }
 
     public long getDateCreated() {
@@ -106,11 +107,12 @@ public class VendorWallet {
         this.EURCBalance = eurcBalance;
     }
 
-    public void setSOLBalance(double solBalance) {
-        this.SOLBalance = solBalance;
+    public void setUSDTBalance(double usdtBalance) {
+        this.USDTBalance = usdtBalance;
     }
 
-    public void setBaseETHBalance(double baseEthBalance) {
-        this.baseETHBalance = baseEthBalance;
+    public void setSpotTokenBalance(double spotTokenBalance) {
+        this.spotTokenBalance = spotTokenBalance;
     }
+
 }

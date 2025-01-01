@@ -1,8 +1,10 @@
+
 package com.diamond.diamond;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class Vendor {
 
@@ -11,6 +13,7 @@ public class Vendor {
     private String businessName;
     private double totalUSDCBalance;
     private double totalEURCBalance;
+    private double totalUSDTBalance;
     private double totalSOLBalance;
     private double totalBaseETHBalance;
     private final String primaryEmail;
@@ -54,6 +57,10 @@ public class Vendor {
         return totalEURCBalance;
     }
 
+    public double getTotalUSDTBalance() {
+        return totalUSDTBalance;
+    }
+
     public double getTotalSOLBalance() {
         return totalSOLBalance;
     }
@@ -70,12 +77,20 @@ public class Vendor {
         return dateCreated;
     }
 
+    public void setBusinessName(String businessName) {
+        this.businessName = businessName;
+    }
+
     public void setTotalUSDCBalance(double totalUSDCBalance) {
         this.totalUSDCBalance = totalUSDCBalance;
     }
 
     public void setTotalEURCBalance(double totalEURCBalance) {
         this.totalEURCBalance = totalEURCBalance;
+    }
+
+    public void setTotalUSDTBalance(double totalUSDTBalance) {
+        this.totalUSDTBalance = totalUSDTBalance;
     }
 
     public void setTotalSOLBalance(double totalSOLBalance) {
