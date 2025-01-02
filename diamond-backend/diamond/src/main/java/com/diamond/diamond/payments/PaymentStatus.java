@@ -1,7 +1,7 @@
-package com.diamond.diamond;
+package com.diamond.diamond.payments;
 
 public enum PaymentStatus {
-    SUCCEEDED, FAILED, PENDING, CANCELLED;
+    SUCCEEDED, FAILED, PENDING, CANCELLED, REFUNDED;
 
     @Override
     public String toString() {

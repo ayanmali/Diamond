@@ -1,10 +1,8 @@
-
 package com.diamond.diamond;
 
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
-
 
 public class VendorWallet {
 
@@ -113,6 +111,10 @@ public class VendorWallet {
 
     public void setSpotTokenBalance(double spotTokenBalance) {
         this.spotTokenBalance = spotTokenBalance;
+    }
+
+    public void cashOut(double amount, StablecoinCurrency currency) {
+        // todo: add logic for cashing out stablecoins to a bank account
     }
 
 }

@@ -1,25 +1,32 @@
-package com.diamond.diamond;
+package com.diamond.diamond.payments.invoices;
 
 import java.time.Instant;
 
-public class Invoice {
+import com.diamond.diamond.CustomerWallet;
+import com.diamond.diamond.StablecoinCurrency;
+import com.diamond.diamond.VendorWallet;
+import com.diamond.diamond.payments.Payment;
+import com.diamond.diamond.payments.PaymentStatus;
+
+public class Invoice implements Payment {
 
     private final double amount;
-    private final VendorWallet businessWallet;
+    private final VendorWallet vendorWallet;
     private final StablecoinCurrency currency;
-    private Customer customer;
-    private CustomerWallet customerWallet;
+    private PaymentStatus paymentStatus;
+
     private final long timeSent;
     private long timePaid;
-    private PaymentStatus paymentStatus;
+    private InvoiceCustomer customer;
+    private CustomerWallet customerWallet;
     private String locationPaid;
     private final String vendorComments;
     private String customerComments;
 
     /* Constructor method */
-    public Invoice(double amount, VendorWallet businessWallet, StablecoinCurrency currency, Customer customer, String vendorComments) {
+    public Invoice(double amount, VendorWallet vendorWallet, StablecoinCurrency currency, InvoiceCustomer customer, String vendorComments) {
         this.amount = amount;
-        this.businessWallet = businessWallet;
+        this.vendorWallet = vendorWallet;
         this.currency = currency;
         this.customer = customer;
         this.vendorComments = vendorComments;
@@ -27,7 +34,7 @@ public class Invoice {
         this.paymentStatus = PaymentStatus.PENDING;
     }
 
-    public void sendPayment(Customer customer, CustomerWallet customerWallet, String customerComments) {
+    public void sendPayment(InvoiceCustomer customer, CustomerWallet customerWallet, String customerComments) {
         this.locationPaid = "Here"; // replace w/ the actual location from where the request is coming from
         this.customer = customer;
         this.customerWallet = customerWallet;
@@ -42,15 +49,15 @@ public class Invoice {
         return amount;
     }
 
-    public VendorWallet getBusinessWallet() {
-        return businessWallet;
+    public VendorWallet getVendorWallet() {
+        return vendorWallet;
     }
 
     public StablecoinCurrency getStablecoinCurrency() {
         return currency;
     }
 
-    public Customer getCustomer() {
+    public InvoiceCustomer getCustomer() {
         return customer;
     }
 
@@ -82,8 +89,10 @@ public class Invoice {
         return customerComments;
     }
 
-    public void cashOut(VendorWallet wallet, double amount, StablecoinCurrency currency) {
-        // todo: add logic for cashing out stablecoins to a bank account
+    @Override
+    public void sendPayment() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'sendPayment'");
     }
 
 }

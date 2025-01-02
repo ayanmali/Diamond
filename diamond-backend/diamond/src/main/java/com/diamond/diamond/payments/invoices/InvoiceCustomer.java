@@ -1,19 +1,28 @@
-package com.diamond.diamond;
+package com.diamond.diamond.payments;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
-public class Customer {
+import com.diamond.diamond.CustomerWallet;
+
+public class InvoiceCustomer {
 
     // private final long id;
     private String name;
     private String email;
     private final List<CustomerWallet> wallets;
 
-    /* Constructor method */
-    public Customer(String name, String email) {
+    /* Constructor methods */
+    public InvoiceCustomer(String name, String email) {
         // this.id = 0;
         this.name = name;
+        this.email = email;
+        this.wallets = new ArrayList<>();
+    }
+
+    /* Alternate constructor method */
+    public InvoiceCustomer(String email) {
+        // this.id = 0;
         this.email = email;
         this.wallets = new ArrayList<>();
     }
