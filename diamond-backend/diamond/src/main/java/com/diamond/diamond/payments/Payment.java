@@ -8,12 +8,12 @@ import com.diamond.diamond.VendorWallet;
  */
 public interface Payment {
 
-    public final double amount = 0;
-    public final VendorWallet businessWallet = null;
-    public final StablecoinCurrency currency = null;
-    public final long timeSent = 0;
-    public long timePaid = 0;
-
+    // public final double amount = 0;
+    // public final VendorWallet businessWallet = null;
+    // public final StablecoinCurrency currency = null;
+    // public PaymentStatus paymentStatus = null;
+    // // public final long timeSent = 0;
+    // // public long timePaid = 0;
     public double getAmount();
 
     public VendorWallet getVendorWallet();
@@ -22,7 +22,9 @@ public interface Payment {
 
     public PaymentStatus getPaymentStatus();
 
-    public void sendPayment();
+    public void sendPayment(Customer customer);
+
+    public PaymentStatus validatePayment(); // inspects the blockchain and sees if the transaction was successful
 
     // public void setAmount();
     // public void setBusinessWallet();

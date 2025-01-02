@@ -1,8 +1,9 @@
 package com.diamond.diamond.payments.paymentlinks;
 
-import com.diamond.diamond.CustomerWallet;
 import com.diamond.diamond.StablecoinCurrency;
 import com.diamond.diamond.VendorWallet;
+import com.diamond.diamond.payments.BasicCustomer;
+import com.diamond.diamond.payments.Customer;
 import com.diamond.diamond.payments.Payment;
 import com.diamond.diamond.payments.PaymentStatus;
 
@@ -13,6 +14,8 @@ public class PaymentLink implements Payment {
     private final StablecoinCurrency currency;
     private PaymentStatus paymentStatus;
 
+    private BasicCustomer customer;
+
     public PaymentLink(double amount, VendorWallet vendorWallet, StablecoinCurrency stablecoinCurrency) {
         this.amount = amount;
         this.vendorWallet = vendorWallet;
@@ -21,32 +24,47 @@ public class PaymentLink implements Payment {
 
     @Override
     public double getAmount() {
-        // TODO Auto-generated method stub
         return amount;
     }
 
     @Override
     public VendorWallet getVendorWallet() {
-        // TODO Auto-generated method stub
         return vendorWallet;
     }
 
     @Override
     public StablecoinCurrency getStablecoinCurrency() {
-        // TODO Auto-generated method stub
         return currency;
     }
 
     @Override
     public PaymentStatus getPaymentStatus() {
-        // TODO Auto-generated method stub
         return paymentStatus;
     }
 
+    public BasicCustomer getCustomer() {
+        return customer;
+    }
+
     @Override
-    public void sendPayment(CustomerWallet customerWallet) {
-        // TODO Auto-generated method stub
+    public void sendPayment(Customer customer) {
+        // Converting the provided Customer object into the appropriate subclass
+        customer = (BasicCustomer) customer;
         // add api logic to interact w/ the exchange here
+    }
+
+    @Override
+    public PaymentStatus validatePayment() {
+        // check blockchain scanner to see if the transaction was successful
+        throw new UnsupportedOperationException("Unimplemented method 'validatePayment'");
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public void setVendorWallet(VendorWallet vendorWallet) {
+        this.vendorWallet = vendorWallet;
     }
 
 }

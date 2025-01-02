@@ -1,0 +1,3 @@
+FROM alpinelinux/golang;
+
+# protoc ...

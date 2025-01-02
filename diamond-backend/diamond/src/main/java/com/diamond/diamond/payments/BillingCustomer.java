@@ -1,11 +1,12 @@
 package com.diamond.diamond.payments;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import com.diamond.diamond.CustomerWallet;
 
-public class InvoiceCustomer {
+public class BillingCustomer implements Customer {
 
     // private final long id;
     private String name;
@@ -13,7 +14,7 @@ public class InvoiceCustomer {
     private final List<CustomerWallet> wallets;
 
     /* Constructor methods */
-    public InvoiceCustomer(String name, String email) {
+    public BillingCustomer(String name, String email) {
         // this.id = 0;
         this.name = name;
         this.email = email;
@@ -21,22 +22,27 @@ public class InvoiceCustomer {
     }
 
     /* Alternate constructor method */
-    public InvoiceCustomer(String email) {
+    public BillingCustomer(String email) {
         // this.id = 0;
         this.email = email;
         this.wallets = new ArrayList<>();
     }
 
-    public void setCustomerEmail(String newEmail) {
-        this.email = newEmail;
+    public void setCustomerEmail(String email) {
+        this.email = email;
     }
 
-    public void setCustomerName(String newName) {
-        this.name = newName;
+    public void setCustomerName(String name) {
+        this.name = name;
     }
 
     public void addCustomerWallet(CustomerWallet wallet) {
-        this.wallets.add(wallet);
+        // Setting the priority for the new wallet
+        wallet.setWalletPriority(wallets.size());
+        // Adding the wallet to this customer's wallets list
+        wallets.add(wallet);
+        // Sorting the Customer's wallets list by priority
+        wallets.sort(Comparator.comparing(CustomerWallet::getWalletPriority));
     }
 
     // public long getId() {

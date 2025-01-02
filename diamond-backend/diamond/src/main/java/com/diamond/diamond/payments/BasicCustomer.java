@@ -2,7 +2,7 @@ package com.diamond.diamond.payments;
 
 import com.diamond.diamond.CustomerWallet;
 
-public class BasicCustomer {
+public class BasicCustomer implements Customer {
 
     private String email;
     private final CustomerWallet wallet;
@@ -18,6 +18,10 @@ public class BasicCustomer {
 
     public CustomerWallet getCustomerWallet() {
         return wallet;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 }

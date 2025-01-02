@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 
-public class VendorWallet {
+public class VendorWallet implements Wallet {
 
     private final long id;
     private final String address;
@@ -37,6 +37,7 @@ public class VendorWallet {
         this.dateCreated = Instant.now().toEpochMilli();
     }
 
+    @Override
     public String getAddress() {
         return address;
     }
@@ -69,6 +70,7 @@ public class VendorWallet {
         return vendorId;
     }
 
+    @Override
     public Blockchain getChain() {
         return chain;
     }

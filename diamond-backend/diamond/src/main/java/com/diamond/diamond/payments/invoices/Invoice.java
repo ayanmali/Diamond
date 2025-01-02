@@ -2,9 +2,10 @@ package com.diamond.diamond.payments.invoices;
 
 import java.time.Instant;
 
-import com.diamond.diamond.CustomerWallet;
 import com.diamond.diamond.StablecoinCurrency;
 import com.diamond.diamond.VendorWallet;
+import com.diamond.diamond.payments.BillingCustomer;
+import com.diamond.diamond.payments.Customer;
 import com.diamond.diamond.payments.Payment;
 import com.diamond.diamond.payments.PaymentStatus;
 
@@ -17,14 +18,14 @@ public class Invoice implements Payment {
 
     private final long timeSent;
     private long timePaid;
-    private InvoiceCustomer customer;
-    private CustomerWallet customerWallet;
+    private BillingCustomer customer;
+    // private CustomerWallet billedWallet;
     private String locationPaid;
     private final String vendorComments;
     private String customerComments;
 
     /* Constructor method */
-    public Invoice(double amount, VendorWallet vendorWallet, StablecoinCurrency currency, InvoiceCustomer customer, String vendorComments) {
+    public Invoice(double amount, VendorWallet vendorWallet, StablecoinCurrency currency, BillingCustomer customer, String vendorComments) {
         this.amount = amount;
         this.vendorWallet = vendorWallet;
         this.currency = currency;
@@ -34,10 +35,10 @@ public class Invoice implements Payment {
         this.paymentStatus = PaymentStatus.PENDING;
     }
 
-    public void sendPayment(InvoiceCustomer customer, CustomerWallet customerWallet, String customerComments) {
+    public void sendPayment(BillingCustomer customer, /*CustomerWallet billedWallet,*/ String customerComments) {
         this.locationPaid = "Here"; // replace w/ the actual location from where the request is coming from
         this.customer = customer;
-        this.customerWallet = customerWallet;
+        // this.billedWallet = billedWallet;
         this.customerComments = customerComments;
         this.timePaid = Instant.now().toEpochMilli();
         // this.paymentStatus = PaymentStatus.SUCCEEDED;
@@ -45,26 +46,28 @@ public class Invoice implements Payment {
         // todo: add payment logic w/ crypto api
     }
 
+    @Override
     public double getAmount() {
         return amount;
     }
 
+    @Override
     public VendorWallet getVendorWallet() {
         return vendorWallet;
     }
 
+    @Override
     public StablecoinCurrency getStablecoinCurrency() {
         return currency;
     }
 
-    public InvoiceCustomer getCustomer() {
+    public BillingCustomer getCustomer() {
         return customer;
     }
 
-    public CustomerWallet getCustomerWallet() {
-        return customerWallet;
-    }
-
+    // public CustomerWallet getBilledWallet() {
+    //     return billedWallet;
+    // }
     public long getTimeSent() {
         return timeSent;
     }
@@ -73,6 +76,7 @@ public class Invoice implements Payment {
         return timePaid;
     }
 
+    @Override
     public PaymentStatus getPaymentStatus() {
         return paymentStatus;
     }
@@ -90,9 +94,19 @@ public class Invoice implements Payment {
     }
 
     @Override
-    public void sendPayment() {
-        // TODO Auto-generated method stub
+    public void sendPayment(Customer customer) {
+        // Converting the provided Customer object into the appropriate subclass
+        customer = (BillingCustomer) customer;
         throw new UnsupportedOperationException("Unimplemented method 'sendPayment'");
+    }
+
+    @Override
+    public PaymentStatus validatePayment() {
+        throw new UnsupportedOperationException("Unimplemented method 'validatePayment'");
+    }
+
+    public void setPaymentStatus(PaymentStatus paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 
 }

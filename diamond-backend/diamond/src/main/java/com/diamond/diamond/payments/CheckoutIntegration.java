@@ -7,32 +7,34 @@ public class CheckoutIntegration implements Payment {
 
     @Override
     public double getAmount() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getAmount'");
     }
 
     @Override
     public VendorWallet getVendorWallet() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getVendorWallet'");
     }
 
     @Override
     public StablecoinCurrency getStablecoinCurrency() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getStablecoinCurrency'");
     }
 
     @Override
     public PaymentStatus getPaymentStatus() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getPaymentStatus'");
     }
 
     @Override
-    public void sendPayment() {
-        // TODO Auto-generated method stub
+    public void sendPayment(Customer customer) {
+        // Converting the provided Customer object into the appropriate subclass
+        customer = (BasicCustomer) customer;
         throw new UnsupportedOperationException("Unimplemented method 'sendPayment'");
+    }
+
+    @Override
+    public PaymentStatus validatePayment() {
+        throw new UnsupportedOperationException("Unimplemented method 'validatePayment'");
     }
 
 }
