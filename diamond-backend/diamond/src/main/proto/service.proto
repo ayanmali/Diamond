@@ -22,8 +22,8 @@ message VendorWallet {
 // Structure of an rpc request
 message SwapStablesToSpotRequest {
     VendorWallet vendorWallet = 1;
-    string initialCurrency = 2;
-    float amount = 3;
+    string initialStablecoinCurrency = 2;
+    double amount = 3;
     string targetToken = 4;
 }
 
@@ -34,8 +34,8 @@ message SwapStablesToSpotResponse {
 
 message SwapStablesToFiatRequest {
     VendorWallet vendorWallet = 1;
-    string currency = 2;
-    float amount = 3;
+    string stablecoinCurrency = 2;
+    double amount = 3;
 }
 
 message SwapStablesToFiatResponse {
@@ -44,7 +44,7 @@ message SwapStablesToFiatResponse {
 
 message SwapSpotToFiatRequest {
     VendorWallet vendorWallet = 1;
-    float amount = 2;
+    double amount = 2;
 }
 
 message SwapSpotToFiatResponse {

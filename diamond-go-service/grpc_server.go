@@ -36,7 +36,7 @@ func (s *GRPCSwapperServer) SwapStablesToSpot(ctxt context.Context, request *pro
 		panic("Chain name not found")
 	}
 	// stablecoin currency formatting
-	currency, ok := getStablecoinFromString(request.InitialCurrency)
+	currency, ok := getStablecoinFromString(request.InitialStablecoinCurrency)
 	if !ok {
 		panic("Stablecoin currency not found")
 	}
@@ -68,7 +68,7 @@ func (s *GRPCSwapperServer) SwapStablesToFiat(ctxt context.Context, request *pro
 	}
 
 	// stablecoin currency formatting
-	currency, ok := getStablecoinFromString(request.GetCurrency())
+	currency, ok := getStablecoinFromString(request.GetStablecoinCurrency())
 	if !ok {
 		panic("Stablecoin currency not found")
 	}
@@ -103,7 +103,7 @@ func (s *GRPCSwapperServer) SwapSpotToFiat(ctxt context.Context, request *proto.
 
 func RunGRPCServer(service SwapperService, port int) error {
 	// Specify the port to listen for client requests
-	// port := 5000
+	// port := 4000
 
 	grpcSwapperServer := NewGRPCSwapperServer(service)
 

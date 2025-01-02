@@ -2,11 +2,11 @@ package com.diamond.diamond;
 
 import java.time.Instant;
 
-public class SimplePayment {
+public class Invoice {
 
     private final double amount;
     private final VendorWallet businessWallet;
-    private final Currency currency;
+    private final StablecoinCurrency currency;
     private Customer customer;
     private CustomerWallet customerWallet;
     private final long timeSent;
@@ -17,7 +17,7 @@ public class SimplePayment {
     private String customerComments;
 
     /* Constructor method */
-    public SimplePayment(double amount, VendorWallet businessWallet, Currency currency, Customer customer, String vendorComments) {
+    public Invoice(double amount, VendorWallet businessWallet, StablecoinCurrency currency, Customer customer, String vendorComments) {
         this.amount = amount;
         this.businessWallet = businessWallet;
         this.currency = currency;
@@ -46,7 +46,7 @@ public class SimplePayment {
         return businessWallet;
     }
 
-    public Currency getCurrency() {
+    public StablecoinCurrency getStablecoinCurrency() {
         return currency;
     }
 
@@ -82,7 +82,7 @@ public class SimplePayment {
         return customerComments;
     }
 
-    public void cashOut(VendorWallet wallet, double amount, Currency currency) {
+    public void cashOut(VendorWallet wallet, double amount, StablecoinCurrency currency) {
         // todo: add logic for cashing out stablecoins to a bank account
     }
 

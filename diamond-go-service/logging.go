@@ -16,18 +16,18 @@ func NewLoggingService(next SwapperService) SwapperService {
 }
 
 // implementing the interface
-func (s *LoggingService) SwapStablesToSpot(ctxt context.Context, vendorWallet VendorWallet, initialCurrency Currency, amount float64, targetToken Blockchain) (err error) {
+func (s *LoggingService) SwapStablesToSpot(ctxt context.Context, vendorWallet VendorWallet, initialStablecoinCurrency StablecoinCurrency, amount float64, targetToken Blockchain) (err error) {
 	// middleware executes after the service has been called
 	defer func(start time.Time) {
 		// Logging to the terminal
-		fmt.Printf("amount=%.4f currency=%v target=%v err=%s took=%v", amount, initialCurrency, targetToken, err, time.Since(start))
+		fmt.Printf("amount=%.4f currency=%v target=%v err=%s took=%v", amount, initialStablecoinCurrency, targetToken, err, time.Since(start))
 	}(time.Now())
 
 	// continue by calling the service
-	return s.next.SwapStablesToSpot(ctxt, vendorWallet, initialCurrency, amount, targetToken)
+	return s.next.SwapStablesToSpot(ctxt, vendorWallet, initialStablecoinCurrency, amount, targetToken)
 }
 
-func (s *LoggingService) SwapStablesToFiat(ctxt context.Context, vendorWallet VendorWallet, stableCurrency Currency, amount float64) (err error) {
+func (s *LoggingService) SwapStablesToFiat(ctxt context.Context, vendorWallet VendorWallet, stableCurrency StablecoinCurrency, amount float64) (err error) {
 	// middleware executes after the service has been called
 	defer func(start time.Time) {
 		// Logging to the terminal

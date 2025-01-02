@@ -1,13 +1,5 @@
 package main
 
-import (
-	"fmt"
-	"log"
-	"net"
-
-	"google.golang.org/grpc"
-)
-
 // func HomeRouteFunc(w http.ResponseWriter, r *http.Request) {
 // 	w.Write([]byte("Welcome"))
 // 	w.Header().Add("Content-Type", "application/json")
@@ -45,19 +37,19 @@ import (
 // }
 
 func main() {
-	// Specify the port to listen for client requests
-	port := 5000
-	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", port))
-	if err != nil {
-		log.Fatalf("failed to listen on port %d: %v\n", port, err)
-	}
+	// // Specify the port to listen for client requests
+	// port := 5000
+	// lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", port))
+	// if err != nil {
+	// 	log.Fatalf("failed to listen on port %d: %v\n", port, err)
+	// }
 
-	var opts []grpc.ServerOption
-	// Instantiate the gRPC server
-	grpcServer := grpc.NewServer(opts...)
-	// Register the service implementation w/ the gRPC server
-	pb.RegisterSwapsServer(grpcServer, newServer())
-	// Serve incoming requests
-	grpcServer.Serve(lis)
+	// var opts []grpc.ServerOption
+	// // Instantiate the gRPC server
+	// grpcServer := grpc.NewServer(opts...)
+	// // Register the service implementation w/ the gRPC server
+	// pb.RegisterSwapsServer(grpcServer, newServer())
+	// // Serve incoming requests
+	// grpcServer.Serve(lis)
 
 }

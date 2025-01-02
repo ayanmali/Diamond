@@ -26,19 +26,19 @@ func (chain Blockchain) String() string {
 }
 
 // Defining an enum for stablecoin currencies
-type Currency int
+type StablecoinCurrency int
 
 const (
-	USDC Currency = iota
+	USDC StablecoinCurrency = iota
 	EURC
 )
 
-var currencyName = map[Currency]string{
+var currencyName = map[StablecoinCurrency]string{
 	USDC: "USDC",
 	EURC: "EURC",
 }
 
-func (currency Currency) String() string {
+func (currency StablecoinCurrency) String() string {
 	return currencyName[currency]
 }
 
@@ -164,32 +164,32 @@ func (customer *Customer) AddCustomerWallet(wallet CustomerWallet) {
 }
 
 // Defining the struct of a simple one time payment
-type SimplePayment struct {
-	Amount           float64
-	BusinessWallet   VendorWallet
-	Currency         Currency
-	Customer         Customer
-	CustomerWallet   CustomerWallet
-	Timestamp        int64
-	Status           PaymentStatus
-	LocationPaid     string
-	VendorComments   string
-	CustomerComments string
+type Invoice struct {
+	Amount             float64
+	BusinessWallet     VendorWallet
+	StablecoinCurrency StablecoinCurrency
+	Customer           Customer
+	CustomerWallet     CustomerWallet
+	Timestamp          int64
+	Status             PaymentStatus
+	LocationPaid       string
+	VendorComments     string
+	CustomerComments   string
 }
 
-func requestPayment(amount float64, businessWallet VendorWallet, currency Currency, customer Customer, vendorComments string) *SimplePayment {
-	return &SimplePayment{
-		Amount:         amount,
-		BusinessWallet: businessWallet,
-		Currency:       currency,
-		Customer:       customer,
-		Timestamp:      time.Now().UnixNano(),
-		Status:         Pending,
-		VendorComments: vendorComments,
+func requestPayment(amount float64, businessWallet VendorWallet, currency StablecoinCurrency, customer Customer, vendorComments string) *Invoice {
+	return &Invoice{
+		Amount:             amount,
+		BusinessWallet:     businessWallet,
+		StablecoinCurrency: currency,
+		Customer:           customer,
+		Timestamp:          time.Now().UnixNano(),
+		Status:             Pending,
+		VendorComments:     vendorComments,
 	}
 }
 
-func (payment *SimplePayment) sendPayment(customer Customer, custWallet CustomerWallet, customerComments string) {
+func (payment *Invoice) sendPayment(customer Customer, custWallet CustomerWallet, customerComments string) {
 	// todo: add payment logic w/ crypto api
 	payment.LocationPaid = "Here" // replace with the location from where the request is coming from
 	payment.Customer = customer

@@ -48,28 +48,28 @@ func getChainFromString(chainString string) (chain Blockchain, ok bool) {
 }
 
 // Enum for stablecoin currencies
-type Currency int
+type StablecoinCurrency int
 
 const (
-	USDC Currency = iota
+	USDC StablecoinCurrency = iota
 	EURC
 	USDT
 	NIL_CURRENCY
 )
 
-var currencyNameToString = map[Currency]string{
+var currencyNameToString = map[StablecoinCurrency]string{
 	USDC: "USDC",
 	EURC: "EURC",
 	USDT: "USDT",
 }
 
-var currencyNameFromString = map[string]Currency{
+var currencyNameFromString = map[string]StablecoinCurrency{
 	"USDC": USDC,
 	"EURC": EURC,
 	"USDT": USDT,
 }
 
-func (currency Currency) String() (string, bool) {
+func (currency StablecoinCurrency) String() (string, bool) {
 	res, ok := currencyNameToString[currency]
 	if !ok {
 		return "", false
@@ -77,8 +77,8 @@ func (currency Currency) String() (string, bool) {
 	return res, true
 }
 
-// Returns the stablecoin Currency enum equivalent to the provided string
-func getStablecoinFromString(currencyString string) (coin Currency, ok bool) {
+// Returns the stablecoin StablecoinCurrency enum equivalent to the provided string
+func getStablecoinFromString(currencyString string) (coin StablecoinCurrency, ok bool) {
 	res, ok := currencyNameFromString[currencyString]
 	if !ok {
 		return NIL_CURRENCY, false

@@ -12,6 +12,19 @@ services:
   #   depends_on:
   #     - postgres
 
+  # frontend:
+  #   build:
+  #     context: ./frontend/diamond-ui
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "5000:5000"
+  #   volumes:
+  #     - "./frontend/diamond-ui:/frontend/diamond-ui"
+  #   env_file:
+  #     - "./frontend/diamond-ui/.env"
+  #   depends_on:
+  #     - api
+
   postgres:
     image: 'postgres:latest'
     environment:
@@ -21,7 +34,7 @@ services:
     ports:
       - '5430:5432'
     volumes:
-      - ./postgres_data:var/lib/postgresql/data
+      - ./postgres_data:/var/lib/postgresql/data
   # redis:
   #   image: 'redis:latest'
   #   ports:

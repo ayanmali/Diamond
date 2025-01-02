@@ -13,9 +13,9 @@ import (
 // Interface to define the method(s) (business logic) for a service
 // Used for the actual business logic + logging middleware
 type SwapperService interface {
-	SwapStablesToSpot(ctxt context.Context, vendorWallet VendorWallet, initialCurrency Currency, amount float64, targetToken Blockchain) error // method for swapping stablecoins into spot tokens
-	SwapStablesToFiat(ctxt context.Context, vendorWallet VendorWallet, stableCurrency Currency, amount float64) error                          // method for swapping stablecoins into fiat currency (USD, CAD, EUR, etc)
-	SwapSpotToFiat(ctxt context.Context, vendorWallet VendorWallet, amount float64) error                                                      // method for swapping spot tokens into fiat currency
+	SwapStablesToSpot(ctxt context.Context, vendorWallet VendorWallet, initialStablecoinCurrency StablecoinCurrency, amount float64, targetToken Blockchain) error // method for swapping stablecoins into spot tokens
+	SwapStablesToFiat(ctxt context.Context, vendorWallet VendorWallet, stableCurrency StablecoinCurrency, amount float64) error                                    // method for swapping stablecoins into fiat currency (USD, CAD, EUR, etc)
+	SwapSpotToFiat(ctxt context.Context, vendorWallet VendorWallet, amount float64) error                                                                          // method for swapping spot tokens into fiat currency
 }
 
 type swapperService struct {
@@ -28,13 +28,13 @@ func NewSwapperService(url string) SwapperService {
 }
 
 // Implementing the interface
-func (s *swapperService) SwapStablesToSpot(ctxt context.Context, vendorWallet VendorWallet, initialCurrency Currency, amount float64, targetToken Blockchain) error {
+func (s *swapperService) SwapStablesToSpot(ctxt context.Context, vendorWallet VendorWallet, initialStablecoinCurrency StablecoinCurrency, amount float64, targetToken Blockchain) error {
 	// sending API request to the exchange
 	fmt.Println("Simulating API request to exchange...")
 	return nil
 }
 
-func (s *swapperService) SwapStablesToFiat(ctxt context.Context, vendorWallet VendorWallet, stableCurrency Currency, amount float64) error {
+func (s *swapperService) SwapStablesToFiat(ctxt context.Context, vendorWallet VendorWallet, stableCurrency StablecoinCurrency, amount float64) error {
 	// sending API request to the exchange
 	fmt.Println("Simulating API request to exchange...")
 	return nil
