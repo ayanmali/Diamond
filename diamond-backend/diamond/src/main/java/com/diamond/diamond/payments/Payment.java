@@ -1,10 +1,11 @@
 package com.diamond.diamond.payments;
 
-import com.diamond.diamond.StablecoinCurrency;
-import com.diamond.diamond.VendorWallet;
+import com.diamond.diamond.payments.walletdistribution.PayoutDistributor;
+import com.diamond.diamond.transactions.StablecoinCurrency;
+import com.diamond.diamond.transactions.VendorWallet;
 
 /*
- * Defining the generic attributes for all types of payments
+ * Defining the generic attributes and methods across all types of payments
  */
 public interface Payment {
 
@@ -21,6 +22,10 @@ public interface Payment {
     public StablecoinCurrency getStablecoinCurrency();
 
     public PaymentStatus getPaymentStatus();
+
+    public PayoutDistributor getPayoutDistributor();
+
+    public void setPayoutDistributor(PayoutDistributor distributor);
 
     public void sendPayment(Customer customer);
 

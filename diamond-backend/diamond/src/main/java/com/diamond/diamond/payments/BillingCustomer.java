@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import com.diamond.diamond.CustomerWallet;
+import com.diamond.diamond.transactions.CustomerWallet;
 
+/*
+ * Customer class used for invoices and subscription payments (ex. B2B)
+ */
 public class BillingCustomer implements Customer {
 
     // private final long id;

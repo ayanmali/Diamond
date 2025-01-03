@@ -2,12 +2,14 @@ package com.diamond.diamond.payments.invoices;
 
 import java.time.Instant;
 
-import com.diamond.diamond.StablecoinCurrency;
-import com.diamond.diamond.VendorWallet;
 import com.diamond.diamond.payments.BillingCustomer;
 import com.diamond.diamond.payments.Customer;
 import com.diamond.diamond.payments.Payment;
 import com.diamond.diamond.payments.PaymentStatus;
+// import com.diamond.diamond.payments.walletdistribution.PayoutDistribution;
+import com.diamond.diamond.payments.walletdistribution.PayoutDistributor;
+import com.diamond.diamond.transactions.StablecoinCurrency;
+import com.diamond.diamond.transactions.VendorWallet;
 
 public class Invoice implements Payment {
 
@@ -21,6 +23,7 @@ public class Invoice implements Payment {
     private BillingCustomer customer;
     // private CustomerWallet billedWallet;
     private String locationPaid;
+    private PayoutDistributor distributor; // the tooling to define how payments are allocated between the vendor's wallets
     private final String vendorComments;
     private String customerComments;
 
@@ -33,6 +36,7 @@ public class Invoice implements Payment {
         this.vendorComments = vendorComments;
         this.timeSent = Instant.now().toEpochMilli();
         this.paymentStatus = PaymentStatus.PENDING;
+        this.distributor = null;
     }
 
     public void sendPayment(BillingCustomer customer, /*CustomerWallet billedWallet,*/ String customerComments) {
@@ -93,10 +97,18 @@ public class Invoice implements Payment {
         return customerComments;
     }
 
+    /*
+     * Handles logic for sending crypto from the customer to the vendor's wallet(s).
+     */
     @Override
     public void sendPayment(Customer customer) {
         // Converting the provided Customer object into the appropriate subclass
         customer = (BillingCustomer) customer;
+        if (this.distributor == null || this.distributor.getDistribution().getMappings().isEmpty()) {
+            // use the VendorWallet object
+        } else {
+            // route payments to the wallets in this.distributor.getDistribution() according to their respective proportions
+        }
         throw new UnsupportedOperationException("Unimplemented method 'sendPayment'");
     }
 
@@ -109,4 +121,25 @@ public class Invoice implements Payment {
         this.paymentStatus = paymentStatus;
     }
 
+    @Override
+    public PayoutDistributor getPayoutDistributor() {
+        return distributor;
+    }
+
+    @Override
+    public void setPayoutDistributor(PayoutDistributor distributor) {
+        this.distributor = distributor;
+
+    }
+
+    // public static void main(String[] args) throws Exception {
+    //     Invoice i = new Invoice(100, null, null, null, null);
+    //     // Option 1 - instantiate both classes manually
+    //     PayoutDistributor distributor = new PayoutDistributor(null, null);
+    //     PayoutDistribution distribution = new PayoutDistribution(null, null);
+    //     distributor.setDistribution(distribution);
+    //     // Option 2 - pass the HashMap directly into the PayoutDistributor
+    //     // PayoutDistributor distributor = new PayoutDistributor(null, null, null);
+    //     i.setPayoutDistributor(distributor);
+    // }
 }

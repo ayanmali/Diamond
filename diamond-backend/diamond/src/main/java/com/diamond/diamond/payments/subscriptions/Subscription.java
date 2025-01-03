@@ -16,6 +16,7 @@ public class Subscription implements Payment {
 
     private BillingCustomer customer;
     private int billingBasis; // the basis for how often payments should recur (in days)
+    private SubscriptionStatus subscriptionStatus;
     private String locationPaid;
 
     public Subscription(double amount, VendorWallet vendorWallet, StablecoinCurrency currency) {
@@ -88,6 +89,14 @@ public class Subscription implements Payment {
 
     public void setLocationPaid(String locationPaid) {
         this.locationPaid = locationPaid;
+    }
+
+    public SubscriptionStatus getSubscriptionStatus() {
+        return subscriptionStatus;
+    }
+
+    public void setSubscriptionStatus(SubscriptionStatus subscriptionStatus) {
+        this.subscriptionStatus = subscriptionStatus;
     }
 
 }

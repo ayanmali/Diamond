@@ -1,7 +1,10 @@
 package com.diamond.diamond.payments;
 
-import com.diamond.diamond.CustomerWallet;
+import com.diamond.diamond.transactions.CustomerWallet;
 
+/*
+ * Customer class used for simple payments en masse (ex. B2C)
+ */
 public class BasicCustomer implements Customer {
 
     private String email;
