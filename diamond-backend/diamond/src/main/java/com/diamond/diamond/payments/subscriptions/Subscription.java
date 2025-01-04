@@ -1,78 +1,33 @@
 package com.diamond.diamond.payments.subscriptions;
 
-import com.diamond.diamond.StablecoinCurrency;
-import com.diamond.diamond.VendorWallet;
 import com.diamond.diamond.payments.BillingCustomer;
-import com.diamond.diamond.payments.Customer;
 import com.diamond.diamond.payments.Payment;
 import com.diamond.diamond.payments.PaymentStatus;
+import com.diamond.diamond.transactions.StablecoinCurrency;
+import com.diamond.diamond.transactions.Vendor;
 
-public class Subscription implements Payment {
+public class Subscription extends Payment {
 
-    private double amount;
-    private VendorWallet vendorWallet;
-    private StablecoinCurrency currency;
-    private PaymentStatus currentPeriodPaymentStatus; // the payment status for the current billing period
-
-    private BillingCustomer customer;
     private int billingBasis; // the basis for how often payments should recur (in days)
     private SubscriptionStatus subscriptionStatus;
     private String locationPaid;
 
-    public Subscription(double amount, VendorWallet vendorWallet, StablecoinCurrency currency) {
-        this.amount = amount;
-        this.vendorWallet = vendorWallet;
-        this.currency = currency;
+    public Subscription(double periodAmount, Vendor vendor, BillingCustomer customer, StablecoinCurrency currency, int billingBasis) throws Exception {
+        super(periodAmount, vendor, customer, currency);
+        this.billingBasis = billingBasis;
+        this.subscriptionStatus = SubscriptionStatus.ACTIVE;
     }
 
     @Override
-    public double getAmount() {
-        return amount;
-    }
-
-    @Override
-    public VendorWallet getVendorWallet() {
-        return vendorWallet;
-    }
-
-    @Override
-    public StablecoinCurrency getStablecoinCurrency() {
-        return currency;
-    }
-
-    @Override
-    public PaymentStatus getPaymentStatus() {
-        return currentPeriodPaymentStatus;
-    }
-
-    @Override
-    public void sendPayment(Customer customer) {
-        throw new UnsupportedOperationException("Unimplemented method 'sendPayment'");
+    public void pay() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'pay'");
     }
 
     @Override
     public PaymentStatus validatePayment() {
+        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'validatePayment'");
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
-    public void setVendorWallet(VendorWallet vendorWallet) {
-        this.vendorWallet = vendorWallet;
-    }
-
-    public void setCurrency(StablecoinCurrency currency) {
-        this.currency = currency;
-    }
-
-    public BillingCustomer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(BillingCustomer customer) {
-        this.customer = customer;
     }
 
     public int getBillingBasis() {
@@ -83,20 +38,20 @@ public class Subscription implements Payment {
         this.billingBasis = billingBasis;
     }
 
-    public String getLocationPaid() {
-        return locationPaid;
-    }
-
-    public void setLocationPaid(String locationPaid) {
-        this.locationPaid = locationPaid;
-    }
-
     public SubscriptionStatus getSubscriptionStatus() {
         return subscriptionStatus;
     }
 
     public void setSubscriptionStatus(SubscriptionStatus subscriptionStatus) {
         this.subscriptionStatus = subscriptionStatus;
+    }
+
+    public String getLocationPaid() {
+        return locationPaid;
+    }
+
+    public void setLocationPaid(String locationPaid) {
+        this.locationPaid = locationPaid;
     }
 
 }

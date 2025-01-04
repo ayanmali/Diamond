@@ -1,38 +1,74 @@
 package com.diamond.diamond.payments;
 
-import com.diamond.diamond.payments.walletdistribution.PayoutDistributor;
+import java.util.Map;
+
+import com.diamond.diamond.payments.walletdistribution.PaymentDistributor;
 import com.diamond.diamond.transactions.StablecoinCurrency;
+import com.diamond.diamond.transactions.Vendor;
 import com.diamond.diamond.transactions.VendorWallet;
 
 /*
- * Defining the generic attributes and methods across all types of payments
+ * Used to define the generic attributes and methods across all types of payments.
  */
-public interface Payment {
+public abstract class Payment {
 
-    // public final double amount = 0;
-    // public final VendorWallet businessWallet = null;
-    // public final StablecoinCurrency currency = null;
-    // public PaymentStatus paymentStatus = null;
-    // // public final long timeSent = 0;
-    // // public long timePaid = 0;
-    public double getAmount();
+    final double amount;
+    //final VendorWallet businessWallet;
+    final Vendor vendor;
+    final Customer customer;
+    final StablecoinCurrency currency;
+    PaymentStatus paymentStatus;
+    // used to define how payments are allocated between the vendor's wallets, if desired
+    PaymentDistributor distributor;
 
-    public VendorWallet getVendorWallet();
+    public Payment(double amount, Vendor vendor, Customer customer, StablecoinCurrency currency) throws Exception {
+        this.amount = amount;
+        this.vendor = vendor;
+        this.customer = customer;
+        this.currency = currency;
+        this.paymentStatus = PaymentStatus.PENDING;
 
-    public StablecoinCurrency getStablecoinCurrency();
+        VendorWallet wallet = this.vendor.getWallets().get(0);
+        // Allocates all incoming payments to the vendor's primary wallet by default
+        this.distributor = new PaymentDistributor(vendor,
+                Map.of(wallet, 1.0),
+                "");
+    }
 
-    public PaymentStatus getPaymentStatus();
+    public abstract void pay();
 
-    public PayoutDistributor getPayoutDistributor();
+    public abstract PaymentStatus validatePayment();
 
-    public void setPayoutDistributor(PayoutDistributor distributor);
+    public double getAmount() {
+        return amount;
+    }
 
-    public void sendPayment(Customer customer);
+    public Vendor getVendor() {
+        return vendor;
+    }
 
-    public PaymentStatus validatePayment(); // inspects the blockchain and sees if the transaction was successful
+    public Customer getCustomer() {
+        return customer;
+    }
 
-    // public void setAmount();
-    // public void setBusinessWallet();
-    // public void setCurrency();
-    // public void setTimePaid();
+    public StablecoinCurrency getStablecoinCurrency() {
+        return currency;
+    }
+
+    public PaymentStatus getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(PaymentStatus paymentStatus) {
+        this.paymentStatus = paymentStatus;
+    }
+
+    public PaymentDistributor getDistributor() {
+        return distributor;
+    }
+
+    public void setDistributor(PaymentDistributor distributor) {
+        this.distributor = distributor;
+    }
+
 }

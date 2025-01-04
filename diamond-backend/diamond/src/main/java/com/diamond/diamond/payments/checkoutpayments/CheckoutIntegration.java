@@ -1,4 +1,4 @@
-package com.diamond.diamond.payments.paymentlinks;
+package com.diamond.diamond.payments.checkoutpayments;
 
 import com.diamond.diamond.payments.BasicCustomer;
 import com.diamond.diamond.payments.Payment;
@@ -6,13 +6,10 @@ import com.diamond.diamond.payments.PaymentStatus;
 import com.diamond.diamond.transactions.StablecoinCurrency;
 import com.diamond.diamond.transactions.Vendor;
 
-public class PaymentLink extends Payment {
+public class CheckoutIntegration extends Payment {
 
-    // This variable should be mutable for payment links
-    // double amount;
-    public PaymentLink(double amount, Vendor vendor, BasicCustomer customer, StablecoinCurrency currency) throws Exception {
+    public CheckoutIntegration(double amount, Vendor vendor, BasicCustomer customer, StablecoinCurrency currency) throws Exception {
         super(amount, vendor, customer, currency);
-        // this.amount = amount;
     }
 
     @Override
@@ -27,11 +24,4 @@ public class PaymentLink extends Payment {
         throw new UnsupportedOperationException("Unimplemented method 'validatePayment'");
     }
 
-    // @Override
-    // public double getAmount() {
-    //     return amount;
-    // }
-    // public void setAmount(double amount) {
-    //     this.amount = amount;
-    // }
 }

@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.diamond.diamond.transactions.VendorWallet;
 
-public class PayoutDistribution {
+public class PaymentDistribution {
 
     private static final double MARGIN_OF_ERROR = 0.01;
 
@@ -12,7 +12,7 @@ public class PayoutDistribution {
     private String name;
     private String description;
 
-    public PayoutDistribution(Map<VendorWallet, Double> mappings, String name) throws Exception {
+    public PaymentDistribution(Map<VendorWallet, Double> mappings, String name) throws Exception {
         if (isValidDistribution(mappings)) {
             this.mappings = mappings;
             this.name = name;
@@ -20,7 +20,7 @@ public class PayoutDistribution {
     }
 
     /*
-     * Helper method to determine if this mappings of payouts is valid (i.e. each wallet's percentages add up to 1)
+     * Helper method to determine if the given mappings of payments for each wallet is valid (i.e. each wallet's percentages add up to 1)
      */
     private static boolean isValidDistribution(Map<VendorWallet, Double> mappings) throws Exception {
         if (mappings.isEmpty()) {

@@ -1,4 +1,4 @@
-package com.diamond.diamond;
+package com.diamond.diamond.transactions;
 
 import java.time.Instant;
 import java.util.Arrays;
