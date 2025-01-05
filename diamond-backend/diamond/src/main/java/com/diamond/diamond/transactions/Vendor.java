@@ -1,14 +1,15 @@
-
-package com.diamond.diamond;
+package com.diamond.diamond.transactions;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import com.diamond.diamond.payments.walletdistribution.PaymentDistributor;
 
 public class Vendor {
 
-    private final long id;
+    // private final long id;
     private final List<VendorWallet> wallets;
     private String businessName;
     private double totalUSDCBalance;
@@ -17,19 +18,21 @@ public class Vendor {
     private double totalSOLBalance;
     private double totalBaseETHBalance;
     private final String primaryEmail;
+    private PaymentDistributor defaultDistributor;
     private final long dateCreated;
 
     /* Constructor method */
-    public Vendor(String businessName, String email) {
+    public Vendor(String businessName, String email) throws Exception {
         this.businessName = businessName;
         this.primaryEmail = email;
 
-        this.id = 0;
+        // this.id = 0;
         this.wallets = new ArrayList<>();
         this.totalUSDCBalance = 0;
         this.totalEURCBalance = 0;
         this.totalSOLBalance = 0;
         this.totalBaseETHBalance = 0;
+        this.defaultDistributor = new PaymentDistributor(this, "Default");
         this.dateCreated = Instant.now().toEpochMilli();
     }
 
@@ -37,10 +40,9 @@ public class Vendor {
         this.wallets.add(wallet);
     }
 
-    public long getId() {
-        return id;
-    }
-
+    // public long getId() {
+    //     return id;
+    // }
     public List<VendorWallet> getWallets() {
         return wallets;
     }
@@ -99,5 +101,17 @@ public class Vendor {
 
     public void setTotalBaseEthBalance(double totalBaseETHBalance) {
         this.totalBaseETHBalance = totalBaseETHBalance;
+    }
+
+    public PaymentDistributor getDefaultDistributor() {
+        return defaultDistributor;
+    }
+
+    public void setDefaultDistributor(PaymentDistributor defaultDistributor) {
+        this.defaultDistributor = defaultDistributor;
+    }
+
+    public void setDefaultDistributor(Map<VendorWallet, Double> mappings) throws Exception {
+        this.defaultDistributor = new PaymentDistributor(this, mappings, this.getDefaultDistributor().getDistribution().getName());
     }
 }

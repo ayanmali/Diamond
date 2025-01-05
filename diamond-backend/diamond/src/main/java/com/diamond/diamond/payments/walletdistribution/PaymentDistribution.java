@@ -6,7 +6,7 @@ import com.diamond.diamond.transactions.VendorWallet;
 
 public class PaymentDistribution {
 
-    private static final double MARGIN_OF_ERROR = 0.01;
+    private static final double MARGIN_OF_ERROR = 0.001;
 
     private Map<VendorWallet, Double> mappings;
     private String name;
@@ -26,6 +26,8 @@ public class PaymentDistribution {
         if (mappings.isEmpty()) {
             return true;
         }
+
+        // TODO: Add regex validation to ensure all wallets have valid addresses and are of the same chain
         // Calculating the sum of percentages across all wallets in the mappings
         double total = 0.0;
         for (Double val : mappings.values()) {
@@ -37,14 +39,11 @@ public class PaymentDistribution {
             }
         }
         // Using a very small constant to determine if the total is close enough to 1
-        if (1 - total <= MARGIN_OF_ERROR) {
-            return true;
-        } else {
+        if (Math.abs(total - 1) > MARGIN_OF_ERROR) {
             // throwing an error if it is invalid
             throw new Exception("Wallet mappingss must sum to 100%.");
-
         }
-
+        return true;
     }
 
     public Map<VendorWallet, Double> getMappings() {

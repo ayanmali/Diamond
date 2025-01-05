@@ -1,5 +1,7 @@
 package com.diamond.diamond.payments;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import com.diamond.diamond.payments.walletdistribution.PaymentDistributor;
@@ -33,6 +35,35 @@ public abstract class Payment {
         this.distributor = new PaymentDistributor(vendor,
                 Map.of(wallet, 1.0),
                 "");
+    }
+
+    /*
+     * Distributes payments to multiple wallets according to the 
+     */
+    public void distributePayment() {
+        Map<VendorWallet, Double> mappings = this.distributor.getDistribution().getMappings();
+        List<VendorWallet> keyList = new ArrayList<>(mappings.keySet());
+
+        double remainingAmount = this.amount;
+
+        for (int i = 0; i < keyList.size(); i++) {
+            double transferAmount;
+
+            if (i == keyList.size() - 1) {
+                transferAmount = remainingAmount;
+            } else {
+                double percentage = mappings.get(keyList.get(i));
+                transferAmount = (this.amount * Math.floor(percentage * 10000)) / 10000;
+                remainingAmount -= transferAmount;
+            }
+            // Execute the transfer
+            // try {
+            //     String address = keyList.get(i).getAddress();
+            //     // transfer a quantity equivalent to transferAmount in tokens to the address
+
+            // } catch () {
+            // }
+        }
     }
 
     public abstract void pay();
@@ -69,6 +100,10 @@ public abstract class Payment {
 
     public void setDistributor(PaymentDistributor distributor) {
         this.distributor = distributor;
+    }
+
+    public void setDistributor(Map<VendorWallet, Double> mappings) throws Exception {
+        this.distributor = new PaymentDistributor(this.vendor, mappings, "");
     }
 
 }
