@@ -11,12 +11,16 @@ public class Vendor {
 
     // private final long id;
     private final List<VendorWallet> wallets;
+    private final List<VendorWallet> solWallets;
+    private final List<VendorWallet> baseWallets;
+    private final List<VendorWallet> bscWallets;
     private String businessName;
     private double totalUSDCBalance;
     private double totalEURCBalance;
     private double totalUSDTBalance;
     private double totalSOLBalance;
     private double totalBaseETHBalance;
+    private double totalBNBBalance;
     private final String primaryEmail;
     private PaymentDistributor defaultDistributor;
     private final long dateCreated;
@@ -28,6 +32,9 @@ public class Vendor {
 
         // this.id = 0;
         this.wallets = new ArrayList<>();
+        this.solWallets = new ArrayList<>();
+        this.baseWallets = new ArrayList<>();
+        this.bscWallets = new ArrayList<>();
         this.totalUSDCBalance = 0;
         this.totalEURCBalance = 0;
         this.totalSOLBalance = 0;
@@ -36,15 +43,25 @@ public class Vendor {
         this.dateCreated = Instant.now().toEpochMilli();
     }
 
-    public void addWallet(VendorWallet wallet) {
-        this.wallets.add(wallet);
-    }
-
+    // public void addWallet(VendorWallet wallet) {
+    //     this.wallets.add(wallet);
+    // }
     // public long getId() {
     //     return id;
     // }
-    public List<VendorWallet> getWallets() {
-        return wallets;
+    // public List<VendorWallet> getWallets() {
+    //     return wallets;
+    // }
+    public List<VendorWallet> getSolWallets() {
+        return solWallets;
+    }
+
+    public List<VendorWallet> getBaseWallets() {
+        return baseWallets;
+    }
+
+    public List<VendorWallet> getBscWallets() {
+        return bscWallets;
     }
 
     public String getBusinessName() {
@@ -114,4 +131,9 @@ public class Vendor {
     public void setDefaultDistributor(Map<VendorWallet, Double> mappings) throws Exception {
         this.defaultDistributor = new PaymentDistributor(this, mappings, this.getDefaultDistributor().getDistribution().getName());
     }
+
+    public boolean hasDefaultDistributor() {
+        return defaultDistributor.getDistribution().getMappings().size() <= 1;
+    }
+
 }

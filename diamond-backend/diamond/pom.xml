@@ -126,6 +126,11 @@
 			<artifactId>javax.annotation-api</artifactId>
 			<version>1.3.2</version>
 		</dependency>
+		<dependency>
+			<groupId>org.p2p</groupId>
+			<artifactId>solanaj</artifactId>
+			<version>1.7</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -167,6 +172,14 @@
 						</goals>
 					</execution>
 				</executions>
+        	</plugin>
+			<plugin>
+				<groupId>org.web3j</groupId>
+				<artifactId>web3j-maven-plugin</artifactId>
+				<version>4.8.1</version>
+				<configuration>
+					<soliditySourceFiles/>
+				</configuration>
         	</plugin>
 		</plugins>
 	</build>
