@@ -1,4 +1,4 @@
-package com.diamond.diamond;
+package com.diamond.diamond.transactions;
 
 public enum StablecoinCurrency {
     USDC, EURC, USDT;

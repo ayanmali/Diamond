@@ -16,6 +16,7 @@ public class DiamondApplication {
     // }
     public static void main(String[] args) {
         SpringApplication.run(DiamondApplication.class, args);
+        
     }
 
 }

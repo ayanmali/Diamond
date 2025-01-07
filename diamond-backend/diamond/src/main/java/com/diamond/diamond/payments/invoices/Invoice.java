@@ -2,9 +2,10 @@ package com.diamond.diamond.payments.invoices;
 
 import java.time.Instant;
 
-import com.diamond.diamond.payments.BillingCustomer;
-import com.diamond.diamond.payments.PaymentStatus;
 import com.diamond.diamond.payments.Payment;
+import com.diamond.diamond.payments.PaymentStatus;
+import com.diamond.diamond.payments.walletdistribution.PaymentDistributor;
+import com.diamond.diamond.transactions.Blockchain;
 import com.diamond.diamond.transactions.StablecoinCurrency;
 import com.diamond.diamond.transactions.Vendor;
 
@@ -16,16 +17,10 @@ public class Invoice extends Payment {
     final String vendorComments;
     String customerComments;
 
-    public Invoice(double amount, Vendor vendor, BillingCustomer customer, StablecoinCurrency currency, String vendorComments) throws Exception {
-        super(amount, vendor, customer, currency);
+    public Invoice(double amount, Vendor vendor, /*BillingCustomer customer,*/ StablecoinCurrency currency, Blockchain chain, PaymentDistributor distributor, String vendorComments) throws Exception {
+        super(amount, vendor, /*customer,*/ currency, chain, distributor);
         this.timeSent = Instant.now().toEpochMilli();
         this.vendorComments = vendorComments;
-    }
-
-    @Override
-    public void pay() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'pay'");
     }
 
     @Override

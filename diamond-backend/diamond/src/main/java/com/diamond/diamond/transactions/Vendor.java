@@ -10,7 +10,7 @@ import com.diamond.diamond.payments.walletdistribution.PaymentDistributor;
 public class Vendor {
 
     // private final long id;
-    private final List<VendorWallet> wallets;
+    // private final List<VendorWallet> wallets;
     private final List<VendorWallet> solWallets;
     private final List<VendorWallet> baseWallets;
     private final List<VendorWallet> bscWallets;
@@ -31,7 +31,7 @@ public class Vendor {
         this.primaryEmail = email;
 
         // this.id = 0;
-        this.wallets = new ArrayList<>();
+        // this.wallets = new ArrayList<>();
         this.solWallets = new ArrayList<>();
         this.baseWallets = new ArrayList<>();
         this.bscWallets = new ArrayList<>();
@@ -64,6 +64,21 @@ public class Vendor {
         return bscWallets;
     }
 
+    public List<VendorWallet> getWallets(Blockchain chain) {
+        switch (chain) {
+            case SOL -> {
+                return this.getSolWallets();
+            }
+            case BASE -> {
+                return this.getBaseWallets();
+            }
+            case BSC -> {
+                return this.getBscWallets();
+            }
+            default -> throw new AssertionError();
+        }
+    }
+
     public String getBusinessName() {
         return businessName;
     }
@@ -86,6 +101,10 @@ public class Vendor {
 
     public double getTotalBaseETHBalance() {
         return totalBaseETHBalance;
+    }
+
+    public double getTotalBNBBalance() {
+        return totalBNBBalance;
     }
 
     public String getPrimaryEmail() {
@@ -120,6 +139,43 @@ public class Vendor {
         this.totalBaseETHBalance = totalBaseETHBalance;
     }
 
+    public void setTotalBNBBalance(double totalBNBBalance) {
+        this.totalBNBBalance = totalBNBBalance;
+    }
+
+    public void addSolWallet(VendorWallet wallet) {
+        // add regex validation for the wallet's address to ensure it is on the right chain
+        solWallets.add(wallet);
+    }
+
+    public void addBaseWallet(VendorWallet wallet) {
+        // add regex validation for the wallet's address to ensure it is on the right chain
+        baseWallets.add(wallet);
+    }
+
+    public void addBscWallet(VendorWallet wallet) {
+        // add regex validation for the wallet's address to ensure it is on the right chain
+        bscWallets.add(wallet);
+    }
+
+    /*
+     * Creates a new wallet for the vendor on the specified chain
+     */
+    public VendorWallet createWallet(Blockchain chain) {
+       VendorWallet wallet = new VendorWallet("", "My Wallet", 0, chain);
+       addWallet(wallet);
+       return wallet;
+    }
+
+    public void addWallet(VendorWallet wallet) {
+        switch (wallet.getChain()) {
+            case SOL -> addSolWallet(wallet);
+            case BASE -> addBaseWallet(wallet);
+            case BSC -> addBscWallet(wallet);
+            default -> throw new AssertionError();
+        }
+    }
+
     public PaymentDistributor getDefaultDistributor() {
         return defaultDistributor;
     }
@@ -133,7 +189,7 @@ public class Vendor {
     }
 
     public boolean hasDefaultDistributor() {
-        return defaultDistributor.getDistribution().getMappings().size() <= 1;
+        return defaultDistributor.getDistribution().getMappings().size() > 1;
     }
 
 }

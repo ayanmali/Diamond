@@ -1,8 +1,9 @@
 package com.diamond.diamond.payments.subscriptions;
 
-import com.diamond.diamond.payments.BillingCustomer;
 import com.diamond.diamond.payments.Payment;
 import com.diamond.diamond.payments.PaymentStatus;
+import com.diamond.diamond.payments.walletdistribution.PaymentDistributor;
+import com.diamond.diamond.transactions.Blockchain;
 import com.diamond.diamond.transactions.StablecoinCurrency;
 import com.diamond.diamond.transactions.Vendor;
 
@@ -12,16 +13,10 @@ public class Subscription extends Payment {
     private SubscriptionStatus subscriptionStatus;
     private String locationPaid;
 
-    public Subscription(double periodAmount, Vendor vendor, BillingCustomer customer, StablecoinCurrency currency, int billingBasis) throws Exception {
-        super(periodAmount, vendor, customer, currency);
+    public Subscription(double periodAmount, Vendor vendor, /*BillingCustomer customer, */StablecoinCurrency currency, Blockchain chain, PaymentDistributor distributor, int billingBasis) throws Exception {
+        super(periodAmount, vendor, /*customer,*/ currency, chain, distributor);
         this.billingBasis = billingBasis;
         this.subscriptionStatus = SubscriptionStatus.ACTIVE;
-    }
-
-    @Override
-    public void pay() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'pay'");
     }
 
     @Override

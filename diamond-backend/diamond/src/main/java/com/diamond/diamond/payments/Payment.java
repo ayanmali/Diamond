@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.diamond.diamond.payments.walletdistribution.PaymentDistributor;
+import com.diamond.diamond.transactions.Blockchain;
 import com.diamond.diamond.transactions.StablecoinCurrency;
 import com.diamond.diamond.transactions.Vendor;
 import com.diamond.diamond.transactions.VendorWallet;
@@ -17,24 +18,44 @@ public abstract class Payment {
     final double amount;
     //final VendorWallet businessWallet;
     final Vendor vendor;
-    final Customer customer;
+    Customer customer;
     final StablecoinCurrency currency;
+    final Blockchain chain;
     PaymentStatus paymentStatus;
     // used to define how payments are allocated between the vendor's wallets, if desired
     PaymentDistributor distributor;
 
-    public Payment(double amount, Vendor vendor, Customer customer, StablecoinCurrency currency) throws Exception {
+    // /*
+    //  * Constructor method that uses a single wallet for routing payments by default
+    //  */
+    // public Payment(double amount, Vendor vendor, Customer customer, StablecoinCurrency currency, Blockchain chain) throws Exception {
+    //     this.amount = amount;
+    //     this.vendor = vendor;
+    //     this.customer = customer;
+    //     this.currency = currency;
+    //     this.chain = chain;
+    //     this.paymentStatus = PaymentStatus.PENDING;
+
+    //     // retrieves the vendor's first wallet on the speciied chain
+    //     VendorWallet wallet = this.vendor.getWallets(chain).get(0);
+    //     // Allocates all incoming payments to the vendor's primary wallet by default
+    //     this.distributor = new PaymentDistributor(vendor,
+    //             Map.of(wallet, 1.0),
+    //             "");
+    // }
+
+    /*
+     * Constructor method that uses a provided Map to route payments to multiple wallets
+     */
+    public Payment(double amount, Vendor vendor, /*Customer customer,*/ StablecoinCurrency currency, Blockchain chain, PaymentDistributor distributor) throws Exception {
         this.amount = amount;
         this.vendor = vendor;
-        this.customer = customer;
+        //this.customer = customer;
         this.currency = currency;
+        this.chain = chain;
         this.paymentStatus = PaymentStatus.PENDING;
-
-        VendorWallet wallet = this.vendor.getWallets().get(0);
-        // Allocates all incoming payments to the vendor's primary wallet by default
-        this.distributor = new PaymentDistributor(vendor,
-                Map.of(wallet, 1.0),
-                "");
+        this.distributor = distributor;
+        // this.distributor = new PaymentDistributor(vendor, mappings, "");
     }
 
     /*
@@ -66,7 +87,7 @@ public abstract class Payment {
         }
     }
 
-    public abstract void pay();
+    // public abstract void pay();
 
     public abstract PaymentStatus validatePayment();
 
@@ -80,6 +101,10 @@ public abstract class Payment {
 
     public Customer getCustomer() {
         return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public StablecoinCurrency getStablecoinCurrency() {
@@ -104,6 +129,10 @@ public abstract class Payment {
 
     public void setDistributor(Map<VendorWallet, Double> mappings) throws Exception {
         this.distributor = new PaymentDistributor(this.vendor, mappings, "");
+    }
+
+    public Blockchain getChain() {
+        return chain;
     }
 
 }
