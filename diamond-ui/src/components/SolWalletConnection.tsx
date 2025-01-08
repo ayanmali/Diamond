@@ -1,7 +1,7 @@
 import { FC, useMemo } from 'react';
 import { ConnectionProvider, WalletProvider, useWallet } from '@solana/wallet-adapter-react';
 //import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
-import { PhantomWalletAdapter, CoinbaseWalletAdapter } from '@solana/wallet-adapter-wallets';
+import { PhantomWalletAdapter, CoinbaseWalletAdapter, SolflareWalletAdapter, TorusWalletAdapter, LedgerWalletAdapter, TrezorWalletAdapter } from '@solana/wallet-adapter-wallets';
 import {
     WalletModalProvider,
     WalletDisconnectButton,
@@ -22,7 +22,11 @@ const SolWalletConnection: FC = () => {
     const wallets = useMemo(
         () => [
             new PhantomWalletAdapter(),
-            new CoinbaseWalletAdapter()
+            new CoinbaseWalletAdapter(),
+            new SolflareWalletAdapter(),
+            new TorusWalletAdapter(),
+            new LedgerWalletAdapter(),
+            new TrezorWalletAdapter()
         ],
         [/**network*/]
     );
@@ -43,7 +47,7 @@ const SolWalletConnection: FC = () => {
                     <WalletMultiButton />
                     <WalletDisconnectButton />
                     { /* Your app's components go here, nested within the context providers. */ }
-                    <PublicAddress />            
+                    <PublicAddress />
 
                 </WalletModalProvider>
             </WalletProvider>
