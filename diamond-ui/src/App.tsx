@@ -1,13 +1,13 @@
 import { useState } from 'react'
-import { useWeb3React } from "@web3-react/core";
-import Card from "./components/Card.tsx";
+//import { useWeb3React } from "@web3-react/core";
+//import Card from "../old-connection/components/Card.tsx";
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 
 function App() {
   const [count, setCount] = useState(0);
-  const { connector, hooks } = useWeb3React(); 
+  //const { connector, hooks } = useWeb3React(); 
 
   return (
     <>
@@ -21,7 +21,9 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <Card connector={connector} hooks={hooks} name='MetaMask'/>
+        {/* TODO: Add caching w/ redis to check on page load if the user has already connected a wallet */}
+        {/*<Card connector={connector} hooks={hooks} name='MetaMask'/>*/}
+
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
