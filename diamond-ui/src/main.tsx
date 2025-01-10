@@ -32,14 +32,40 @@
 
 /* -------------- */
 
+// import './index.css'
+
+// import { Buffer } from 'buffer'
+// import { StrictMode } from 'react'
+// import { createRoot } from 'react-dom/client'
+
+// import Example from './components/EVMWalletConnection/Example.tsx'
+// import { Web3Provider } from './evm-wallets-utils/components/Web3Provider.tsx'
+// // if (window.ethereum) {
+// //   window.ethereum.autoRefreshOnNetworkChange = false
+// // }
+
+// // Node polyfills required by WalletConnect are no longer bundled with webpack
+// window.Buffer = Buffer
+
+// const root = createRoot(document.getElementById('root') as HTMLElement)
+// root.render(
+//   <StrictMode>
+//     <Web3Provider>
+//       <Example />
+//     </Web3Provider>
+//   </StrictMode>
+// )
+
+/* -------------------- */
+
 import './index.css'
 
 import { Buffer } from 'buffer'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import EVMWalletConnection from './components/EVMWalletConnections/EVMWalletConnectionOptions'
+import SolWalletConnection from './components/SolWalletConnections/SolWalletConnection'
 
-import Example from './example/Example.tsx'
-import { Web3Provider } from './libs/components/Web3Provider.tsx'
 // if (window.ethereum) {
 //   window.ethereum.autoRefreshOnNetworkChange = false
 // }
@@ -47,11 +73,12 @@ import { Web3Provider } from './libs/components/Web3Provider.tsx'
 // Node polyfills required by WalletConnect are no longer bundled with webpack
 window.Buffer = Buffer
 
+const chain: string = "BASE";
+
 const root = createRoot(document.getElementById('root') as HTMLElement)
 root.render(
   <StrictMode>
-    <Web3Provider>
-      <Example />
-    </Web3Provider>
+    {/* Use Solana wallet integrations if this transaction is over Solana, otherwise, use EVM wallet integrations */}
+    {chain === "SOL" ? <SolWalletConnection /> : <EVMWalletConnection />}
   </StrictMode>
 )

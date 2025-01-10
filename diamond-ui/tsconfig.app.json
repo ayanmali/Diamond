@@ -22,5 +22,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src", "src/libs/components/Web3Provider.tsx", "src/libs/components/MetaMaskOption.tsx", "src/libs/components/CoinbaseOption.tsx", "src/libs/components/WalletConnectOption.tsx", "src/libs/components/ConnectionOptions.tsx", "src/example/Example.tsx", "src/libs/connections.ts", "src/libs/hooks.ts"]
+  "include": ["src"]
 }
