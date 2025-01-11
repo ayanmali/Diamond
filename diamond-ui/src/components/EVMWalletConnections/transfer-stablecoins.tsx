@@ -1,11 +1,14 @@
+/* Sending stablecoins to another wallet */
+
 //import { useSimulateContract } from 'wagmi'
 import erc20Abi from './erc-20-abi.ts'
 
-// import { useReadContract } from 'wagmi';
+import { useAccount, useSwitchChain } from 'wagmi';
 import { writeContract, waitForTransactionReceipt } from '@wagmi/core'
 import { FC, useState } from 'react';
-import { base } from 'wagmi/chains';
+// import { base } from 'wagmi/chains';
 import { config } from './config.ts';
+import { chains, currencies } from '../../constants.ts';
 
 const Transfer: FC = () => {
   // Add state variables for transaction status
@@ -14,7 +17,12 @@ const Transfer: FC = () => {
   const [approveTxHash, setApproveTxHash] = useState<string | null>(null); // to keep track of the blockchain hash for a successful approval
   const [transferTxHash, setTransferTxHash] = useState<string | null>(null); // to keep track of the blockchain hash for a successful token transfer
   const [error, setError] = useState<string | null>(null); // when an approval/transfer fails
+  const { address: customerAddress } = useAccount();
+  const { switchChain } = useSwitchChain();
 
+  // The blockchain on which this payment is happening on
+  const paymentChain = chains.BASE;
+  const currency = currencies.USDC;
   // Convert decimal value to big integer with proper BigInt conversion
   const value = 1.01; // the number of tokens to transfer
   const bigIntegerValue = BigInt(Math.floor(value * 1000000)); // converting the token amount into a format usable by the smart contract
@@ -25,18 +33,23 @@ const Transfer: FC = () => {
 
     // Attempting to complete the payment (approving and then signing the transaction)
     try {
+      // Automatically switch to the correct chain to avoid payment issues
+      switchChain({ chainId: paymentChain.wagmi.id });
+
       // First transaction - Approval
       setIsApproving(true);
+      // String repreentation of the given chain
+      const chainStr: string = paymentChain['str'];
       // Generating the hash (tx) for this transaction once it goes through successfully
       const confirmHash = await writeContract(config, {
         abi: erc20Abi, // the ABI for USDC token's smart contract
-        address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913" as `0x${string}`, // the Base USDC token address
+        address: currency[chainStr as keyof typeof currency] as `0x${string}`, // the Base USDC token address
         functionName: 'approve', // calling the approval function of the smart contract
         args: [
-          '0x93af2601478BA76DF860dc5A38369Ed0CdBdCDf4' as `0x${string}`, // the wallet that is sending tokens
+          customerAddress as `0x${string}`, // the wallet that is sending tokens
           bigIntegerValue, // the amount of tokens approved to be sent
         ],
-        chainId: base.id,  // specifying the chain on which this transaction is occuring on
+        chainId: paymentChain.wagmi.id,  // specifying the chain on which this transaction is occuring on
       });
       setApproveTxHash(confirmHash); // Setting the hash once the transaction is successful
 
@@ -52,14 +65,14 @@ const Transfer: FC = () => {
       setIsTransferring(true);
       const transferHash = await writeContract(config, {
         abi: erc20Abi,
-        address: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913" as `0x${string}`,
+        address: currency[chainStr as keyof typeof currency]  as `0x${string}`,
         functionName: 'transferFrom',
         args: [
-          '0x93af2601478BA76DF860dc5A38369Ed0CdBdCDf4' as `0x${string}`,
+          customerAddress as `0x${string}`,
           '0x918523de26333b0c2096d82d4e700d3c6d8bd39c' as `0x${string}`,
           bigIntegerValue,
         ],
-        chainId: base.id,
+        chainId: paymentChain.wagmi.id,
       });
       setTransferTxHash(transferHash);
 
