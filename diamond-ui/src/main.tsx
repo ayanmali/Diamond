@@ -73,7 +73,7 @@ import SolWalletConnection from './components/SolWalletConnections/SolWalletConn
 // Node polyfills required by WalletConnect are no longer bundled with webpack
 window.Buffer = Buffer
 
-const chain: string = "BASE";
+const chain: string = "SOL";
 
 const root = createRoot(document.getElementById('root') as HTMLElement)
 root.render(
