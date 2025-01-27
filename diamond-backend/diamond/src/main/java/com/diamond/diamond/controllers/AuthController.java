@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.diamond.diamond.dtos.LoginUserDto;
 import com.diamond.diamond.dtos.RegisterUserDto;
-import com.diamond.diamond.entities.User;
+import com.diamond.diamond.entities.Vendor;
 import com.diamond.diamond.responses.LoginResponse;
 import com.diamond.diamond.services.AuthService;
 import com.diamond.diamond.services.JwtService;
@@ -33,8 +33,8 @@ public class AuthController {
      * can be accessed without authentication
      */
     @PostMapping("/signup")
-    public ResponseEntity<User> signUpUser(@RequestBody RegisterUserDto registerUserDto) {
-        User user = authService.signUp(registerUserDto);
+    public ResponseEntity<Vendor> signUpUser(@RequestBody RegisterUserDto registerUserDto) {
+        Vendor user = authService.signUp(registerUserDto);
 
         // returning the newly registered user
         return ResponseEntity.ok(user);
@@ -46,7 +46,7 @@ public class AuthController {
      */
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> loginUser(@RequestBody LoginUserDto loginUserDto) {
-        User authenticatedUser = authService.authenticate(loginUserDto);
+        Vendor authenticatedUser = authService.authenticate(loginUserDto);
 
         String accessToken = jwtService.generateAccessToken(authenticatedUser);
         String refreshToken = jwtService.generateRefreshToken(authenticatedUser);

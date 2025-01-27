@@ -7,39 +7,39 @@ import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.LoginUserDto;
 import com.diamond.diamond.dtos.RegisterUserDto;
-import com.diamond.diamond.entities.User;
-import com.diamond.diamond.repositories.UserRepository;
+import com.diamond.diamond.entities.Vendor;
+import com.diamond.diamond.repositories.VendorRepository;
 
 @Service
 public class AuthService {
 
-    private final UserRepository userRepository;
+    private final VendorRepository vendorRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authManager;
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthenticationManager authManager) {
-        this.userRepository = userRepository;
+    public AuthService(VendorRepository vendorRepository, PasswordEncoder passwordEncoder, AuthenticationManager authManager) {
+        this.vendorRepository = vendorRepository;
         this.passwordEncoder = passwordEncoder;
         this.authManager = authManager;
     }
 
-    public User signUp(RegisterUserDto input) {
-        User user = new User();
+    public Vendor signUp(RegisterUserDto input) {
+        Vendor user = new Vendor();
         user.setEmail(input.getEmail());
         user.setPassword(passwordEncoder.encode(input.getPassword()));
-        user.setFullName(input.getFullName());
+        user.setBusinessName(input.getFullName());
 
         // saving the newly registered user to the Users repository
-        return userRepository.save(user);
+        return vendorRepository.save(user);
     }
 
-    public User authenticate(LoginUserDto input) {
+    public Vendor authenticate(LoginUserDto input) {
         authManager.authenticate(
                 new UsernamePasswordAuthenticationToken(input.getEmail(), input.getPassword())
         );
 
         // returns the User object if it successfully authenticates
-        return userRepository.findByEmail(input.getEmail())
+        return vendorRepository.findByEmail(input.getEmail())
                 .orElseThrow();
     }
 }

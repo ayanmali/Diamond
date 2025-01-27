@@ -102,7 +102,7 @@ const SendSolanaSplTokens: React.FC = () => {
     } catch (err) {console.error(err);}
   };
 
-  return <button onClick={handlePayment}>Transfer spl token</button>;
+  return <button onClick={handlePayment} disabled={!publicKey}>Transfer spl token</button>;
 };
 
 export default SendSolanaSplTokens;

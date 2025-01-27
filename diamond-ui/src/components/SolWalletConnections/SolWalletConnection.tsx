@@ -1,20 +1,24 @@
-import { FC, useMemo, useState, useEffect } from 'react';
+import { FC, useMemo } from 'react';
 import { ConnectionProvider, WalletProvider, useWallet } from '@solana/wallet-adapter-react';
 
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
-import { CoinbaseWalletAdapter, SolflareWalletAdapter, TorusWalletAdapter, LedgerWalletAdapter, TrezorWalletAdapter } from '@solana/wallet-adapter-wallets';
+import { CoinbaseWalletAdapter, SolflareWalletAdapter, TorusWalletAdapter, LedgerWalletAdapter, TrezorWalletAdapter, WalletConnectWalletAdapter } from '@solana/wallet-adapter-wallets';
 import {
      WalletModalProvider,
      WalletDisconnectButton,
      WalletMultiButton
  } from '@solana/wallet-adapter-react-ui';
-import { clusterApiUrl, Connection, LAMPORTS_PER_SOL, PublicKey } from '@solana/web3.js';
+import { clusterApiUrl } from '@solana/web3.js';
+// import { solana, solanaTestnet, solanaDevnet } from '@reown/appkit/networks'
+// import { createAppKit, useAppKit } from '@reown/appkit/react'
+// import { SolanaAdapter } from '@reown/appkit-adapter-solana/react'
 // import getProvider from './getProvider';
 import '@solana/wallet-adapter-react-ui/styles.css'; 
 // import { TestTransferComponent } from './Transfer';
 import { SendSOL } from './SendSol';
 import SendSolanaSplTokens from './SendSplTokens';
-// import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
+import { FetchSolBalance, FetchSplTokenBalance } from './GetBalances';
+import { chains } from '../../constants';
  
 const SolWalletConnection: FC = () => {
     // const { publicKey } = useWallet();
@@ -29,10 +33,16 @@ const SolWalletConnection: FC = () => {
         () => [
             //new PhantomWalletAdapter(),
             new CoinbaseWalletAdapter(),
+            new WalletConnectWalletAdapter({
+                network: network,
+                options: {
+                    projectId: import.meta.env.VITE_PROJECT_ID,
+                },
+            }),
             new SolflareWalletAdapter(),
             new TorusWalletAdapter(),
             new LedgerWalletAdapter(),
-            new TrezorWalletAdapter()
+            new TrezorWalletAdapter(),
         ],
         [/**network*/]
     );
@@ -45,28 +55,6 @@ const SolWalletConnection: FC = () => {
             return <div>Wallet not connected</div>;
         }
     }
-
-    const FetchBalance: FC = () => {
-        const { publicKey } = useWallet();
-        const [balance, setBalance] = useState<number | null>(null);
-        const connection = useMemo(() => new Connection(endpoint), []);
-
-        useEffect(() => {
-            async function fetchBalance() {
-                if (publicKey) {
-                    const balance = await connection.getBalance(new PublicKey(publicKey)) / LAMPORTS_PER_SOL;
-                    setBalance(balance);
-                }
-            };
-            fetchBalance();
-        }, [publicKey, connection]);
-
-        return (
-            <div>
-                {publicKey ? `SOL Balance: ${balance}` : 'Wallet not connected'}
-            </div>
-        );
-    };
 
     // const Connection: FC = () => {
     //     const handleConnect = async () => {
@@ -85,7 +73,24 @@ const SolWalletConnection: FC = () => {
 
     //     return handleConnect();
     // }
- 
+
+    // const Idk: FC = () => {
+    //     const { wallet, publicKey } = useWallet();
+    //     function idk() {
+    //         // if (!wallet) return;
+    //         // const accounts = publicKey ? wallet.adapter.walletAdapter?.wallet?.accounts : [];
+    //         // const walletAddresses = accounts.map((account: { publicKey: string }) => new PublicKey(account.publicKey));
+    //         // console.log(walletAddresses);
+    //         const win = window.solana;
+            
+        
+    //         // Process the accounts as needed
+    //         console.log(accounts);
+    //     }
+
+    //     return <button onClick={idk}>Display all wallets</button>
+    // }
+
     return (
         <ConnectionProvider endpoint={endpoint}>
             <WalletProvider wallets={wallets} autoConnect>
@@ -97,7 +102,8 @@ const SolWalletConnection: FC = () => {
                     {/* <TestTransferComponent /> */}
                     <SendSOL />
                     <SendSolanaSplTokens />
-                    <FetchBalance />
+                    <FetchSolBalance endpoint={endpoint} />
+                    <FetchSplTokenBalance endpoint={endpoint} tokenAddress={chains.SOL.usdcAddress} />
                 </WalletModalProvider>
             </WalletProvider>
         </ConnectionProvider>

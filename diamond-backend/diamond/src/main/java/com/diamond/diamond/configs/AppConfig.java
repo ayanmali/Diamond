@@ -14,14 +14,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.diamond.diamond.repositories.UserRepository;
+import com.diamond.diamond.repositories.VendorRepository;
 
 @Configuration
 public class AppConfig {
 
-    private final UserRepository userRepository;
+    private final VendorRepository userRepository;
 
-    public AppConfig(UserRepository userRepository) {
+    public AppConfig(VendorRepository userRepository) {
         this.userRepository = userRepository;
     }
 

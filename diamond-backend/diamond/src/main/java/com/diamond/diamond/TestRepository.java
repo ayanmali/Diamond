@@ -10,7 +10,6 @@
 
 // // Spring Data JPA creates CRUD implementation at runtime automatically.
 // public interface BookRepository extends JpaRepository<String, Long> {
-
 // 	List<String> findByTitle(String title);
 
 // 	// Custom query

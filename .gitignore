@@ -3,3 +3,6 @@
 */credentials.go
 diamond-backend.zip
 postgres_data
+
+go-msrvc
+*/.env

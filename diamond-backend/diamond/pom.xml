@@ -12,7 +12,7 @@
 	<artifactId>diamond</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>diamond</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Diamond Backend Application</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -135,7 +135,7 @@
 		</dependency>
 
 		<!-- Solana API Client -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>com.squareup.moshi</groupId>
 			<artifactId>moshi</artifactId>
 			<version>1.14.0</version>
@@ -159,7 +159,26 @@
 			<groupId>com.mmorrell</groupId>
 			<artifactId>solanaj</artifactId>
 			<version>1.19.2</version>
-		</dependency>
+		</dependency> -->
+
+		<!-- Circle API Client -->
+		<!-- <dependency>
+            <groupId>com.circle</groupId>
+            <artifactId>circle</artifactId>
+            <version>0.1.0-beta.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.17.0</version>
+        </dependency> -->
+
+		<!-- Web3J (Ethereum/Base/BSC Client) -->
+		<!-- <dependency>
+			<groupId>org.web3j</groupId>
+			<artifactId>core</artifactId>
+			<version>3.3.1</version>
+		</dependency> -->
 	</dependencies>
 
 	<build>
