@@ -1,5 +1,6 @@
 package com.diamond.diamond.services.payments;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,7 +24,7 @@ public class PaymentService<T extends Payment> {
         return paymentRepository.findById(id);
     }
 
-    public T updatePaymentAmount(UUID id, Double amount) {
+    public T updatePaymentAmount(UUID id, BigDecimal amount) {
         Optional<T> optionalPayment = paymentRepository.findById(id);
         if (optionalPayment.isPresent()) {
             T payment = optionalPayment.get();

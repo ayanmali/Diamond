@@ -1,5 +1,6 @@
 package com.diamond.diamond.entities.payments;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,27 +14,31 @@ import com.diamond.diamond.types.PaymentStatus;
 import com.diamond.diamond.types.StablecoinCurrency;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.OneToMany;
 
 /*
  * Used to define the generic attributes and methods across all types of payments.
  */
-@MappedSuperclass
-public abstract class Payment {
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+ public abstract class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable=false)
     private UUID id;
 
-    @Column(precision=12, scale=2, nullable=false)
-    private Double amount;
+    @Column(precision=8, scale=2, nullable=false)
+    private BigDecimal amount;
     //final VendorWallet businessWallet;
 
     @ManyToOne
@@ -70,6 +75,7 @@ public abstract class Payment {
 
     // used to define how payments are allocated between the vendor's wallets, if desired
     //private PaymentDistributor distributor;
+    @OneToMany(mappedBy="address")
     @Column(name="wallet_distribution")
     private List<VendorWallet> walletDistribution;
 
@@ -96,7 +102,7 @@ public abstract class Payment {
     /*
      * Constructor method that uses a provided Map to route payments to multiple wallets
      */
-    public Payment(double amount, Vendor vendor, Customer customer, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets/*, PaymentDistributor distributor*/) /*throws Exception*/ {
+    public Payment(BigDecimal amount, Vendor vendor, Customer customer, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets/*, PaymentDistributor distributor*/) /*throws Exception*/ {
         this.amount = amount;
         this.vendor = vendor;
         this.customer = customer;
@@ -108,7 +114,7 @@ public abstract class Payment {
         // this.distributor = new PaymentDistributor(vendor, mappings, "");
     }
 
-    public Payment(double amount, Vendor vendor, Customer customer, StablecoinCurrency currency, Blockchain chain, VendorWallet vendorWallet/*, PaymentDistributor distributor*/) /*throws Exception*/ {
+    public Payment(BigDecimal amount, Vendor vendor, Customer customer, StablecoinCurrency currency, Blockchain chain, VendorWallet vendorWallet/*, PaymentDistributor distributor*/) /*throws Exception*/ {
         this.amount = amount;
         this.vendor = vendor;
         this.customer = customer;
@@ -155,7 +161,7 @@ public abstract class Payment {
     // todo
     public PaymentStatus validatePayment() {return null;}
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
@@ -199,7 +205,7 @@ public abstract class Payment {
         return chain;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

@@ -1,8 +1,11 @@
 package com.diamond.diamond.entities;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
+import com.diamond.diamond.entities.payments.Payment;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -17,7 +20,6 @@ import jakarta.persistence.Table;
 @Table(name="customers")
 public class Customer {
     @Id
-    @OneToMany(mappedBy="customers", cascade=CascadeType.ALL)
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(nullable=false)
     private UUID id;
@@ -28,13 +30,14 @@ public class Customer {
     @Column(nullable=false)
     private String email;
 
+    @OneToMany(mappedBy="address", cascade=CascadeType.ALL)
     private List<CustomerWallet> wallets;
 
     @Column(name="created_at")
     private Date createdAt;
 
-    @Column(name="total_spend")
-    private Double totalSpend;
+    @Column(name="total_spend", precision=8, scale=2)
+    private BigDecimal totalSpend;
 
     @Column(name="total_payments")
     private Integer totalPayments;
@@ -106,11 +109,11 @@ public class Customer {
         this.createdAt = createdAt;
     }
 
-    public Double getTotalSpend() {
+    public BigDecimal getTotalSpend() {
         return totalSpend;
     }
 
-    public void setTotalSpend(Double totalSpend) {
+    public void setTotalSpend(BigDecimal totalSpend) {
         this.totalSpend = totalSpend;
     }
 

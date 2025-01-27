@@ -1,4 +1,4 @@
-package com.diamond.diamond.repositories;
+package com.diamond.diamond.repositories.payments;
 
 import java.util.UUID;
 

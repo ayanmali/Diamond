@@ -123,6 +123,7 @@ package com.diamond.diamond.entities;
 
 // package com.diamond.diamond.entities;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
@@ -164,19 +165,19 @@ public class VendorWallet implements Wallet {
 
     @ManyToOne
     @JoinColumn(name="vendor_id")
-    private UUID vendorId;
+    private Vendor vendor;
 
     public VendorWallet() {}
 
-    public VendorWallet(String address, String walletName, UUID vendorId, Blockchain chain) {
+    public VendorWallet(String address, String walletName, Vendor vendor, Blockchain chain) {
         this.address = address;
         this.walletName = walletName;
-        this.vendorId = vendorId;
+        this.vendor = vendor;
         this.chain = chain;
         this.createdAt = new Date();
     }
 
-    public void cashOut(double amount, StablecoinCurrency currency) {
+    public void cashOut(BigDecimal amount, StablecoinCurrency currency) {
         // todo: add logic for cashing out stablecoins to a bank account
     }
 
@@ -198,8 +199,8 @@ public class VendorWallet implements Wallet {
         return createdAt;
     }
 
-    public UUID getVendorId() {
-        return vendorId;
+    public Vendor getVendor() {
+        return vendor;
     }
 
     public UUID getId() {

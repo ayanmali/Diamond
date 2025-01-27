@@ -3,11 +3,14 @@ package com.diamond.diamond.entities.payments;
 import java.util.Date;
 import java.util.UUID;
 
+import com.diamond.diamond.entities.Vendor;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -20,12 +23,12 @@ public class PromoCode {
     private UUID id;
 
     @ManyToOne
-    @Column(name="vendor_id", nullable=false)
-    private UUID vendorId;
+    @JoinColumn(name="vendor_id", nullable=false)
+    private Vendor vendor;
 
     @ManyToOne
-    @Column(name="payment_id", nullable=false)
-    private UUID paymentId;
+    @JoinColumn(name="payment_id", nullable=false)
+    private Payment payment;
 
     @Column(nullable=false)
     private String code;
@@ -40,20 +43,20 @@ public class PromoCode {
         this.id = id;
     }
 
-    public UUID getVendorId() {
-        return vendorId;
+    public Vendor getVendor() {
+        return vendor;
     }
 
-    public void setVendorId(UUID vendorId) {
-        this.vendorId = vendorId;
+    public void setVendorId(Vendor vendor) {
+        this.vendor = vendor;
     }
 
-    public UUID getPaymentId() {
-        return paymentId;
+    public Payment getPayment() {
+        return payment;
     }
 
-    public void setPaymentId(UUID paymentId) {
-        this.paymentId = paymentId;
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
     public String getCode() {

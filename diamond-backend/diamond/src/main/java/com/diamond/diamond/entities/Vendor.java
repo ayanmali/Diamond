@@ -221,13 +221,15 @@ import jakarta.persistence.Table;
 public class Vendor implements UserDetails {
 
     @Id
-    @OneToMany(mappedBy="vendors", cascade=CascadeType.ALL)
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
     private UUID id;
 
     @Column(nullable = false, name="business_name")
     private String businessName;
+
+    @OneToMany(mappedBy="address", cascade=CascadeType.ALL)
+    private List<VendorWallet> wallets;
 
     @Column(unique = true, length = 100, nullable = false)
     private String email;
@@ -307,6 +309,26 @@ public class Vendor implements UserDetails {
     // public void setDefaultDistributor(PaymentDistributor defaultDistributor) {
     //     this.defaultDistributor = defaultDistributor;
     // }
+
+    public List<VendorWallet> getWallets() {
+        return wallets;
+    }
+
+    public void setWallets(List<VendorWallet> wallets) {
+        this.wallets = wallets;
+    }
+
+    public void addWallet(VendorWallet wallet) {
+        wallets.add(wallet);
+    }
+
+    public void removeWallet(VendorWallet wallet) throws Exception {
+        if (wallets.contains(wallet)) {
+            wallets.remove(wallet);
+        } else {
+            throw new Exception(String.format("Wallet with address %s not found.", wallet.getAddress()));
+        }
+    }
 
     @Override
     public boolean isAccountNonExpired() {

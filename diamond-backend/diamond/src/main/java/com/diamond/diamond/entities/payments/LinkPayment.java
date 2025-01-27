@@ -1,5 +1,6 @@
 package com.diamond.diamond.entities.payments;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.diamond.diamond.entities.Customer;
@@ -25,7 +26,7 @@ public class LinkPayment extends Payment {
     private Boolean enablePromoCodes;
 
     // This variable should be mutable for payment links
-    public LinkPayment(double amount, Vendor vendor, Customer customer, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets) {
+    public LinkPayment(BigDecimal amount, Vendor vendor, Customer customer, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets) {
         super(amount, vendor, customer, currency, chain, vendorWallets);
         // this.amount = amount;
     }

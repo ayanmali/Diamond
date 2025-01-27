@@ -34,7 +34,7 @@ public class CustomerWallet implements Wallet {
 
     @ManyToOne
     @JoinColumn(name="customer_id")
-    private UUID customerId;
+    private Customer customer;
 
     // @Column
     // private final String email;
@@ -45,9 +45,10 @@ public class CustomerWallet implements Wallet {
     // private double baseEthBalance;
 
     /* Constructor method */
-    public CustomerWallet(String address, Blockchain chain /*,String email*/) {
+    public CustomerWallet(String address, Blockchain chain, Customer customer /*,String email*/) {
         this.address = address;
         this.chain = chain;
+        this.customer = customer;
         //this.email = email;
 
         // this.usdcBalance = 0;
@@ -91,12 +92,12 @@ public class CustomerWallet implements Wallet {
     //     return baseEthBalance;
     // }
 
-    public UUID getCustomerId() {
-        return customerId;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomerId(UUID customerId) {
-        this.customerId = customerId;
+    public void setCustomerId(Customer customer) {
+        this.customer = customer;
     }
 
     public UUID getId() {
