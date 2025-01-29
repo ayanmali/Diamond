@@ -1,6 +1,5 @@
 package com.diamond.diamond.entities.payments;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import com.diamond.diamond.entities.Customer;
@@ -26,7 +25,7 @@ public class CheckoutPayment extends Payment {
     @Column(name="promo_codes_enabled", nullable=false)
     private Boolean enablePromoCodes;
 
-    public CheckoutPayment(BigDecimal amount, Vendor vendor, Customer customer, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets) throws Exception {
+    public CheckoutPayment(Double amount, Vendor vendor, Customer customer, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets) throws Exception {
         super(amount, vendor, customer, currency, chain, vendorWallets);
     }
     

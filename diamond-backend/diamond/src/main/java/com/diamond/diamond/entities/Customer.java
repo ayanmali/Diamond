@@ -1,6 +1,5 @@
 package com.diamond.diamond.entities;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -36,8 +35,8 @@ public class Customer {
     @Column(name="created_at")
     private Date createdAt;
 
-    @Column(name="total_spend", precision=8, scale=2)
-    private BigDecimal totalSpend;
+    @Column(name="total_spend")
+    private Double totalSpend;
 
     @Column(name="total_payments")
     private Integer totalPayments;
@@ -109,11 +108,11 @@ public class Customer {
         this.createdAt = createdAt;
     }
 
-    public BigDecimal getTotalSpend() {
+    public Double getTotalSpend() {
         return totalSpend;
     }
 
-    public void setTotalSpend(BigDecimal totalSpend) {
+    public void setTotalSpend(Double totalSpend) {
         this.totalSpend = totalSpend;
     }
 

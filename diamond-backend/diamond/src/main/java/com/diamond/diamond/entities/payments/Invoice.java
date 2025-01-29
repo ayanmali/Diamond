@@ -1,6 +1,6 @@
 package com.diamond.diamond.entities.payments;
 
-import java.math.BigDecimal;
+
 import java.util.Date;
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class Invoice extends Payment {
 
     public Invoice() {}
 
-    public Invoice(BigDecimal amount, Vendor vendor, Customer customer, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets, String vendorComments) throws Exception {
+    public Invoice(Double amount, Vendor vendor, Customer customer, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets, String vendorComments) throws Exception {
         super(amount, vendor, customer, currency, chain, vendorWallets);
         this.timeSent = new Date();
         this.vendorComments = vendorComments;

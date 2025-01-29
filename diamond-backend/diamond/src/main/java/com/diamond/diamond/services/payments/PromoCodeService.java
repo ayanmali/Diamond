@@ -28,4 +28,8 @@ public class PromoCodeService {
         promoCodeRepository.deleteById(id);
     }
 
+    public void deletePromoCode(PromoCode promoCode) {
+        promoCodeRepository.delete(promoCode);
+    }
+
 }

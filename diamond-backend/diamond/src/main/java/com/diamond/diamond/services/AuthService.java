@@ -1,5 +1,8 @@
 package com.diamond.diamond.services;
 
+import java.util.Optional;
+import java.util.UUID;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +24,46 @@ public class AuthService {
         this.vendorRepository = vendorRepository;
         this.passwordEncoder = passwordEncoder;
         this.authManager = authManager;
+    }
+
+    public Vendor saveUser(Vendor vendor) {
+        return vendorRepository.save(vendor);
+    }
+
+    public Optional<Vendor> findVendorById(UUID id) {
+        return vendorRepository.findById(id);
+    }
+
+    public Optional<Vendor> findVendorByEmail(String email) {
+        return vendorRepository.findByEmail(email);
+    }
+
+    public Vendor updateVendorEmail(UUID id, String email) {
+        Optional<Vendor> optionalVendor = vendorRepository.findById(id);
+        if (optionalVendor.isPresent()) {
+            Vendor vendor = optionalVendor.get();
+            vendor.setEmail(email);
+            return vendorRepository.save(vendor);
+        }
+        return null;
+    }
+
+    public Vendor updateVendorName(UUID id, String name) {
+        Optional<Vendor> optionalVendor = vendorRepository.findById(id);
+        if (optionalVendor.isPresent()) {
+            Vendor vendor = optionalVendor.get();
+            vendor.setBusinessName(name);
+            return vendorRepository.save(vendor);
+        }
+        return null;
+    }
+
+    public void deleteVendorById(UUID id) {
+        vendorRepository.deleteById(id);
+    }
+
+    public void deleteVendor(Vendor vendor) {
+        vendorRepository.delete(vendor);
     }
 
     public Vendor signUp(RegisterUserDto input) {

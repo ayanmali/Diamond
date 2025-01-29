@@ -123,7 +123,7 @@ package com.diamond.diamond.entities;
 
 // package com.diamond.diamond.entities;
 
-import java.math.BigDecimal;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -177,7 +177,7 @@ public class VendorWallet implements Wallet {
         this.createdAt = new Date();
     }
 
-    public void cashOut(BigDecimal amount, StablecoinCurrency currency) {
+    public void cashOut(Double amount, StablecoinCurrency currency) {
         // todo: add logic for cashing out stablecoins to a bank account
     }
 

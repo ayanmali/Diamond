@@ -1,6 +1,6 @@
 package com.diamond.diamond.entities.payments;
 
-import java.math.BigDecimal;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -37,8 +37,8 @@ import jakarta.persistence.OneToMany;
     @Column(nullable=false)
     private UUID id;
 
-    @Column(precision=8, scale=2, nullable=false)
-    private BigDecimal amount;
+    @Column(nullable=false)
+    private Double amount;
     //final VendorWallet businessWallet;
 
     @ManyToOne
@@ -102,7 +102,7 @@ import jakarta.persistence.OneToMany;
     /*
      * Constructor method that uses a provided Map to route payments to multiple wallets
      */
-    public Payment(BigDecimal amount, Vendor vendor, Customer customer, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets/*, PaymentDistributor distributor*/) /*throws Exception*/ {
+    public Payment(Double amount, Vendor vendor, Customer customer, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets/*, PaymentDistributor distributor*/) /*throws Exception*/ {
         this.amount = amount;
         this.vendor = vendor;
         this.customer = customer;
@@ -114,7 +114,7 @@ import jakarta.persistence.OneToMany;
         // this.distributor = new PaymentDistributor(vendor, mappings, "");
     }
 
-    public Payment(BigDecimal amount, Vendor vendor, Customer customer, StablecoinCurrency currency, Blockchain chain, VendorWallet vendorWallet/*, PaymentDistributor distributor*/) /*throws Exception*/ {
+    public Payment(Double amount, Vendor vendor, Customer customer, StablecoinCurrency currency, Blockchain chain, VendorWallet vendorWallet/*, PaymentDistributor distributor*/) /*throws Exception*/ {
         this.amount = amount;
         this.vendor = vendor;
         this.customer = customer;
@@ -161,7 +161,7 @@ import jakarta.persistence.OneToMany;
     // todo
     public PaymentStatus validatePayment() {return null;}
 
-    public BigDecimal getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
@@ -205,7 +205,7 @@ import jakarta.persistence.OneToMany;
         return chain;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 

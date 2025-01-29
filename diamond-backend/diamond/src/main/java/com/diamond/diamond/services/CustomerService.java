@@ -57,4 +57,8 @@ public class CustomerService {
         customerRepository.deleteById(id);
     }
 
+    public void deleteCustomer(Customer customer) {
+        customerRepository.delete(customer);
+    }
+
 }
