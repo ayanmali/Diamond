@@ -37,6 +37,11 @@ public class VendorController {
         //return String.format("Testing get endpoint for id %s", id);
     }
 
+    @GetMapping("/email")
+    FetchVendorDto getVendorByEmail(@RequestBody Map<String, String> payload) {
+        return vendorService.findVendorByEmail(payload.get("email"));
+    }
+
     @PostMapping("/update-email")
     Vendor updateEmail(@RequestBody Map<String, String> payload) {
         //TODO: process POST request

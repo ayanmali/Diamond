@@ -128,6 +128,7 @@ import java.util.Date;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.StablecoinCurrency;
@@ -153,7 +154,7 @@ public class VendorWallet implements Wallet {
     @Column(unique=true, nullable=false, updatable=false)
     private String address;
 
-    @Column(updatable=false)
+    @Column(updatable=false, nullable=false)
     private Blockchain chain;
 
     @Column(name="wallet_name")
@@ -163,8 +164,12 @@ public class VendorWallet implements Wallet {
     @Column(updatable = false, name = "created_at")
     private Date createdAt;
 
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private Date updatedAt;
+
     @ManyToOne
-    @JoinColumn(name="vendor_id")
+    @JoinColumn(name="vendor_id", nullable=false)
     private Vendor vendor;
 
     public VendorWallet() {}
@@ -209,5 +214,13 @@ public class VendorWallet implements Wallet {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

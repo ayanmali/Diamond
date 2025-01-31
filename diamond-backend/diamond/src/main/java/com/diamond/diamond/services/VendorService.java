@@ -36,6 +36,10 @@ public class VendorService {
         return vendorRepository.save(user);
     }
 
+    // public List<VendorWallet> getVendorWallets(UUID id) {
+        
+    // }
+
     public FetchVendorDto findVendorById(UUID id) {
         Vendor vendor = vendorRepository.findById(id).orElseThrow();
         FetchVendorDto vendorDto = new FetchVendorDto();
@@ -55,8 +59,28 @@ public class VendorService {
         return vendorDto;
     }
 
-    public Optional<Vendor> findVendorByEmail(String email) {
-        return vendorRepository.findByEmail(email);
+    public FetchVendorDto findVendorByEmail(String email) {
+        Vendor vendor = vendorRepository.findByEmail(email).orElseThrow();
+        //Vendor vendor = vendorRepository.findByEmail(email);
+        FetchVendorDto vendorDto = new FetchVendorDto();
+        vendorDto.setEmail(vendor.getEmail());
+        vendorDto.setBusinessName(vendor.getBusinessName());
+        vendorDto.setId(vendor.getId());
+        vendorDto.setCreatedAt(vendor.getCreatedAt());
+        vendorDto.setUpdatedAt(vendor.getUpdatedAt());
+
+        return vendorDto;
+
+        // List<Vendor> vendors = vendorRepository.findByEmail(email);
+        // return vendors.stream().map(vendor -> {
+        //     FetchVendorDto vendorDto = new FetchVendorDto();
+        //     vendorDto.setEmail(vendor.getEmail());
+        //     vendorDto.setBusinessName(vendor.getBusinessName());
+        //     vendorDto.setId(vendor.getId());
+        //     vendorDto.setCreatedAt(vendor.getCreatedAt());
+        //     vendorDto.setUpdatedAt(vendor.getUpdatedAt());
+        //     return vendorDto;
+        // }).collect(Collectors.toList());
     }
 
     public Vendor updateVendorEmail(UUID id, String email) {
