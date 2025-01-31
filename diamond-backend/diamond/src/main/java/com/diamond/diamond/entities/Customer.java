@@ -1,5 +1,6 @@
 package com.diamond.diamond.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -48,6 +49,7 @@ public class Customer {
 
     public Customer(String email, CustomerWallet wallet) {
         this.email = email;
+        this.wallets = new ArrayList<>();
         this.wallets.add(wallet);
     }
 

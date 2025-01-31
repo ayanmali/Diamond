@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.diamond.diamond.entities.Vendor;
 
+
 @Repository
 public interface VendorRepository extends JpaRepository<Vendor, UUID> {
     Optional<Vendor> findByEmail(String email);

@@ -1,10 +1,13 @@
 package com.diamond.diamond.dtos;
 
+import jakarta.validation.constraints.Email;
+
 public class RegisterUserDto {
 
+    @Email
     private String email;
     private String password;
-    private String fullName;
+    private String businessName;
 
     public String getEmail() {
         return this.email;
@@ -14,8 +17,8 @@ public class RegisterUserDto {
         return this.password;
     }
 
-    public String getFullName() {
-        return this.fullName;
+    public String getBusinessName() {
+        return this.businessName;
     }
 
     public void setEmail(String newEmail) {
@@ -26,7 +29,7 @@ public class RegisterUserDto {
         this.password = newPassword;
     }
 
-    public void setFullName(String newFullName) {
-        this.fullName = newFullName;
+    public void setBusinessName(String newName) {
+        this.businessName = newName;
     }
 }

@@ -150,7 +150,7 @@ public class VendorWallet implements Wallet {
     @Column(nullable = false)
     private UUID id;
 
-    @Column(nullable=false, updatable=false)
+    @Column(unique=true, nullable=false, updatable=false)
     private String address;
 
     @Column(updatable=false)

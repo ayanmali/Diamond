@@ -1,3 +1,4 @@
+package com.diamond.diamond.repositories;
 
 // package com.diamond.repository;
 

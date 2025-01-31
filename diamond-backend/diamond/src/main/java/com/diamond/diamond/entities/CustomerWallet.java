@@ -25,12 +25,12 @@ public class CustomerWallet implements Wallet {
     @Column(nullable = false)
     private UUID id;
 
-    @Column(nullable=false, updatable=false)
-    private final String address;
+    @Column(unique=true, nullable=false, updatable=false)
+    private String address;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable=false, updatable=false)
-    private final Blockchain chain;
+    private Blockchain chain;
 
     @ManyToOne
     @JoinColumn(name="customer_id")
@@ -45,6 +45,8 @@ public class CustomerWallet implements Wallet {
     // private double baseEthBalance;
 
     /* Constructor method */
+    public CustomerWallet() {}
+
     public CustomerWallet(String address, Blockchain chain, Customer customer /*,String email*/) {
         this.address = address;
         this.chain = chain;

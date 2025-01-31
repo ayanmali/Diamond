@@ -25,6 +25,7 @@ public class LinkPayment extends Payment {
     @Column(name="promo_codes_enabled", nullable=false)
     private Boolean enablePromoCodes;
 
+    public LinkPayment() {}
     // This variable should be mutable for payment links
     public LinkPayment(Double amount, Vendor vendor, Customer customer, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets) {
         super(amount, vendor, customer, currency, chain, vendorWallets);

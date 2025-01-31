@@ -25,6 +25,8 @@ public class CheckoutPayment extends Payment {
     @Column(name="promo_codes_enabled", nullable=false)
     private Boolean enablePromoCodes;
 
+    public CheckoutPayment() {}
+
     public CheckoutPayment(Double amount, Vendor vendor, Customer customer, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets) throws Exception {
         super(amount, vendor, customer, currency, chain, vendorWallets);
     }
