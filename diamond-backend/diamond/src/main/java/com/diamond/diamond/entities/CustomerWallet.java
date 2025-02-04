@@ -1,7 +1,5 @@
 package com.diamond.diamond.entities;
 
-import java.util.UUID;
-
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.Wallet;
 
@@ -23,7 +21,7 @@ public class CustomerWallet implements Wallet {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
-    private UUID id;
+    private Long id;
 
     @Column(unique=true, nullable=false, updatable=false)
     private String address;
@@ -102,11 +100,11 @@ public class CustomerWallet implements Wallet {
         this.customer = customer;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }

@@ -7,50 +7,50 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.diamond.diamond.services.CustomerService;
+import com.diamond.diamond.services.VendorWalletService;
 
 @RestController
-@RequestMapping("/customers")
-public class CustomerController {
-    private CustomerService customerService;
+@RequestMapping("/vwallets")
+public class VendorWalletController {
+    private final VendorWalletService vendorWalletService;
 
-    public CustomerController(CustomerService customerService) {
-        this.customerService = customerService;
+    public VendorWalletController(VendorWalletService vendorWalletService) {
+        this.vendorWalletService = vendorWalletService;
     }
 
     @PostMapping("/new")
-    public String addNewCustomer(@RequestBody String entity) {
+    public String createNewWallet(@RequestBody String entity) {
         //TODO: process POST request
         
         return entity;
     }
 
     @GetMapping("/id")
-    public String getCustomerById(@RequestParam String param) {
+    public String getWalletByWalletId(@RequestParam String param) {
         return new String();
     }
 
-    @GetMapping("/email")
-    public String getCustomerByEmail(@RequestParam String param) {
+    @GetMapping("/address")
+    public String getWalletByAddress(@RequestParam String address) {
         return new String();
     }
-
+    
     @PostMapping("/update-name")
-    public String updateName(@RequestBody String entity) {
+    public String updateWalletName(@RequestBody String entity) {
         //TODO: process POST request
         
         return entity;
     }
 
-    @PostMapping("/update-email")
-    public String updateEmail(@RequestBody String entity) {
+    @PostMapping("/archive")
+    public String archiveWallet(@RequestBody String entity) {
         //TODO: process POST request
         
         return entity;
     }
 
-    @PostMapping("/delete")
-    public String delete(@RequestBody String entity) {
+    @PostMapping("/activate")
+    public String reactivateWallet(@RequestBody String entity) {
         //TODO: process POST request
         
         return entity;

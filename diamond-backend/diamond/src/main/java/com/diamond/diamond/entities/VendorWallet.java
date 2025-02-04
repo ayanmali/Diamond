@@ -125,7 +125,6 @@ package com.diamond.diamond.entities;
 
 
 import java.util.Date;
-import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -133,9 +132,12 @@ import org.hibernate.annotations.UpdateTimestamp;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.StablecoinCurrency;
 import com.diamond.diamond.types.Wallet;
+import com.diamond.diamond.types.WalletStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -149,7 +151,7 @@ public class VendorWallet implements Wallet {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
-    private UUID id;
+    private Long id;
 
     @Column(unique=true, nullable=false, updatable=false)
     private String address;
@@ -159,6 +161,10 @@ public class VendorWallet implements Wallet {
 
     @Column(name="wallet_name")
     private String walletName;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable=false)
+    private WalletStatus status;
 
     @CreationTimestamp
     @Column(updatable = false, name = "created_at")
@@ -208,11 +214,11 @@ public class VendorWallet implements Wallet {
         return vendor;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

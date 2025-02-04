@@ -1,7 +1,6 @@
 package com.diamond.diamond.services.payments;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -20,11 +19,11 @@ public class PromoCodeService {
         return promoCodeRepository.save(promoCode);
     }
 
-    public Optional<PromoCode> findPromoCodeById(UUID id) {
+    public Optional<PromoCode> findPromoCodeById(Long id) {
         return promoCodeRepository.findById(id);
     }
 
-    public void deletePromoCodeById(UUID id) {
+    public void deletePromoCodeById(Long id) {
         promoCodeRepository.deleteById(id);
     }
 

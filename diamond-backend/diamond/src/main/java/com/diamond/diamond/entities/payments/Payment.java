@@ -64,13 +64,13 @@ import jakarta.persistence.OneToMany;
     /*
      * Hash for signing/approving the transaction in the user's wallet
      */
-    @Column(name="sign_hash")
+    @Column(name="sign_hash", unique=true)
     private String signHash;
 
     /*
      * Hash for the token transfer
      */
-    @Column(name="tx_hash")
+    @Column(name="tx_hash", unique=true)
     private String txHash;
 
     // used to define how payments are allocated between the vendor's wallets, if desired

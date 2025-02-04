@@ -1,7 +1,6 @@
 package com.diamond.diamond.services;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -20,7 +19,7 @@ public class VendorWalletService {
         return vendorWalletRepository.save(wallet);
     }
 
-    public Optional<VendorWallet> findWalletById(UUID id) {
+    public Optional<VendorWallet> findWalletById(Long id) {
         return vendorWalletRepository.findById(id);
     }
 
@@ -28,7 +27,7 @@ public class VendorWalletService {
         return vendorWalletRepository.findByAddress(address);
     }
 
-    public void deleteWalletById(UUID id) {
+    public void deleteWalletById(Long id) {
         vendorWalletRepository.deleteById(id);
     }
 

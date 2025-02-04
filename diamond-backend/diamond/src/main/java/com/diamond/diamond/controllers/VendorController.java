@@ -1,5 +1,6 @@
 package com.diamond.diamond.controllers;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -13,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.diamond.diamond.dtos.FetchVendorDto;
 import com.diamond.diamond.dtos.RegisterUserDto;
 import com.diamond.diamond.entities.Vendor;
+import com.diamond.diamond.entities.VendorWallet;
 import com.diamond.diamond.services.VendorService;
-
 
 @RestController
 @RequestMapping("/vendor")
@@ -42,6 +43,11 @@ public class VendorController {
         return vendorService.findVendorByEmail(payload.get("email"));
     }
 
+    @GetMapping("/wallets")
+    List<VendorWallet> getWallets(@RequestBody Map<String, String> payload) {
+        return vendorService.findVendorWallets(UUID.fromString(payload.get("id")));
+    }
+    
     @PostMapping("/update-email")
     Vendor updateEmail(@RequestBody Map<String, String> payload) {
         //TODO: process POST request
@@ -57,7 +63,7 @@ public class VendorController {
     }
 
     @PostMapping("/delete")
-    Map deleteVendor(@RequestBody Map<String, String> payload) {
+    Map<String, String> deleteVendor(@RequestBody Map<String, String> payload) {
         //TODO: process POST request
         vendorService.deleteVendorById(UUID.fromString(payload.get("id")));
         return Map.of("id", payload.get("id"));

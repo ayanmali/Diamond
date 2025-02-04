@@ -1,5 +1,6 @@
 package com.diamond.diamond.services;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.diamond.diamond.dtos.FetchVendorDto;
 import com.diamond.diamond.dtos.RegisterUserDto;
 import com.diamond.diamond.entities.Vendor;
+import com.diamond.diamond.entities.VendorWallet;
 import com.diamond.diamond.repositories.VendorRepository;
 
 @Service
@@ -81,6 +83,14 @@ public class VendorService {
         //     vendorDto.setUpdatedAt(vendor.getUpdatedAt());
         //     return vendorDto;
         // }).collect(Collectors.toList());
+    }
+
+    // public List<VendorWallet> findWallets(UUID walletId) {
+    //     return vendorRepository.findWallets(walletId);
+    // }
+    public List<VendorWallet> findVendorWallets(UUID vendorId) {
+        Vendor vendor = vendorRepository.findById(vendorId).orElseThrow();
+        return vendor.getWallets();
     }
 
     public Vendor updateVendorEmail(UUID id, String email) {

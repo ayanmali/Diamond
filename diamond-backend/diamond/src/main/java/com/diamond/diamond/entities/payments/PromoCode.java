@@ -1,7 +1,9 @@
+/*
+ * Promo codes can be applied to checkout payments and payment links
+ */
 package com.diamond.diamond.entities.payments;
 
 import java.util.Date;
-import java.util.UUID;
 
 import com.diamond.diamond.entities.Vendor;
 
@@ -20,7 +22,7 @@ public class PromoCode {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(nullable=false)
-    private UUID id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name="vendor_id", nullable=false)
@@ -35,11 +37,11 @@ public class PromoCode {
 
     private Date expiration;
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
