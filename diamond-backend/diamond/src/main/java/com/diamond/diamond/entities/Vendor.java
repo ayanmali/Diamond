@@ -39,6 +39,9 @@ public class Vendor {
     @Column(nullable = false)
     private String password;
 
+    @OneToMany(mappedBy="id", cascade=CascadeType.ALL)
+    private List<Customer> customers;
+
     @CreationTimestamp
     @Column(updatable = false, name = "created_at")
     private Date createdAt;
@@ -131,6 +134,14 @@ public class Vendor {
 
     public boolean isEnabled() {
         return true;
+    }
+
+    public List<Customer> getCustomers() {
+        return customers;
+    }
+
+    public void setCustomers(List<Customer> customers) {
+        this.customers = customers;
     }
 
 }

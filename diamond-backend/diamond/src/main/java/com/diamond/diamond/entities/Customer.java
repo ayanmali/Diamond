@@ -16,6 +16,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -36,6 +38,10 @@ public class Customer {
     @OneToMany(mappedBy="address", cascade=CascadeType.ALL)
     private List<CustomerWallet> wallets;
 
+    @ManyToOne
+    @JoinColumn(name="vendor_id", nullable=false)
+    private Vendor vendor;
+
     @CreationTimestamp
     @Column(name="created_at")
     private Date createdAt;
@@ -44,24 +50,28 @@ public class Customer {
     @Column(name="updated_at")
     private Date updatedAt;
 
-    @Column(name="total_spend")
-    private Double totalSpend;
+    // @Column(name="total_spend")
+    // private Double totalSpend;
 
-    @Column(name="total_payments")
-    private Integer totalPayments;
+    // @Column(name="total_payments")
+    // private Integer totalPayments;
 
-    @Column(name="last_payment_date")
-    private Date lastPaymentDate;
+    // @Column(name="last_payment_date")
+    // private Date lastPaymentDate;
 
     public Customer() {}
 
-    public Customer(String email, CustomerWallet wallet) {
+    public Customer(Vendor vendor, String name, String email, CustomerWallet wallet) {
+        this.vendor = vendor;
+        this.name = name;
         this.email = email;
         this.wallets = new ArrayList<>();
         this.wallets.add(wallet);
     }
 
-    public Customer(String email, List<CustomerWallet> wallets) {
+    public Customer(Vendor vendor, String name, String email, List<CustomerWallet> wallets) {
+        this.vendor = vendor;
+        this.name = name;
         this.email = email;
         this.wallets = wallets;
     }
@@ -118,32 +128,40 @@ public class Customer {
         this.createdAt = createdAt;
     }
 
-    public Double getTotalSpend() {
-        return totalSpend;
-    }
+    // public Double getTotalSpend() {
+    //     return totalSpend;
+    // }
 
-    public void setTotalSpend(Double totalSpend) {
-        this.totalSpend = totalSpend;
-    }
+    // public void setTotalSpend(Double totalSpend) {
+    //     this.totalSpend = totalSpend;
+    // }
 
-    public Integer getTotalPayments() {
-        return totalPayments;
-    }
+    // public Integer getTotalPayments() {
+    //     return totalPayments;
+    // }
 
-    public void setTotalPayments(Integer totalPayments) {
-        this.totalPayments = totalPayments;
-    }
+    // public void setTotalPayments(Integer totalPayments) {
+    //     this.totalPayments = totalPayments;
+    // }
 
-    public Date getLastPaymentDate() {
-        return lastPaymentDate;
-    }
+    // public Date getLastPaymentDate() {
+    //     return lastPaymentDate;
+    // }
 
-    public void setLastPaymentDate(Date lastPaymentDate) {
-        this.lastPaymentDate = lastPaymentDate;
-    }
+    // public void setLastPaymentDate(Date lastPaymentDate) {
+    //     this.lastPaymentDate = lastPaymentDate;
+    // }
 
     public Date getUpdatedAt() {
         return updatedAt;
+    }
+
+    public Vendor getVendor() {
+        return vendor;
+    }
+
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
     }
 
 }
