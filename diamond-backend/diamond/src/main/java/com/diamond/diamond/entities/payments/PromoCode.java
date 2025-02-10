@@ -32,7 +32,7 @@ public class PromoCode {
     @JoinColumn(name="payment_id", nullable=false)
     private Payment payment;
 
-    @Column(nullable=false)
+    @Column(nullable=false, unique=true)
     private String code;
 
     private Date expiration;

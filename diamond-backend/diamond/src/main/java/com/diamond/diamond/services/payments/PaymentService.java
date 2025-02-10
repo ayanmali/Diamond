@@ -5,20 +5,33 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.entities.Customer;
 import com.diamond.diamond.entities.payments.Payment;
 
+@Service
 public class PaymentService<T extends Payment> {
     private final JpaRepository<T, UUID> paymentRepository;
+    
+    //private final VendorService vendorService;
 
     public PaymentService(JpaRepository<T, UUID> paymentRepository) {
         this.paymentRepository = paymentRepository;
+        //this.vendorService = vendorService;
     }
 
-    public T savePayment(T payment) {
+    public T newPayment(T payment) {
         return paymentRepository.save(payment);
     }
+
+    /*
+     * Used by Controllers for Payment subclasses to easily
+     * initialize values that are common to all Payment objects
+     */
+    // public T initializePaymentObject(Map<String, String> map) {
+        
+    // }
 
     public Optional<T> findPaymentById(UUID id) {
         return paymentRepository.findById(id);

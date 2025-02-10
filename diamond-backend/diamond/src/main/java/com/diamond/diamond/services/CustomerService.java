@@ -21,12 +21,16 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
-    public Optional<Customer> findCustomerById(UUID id) {
-        return customerRepository.findById(id);
+    public Customer findCustomerById(String id) {
+        return customerRepository.findById(UUID.fromString(id)).orElseThrow();
     }
 
-    public Optional<Customer> findCustomerByEmail(String email) {
-        return customerRepository.findByEmail(email);
+    public Customer findCustomerById(UUID id) {
+        return customerRepository.findById(id).orElseThrow();
+    }
+
+    public Customer findCustomerByEmail(String email) {
+        return customerRepository.findByEmail(email).orElseThrow();
     }
 
     public Customer updateCustomerEmail(UUID id, String email) {

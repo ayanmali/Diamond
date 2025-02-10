@@ -53,6 +53,7 @@ public class Vendor {
         this.businessName = businessName;
         this.email = email;
         this.wallets = new ArrayList<>();
+        this.createdAt = new Date();
     }
 
     /* Implementing the interface */

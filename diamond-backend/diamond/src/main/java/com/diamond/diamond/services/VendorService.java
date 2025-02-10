@@ -1,13 +1,15 @@
 package com.diamond.diamond.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.diamond.diamond.dtos.FetchVendorDto;
-import com.diamond.diamond.dtos.RegisterUserDto;
+import com.diamond.diamond.dtos.vendor.FetchVendorDto;
+import com.diamond.diamond.dtos.vendor.RegisterUserDto;
+import com.diamond.diamond.dtos.wallets.FetchVendorWalletDto;
 import com.diamond.diamond.entities.Vendor;
 import com.diamond.diamond.entities.VendorWallet;
 import com.diamond.diamond.repositories.VendorRepository;
@@ -28,22 +30,7 @@ public class VendorService {
     // public Vendor saveUser(Vendor vendor) {
     //     return vendorRepository.save(vendor);
     // }
-    public Vendor signUp(RegisterUserDto input) {
-        Vendor user = new Vendor();
-        user.setEmail(input.getEmail());
-        user.setPassword(input.getPassword());
-        user.setBusinessName(input.getBusinessName());
-
-        // saving the newly registered user to the Users repository
-        return vendorRepository.save(user);
-    }
-
-    // public List<VendorWallet> getVendorWallets(UUID id) {
-        
-    // }
-
-    public FetchVendorDto findVendorById(UUID id) {
-        Vendor vendor = vendorRepository.findById(id).orElseThrow();
+    public FetchVendorDto convertVendorToFetchDto(Vendor vendor) {
         FetchVendorDto vendorDto = new FetchVendorDto();
         
         vendorDto.setEmail(vendor.getEmail());
@@ -51,6 +38,26 @@ public class VendorService {
         vendorDto.setId(vendor.getId());
         vendorDto.setCreatedAt(vendor.getCreatedAt());
         vendorDto.setUpdatedAt(vendor.getUpdatedAt());
+        return vendorDto;
+    }
+
+    public FetchVendorDto signUp(RegisterUserDto input) {
+        Vendor user = new Vendor();
+        user.setEmail(input.getEmail());
+        user.setPassword(input.getPassword());
+        user.setBusinessName(input.getBusinessName());
+
+        // saving the newly registered user to the Users repository
+        return convertVendorToFetchDto(vendorRepository.save(user));
+    }
+
+    // public List<VendorWallet> getVendorWallets(UUID id) {
+        
+    // }
+
+    public FetchVendorDto findVendorDtoById(String id) {
+        UUID uuidId = UUID.fromString(id);
+        return convertVendorToFetchDto(vendorRepository.findById(uuidId).orElseThrow());
         
         // if (vendor.getWallets().isEmpty()) {
         //     vendorDto.setWallets(new ArrayList<>());
@@ -58,20 +65,15 @@ public class VendorService {
         //     vendorDto.setWallets(vendor.getWallets());
         // }
 
-        return vendorDto;
     }
 
-    public FetchVendorDto findVendorByEmail(String email) {
-        Vendor vendor = vendorRepository.findByEmail(email).orElseThrow();
-        //Vendor vendor = vendorRepository.findByEmail(email);
-        FetchVendorDto vendorDto = new FetchVendorDto();
-        vendorDto.setEmail(vendor.getEmail());
-        vendorDto.setBusinessName(vendor.getBusinessName());
-        vendorDto.setId(vendor.getId());
-        vendorDto.setCreatedAt(vendor.getCreatedAt());
-        vendorDto.setUpdatedAt(vendor.getUpdatedAt());
+    public Vendor findVendorById(String id) {
+        UUID uuidId = UUID.fromString(id);
+        return vendorRepository.findById(uuidId).orElseThrow();
+    }
 
-        return vendorDto;
+    public FetchVendorDto findVendorDtoByEmail(String email) {
+        return convertVendorToFetchDto(vendorRepository.findByEmail(email).orElseThrow());
 
         // List<Vendor> vendors = vendorRepository.findByEmail(email);
         // return vendors.stream().map(vendor -> {
@@ -85,12 +87,20 @@ public class VendorService {
         // }).collect(Collectors.toList());
     }
 
+    public Vendor findVendorByEmail(String email) {
+        return vendorRepository.findByEmail(email).orElseThrow();
+    }
+
     // public List<VendorWallet> findWallets(UUID walletId) {
     //     return vendorRepository.findWallets(walletId);
     // }
-    public List<VendorWallet> findVendorWallets(UUID vendorId) {
+    public List<FetchVendorWalletDto> findVendorWallets(UUID vendorId) {
         Vendor vendor = vendorRepository.findById(vendorId).orElseThrow();
-        return vendor.getWallets();
+        List<FetchVendorWalletDto> wallets = new ArrayList<>();
+        for (VendorWallet wallet : vendor.getWallets()) {
+            wallets.add(VendorWalletService.convertVendorWalletToFetchDto(wallet));
+        }
+        return wallets;
     }
 
     public Vendor updateVendorEmail(UUID id, String email) {
@@ -103,12 +113,12 @@ public class VendorService {
         return null;
     }
 
-    public Vendor updateVendorName(UUID id, String name) {
+    public FetchVendorDto updateVendorName(UUID id, String name) {
         Optional<Vendor> optionalVendor = vendorRepository.findById(id);
         if (optionalVendor.isPresent()) {
             Vendor vendor = optionalVendor.get();
             vendor.setBusinessName(name);
-            return vendorRepository.save(vendor);
+            convertVendorToFetchDto(vendorRepository.save(vendor));
         }
         return null;
     }

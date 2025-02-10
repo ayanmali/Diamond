@@ -5,6 +5,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import com.diamond.diamond.entities.payments.Payment;
 
 import jakarta.persistence.CascadeType;
@@ -33,8 +36,13 @@ public class Customer {
     @OneToMany(mappedBy="address", cascade=CascadeType.ALL)
     private List<CustomerWallet> wallets;
 
+    @CreationTimestamp
     @Column(name="created_at")
     private Date createdAt;
+
+    @UpdateTimestamp
+    @Column(name="updated_at")
+    private Date updatedAt;
 
     @Column(name="total_spend")
     private Double totalSpend;
@@ -132,6 +140,10 @@ public class Customer {
 
     public void setLastPaymentDate(Date lastPaymentDate) {
         this.lastPaymentDate = lastPaymentDate;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
     }
 
 }

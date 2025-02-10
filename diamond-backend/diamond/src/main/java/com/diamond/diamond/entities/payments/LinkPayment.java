@@ -1,7 +1,10 @@
 package com.diamond.diamond.entities.payments;
 
-
+import java.util.Date;
 import java.util.List;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.diamond.diamond.entities.Customer;
 import com.diamond.diamond.entities.Vendor;
@@ -11,6 +14,7 @@ import com.diamond.diamond.types.StablecoinCurrency;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,6 +28,17 @@ public class LinkPayment extends Payment {
 
     @Column(name="promo_codes_enabled", nullable=false)
     private Boolean enablePromoCodes;
+
+    @OneToMany(mappedBy="code")
+    private List<PromoCode> promoCodes;
+
+    @CreationTimestamp
+    @Column(name="created_at")
+    private Date createdAt;
+
+    @UpdateTimestamp
+    @Column(name="updated_at")
+    private Date updatedAt;
 
     public LinkPayment() {}
     // This variable should be mutable for payment links
@@ -68,5 +83,29 @@ public class LinkPayment extends Payment {
 
     public void setEnablePromoCodes(Boolean enablePromoCodes) {
         this.enablePromoCodes = enablePromoCodes;
+    }
+
+    public List<PromoCode> getPromoCodes() {
+        return promoCodes;
+    }
+
+    public void addPromoCode(PromoCode promoCode) {
+        promoCodes.add(promoCode);
+    }
+
+    public void removePromoCode(PromoCode promoCode) {
+        promoCodes.remove(promoCode);
+    }
+
+    public void setPromoCodes(List<PromoCode> promoCodes) {
+        this.promoCodes = promoCodes;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
     }
 }

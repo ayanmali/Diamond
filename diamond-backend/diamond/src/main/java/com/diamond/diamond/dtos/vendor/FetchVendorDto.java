@@ -1,4 +1,4 @@
-package com.diamond.diamond.dtos;
+package com.diamond.diamond.dtos.vendor;
 
 import java.util.Date;
 import java.util.List;

@@ -10,6 +10,7 @@ import com.diamond.diamond.types.StablecoinCurrency;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -24,6 +25,9 @@ public class CheckoutPayment extends Payment {
 
     @Column(name="promo_codes_enabled", nullable=false)
     private Boolean enablePromoCodes;
+
+    @OneToMany(mappedBy="code")
+    private List<PromoCode> promoCodes;
 
     public CheckoutPayment() {}
 
@@ -61,5 +65,20 @@ public class CheckoutPayment extends Payment {
         this.enablePromoCodes = enablePromoCodes;
     }
 
+    public List<PromoCode> getPromoCodes() {
+        return promoCodes;
+    }
+
+    public void addPromoCode(PromoCode promoCode) {
+        promoCodes.add(promoCode);
+    }
+
+    public void removePromoCode(PromoCode promoCode) {
+        promoCodes.remove(promoCode);
+    }
+
+    public void setPromoCodes(List<PromoCode> promoCodes) {
+        this.promoCodes = promoCodes;
+    }
 
 }

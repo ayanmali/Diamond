@@ -4,6 +4,9 @@ package com.diamond.diamond.entities.payments;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import com.diamond.diamond.entities.Customer;
 import com.diamond.diamond.entities.Vendor;
 import com.diamond.diamond.entities.VendorWallet;
@@ -31,6 +34,14 @@ public class Invoice extends Payment {
 
     @Column(name="customer_comments")
     private String customerComments;
+
+    @CreationTimestamp
+    @Column(name="created_at")
+    private Date createdAt;
+
+    @UpdateTimestamp
+    @Column(name="updated_at")
+    private Date updatedAt;
 
     public Invoice() {}
 
@@ -76,6 +87,14 @@ public class Invoice extends Payment {
 
     public void setCustomerComments(String customerComments) {
         this.customerComments = customerComments;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
     }
 
 }

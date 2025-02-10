@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.diamond.diamond.dtos.FetchVendorDto;
-import com.diamond.diamond.dtos.RegisterUserDto;
+import com.diamond.diamond.dtos.vendor.FetchVendorDto;
+import com.diamond.diamond.dtos.vendor.RegisterUserDto;
 import com.diamond.diamond.entities.Vendor;
 import com.diamond.diamond.entities.VendorWallet;
 import com.diamond.diamond.services.VendorService;
@@ -34,13 +34,13 @@ public class VendorController {
     @GetMapping("/id/{id}")
     FetchVendorDto getVendorById(@PathVariable(value = "id") String id) {
         //return "wfqwgqg";
-        return vendorService.findVendorById(UUID.fromString(id));
+        return vendorService.findVendorDtoById(id);
         //return String.format("Testing get endpoint for id %s", id);
     }
 
     @GetMapping("/email")
     FetchVendorDto getVendorByEmail(@RequestBody Map<String, String> payload) {
-        return vendorService.findVendorByEmail(payload.get("email"));
+        return vendorService.findVendorDtoByEmail(payload.get("email"));
     }
 
     @GetMapping("/wallets")

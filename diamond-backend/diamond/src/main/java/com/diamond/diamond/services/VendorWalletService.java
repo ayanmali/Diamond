@@ -4,6 +4,9 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.diamond.diamond.dtos.wallets.FetchVendorWalletDto;
+import com.diamond.diamond.dtos.wallets.NewVendorWalletDto;
+import com.diamond.diamond.entities.Vendor;
 import com.diamond.diamond.entities.VendorWallet;
 import com.diamond.diamond.repositories.VendorWalletRepository;
 
@@ -15,16 +18,45 @@ public class VendorWalletService {
         this.vendorWalletRepository = vendorWalletRepository;
     }
 
-    public VendorWallet savePayment(VendorWallet wallet) {
-        return vendorWalletRepository.save(wallet);
+    public static FetchVendorWalletDto convertVendorWalletToFetchDto(VendorWallet vendorWallet) {
+        FetchVendorWalletDto walletDto = new FetchVendorWalletDto();
+        walletDto.setAddress(vendorWallet.getAddress());
+        walletDto.setChain(vendorWallet.getChain());
+        walletDto.setCreatedAt(vendorWallet.getCreatedAt());
+        walletDto.setId(vendorWallet.getId());
+        walletDto.setStatus(vendorWallet.getStatus());
+        walletDto.setUpdatedAt(vendorWallet.getUpdatedAt());
+        walletDto.setVendorId(vendorWallet.getVendor().getId());
+        walletDto.setWalletName(vendorWallet.getWalletName());
+        return walletDto;
     }
 
-    public Optional<VendorWallet> findWalletById(Long id) {
-        return vendorWalletRepository.findById(id);
+    public FetchVendorWalletDto saveWallet(NewVendorWalletDto wallet, Vendor vendor) {
+        VendorWallet vendorWallet = new VendorWallet(
+                                        wallet.getAddress(),
+                                        wallet.getWalletName(),
+                                        vendor,
+                                        wallet.getChain());
+        return convertVendorWalletToFetchDto(vendorWalletRepository.save(vendorWallet));
     }
 
-    public Optional<VendorWallet> findWalletByAddress(String address) {
-        return vendorWalletRepository.findByAddress(address);
+    public FetchVendorWalletDto findWalletDtoById(Long id) {
+        VendorWallet vendorWallet = vendorWalletRepository.findById(id).orElseThrow();
+        return convertVendorWalletToFetchDto(vendorWallet);
+    }
+
+    public FetchVendorWalletDto findWalletDtoByAddress(String address) {
+        return convertVendorWalletToFetchDto(vendorWalletRepository.findByAddress(address).orElseThrow());
+    }
+
+    public FetchVendorWalletDto updateWalletName(Long id, String name) {
+        Optional<VendorWallet> optionalWallet = vendorWalletRepository.findById(id);
+        if (optionalWallet.isPresent()) {
+            VendorWallet vendorWallet = optionalWallet.get();
+            vendorWallet.setName(name);
+            return convertVendorWalletToFetchDto(vendorWalletRepository.save(vendorWallet));
+        }
+        return null;
     }
 
     public void deleteWalletById(Long id) {
@@ -35,5 +67,4 @@ public class VendorWalletService {
         vendorWalletRepository.delete(wallet);
     }
 
-    
 }

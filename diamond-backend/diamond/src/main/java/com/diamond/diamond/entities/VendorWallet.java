@@ -226,7 +226,20 @@ public class VendorWallet implements Wallet {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setName(String name) {
+        this.walletName = name;
     }
+
+    public void setVendor(Vendor vendor) {
+        this.vendor = vendor;
+    }
+
+    public WalletStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(WalletStatus status) {
+        this.status = status;
+    }
+
 }
