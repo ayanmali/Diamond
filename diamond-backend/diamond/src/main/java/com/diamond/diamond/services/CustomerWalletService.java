@@ -4,6 +4,9 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.diamond.diamond.dtos.wallets.FetchCustomerWalletDto;
+import com.diamond.diamond.dtos.wallets.NewCustomerWalletDto;
+import com.diamond.diamond.entities.Customer;
 import com.diamond.diamond.entities.CustomerWallet;
 import com.diamond.diamond.repositories.CustomerWalletRepository;
 
@@ -15,7 +18,19 @@ public class CustomerWalletService {
         this.customerWalletRepository = customerWalletRepository;
     }
 
-    public CustomerWallet savePayment(CustomerWallet wallet) {
+    public FetchCustomerWalletDto convertCustomerWalletToFetchDto(CustomerWallet wallet) {
+        FetchCustomerWalletDto walletDto = new FetchCustomerWalletDto();
+        walletDto.setId(wallet.getId());
+        walletDto.setAddress(wallet.getAddress());
+        walletDto.setChain(wallet.getChain());
+        walletDto.setCustomerId(wallet.getCustomer().getId());
+        return walletDto;
+    }
+
+    public CustomerWallet saveWallet(Customer customer, NewCustomerWalletDto walletDto) {
+        CustomerWallet wallet = new CustomerWallet(walletDto.getAddress(),
+                                                   walletDto.getChain(),
+                                                   customer);
         return customerWalletRepository.save(wallet);
     }
 
