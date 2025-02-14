@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.diamond.diamond.dtos.payments.LinkPaymentRequestDto;
 import com.diamond.diamond.entities.VendorWallet;
-import com.diamond.diamond.entities.payments.LinkPayment;
+import com.diamond.diamond.entities.payments.link_payments.LinkPayment;
 import com.diamond.diamond.services.CustomerService;
 import com.diamond.diamond.services.VendorService;
 import com.diamond.diamond.services.VendorWalletService;

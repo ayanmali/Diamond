@@ -13,17 +13,18 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 
 /*
  * Used for CheckoutPayment transactions and LinkPayment Transactions
  */
 @Entity
-@Table(name="txns")
-public class PaymentTransaction {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class PaymentTransaction {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(nullable=false)
@@ -44,6 +45,15 @@ public class PaymentTransaction {
 
     @OneToMany(mappedBy="id")
     private List<PromoCode> codesApplied;
+
+    public PaymentTransaction() {}
+
+    public PaymentTransaction(Payment payment, Customer customer, Double revenue) {
+        this.payment = payment;
+        this.customer = customer;
+        this.revenue = revenue;
+        this.status = PaymentStatus.PENDING;
+    }
 
     public Payment getPayment() {
         return payment;

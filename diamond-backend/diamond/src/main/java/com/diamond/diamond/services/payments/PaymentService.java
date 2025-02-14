@@ -1,7 +1,6 @@
 package com.diamond.diamond.services.payments;
 
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -32,18 +31,19 @@ public class PaymentService<T extends Payment> {
         
     // }
 
-    public Optional<T> findPaymentById(UUID id) {
-        return paymentRepository.findById(id);
+    public T findPaymentById(UUID id) {
+        return paymentRepository.findById(id).orElseThrow();
+    }
+
+    public T findPaymentById(String id) {
+        UUID uuidId = UUID.fromString(id);
+        return this.findPaymentById(uuidId);
     }
 
     public T updatePaymentAmount(UUID id, Double amount) {
-        Optional<T> optionalPayment = paymentRepository.findById(id);
-        if (optionalPayment.isPresent()) {
-            T payment = optionalPayment.get();
-            payment.setAmount(amount);
-            return paymentRepository.save(payment);
-        }
-        return null;
+        T payment = paymentRepository.findById(id).orElseThrow();
+        payment.setAmount(amount);
+        return paymentRepository.save(payment);
     }
     
     // public T updateCustomer(UUID id, Customer customer) {
@@ -58,6 +58,11 @@ public class PaymentService<T extends Payment> {
 
     public void deletePaymentById(UUID id) {
         paymentRepository.deleteById(id);
+    }
+
+    public void deletePaymentById(String id) {
+        UUID uuidId = UUID.fromString(id);
+        this.deletePaymentById(uuidId);
     }
 
     public void deletePayment(T payment) {

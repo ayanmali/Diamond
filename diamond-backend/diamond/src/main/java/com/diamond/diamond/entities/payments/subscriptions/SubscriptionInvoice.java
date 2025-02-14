@@ -29,7 +29,7 @@ public class SubscriptionInvoice extends Invoice {
 
     public SubscriptionInvoice(Double amount, Vendor vendor, Customer customer, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets, String vendorComments) {
         super(amount, vendor, customer, currency, chain, vendorWallets, vendorComments);
-        this.billingBasis = 30L;
+        this.billingBasis = 30L; // defaults to 30 day subscription
         this.status = SubscriptionStatus.PAUSED;
     }
 
