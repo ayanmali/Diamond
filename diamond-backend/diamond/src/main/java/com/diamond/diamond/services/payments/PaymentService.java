@@ -1,35 +1,27 @@
 package com.diamond.diamond.services.payments;
 
 
+import java.util.List;
 import java.util.UUID;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
+import com.diamond.diamond.entities.VendorWallet;
 import com.diamond.diamond.entities.payments.Payment;
+import com.diamond.diamond.repositories.payments.PaymentRepository;
+import com.diamond.diamond.types.StablecoinCurrency;
 
 @Service
 public class PaymentService<T extends Payment> {
-    private final JpaRepository<T, UUID> paymentRepository;
+    protected final PaymentRepository<T> paymentRepository;
     
-    //private final VendorService vendorService;
-
-    public PaymentService(JpaRepository<T, UUID> paymentRepository) {
+    public PaymentService(PaymentRepository<T> paymentRepository) {
         this.paymentRepository = paymentRepository;
-        //this.vendorService = vendorService;
     }
 
     public T newPayment(T payment) {
         return paymentRepository.save(payment);
     }
-
-    /*
-     * Used by Controllers for Payment subclasses to easily
-     * initialize values that are common to all Payment objects
-     */
-    // public T initializePaymentObject(Map<String, String> map) {
-        
-    // }
 
     public T findPaymentById(UUID id) {
         return paymentRepository.findById(id).orElseThrow();
@@ -40,9 +32,21 @@ public class PaymentService<T extends Payment> {
         return this.findPaymentById(uuidId);
     }
 
-    public T updatePaymentAmount(UUID id, Double amount) {
+    public T updateAmount(UUID id, Double amount) {
         T payment = paymentRepository.findById(id).orElseThrow();
         payment.setAmount(amount);
+        return paymentRepository.save(payment);
+    }
+
+    public T updateCurrency(UUID id, StablecoinCurrency currency) {
+        T payment = paymentRepository.findById(id).orElseThrow();
+        payment.setCurrency(currency);
+        return paymentRepository.save(payment);
+    }
+
+    public T updateWalletDistribution(UUID id, List<VendorWallet> wallets) {
+        T payment = paymentRepository.findById(id).orElseThrow();
+        payment.setWalletDistribution(wallets);
         return paymentRepository.save(payment);
     }
     

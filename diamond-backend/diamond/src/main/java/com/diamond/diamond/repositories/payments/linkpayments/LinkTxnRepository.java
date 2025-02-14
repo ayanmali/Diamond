@@ -1,13 +1,14 @@
 package com.diamond.diamond.repositories.payments.linkpayments;
 
-import java.util.UUID;
+import java.util.Optional;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.diamond.diamond.entities.payments.link_payments.LinkPaymentTransaction;
+import com.diamond.diamond.repositories.payments.PaymentTxnRepository;
 
 @Repository
-public interface LinkTxnRepository extends JpaRepository<LinkPaymentTransaction, UUID> {
-    
+public interface LinkTxnRepository extends PaymentTxnRepository<LinkPaymentTransaction> {
+    @Override
+    Optional<LinkPaymentTransaction> findByTxHash(String txHash);
 }

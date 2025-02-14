@@ -2,7 +2,6 @@ package com.diamond.diamond.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -103,28 +102,25 @@ public class VendorService {
         return wallets;
     }
 
-    public Vendor updateVendorEmail(UUID id, String email) {
-        Optional<Vendor> optionalVendor = vendorRepository.findById(id);
-        if (optionalVendor.isPresent()) {
-            Vendor vendor = optionalVendor.get();
-            vendor.setEmail(email);
-            return vendorRepository.save(vendor);
-        }
-        return null;
+    public FetchVendorDto updateVendorEmail(UUID id, String email) {
+        Vendor vendor = vendorRepository.findById(id).orElseThrow();
+        vendor.setEmail(email);
+        return convertVendorToFetchDto(vendorRepository.save(vendor));
     }
 
     public FetchVendorDto updateVendorName(UUID id, String name) {
-        Optional<Vendor> optionalVendor = vendorRepository.findById(id);
-        if (optionalVendor.isPresent()) {
-            Vendor vendor = optionalVendor.get();
-            vendor.setBusinessName(name);
-            convertVendorToFetchDto(vendorRepository.save(vendor));
-        }
-        return null;
+        Vendor vendor = vendorRepository.findById(id).orElseThrow();
+        vendor.setBusinessName(name);
+        return convertVendorToFetchDto(vendorRepository.save(vendor));
     }
 
     public void deleteVendorById(UUID id) {
         vendorRepository.deleteById(id);
+    }
+
+    public void deleteVendorById(String id) {
+        UUID uuidId = UUID.fromString(id);
+        deleteVendorById(uuidId);
     }
 
     public void deleteVendor(Vendor vendor) {

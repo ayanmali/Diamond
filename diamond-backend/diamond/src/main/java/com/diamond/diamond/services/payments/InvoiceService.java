@@ -1,7 +1,11 @@
 package com.diamond.diamond.services.payments;
 
+import java.util.Date;
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 
+import com.diamond.diamond.entities.Customer;
 import com.diamond.diamond.entities.payments.Invoice;
 import com.diamond.diamond.repositories.payments.InvoiceRepository;
 
@@ -10,6 +14,24 @@ public class InvoiceService extends PaymentService<Invoice> {
 
     public InvoiceService(InvoiceRepository invoiceRepository) {
         super(invoiceRepository);
+    }
+
+    public Invoice updateCustomer(UUID id, Customer customer) {
+        Invoice invoice = this.paymentRepository.findById(id).orElseThrow();
+        invoice.setCustomer(customer);
+        return this.paymentRepository.save(invoice);
+    }
+
+    // public Invoice updateTimeSent(UUID id, Date timeSent) {
+    //     Invoice invoice = this.paymentRepository.findById(id).orElseThrow();
+    //     invoice.setTimeSent(timeSent);
+    //     return this.paymentRepository.save(invoice);
+    // }
+
+    public Invoice updateTimePaid(UUID id, Date timePaid) {
+        Invoice invoice = this.paymentRepository.findById(id).orElseThrow();
+        invoice.setTimePaid(timePaid);
+        return this.paymentRepository.save(invoice);
     }
 
     // public Invoice saveInvoice(Invoice invoice) {

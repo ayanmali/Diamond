@@ -1,7 +1,7 @@
 /*
  * To be used when requesting to create a new Payment
  */
-package com.diamond.diamond.dtos.payments;
+package com.diamond.diamond.dtos.payments.new_payments;
 
 import java.util.List;
 import java.util.UUID;
@@ -9,12 +9,11 @@ import java.util.UUID;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.StablecoinCurrency;
 
-public class PaymentRequestDto {
+public abstract class NewPaymentDto {
 
     private UUID id;
     private Double amount;
     private String vendorId;
-    private String customerId;
     private StablecoinCurrency currency;
     private Blockchain chain;
     private List<Long> vendorWalletIds;
@@ -36,12 +35,6 @@ public class PaymentRequestDto {
     }
     public void setVendorId(String vendorId) {
         this.vendorId = vendorId;
-    }
-    public String getCustomerId() {
-        return customerId;
-    }
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
     }
     public StablecoinCurrency getCurrency() {
         return currency;

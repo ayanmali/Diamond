@@ -32,12 +32,20 @@ public class CustomerWalletService {
         return convertCustomerWalletToFetchDto(customerWalletRepository.save(wallet));
     }
 
-    public FetchCustomerWalletDto findWalletById(Long id) {
+    public FetchCustomerWalletDto findWalletDtoById(Long id) {
         return convertCustomerWalletToFetchDto(customerWalletRepository.findById(id).orElseThrow());
     }
 
-    public FetchCustomerWalletDto findWalletByAddress(String address) {
+    public CustomerWallet findWalletById(Long id) {
+        return customerWalletRepository.findById(id).orElseThrow();
+    }
+
+    public FetchCustomerWalletDto findWalletDtoByAddress(String address) {
         return convertCustomerWalletToFetchDto(customerWalletRepository.findByAddress(address).orElseThrow());
+    }
+
+    public CustomerWallet findWalletByAddress(String address) {
+        return customerWalletRepository.findByAddress(address).orElseThrow();
     }
 
     public void deleteWalletById(Long id) {

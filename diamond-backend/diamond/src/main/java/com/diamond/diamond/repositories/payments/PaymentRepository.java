@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.diamond.diamond.entities.payments.Payment;
 
 @Repository
-public interface PaymentRepository extends JpaRepository<Payment, UUID>{
+public interface PaymentRepository<T extends Payment> extends JpaRepository<T, UUID>{
     
 }

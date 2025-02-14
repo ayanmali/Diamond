@@ -1,6 +1,5 @@
 package com.diamond.diamond.services;
 
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -32,14 +31,14 @@ public class CustomerService {
         return customerDto;
     }
 
-    public Customer saveCustomer(NewCustomerDto newCustomer, Vendor vendor) {
+    public FetchCustomerDto saveCustomer(NewCustomerDto newCustomer, Vendor vendor) {
         Customer customer = new Customer(vendor,
                                          newCustomer.getName(),
                                          newCustomer.getEmail(),
                                          newCustomer.getWallets() 
                                         );
         
-        return customerRepository.save(customer);
+        return convertCustomerToFetchDto(customerRepository.save(customer));
     }
 
     public Customer findCustomerById(String id) {
@@ -59,31 +58,28 @@ public class CustomerService {
     }
 
     public FetchCustomerDto updateCustomerEmail(UUID id, String email) {
-        Optional<Customer> optionalCustomer = customerRepository.findById(id);
-        if (optionalCustomer.isPresent()) {
-            Customer customer = optionalCustomer.get();
-            // Modify the entity's properties
-            customer.setEmail(email);
-            // Save the updated entity
-            return convertCustomerToFetchDto(customerRepository.save(customer));
-        }
-        return null;
+        Customer customer = customerRepository.findById(id).orElseThrow();
+        // Modify the entity's properties
+        customer.setEmail(email);
+        // Save the updated entity
+        return convertCustomerToFetchDto(customerRepository.save(customer));
     }
 
     public FetchCustomerDto updateCustomerName(UUID id, String name) {
-        Optional<Customer> optionalCustomer = customerRepository.findById(id);
-        if (optionalCustomer.isPresent()) {
-            Customer customer = optionalCustomer.get();
-            // Modify the entity's properties
-            customer.setName(name);
-            // Save the updated entity
-            return convertCustomerToFetchDto(customerRepository.save(customer));
-        }
-        return null;
+        Customer customer = customerRepository.findById(id).orElseThrow();
+        // Modify the entity's properties
+        customer.setName(name);
+        // Save the updated entity
+        return convertCustomerToFetchDto(customerRepository.save(customer));
     }
 
     public void deleteCustomerById(UUID id) {
         customerRepository.deleteById(id);
+    }
+
+    public void deleteCustomerById(String id) {
+        UUID uuidId = UUID.fromString(id);
+        deleteCustomerById(uuidId);
     }
 
     public void deleteCustomer(Customer customer) {

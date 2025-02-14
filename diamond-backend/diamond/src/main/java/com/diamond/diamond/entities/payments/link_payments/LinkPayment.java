@@ -32,7 +32,7 @@ public class LinkPayment extends Payment {
     private Boolean enablePromoCodes;
 
     @OneToMany(mappedBy="id")
-    private List<PromoCode> promoCodes;
+    private List<PromoCode> validPromoCodes;
 
     @CreationTimestamp
     @Column(name="created_at")
@@ -88,19 +88,19 @@ public class LinkPayment extends Payment {
     }
 
     public List<PromoCode> getPromoCodes() {
-        return promoCodes;
+        return validPromoCodes;
     }
 
     public void addPromoCode(PromoCode promoCode) {
-        promoCodes.add(promoCode);
+        validPromoCodes.add(promoCode);
     }
 
     public void removePromoCode(PromoCode promoCode) {
-        promoCodes.remove(promoCode);
+        validPromoCodes.remove(promoCode);
     }
 
     public void setPromoCodes(List<PromoCode> promoCodes) {
-        this.promoCodes = promoCodes;
+        this.validPromoCodes = promoCodes;
     }
 
     public Date getCreatedAt() {
@@ -110,4 +110,5 @@ public class LinkPayment extends Payment {
     public Date getUpdatedAt() {
         return updatedAt;
     }
+
 }

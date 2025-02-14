@@ -30,7 +30,7 @@ import jakarta.persistence.OneToMany;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
- public abstract class Payment {
+ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable=false)
@@ -61,18 +61,6 @@ import jakarta.persistence.OneToMany;
     // @Enumerated(EnumType.STRING)
     // @Column(nullable=false)
     // private PaymentStatus status;
-
-    /*
-     * Hash for signing/approving the transaction in the user's wallet
-     */
-    @Column(name="sign_hash", unique=true)
-    private String signHash;
-
-    /*
-     * Hash for the token transfer
-     */
-    @Column(name="tx_hash", unique=true)
-    private String txHash;
 
     // used to define how payments are allocated between the vendor's wallets, if desired
     //private PaymentDistributor distributor;
@@ -170,6 +158,10 @@ import jakarta.persistence.OneToMany;
         return currency;
     }
 
+    public void setCurrency(StablecoinCurrency currency) {
+        this.currency = currency;
+    }
+
     // public PaymentDistributor getDistributor() {
     //     return distributor;
     // }
@@ -192,22 +184,6 @@ import jakarta.persistence.OneToMany;
 
     public UUID getId() {
         return id;
-    }
-
-    public String getSignHash() {
-        return signHash;
-    }
-
-    public void setSignHash(String signHash) {
-        this.signHash = signHash;
-    }
-
-    public String getTxHash() {
-        return txHash;
-    }
-
-    public void setTxHash(String txHash) {
-        this.txHash = txHash;
     }
 
     public List<VendorWallet> getWalletDistribution() {

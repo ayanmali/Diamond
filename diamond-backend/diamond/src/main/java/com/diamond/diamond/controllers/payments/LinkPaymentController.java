@@ -14,7 +14,8 @@ import com.diamond.diamond.entities.payments.link_payments.LinkPayment;
 import com.diamond.diamond.services.CustomerService;
 import com.diamond.diamond.services.VendorService;
 import com.diamond.diamond.services.VendorWalletService;
-import com.diamond.diamond.services.payments.LinkPaymentService;
+import com.diamond.diamond.services.payments.linkpayments.LinkPaymentService;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 

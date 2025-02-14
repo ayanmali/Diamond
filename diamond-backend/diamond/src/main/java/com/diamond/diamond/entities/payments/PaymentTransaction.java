@@ -40,6 +40,18 @@ public abstract class PaymentTransaction {
     @Column(name="revenue")
     private Double revenue;
 
+    /*
+     * Hash for signing/approving the transaction in the user's wallet
+     */
+    @Column(name="sign_hash", unique=true)
+    private String signHash;
+
+    /*
+     * Hash for the token transfer
+     */
+    @Column(name="tx_hash", unique=true)
+    private String txHash;
+
     @Enumerated(EnumType.STRING)
     private PaymentStatus status;
 
@@ -92,6 +104,22 @@ public abstract class PaymentTransaction {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public String getSignHash() {
+        return signHash;
+    }
+
+    public void setSignHash(String signHash) {
+        this.signHash = signHash;
+    }
+
+    public String getTxHash() {
+        return txHash;
+    }
+
+    public void setTxHash(String txHash) {
+        this.txHash = txHash;
     }
 
 }

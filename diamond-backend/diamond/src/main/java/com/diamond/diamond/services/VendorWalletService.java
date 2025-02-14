@@ -1,7 +1,5 @@
 package com.diamond.diamond.services;
 
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.wallets.FetchVendorWalletDto;
@@ -41,22 +39,25 @@ public class VendorWalletService {
     }
 
     public FetchVendorWalletDto findWalletDtoById(Long id) {
-        VendorWallet vendorWallet = vendorWalletRepository.findById(id).orElseThrow();
-        return convertVendorWalletToFetchDto(vendorWallet);
+        return convertVendorWalletToFetchDto(vendorWalletRepository.findById(id).orElseThrow());
+    }
+
+    public VendorWallet findWalletById(Long id) {
+        return vendorWalletRepository.findById(id).orElseThrow();
     }
 
     public FetchVendorWalletDto findWalletDtoByAddress(String address) {
         return convertVendorWalletToFetchDto(vendorWalletRepository.findByAddress(address).orElseThrow());
     }
 
+    public VendorWallet findWalletByAddress(String address) {
+        return vendorWalletRepository.findByAddress(address).orElseThrow();
+    }
+
     public FetchVendorWalletDto updateWalletName(Long id, String name) {
-        Optional<VendorWallet> optionalWallet = vendorWalletRepository.findById(id);
-        if (optionalWallet.isPresent()) {
-            VendorWallet vendorWallet = optionalWallet.get();
-            vendorWallet.setName(name);
-            return convertVendorWalletToFetchDto(vendorWalletRepository.save(vendorWallet));
-        }
-        return null;
+        VendorWallet vendorWallet = vendorWalletRepository.findById(id).orElseThrow();
+        vendorWallet.setName(name);
+        return convertVendorWalletToFetchDto(vendorWalletRepository.save(vendorWallet));
     }
 
     public void deleteWalletById(Long id) {
