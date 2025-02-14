@@ -1,64 +1,54 @@
-package com.diamond.diamond.entities.payments;
+package com.diamond.diamond.entities.payments.checkouts;
 
-import java.util.Date;
 import java.util.List;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import com.diamond.diamond.entities.Customer;
 import com.diamond.diamond.entities.Vendor;
 import com.diamond.diamond.entities.VendorWallet;
+import com.diamond.diamond.entities.payments.Payment;
+import com.diamond.diamond.entities.payments.PromoCode;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.StablecoinCurrency;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
+/*
+ * Defines the fields and attributes of a checkout payment that a vendor can create
+ */
 @Entity
-@Table(name="link_payments")
-public class LinkPayment extends Payment {
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS) // for the subscription checkout payment subclass
+@Table(name="checkout_payments")
+public class CheckoutPayment extends Payment {
+
     @Column(name="has_max_num_of_payments", nullable=false)
     private Boolean hasMaxNumberOfPayments;
-    
+
     @Column(name="max_num_of_payments")
     private Integer maxNumberOfPayments;
 
     @Column(name="promo_codes_enabled", nullable=false)
     private Boolean enablePromoCodes;
 
-    @OneToMany(mappedBy="code")
-    private List<PromoCode> promoCodes;
+    @OneToMany(mappedBy="id")
+    private List<PromoCode> validPromoCodes;
 
-    @CreationTimestamp
-    @Column(name="created_at")
-    private Date createdAt;
+    // @OneToMany(mappedBy="code")
+    // private List<PromoCode> codesApplied;
 
-    @UpdateTimestamp
-    @Column(name="updated_at")
-    private Date updatedAt;
+    public CheckoutPayment() {}
 
-    public LinkPayment() {}
-    // This variable should be mutable for payment links
-    public LinkPayment(Double amount, Vendor vendor, Customer customer, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets) {
-        super(amount, vendor, customer, currency, chain, vendorWallets);
-        // this.amount = amount;
+    public CheckoutPayment(Double amount, Vendor vendor, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets) {
+        super(amount, vendor, currency, chain, vendorWallets);
     }
-
+    
     // @Override
     // public PaymentStatus validatePayment() {
     //     // TODO Auto-generated method stub
     //     throw new UnsupportedOperationException("Unimplemented method 'validatePayment'");
-    // }
-
-    // @Override
-    // public double getAmount() {
-    //     return amount;
-    // }
-    // public void setAmount(double amount) {
-    //     this.amount = amount;
     // }
 
     public Boolean getHasMaxNumberOfPayments() {
@@ -86,26 +76,19 @@ public class LinkPayment extends Payment {
     }
 
     public List<PromoCode> getPromoCodes() {
-        return promoCodes;
+        return validPromoCodes;
     }
 
     public void addPromoCode(PromoCode promoCode) {
-        promoCodes.add(promoCode);
+        validPromoCodes.add(promoCode);
     }
 
     public void removePromoCode(PromoCode promoCode) {
-        promoCodes.remove(promoCode);
+        validPromoCodes.remove(promoCode);
     }
 
     public void setPromoCodes(List<PromoCode> promoCodes) {
-        this.promoCodes = promoCodes;
+        this.validPromoCodes = promoCodes;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
 }

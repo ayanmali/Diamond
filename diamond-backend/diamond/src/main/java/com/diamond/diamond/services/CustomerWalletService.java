@@ -1,7 +1,5 @@
 package com.diamond.diamond.services;
 
-import java.util.Optional;
-
 import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.wallets.FetchCustomerWalletDto;
@@ -27,19 +25,19 @@ public class CustomerWalletService {
         return walletDto;
     }
 
-    public CustomerWallet saveWallet(Customer customer, NewCustomerWalletDto walletDto) {
+    public FetchCustomerWalletDto saveWallet(Customer customer, NewCustomerWalletDto walletDto) {
         CustomerWallet wallet = new CustomerWallet(walletDto.getAddress(),
                                                    walletDto.getChain(),
                                                    customer);
-        return customerWalletRepository.save(wallet);
+        return convertCustomerWalletToFetchDto(customerWalletRepository.save(wallet));
     }
 
-    public Optional<CustomerWallet> findWalletById(Long id) {
-        return customerWalletRepository.findById(id);
+    public FetchCustomerWalletDto findWalletById(Long id) {
+        return convertCustomerWalletToFetchDto(customerWalletRepository.findById(id).orElseThrow());
     }
 
-    public Optional<CustomerWallet> findWalletByAddress(String address) {
-        return customerWalletRepository.findByAddress(address);
+    public FetchCustomerWalletDto findWalletByAddress(String address) {
+        return convertCustomerWalletToFetchDto(customerWalletRepository.findByAddress(address).orElseThrow());
     }
 
     public void deleteWalletById(Long id) {

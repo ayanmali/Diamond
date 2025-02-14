@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import com.diamond.diamond.entities.Customer;
 import com.diamond.diamond.entities.Vendor;
 import com.diamond.diamond.entities.VendorWallet;
 import com.diamond.diamond.types.Blockchain;
@@ -27,7 +26,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 /*
- * Used to define the generic attributes and methods across all types of payments.
+ * Used to define the generic attributes and methods across the structures (not records) of all types of payments.
  */
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -45,9 +44,10 @@ import jakarta.persistence.OneToMany;
     @JoinColumn(name="vendor_id", nullable=false)
     private Vendor vendor;
 
-    @ManyToOne
-    @JoinColumn(name="customer_id", nullable=false)
-    private Customer customer;
+    // remove
+    // @ManyToOne
+    // @JoinColumn(name="customer_id", nullable=false)
+    // private Customer customer;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable=false)
@@ -57,9 +57,10 @@ import jakarta.persistence.OneToMany;
     @Column(nullable=false)
     private Blockchain chain;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable=false)
-    private PaymentStatus status;
+    // remove
+    // @Enumerated(EnumType.STRING)
+    // @Column(nullable=false)
+    // private PaymentStatus status;
 
     /*
      * Hash for signing/approving the transaction in the user's wallet
@@ -102,25 +103,21 @@ import jakarta.persistence.OneToMany;
     /*
      * Constructor method that uses a provided Map to route payments to multiple wallets
      */
-    public Payment(Double amount, Vendor vendor, Customer customer, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets/*, PaymentDistributor distributor*/) /*throws Exception*/ {
+    public Payment(Double amount, Vendor vendor, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets/*, PaymentDistributor distributor*/) /*throws Exception*/ {
         this.amount = amount;
         this.vendor = vendor;
-        this.customer = customer;
         this.currency = currency;
         this.chain = chain;
-        this.status = PaymentStatus.PENDING;
         this.walletDistribution = vendorWallets;
         // this.distributor = distributor;
         // this.distributor = new PaymentDistributor(vendor, mappings, "");
     }
 
-    public Payment(Double amount, Vendor vendor, Customer customer, StablecoinCurrency currency, Blockchain chain, VendorWallet vendorWallet/*, PaymentDistributor distributor*/) /*throws Exception*/ {
+    public Payment(Double amount, Vendor vendor, StablecoinCurrency currency, Blockchain chain, VendorWallet vendorWallet/*, PaymentDistributor distributor*/) /*throws Exception*/ {
         this.amount = amount;
         this.vendor = vendor;
-        this.customer = customer;
         this.currency = currency;
         this.chain = chain;
-        this.status = PaymentStatus.PENDING;
         this.walletDistribution = new ArrayList<>(Arrays.asList(vendorWallet));
         // this.distributor = distributor;
         // this.distributor = new PaymentDistributor(vendor, mappings, "");
@@ -169,24 +166,8 @@ import jakarta.persistence.OneToMany;
         return vendor;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
     public StablecoinCurrency getStablecoinCurrency() {
         return currency;
-    }
-
-    public PaymentStatus getPaymentStatus() {
-        return status;
-    }
-
-    public void setPaymentStatus(PaymentStatus paymentStatus) {
-        this.status = paymentStatus;
     }
 
     // public PaymentDistributor getDistributor() {

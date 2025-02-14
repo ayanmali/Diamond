@@ -8,8 +8,6 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.diamond.diamond.entities.payments.Payment;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -74,13 +72,6 @@ public class Customer {
         this.name = name;
         this.email = email;
         this.wallets = wallets;
-    }
-
-    /*
-     * Allows customers to send crypto from their wallet to the vendor's to complete a payment
-     */
-    public void pay(Payment payment) {
-        payment.setCustomer(this);
     }
 
     public String getEmail() {

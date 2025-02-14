@@ -1,10 +1,15 @@
-package com.diamond.diamond.entities.payments;
+package com.diamond.diamond.entities.payments.link_payments;
 
+import java.util.Date;
 import java.util.List;
 
-import com.diamond.diamond.entities.Customer;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import com.diamond.diamond.entities.Vendor;
 import com.diamond.diamond.entities.VendorWallet;
+import com.diamond.diamond.entities.payments.Payment;
+import com.diamond.diamond.entities.payments.PromoCode;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.StablecoinCurrency;
 
@@ -14,31 +19,48 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="checkout_payments")
-public class CheckoutPayment extends Payment {
+@Table(name="link_payments")
+public class LinkPayment extends Payment {
 
     @Column(name="has_max_num_of_payments", nullable=false)
     private Boolean hasMaxNumberOfPayments;
-
+    
     @Column(name="max_num_of_payments")
     private Integer maxNumberOfPayments;
 
     @Column(name="promo_codes_enabled", nullable=false)
     private Boolean enablePromoCodes;
 
-    @OneToMany(mappedBy="code")
+    @OneToMany(mappedBy="id")
     private List<PromoCode> promoCodes;
 
-    public CheckoutPayment() {}
+    @CreationTimestamp
+    @Column(name="created_at")
+    private Date createdAt;
 
-    public CheckoutPayment(Double amount, Vendor vendor, Customer customer, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets) throws Exception {
-        super(amount, vendor, customer, currency, chain, vendorWallets);
+    @UpdateTimestamp
+    @Column(name="updated_at")
+    private Date updatedAt;
+
+    public LinkPayment() {}
+    // This variable should be mutable for payment links
+    public LinkPayment(Double amount, Vendor vendor, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets) {
+        super(amount, vendor, currency, chain, vendorWallets);
+        // this.amount = amount;
     }
-    
+
     // @Override
     // public PaymentStatus validatePayment() {
     //     // TODO Auto-generated method stub
     //     throw new UnsupportedOperationException("Unimplemented method 'validatePayment'");
+    // }
+
+    // @Override
+    // public double getAmount() {
+    //     return amount;
+    // }
+    // public void setAmount(double amount) {
+    //     this.amount = amount;
     // }
 
     public Boolean getHasMaxNumberOfPayments() {
@@ -81,4 +103,11 @@ public class CheckoutPayment extends Payment {
         this.promoCodes = promoCodes;
     }
 
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
 }

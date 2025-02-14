@@ -5,9 +5,9 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.diamond.diamond.entities.payments.LinkPayment;
+import com.diamond.diamond.entities.payments.PaymentTransaction;
 
 @Repository
-public interface LinkPaymentRepository extends JpaRepository<LinkPayment, UUID>{
+public interface PaymentTransactionRepository extends JpaRepository<PaymentTransaction, UUID> {
     
 }

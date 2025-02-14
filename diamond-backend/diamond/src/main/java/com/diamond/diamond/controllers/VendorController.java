@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.diamond.diamond.dtos.vendor.FetchVendorDto;
 import com.diamond.diamond.dtos.vendor.RegisterUserDto;
+import com.diamond.diamond.dtos.wallets.FetchVendorWalletDto;
 import com.diamond.diamond.entities.Vendor;
-import com.diamond.diamond.entities.VendorWallet;
 import com.diamond.diamond.services.VendorService;
 
 @RestController
@@ -27,7 +27,7 @@ public class VendorController {
     }
 
     @PostMapping("/signup")
-    Vendor signup(@RequestBody RegisterUserDto registerUserDto) {
+    FetchVendorDto signup(@RequestBody RegisterUserDto registerUserDto) {
         return vendorService.signUp(registerUserDto);
     }
     
@@ -44,7 +44,7 @@ public class VendorController {
     }
 
     @GetMapping("/wallets")
-    List<VendorWallet> getWallets(@RequestBody Map<String, String> payload) {
+    List<FetchVendorWalletDto> getWallets(@RequestBody Map<String, String> payload) {
         return vendorService.findVendorWallets(UUID.fromString(payload.get("id")));
     }
     
@@ -56,7 +56,7 @@ public class VendorController {
     }
 
     @PostMapping("/update-name")
-    Vendor updateBusinessName(@RequestBody Map<String, String> payload) {
+    FetchVendorDto updateBusinessName(@RequestBody Map<String, String> payload) {
         //TODO: process POST request
         
         return vendorService.updateVendorName(UUID.fromString(payload.get("id")), payload.get("name"));

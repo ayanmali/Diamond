@@ -2,7 +2,7 @@ package com.diamond.diamond.services.payments;
 
 import org.springframework.stereotype.Service;
 
-import com.diamond.diamond.entities.payments.CheckoutPayment;
+import com.diamond.diamond.entities.payments.checkouts.CheckoutPayment;
 import com.diamond.diamond.repositories.payments.CheckoutRepository;
 
 @Service

@@ -1,6 +1,5 @@
 package com.diamond.diamond.entities.payments;
 
-
 import java.util.Date;
 import java.util.List;
 
@@ -15,11 +14,24 @@ import com.diamond.diamond.types.StablecoinCurrency;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+/*
+ * This class defines the structure of as well as records of invoices
+ */
 @Entity
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS) // for the subscription invoice subclass
 @Table(name="invoices")
 public class Invoice extends Payment {
+
+    @ManyToOne
+    @JoinColumn(name="id")
+    private Customer customer;
+
     @Column(name="time_sent")
     private Date timeSent;
 
@@ -45,8 +57,9 @@ public class Invoice extends Payment {
 
     public Invoice() {}
 
-    public Invoice(Double amount, Vendor vendor, Customer customer, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets, String vendorComments) throws Exception {
-        super(amount, vendor, customer, currency, chain, vendorWallets);
+    public Invoice(Double amount, Vendor vendor, Customer customer, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets, String vendorComments) {
+        super(amount, vendor, currency, chain, vendorWallets);
+        this.customer = customer;
         this.timeSent = new Date();
         this.vendorComments = vendorComments;
     }
@@ -95,6 +108,14 @@ public class Invoice extends Payment {
 
     public Date getUpdatedAt() {
         return updatedAt;
+    }
+
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
 }

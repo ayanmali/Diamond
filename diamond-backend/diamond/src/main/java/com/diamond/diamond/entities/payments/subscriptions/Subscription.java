@@ -1,13 +1,8 @@
 package com.diamond.diamond.entities.payments.subscriptions;
-// package com.diamond.diamond.payments.subscriptions;
+// // package com.diamond.diamond.payments.subscriptions;
 
-// import com.diamond.diamond.payments.BillingCustomer;
-// import com.diamond.diamond.payments.Payment;
-// import com.diamond.diamond.payments.walletdistribution.PaymentDistributor;
-// import com.diamond.diamond.transactions.Blockchain;
-// import com.diamond.diamond.transactions.PaymentStatus;
-// import com.diamond.diamond.transactions.StablecoinCurrency;
-// import com.diamond.diamond.transactions.Vendor;
+// import com.diamond.diamond.entities.payments.Payment;
+// import com.diamond.diamond.types.PaymentStatus;
 
 // public class Subscription extends Payment {
 

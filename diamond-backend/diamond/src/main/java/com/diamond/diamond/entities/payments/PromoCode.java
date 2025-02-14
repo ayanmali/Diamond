@@ -37,6 +37,18 @@ public class PromoCode {
 
     private Date expiration;
 
+    @Column(nullable=false)
+    private Double discount;
+
+    public PromoCode() {}
+
+    public PromoCode(Vendor vendor, Payment payment, String code, Double discount) {
+        this.vendor = vendor;
+        this.payment = payment;
+        this.code = code;
+        this.discount = discount;
+    }
+
     public Long getId() {
         return id;
     }
@@ -75,5 +87,13 @@ public class PromoCode {
 
     public void setExpiration(Date expiration) {
         this.expiration = expiration;
+    }
+
+    public Double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Double discount) {
+        this.discount = discount;
     }
 }
