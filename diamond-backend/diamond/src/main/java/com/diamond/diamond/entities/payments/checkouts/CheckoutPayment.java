@@ -75,7 +75,7 @@ public class CheckoutPayment extends Payment {
         this.enablePromoCodes = enablePromoCodes;
     }
 
-    public List<PromoCode> getPromoCodes() {
+    public List<PromoCode> getValidPromoCodes() {
         return validPromoCodes;
     }
 

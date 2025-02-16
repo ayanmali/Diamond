@@ -1,10 +1,13 @@
 package com.diamond.diamond.services.payments.linkpayments;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.diamond.diamond.dtos.payments.fetch_payments.FetchLinkPaymentDto;
+import com.diamond.diamond.entities.payments.Payment;
 import com.diamond.diamond.entities.payments.PromoCode;
 import com.diamond.diamond.entities.payments.link_payments.LinkPayment;
 import com.diamond.diamond.repositories.payments.linkpayments.LinkPaymentRepository;
@@ -17,6 +20,26 @@ public class LinkPaymentService extends PaymentService<LinkPayment> {
     public LinkPaymentService(LinkPaymentRepository linkPaymentRepository) {
         super(linkPaymentRepository);
         //this.linkPaymentRepository = linkPaymentRepository;
+    }
+
+    @Override
+    public FetchLinkPaymentDto convertPaymentToFetchDto(Payment payment) {
+        // TODO Auto-generated method stub
+        LinkPayment linkPayment = (LinkPayment) payment;
+        FetchLinkPaymentDto linkPaymentDto = (FetchLinkPaymentDto) super.convertPaymentToFetchDto(linkPayment);
+
+        linkPaymentDto.setHasMaxNumberOfPayments(linkPayment.getHasMaxNumberOfPayments());
+        linkPaymentDto.setMaxNumberOfPayments(linkPayment.getMaxNumberOfPayments());
+        linkPaymentDto.setEnablePromoCodes(linkPayment.getEnablePromoCodes());
+        
+        // Getting the IDs of the valid promo codes for this payment
+        List<Long> promoCodeIds = new ArrayList<>();
+        for (PromoCode promoCode : linkPayment.getValidPromoCodes()) {
+            promoCodeIds.add(promoCode.getId());
+        }
+        linkPaymentDto.setValidPromoCodeIds(promoCodeIds);
+
+        return linkPaymentDto;
     }
 
     public LinkPayment updateHasMaxNumberOfPayments(UUID id, Boolean hasMaxNumberOfPayments) {
@@ -42,6 +65,5 @@ public class LinkPaymentService extends PaymentService<LinkPayment> {
         payment.setPromoCodes(promoCodes);
         return this.paymentRepository.save(payment);
     }
-
 
 }

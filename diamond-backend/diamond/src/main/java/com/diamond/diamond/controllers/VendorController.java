@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.diamond.diamond.dtos.vendor.FetchVendorDto;
 import com.diamond.diamond.dtos.vendor.RegisterUserDto;
 import com.diamond.diamond.dtos.wallets.FetchVendorWalletDto;
-import com.diamond.diamond.entities.Vendor;
 import com.diamond.diamond.services.VendorService;
 
 @RestController
@@ -39,37 +38,36 @@ public class VendorController {
     }
 
     @GetMapping("/email")
-    FetchVendorDto getVendorByEmail(@RequestBody Map<String, String> payload) {
-        return vendorService.findVendorDtoByEmail(payload.get("email"));
+    FetchVendorDto getVendorByEmail(@PathVariable(value="email") String email) {
+        return vendorService.findVendorDtoByEmail(email);
     }
 
-    @GetMapping("/wallets")
-    List<FetchVendorWalletDto> getWallets(@RequestBody Map<String, String> payload) {
-        return vendorService.findVendorWallets(UUID.fromString(payload.get("id")));
+    @GetMapping("wallets/{id}")
+    List<FetchVendorWalletDto> getWallets(@PathVariable(value="id") String id) {
+        return vendorService.findVendorWallets(UUID.fromString(id));
     }
     
-    @PostMapping("/update-email")
-    Vendor updateEmail(@RequestBody Map<String, String> payload) {
+    @PostMapping("update-email/{id}")
+    FetchVendorDto updateEmail(@RequestBody String email, @PathVariable(value="id") String id) {
         //TODO: process POST request
         
-        return vendorService.updateVendorEmail(UUID.fromString(payload.get("id")), payload.get("email"));
-    }
-
-    @PostMapping("/update-name")
-    FetchVendorDto updateBusinessName(@RequestBody Map<String, String> payload) {
-        //TODO: process POST request
-        
-        return vendorService.updateVendorName(UUID.fromString(payload.get("id")), payload.get("name"));
-    }
-
-    @PostMapping("/delete")
-    Map<String, String> deleteVendor(@RequestBody Map<String, String> payload) {
-        //TODO: process POST request
-        vendorService.deleteVendorById(UUID.fromString(payload.get("id")));
-        return Map.of("id", payload.get("id"));
-        
+        return vendorService.updateVendorEmail(UUID.fromString(id), email);
     }
     
+    @PostMapping("/update-name/{id}")
+    FetchVendorDto updateBusinessName(@RequestBody String name, @PathVariable(value="id") String id) {
+        //TODO: process POST request
+        return vendorService.updateVendorName(UUID.fromString(id), name);
+    }
+
+    @PostMapping("/delete/{id}")
+    Map<String, String> deleteVendor(@PathVariable(value="id") String id) {
+        //TODO: process POST request
+        
+        vendorService.deleteVendorById(id);
+        return Map.of("id", id);
+        
+    }
     
     // @GetMapping("/email")
     // public String getMethodName(@RequestParam String param) {

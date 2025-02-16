@@ -57,18 +57,19 @@ public class VendorService {
     public FetchVendorDto findVendorDtoById(String id) {
         UUID uuidId = UUID.fromString(id);
         return convertVendorToFetchDto(vendorRepository.findById(uuidId).orElseThrow());
-        
-        // if (vendor.getWallets().isEmpty()) {
-        //     vendorDto.setWallets(new ArrayList<>());
-        // } else {
-        //     vendorDto.setWallets(vendor.getWallets());
-        // }
+    }
 
+    public FetchVendorDto findVendorDtoById(UUID id) {
+        return convertVendorToFetchDto(vendorRepository.findById(id).orElseThrow());
     }
 
     public Vendor findVendorById(String id) {
         UUID uuidId = UUID.fromString(id);
         return vendorRepository.findById(uuidId).orElseThrow();
+    }
+
+    public Vendor findVendorById(UUID id) {
+        return vendorRepository.findById(id).orElseThrow();
     }
 
     public FetchVendorDto findVendorDtoByEmail(String email) {

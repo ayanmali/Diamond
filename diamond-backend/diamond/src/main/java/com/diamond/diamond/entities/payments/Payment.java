@@ -3,8 +3,12 @@ package com.diamond.diamond.entities.payments;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import com.diamond.diamond.entities.Vendor;
 import com.diamond.diamond.entities.VendorWallet;
@@ -67,6 +71,14 @@ import jakarta.persistence.OneToMany;
     @OneToMany(mappedBy="address")
     @Column(name="wallet_distribution")
     private List<VendorWallet> walletDistribution;
+
+    @CreationTimestamp
+    @Column(name="created_at")
+    private Date createdAt;
+
+    @UpdateTimestamp
+    @Column(name="updated_at")
+    private Date updatedAt;
 
     // /*
     //  * Constructor method that uses a single wallet for routing payments by default
@@ -196,6 +208,14 @@ import jakarta.persistence.OneToMany;
 
     public void addWallet(VendorWallet wallet) {
         walletDistribution.add(wallet);
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
     }
 
 }

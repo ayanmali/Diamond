@@ -1,13 +1,14 @@
 package com.diamond.diamond.dtos.customer;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.diamond.diamond.entities.CustomerWallet;
 
 public class NewCustomerDto {
     private String name;
     private String email;
-    
+    private UUID vendorId;
     private List<CustomerWallet> wallets;
 
     public String getName() {
@@ -32,5 +33,13 @@ public class NewCustomerDto {
 
     public void setWallets(List<CustomerWallet> wallets) {
         this.wallets = wallets;
+    }
+
+    public UUID getVendorId() {
+        return vendorId;
+    }
+
+    public void setVendorId(UUID vendorId) {
+        this.vendorId = vendorId;
     }
 }

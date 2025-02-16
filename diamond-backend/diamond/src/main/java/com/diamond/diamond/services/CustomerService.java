@@ -45,8 +45,16 @@ public class CustomerService {
         return customerRepository.findById(UUID.fromString(id)).orElseThrow();
     }
 
+    public Customer findCustomerById(UUID id) {
+        return customerRepository.findById(id).orElseThrow();
+    }
+
     public FetchCustomerDto findCustomerDtoById(String id) {
         return convertCustomerToFetchDto(customerRepository.findById(UUID.fromString(id)).orElseThrow());
+    }
+
+    public FetchCustomerDto findCustomerDtoById(UUID id) {
+        return convertCustomerToFetchDto(customerRepository.findById(id).orElseThrow());
     }
 
     public Customer findCustomerByEmail(String email) {

@@ -5,8 +5,10 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.diamond.diamond.dtos.payments.fetch_payments.FetchInvoiceDto;
 import com.diamond.diamond.entities.Customer;
 import com.diamond.diamond.entities.payments.Invoice;
+import com.diamond.diamond.entities.payments.Payment;
 import com.diamond.diamond.repositories.payments.InvoiceRepository;
 
 @Service
@@ -14,6 +16,21 @@ public class InvoiceService extends PaymentService<Invoice> {
 
     public InvoiceService(InvoiceRepository invoiceRepository) {
         super(invoiceRepository);
+    }
+
+    @Override
+    public FetchInvoiceDto convertPaymentToFetchDto(Payment payment) {
+        Invoice invoice = (Invoice) payment;
+        // TODO Auto-generated method stub
+        FetchInvoiceDto invoiceDto = (FetchInvoiceDto) super.convertPaymentToFetchDto(payment);
+
+        invoiceDto.setTimePaid(invoice.getTimePaid());
+        invoiceDto.setTimeSent(invoice.getTimeSent());
+        invoiceDto.setUpdatedAt(invoice.getUpdatedAt());
+        invoiceDto.setVendorComments(invoice.getVendorComments());
+        invoiceDto.setVendorId(invoice.getVendor().getId());
+
+        return invoiceDto;
     }
 
     public Invoice updateCustomer(UUID id, Customer customer) {

@@ -1,25 +1,36 @@
 package com.diamond.diamond.services.payments;
 
-
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.diamond.diamond.dtos.payments.fetch_payments.FetchPaymentDto;
 import com.diamond.diamond.entities.VendorWallet;
 import com.diamond.diamond.entities.payments.Payment;
 import com.diamond.diamond.repositories.payments.PaymentRepository;
 import com.diamond.diamond.types.StablecoinCurrency;
 
 @Service
-public class PaymentService<T extends Payment> {
+public abstract class PaymentService<T extends Payment> {
     protected final PaymentRepository<T> paymentRepository;
     
     public PaymentService(PaymentRepository<T> paymentRepository) {
         this.paymentRepository = paymentRepository;
     }
 
-    public T newPayment(T payment) {
+    public FetchPaymentDto convertPaymentToFetchDto(Payment payment) {
+        FetchPaymentDto paymentDto = new FetchPaymentDto();
+        paymentDto.setAmount(payment.getAmount());
+        paymentDto.setChain(payment.getChain());
+        paymentDto.setCreatedAt(payment.getCreatedAt());
+        paymentDto.setCurrency(payment.getStablecoinCurrency());
+        paymentDto.setId(payment.getId());
+
+        return paymentDto;
+    }
+
+    public T savePayment(T payment) {
         return paymentRepository.save(payment);
     }
 

@@ -1,8 +1,8 @@
-package com.diamond.diamond.dtos.payments.new_payments;
+package com.diamond.diamond.dtos.payments.fetch_payments;
 
 import java.util.List;
 
-public class NewLinkPaymentDto extends NewPaymentDto {
+public class FetchCheckoutPaymentDto extends FetchPaymentDto {
     private Boolean hasMaxNumberOfPayments;
     private Integer maxNumberOfPayments;
     private Boolean enablePromoCodes;
@@ -32,6 +32,5 @@ public class NewLinkPaymentDto extends NewPaymentDto {
     public void setValidPromoCodeIds(List<Long> validPromoCodeIds) {
         this.validPromoCodeIds = validPromoCodeIds;
     }
-
     
 }

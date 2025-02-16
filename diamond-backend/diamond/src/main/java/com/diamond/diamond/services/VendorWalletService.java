@@ -7,6 +7,7 @@ import com.diamond.diamond.dtos.wallets.NewVendorWalletDto;
 import com.diamond.diamond.entities.Vendor;
 import com.diamond.diamond.entities.VendorWallet;
 import com.diamond.diamond.repositories.VendorWalletRepository;
+import com.diamond.diamond.types.WalletStatus;
 
 @Service
 public class VendorWalletService {
@@ -57,6 +58,18 @@ public class VendorWalletService {
     public FetchVendorWalletDto updateWalletName(Long id, String name) {
         VendorWallet vendorWallet = vendorWalletRepository.findById(id).orElseThrow();
         vendorWallet.setName(name);
+        return convertVendorWalletToFetchDto(vendorWalletRepository.save(vendorWallet));
+    }
+
+    public FetchVendorWalletDto archiveWallet(Long id) {
+        VendorWallet vendorWallet = vendorWalletRepository.findById(id).orElseThrow();
+        vendorWallet.setStatus(WalletStatus.ARCHIVED);
+        return convertVendorWalletToFetchDto(vendorWalletRepository.save(vendorWallet));
+    }
+
+    public FetchVendorWalletDto reactivateWallet(Long id) {
+        VendorWallet vendorWallet = vendorWalletRepository.findById(id).orElseThrow();
+        vendorWallet.setStatus(WalletStatus.ACTIVE);
         return convertVendorWalletToFetchDto(vendorWalletRepository.save(vendorWallet));
     }
 

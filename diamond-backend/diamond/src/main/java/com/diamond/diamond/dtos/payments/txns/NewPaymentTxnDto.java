@@ -1,10 +1,13 @@
-package com.diamond.diamond.dtos.payments.new_txns;
+package com.diamond.diamond.dtos.payments.txns;
 
 import java.util.List;
 import java.util.UUID;
 
 import com.diamond.diamond.entities.payments.PromoCode;
 
+/*
+ * Used when sending API requests to add new transaction records (for checkout/link payments) in the database
+ */
 public class NewPaymentTxnDto {
     private UUID paymentId;
     private UUID customerId;

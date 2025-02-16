@@ -1,10 +1,6 @@
 package com.diamond.diamond.entities.payments.link_payments;
 
-import java.util.Date;
 import java.util.List;
-
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import com.diamond.diamond.entities.Vendor;
 import com.diamond.diamond.entities.VendorWallet;
@@ -33,14 +29,6 @@ public class LinkPayment extends Payment {
 
     @OneToMany(mappedBy="id")
     private List<PromoCode> validPromoCodes;
-
-    @CreationTimestamp
-    @Column(name="created_at")
-    private Date createdAt;
-
-    @UpdateTimestamp
-    @Column(name="updated_at")
-    private Date updatedAt;
 
     public LinkPayment() {}
     // This variable should be mutable for payment links
@@ -87,7 +75,7 @@ public class LinkPayment extends Payment {
         this.enablePromoCodes = enablePromoCodes;
     }
 
-    public List<PromoCode> getPromoCodes() {
+    public List<PromoCode> getValidPromoCodes() {
         return validPromoCodes;
     }
 
@@ -101,14 +89,6 @@ public class LinkPayment extends Payment {
 
     public void setPromoCodes(List<PromoCode> promoCodes) {
         this.validPromoCodes = promoCodes;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
     }
 
 }
