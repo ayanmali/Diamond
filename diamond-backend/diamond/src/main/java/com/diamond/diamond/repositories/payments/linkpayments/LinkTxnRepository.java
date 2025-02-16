@@ -4,11 +4,11 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
-import com.diamond.diamond.entities.payments.link_payments.LinkPaymentTransaction;
+import com.diamond.diamond.entities.payments.link_payments.LinkPaymentTxn;
 import com.diamond.diamond.repositories.payments.PaymentTxnRepository;
 
 @Repository
-public interface LinkTxnRepository extends PaymentTxnRepository<LinkPaymentTransaction> {
+public interface LinkTxnRepository extends PaymentTxnRepository<LinkPaymentTxn> {
     @Override
-    Optional<LinkPaymentTransaction> findByTxHash(String txHash);
+    Optional<LinkPaymentTxn> findByTxHash(String txHash);
 }

@@ -1,4 +1,4 @@
-package com.diamond.diamond.controllers.payments;
+package com.diamond.diamond.controllers.payments.payments;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,36 +14,44 @@ import com.diamond.diamond.dtos.payments.fetch_payments.FetchPaymentDto;
 import com.diamond.diamond.dtos.payments.new_payments.NewPaymentDto;
 import com.diamond.diamond.entities.VendorWallet;
 import com.diamond.diamond.entities.payments.Payment;
+import com.diamond.diamond.services.VendorService;
 import com.diamond.diamond.services.VendorWalletService;
 import com.diamond.diamond.services.payments.PaymentService;
 import com.diamond.diamond.types.StablecoinCurrency;
 
 @RequestMapping("/payments")
-public abstract class PaymentController<P extends Payment> {
+public abstract class PaymentController<P extends Payment, D extends NewPaymentDto> {
     protected PaymentService<P> paymentService; // the Service class for the given Payment type
+    protected VendorService vendorService;
     protected VendorWalletService vendorWalletService;
-    // helper methods for converting to and from the Payment type and the appropriate DTOs
-    //abstract FetchPaymentDto convertPaymentToFetchDto(Payment payment);
-    abstract P convertNewDtoToPayment(NewPaymentDto paymentDto);
+    abstract P convertNewDtoToPayment(D paymentDto); // helper method for converting to and from the Payment type and the NewPaymentDTO
 
+    protected List<VendorWallet> getVendorWalletsFromPaymentDto(D paymentDto) {
+        List<VendorWallet> vendorWallets = new ArrayList<>();
+        for (Long walletId : paymentDto.getVendorWalletIds()) {
+            vendorWallets.add(vendorWalletService.findWalletById(walletId));
+        }
+        return vendorWallets;
+    }
+    
     @PostMapping("/new")
-    public FetchPaymentDto createPayment(@RequestBody NewPaymentDto paymentDto) {
-        return convertPaymentToFetchDto(paymentService.savePayment(convertNewDtoToPayment(paymentDto)));
+    public FetchPaymentDto createPayment(@RequestBody D paymentDto) {
+        return paymentService.convertPaymentToFetchDto(paymentService.savePayment(convertNewDtoToPayment(paymentDto)));
     }
 
     @GetMapping("/id/{id}")
     public FetchPaymentDto getPaymentById(@PathVariable(value="id") String id) {
-        return convertPaymentToFetchDto(paymentService.findPaymentById(id));
+        return paymentService.convertPaymentToFetchDto(paymentService.findPaymentById(id));
     }
 
     @PostMapping("/update-amount/{id}")
     public FetchPaymentDto updateAmount(@PathVariable(value="id") String id, @RequestBody Double amount) {
-        return convertPaymentToFetchDto(paymentService.updateAmount(UUID.fromString(id), amount));
+        return paymentService.convertPaymentToFetchDto(paymentService.updateAmount(UUID.fromString(id), amount));
     }
 
     @PostMapping("/update-currency/{id}")
     public FetchPaymentDto updateCurrency(@PathVariable(value="id") String id, @RequestBody StablecoinCurrency currency) {
-        return convertPaymentToFetchDto(paymentService.updateCurrency(UUID.fromString(id), currency));
+        return paymentService.convertPaymentToFetchDto(paymentService.updateCurrency(UUID.fromString(id), currency));
     }
 
     @PostMapping("/update-wallet-distribution/{id}")
@@ -52,16 +60,15 @@ public abstract class PaymentController<P extends Payment> {
         for (Long walletId : vendorWalletIds) {
             vendorWallets.add(vendorWalletService.findWalletById(walletId));
         }
-        return convertPaymentToFetchDto(paymentService.updateWalletDistribution(UUID.fromString(id), vendorWallets));
+        return paymentService.convertPaymentToFetchDto(paymentService.updateWalletDistribution(UUID.fromString(id), vendorWallets));
     }
 
     @PostMapping("/delete/{id}")
     public FetchPaymentDto deletePayment(@PathVariable(value="id") String id) {
         P payment = paymentService.findPaymentById(id);
         paymentService.deletePaymentById(id);
-        return convertPaymentToFetchDto(payment);
+        return paymentService.convertPaymentToFetchDto(payment);
     }
-
 
 }
 

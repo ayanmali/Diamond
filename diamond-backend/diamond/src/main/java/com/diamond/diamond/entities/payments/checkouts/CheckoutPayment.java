@@ -41,8 +41,14 @@ public class CheckoutPayment extends Payment {
 
     public CheckoutPayment() {}
 
-    public CheckoutPayment(Double amount, Vendor vendor, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets) {
+    public CheckoutPayment(Double amount, Vendor vendor, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets,
+                            Boolean hasMaxNumberOfPayments, Integer maxNumberOfPayments, Boolean enablePromoCodes, List<PromoCode> validPromoCodes) {
         super(amount, vendor, currency, chain, vendorWallets);
+
+        this.hasMaxNumberOfPayments = hasMaxNumberOfPayments;
+        this.maxNumberOfPayments = maxNumberOfPayments;
+        this.enablePromoCodes = enablePromoCodes;
+        this.validPromoCodes = validPromoCodes;
     }
     
     // @Override

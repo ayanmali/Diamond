@@ -1,7 +1,7 @@
 package com.diamond.diamond.entities.payments.link_payments;
 
 import com.diamond.diamond.entities.Customer;
-import com.diamond.diamond.entities.payments.PaymentTransaction;
+import com.diamond.diamond.entities.payments.PaymentTxn;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -11,8 +11,8 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name="link_txns")
-public class LinkPaymentTransaction extends PaymentTransaction {
-    public LinkPaymentTransaction(LinkPayment payment, Customer customer, Double revenue) {
+public class LinkPaymentTxn extends PaymentTxn {
+    public LinkPaymentTxn(LinkPayment payment, Customer customer, Double revenue) {
         super(payment, customer, revenue);
     }
 }

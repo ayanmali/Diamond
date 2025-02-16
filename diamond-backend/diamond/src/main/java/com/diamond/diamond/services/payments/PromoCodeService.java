@@ -31,8 +31,12 @@ public class PromoCodeService {
         return convertPromoCodeToDto(promoCodeRepository.save(promoCode));
     }
 
-    public PromoCodeDto findPromoCodeById(Long id) {
+    public PromoCodeDto findPromoCodeDtoById(Long id) {
         return convertPromoCodeToDto(promoCodeRepository.findById(id).orElseThrow());
+    }
+
+    public PromoCode findPromoCodeById(Long id) {
+        return promoCodeRepository.findById(id).orElseThrow();
     }
 
     public PromoCodeDto updateDiscount(Long id, Double discount) {

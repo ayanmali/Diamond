@@ -9,9 +9,7 @@ public class FetchInvoiceDto extends FetchPaymentDto {
     private Date timePaid;
     private String vendorComments;
     private String customerComments;
-    private Date createdAt;
-    private Date updatedAt;
-    
+
     public UUID getCustomerId() {
         return customerId;
     }
@@ -42,18 +40,5 @@ public class FetchInvoiceDto extends FetchPaymentDto {
     public void setCustomerComments(String customerComments) {
         this.customerComments = customerComments;
     }
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
 
-    
 }

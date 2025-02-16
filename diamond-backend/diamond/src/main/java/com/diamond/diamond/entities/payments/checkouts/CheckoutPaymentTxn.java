@@ -1,7 +1,7 @@
 package com.diamond.diamond.entities.payments.checkouts;
 
 import com.diamond.diamond.entities.Customer;
-import com.diamond.diamond.entities.payments.PaymentTransaction;
+import com.diamond.diamond.entities.payments.PaymentTxn;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -11,8 +11,8 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name="checkout_txns")
-public class CheckoutPaymentTransaction extends PaymentTransaction {
-    public CheckoutPaymentTransaction(CheckoutPayment payment, Customer customer, Double revenue) {
+public class CheckoutPaymentTxn extends PaymentTxn {
+    public CheckoutPaymentTxn(CheckoutPayment payment, Customer customer, Double revenue) {
         super(payment, customer, revenue);
     }
     

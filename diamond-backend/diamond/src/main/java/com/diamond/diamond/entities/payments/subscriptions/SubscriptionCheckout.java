@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.diamond.diamond.entities.Vendor;
 import com.diamond.diamond.entities.VendorWallet;
+import com.diamond.diamond.entities.payments.PromoCode;
 import com.diamond.diamond.entities.payments.checkouts.CheckoutPayment;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.StablecoinCurrency;
@@ -26,8 +27,9 @@ public class SubscriptionCheckout extends CheckoutPayment {
 
     public SubscriptionCheckout() {}
 
-    public SubscriptionCheckout(Double amount, Vendor vendor, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets) {
-        super(amount, vendor, currency, chain, vendorWallets);
+    public SubscriptionCheckout(Double amount, Vendor vendor, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets,
+                                Boolean hasMaxNumberOfPayments, Integer maxNumberOfPayments, Boolean enablePromoCodes, List<PromoCode> validPromoCodes) {
+        super(amount, vendor, currency, chain, vendorWallets, hasMaxNumberOfPayments, maxNumberOfPayments, enablePromoCodes, validPromoCodes);
         this.billingBasis = 30L;
         this.status = SubscriptionStatus.PAUSED;
 

@@ -24,7 +24,7 @@ import jakarta.persistence.OneToMany;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class PaymentTransaction {
+public abstract class PaymentTxn {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(nullable=false)
@@ -58,9 +58,9 @@ public abstract class PaymentTransaction {
     @OneToMany(mappedBy="id")
     private List<PromoCode> codesApplied;
 
-    public PaymentTransaction() {}
+    public PaymentTxn() {}
 
-    public PaymentTransaction(Payment payment, Customer customer, Double revenue) {
+    public PaymentTxn(Payment payment, Customer customer, Double revenue) {
         this.payment = payment;
         this.customer = customer;
         this.revenue = revenue;

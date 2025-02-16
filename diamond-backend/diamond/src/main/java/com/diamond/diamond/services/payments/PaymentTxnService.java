@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.diamond.diamond.entities.payments.PaymentTransaction;
+import com.diamond.diamond.entities.payments.PaymentTxn;
 import com.diamond.diamond.entities.payments.PromoCode;
 import com.diamond.diamond.repositories.payments.PaymentTxnRepository;
 import com.diamond.diamond.types.PaymentStatus;
@@ -14,7 +14,7 @@ import com.diamond.diamond.types.PaymentStatus;
  * Defining service methods for Checkout/Link Payment transactions
  */
 @Service
-public class PaymentTxnService<T extends PaymentTransaction> {
+public class PaymentTxnService<T extends PaymentTxn> {
     protected final PaymentTxnRepository<T> txnRepository;
     
     public PaymentTxnService(PaymentTxnRepository<T> txnRepository) {
