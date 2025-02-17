@@ -3,8 +3,6 @@ package com.diamond.diamond.dtos.payments.txns;
 import java.util.List;
 import java.util.UUID;
 
-import com.diamond.diamond.entities.payments.PromoCode;
-
 /*
  * Used when sending API requests to add new transaction records (for checkout/link payments) in the database
  */
@@ -12,7 +10,7 @@ public class NewPaymentTxnDto {
     private UUID paymentId;
     private UUID customerId;
     private Double revenue;
-    private List<PromoCode> codesApplied;
+    private List<Long> codesAppliedIds;
 
     public UUID getPaymentId() {
         return paymentId;
@@ -32,11 +30,13 @@ public class NewPaymentTxnDto {
     public void setRevenue(Double revenue) {
         this.revenue = revenue;
     }
-    public List<PromoCode> getCodesApplied() {
-        return codesApplied;
+
+    public List<Long> getCodesAppliedIds() {
+        return codesAppliedIds;
     }
-    public void setCodesApplied(List<PromoCode> codesApplied) {
-        this.codesApplied = codesApplied;
+
+    public void setCodesAppliedIds(List<Long> codesAppliedIds) {
+        this.codesAppliedIds = codesAppliedIds;
     }
     
     

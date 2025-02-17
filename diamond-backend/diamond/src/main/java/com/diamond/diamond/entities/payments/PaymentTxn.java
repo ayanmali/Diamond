@@ -60,10 +60,11 @@ public abstract class PaymentTxn {
 
     public PaymentTxn() {}
 
-    public PaymentTxn(Payment payment, Customer customer, Double revenue) {
+    public PaymentTxn(Payment payment, Customer customer, Double revenue, List<PromoCode> codesApplied) {
         this.payment = payment;
         this.customer = customer;
         this.revenue = revenue;
+        this.codesApplied = codesApplied;
         this.status = PaymentStatus.PENDING;
     }
 
