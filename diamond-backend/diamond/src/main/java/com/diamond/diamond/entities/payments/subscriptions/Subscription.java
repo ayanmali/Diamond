@@ -1,4 +1,4 @@
-package com.diamond.diamond.entities.payments.subscriptions;
+//package com.diamond.diamond.entities.payments.subscriptions;
 // // package com.diamond.diamond.payments.subscriptions;
 
 // import com.diamond.diamond.entities.payments.Payment;

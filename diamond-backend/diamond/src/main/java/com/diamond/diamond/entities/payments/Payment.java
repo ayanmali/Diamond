@@ -45,7 +45,7 @@ import jakarta.persistence.OneToMany;
     //final VendorWallet businessWallet;
 
     @ManyToOne
-    @JoinColumn(name="vendor_id", nullable=false)
+    @JoinColumn(name="vendor_id", referencedColumnName="id", nullable=false)
     private Vendor vendor;
 
     // remove

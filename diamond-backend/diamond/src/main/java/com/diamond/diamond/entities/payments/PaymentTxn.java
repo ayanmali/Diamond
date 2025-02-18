@@ -31,10 +31,11 @@ public abstract class PaymentTxn {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name="payment_id", nullable=false)
+    @JoinColumn(name="payment_id", referencedColumnName="id", nullable=false)
     private Payment payment; // the payment configuration created by the vendor that is associated with this transaction
     
-    @JoinColumn(name="customer_id")
+    @ManyToOne
+    @JoinColumn(name="customer_id", referencedColumnName="id")
     private Customer customer;
 
     @Column(name="revenue")
@@ -56,6 +57,7 @@ public abstract class PaymentTxn {
     private PaymentStatus status;
 
     @OneToMany(mappedBy="id")
+    @Column(name="codes_applied")
     private List<PromoCode> codesApplied;
 
     public PaymentTxn() {}

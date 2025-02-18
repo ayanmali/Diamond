@@ -175,7 +175,7 @@ public class VendorWallet implements Wallet {
     private Date updatedAt;
 
     @ManyToOne
-    @JoinColumn(name="vendor_id", nullable=false)
+    @JoinColumn(name="vendor_id", referencedColumnName="id", nullable=false)
     private Vendor vendor;
 
     public VendorWallet() {}

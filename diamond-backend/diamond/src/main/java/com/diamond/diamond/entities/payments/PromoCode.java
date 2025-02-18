@@ -25,11 +25,11 @@ public class PromoCode {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="vendor_id", nullable=false)
+    @JoinColumn(name="vendor_id", referencedColumnName="id", nullable=false)
     private Vendor vendor;
 
     @ManyToOne
-    @JoinColumn(name="payment_id", nullable=false)
+    @JoinColumn(name="payment_id", referencedColumnName="id", nullable=false)
     private Payment payment;
 
     @Column(nullable=false, unique=true)

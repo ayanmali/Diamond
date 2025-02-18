@@ -37,7 +37,7 @@ public class Customer {
     private List<CustomerWallet> wallets;
 
     @ManyToOne
-    @JoinColumn(name="vendor_id", nullable=false)
+    @JoinColumn(name="vendor_id", referencedColumnName="id", nullable=false)
     private Vendor vendor;
 
     @CreationTimestamp

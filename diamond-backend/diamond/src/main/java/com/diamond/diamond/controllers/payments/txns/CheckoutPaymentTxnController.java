@@ -16,7 +16,7 @@ import com.diamond.diamond.services.payments.PaymentTxnService;
 import com.diamond.diamond.services.payments.PromoCodeService;
 
 @RestController
-@RequestMapping("/checkout-payments")
+@RequestMapping("/txns/checkout-payments")
 public class CheckoutPaymentTxnController extends PaymentTxnController<CheckoutPaymentTxn, CheckoutPayment> {
     public CheckoutPaymentTxnController(PaymentTxnService<CheckoutPaymentTxn> txnService, PaymentService<CheckoutPayment> paymentService, PromoCodeService promoCodeService, CustomerService customerService) {
         this.txnService = txnService;

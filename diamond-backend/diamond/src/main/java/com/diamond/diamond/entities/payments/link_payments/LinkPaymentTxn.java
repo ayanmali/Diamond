@@ -15,6 +15,8 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name="link_txns")
 public class LinkPaymentTxn extends PaymentTxn {
+
+    public LinkPaymentTxn() {}
     public LinkPaymentTxn(LinkPayment payment, Customer customer, Double revenue, List<PromoCode> codesApplied) {
         super(payment, customer, revenue, codesApplied);
     }

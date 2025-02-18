@@ -31,7 +31,7 @@ public class CustomerWallet implements Wallet {
     private Blockchain chain;
 
     @ManyToOne
-    @JoinColumn(name="customer_id")
+    @JoinColumn(name="customer_id", referencedColumnName="id")
     private Customer customer;
 
     // @Column

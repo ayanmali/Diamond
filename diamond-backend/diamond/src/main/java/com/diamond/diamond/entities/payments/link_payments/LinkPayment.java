@@ -31,7 +31,7 @@ public class LinkPayment extends Payment {
     private List<PromoCode> validPromoCodes;
 
     public LinkPayment() {}
-    // This variable should be mutable for payment links
+   
     public LinkPayment(Double amount, Vendor vendor, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets,
                         Boolean hasMaxNumberOfPayments, Integer maxNumberOfPayments, Boolean enablePromoCodes, List<PromoCode> validPromoCodes) {
         super(amount, vendor, currency, chain, vendorWallets);

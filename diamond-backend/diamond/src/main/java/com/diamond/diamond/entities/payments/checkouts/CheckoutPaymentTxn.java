@@ -15,6 +15,8 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name="checkout_txns")
 public class CheckoutPaymentTxn extends PaymentTxn {
+
+    public CheckoutPaymentTxn() {}
     public CheckoutPaymentTxn(CheckoutPayment payment, Customer customer, Double revenue, List<PromoCode> codesApplied) {
         super(payment, customer, revenue, codesApplied);
     }

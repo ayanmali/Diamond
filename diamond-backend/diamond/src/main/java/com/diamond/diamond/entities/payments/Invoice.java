@@ -26,7 +26,7 @@ import jakarta.persistence.Table;
 public class Invoice extends Payment {
 
     @ManyToOne
-    @JoinColumn(name="id")
+    @JoinColumn(name="customer_id", referencedColumnName="id")
     private Customer customer;
 
     @Column(name="time_sent")
