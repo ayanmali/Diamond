@@ -11,8 +11,6 @@ import com.diamond.diamond.types.StablecoinCurrency;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -21,7 +19,7 @@ import jakarta.persistence.Table;
  * This class defines the structure of as well as records of invoices
  */
 @Entity
-@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS) // for the subscription invoice subclass
+//@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS) // for the subscription invoice subclass
 @Table(name="invoices")
 public class Invoice extends Payment {
 

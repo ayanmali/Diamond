@@ -36,6 +36,7 @@ public class VendorWalletService {
                                         wallet.getWalletName(),
                                         vendor,
                                         wallet.getChain());
+        vendorWallet.setStatus(WalletStatus.ACTIVE);
         return convertVendorWalletToFetchDto(vendorWalletRepository.save(vendorWallet));
     }
 

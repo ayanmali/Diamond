@@ -26,15 +26,16 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 
 /*
  * Used to define the generic attributes and methods across the structures (not records) of all types of payments.
  */
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
- public class Payment {
+ public abstract class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable=false)
@@ -68,8 +69,12 @@ import jakarta.persistence.OneToMany;
 
     // used to define how payments are allocated between the vendor's wallets, if desired
     //private PaymentDistributor distributor;
-    @OneToMany(mappedBy="address")
-    @Column(name="wallet_distribution")
+    @ManyToMany
+    @JoinTable(
+        name = "payment_wallet_distribution", // Optional: Custom name for the join table
+        joinColumns = @JoinColumn(name = "payment_id"),
+        inverseJoinColumns = @JoinColumn(name = "wallet_id")
+    )
     private List<VendorWallet> walletDistribution;
 
     @CreationTimestamp

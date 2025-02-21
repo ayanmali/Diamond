@@ -43,6 +43,16 @@ public abstract class PaymentService<T extends Payment> {
         return this.findPaymentById(uuidId);
     }
 
+    // find all valid promo codes for a given payment
+    // public Set<PromoCode> findValidPromoCodes(UUID id) {
+
+    // }
+
+    // // find the list of VendorWallets associated with a payment
+    // public List<VendorWallet> findWalletDistribution(UUID id) {
+
+    // }
+
     public T updateAmount(UUID id, Double amount) {
         T payment = paymentRepository.findById(id).orElseThrow();
         payment.setAmount(amount);

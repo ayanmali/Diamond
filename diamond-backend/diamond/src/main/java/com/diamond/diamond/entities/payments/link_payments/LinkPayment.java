@@ -27,7 +27,7 @@ public class LinkPayment extends Payment {
     @Column(name="promo_codes_enabled", nullable=false)
     private Boolean enablePromoCodes;
 
-    @OneToMany(mappedBy="id")
+    @OneToMany(mappedBy="payment")
     private List<PromoCode> validPromoCodes;
 
     public LinkPayment() {}

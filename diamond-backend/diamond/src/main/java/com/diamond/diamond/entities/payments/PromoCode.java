@@ -4,6 +4,7 @@
 package com.diamond.diamond.entities.payments;
 
 import java.util.Date;
+import java.util.Set;
 
 import com.diamond.diamond.entities.Vendor;
 
@@ -13,6 +14,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -39,6 +41,9 @@ public class PromoCode {
 
     @Column(nullable=false)
     private Double discount;
+
+    @ManyToMany(mappedBy = "codesApplied")
+    private Set<PaymentTxn> paymentTxns;
 
     public PromoCode() {}
 
@@ -95,5 +100,13 @@ public class PromoCode {
 
     public void setDiscount(Double discount) {
         this.discount = discount;
+    }
+
+    public Set<PaymentTxn> getPaymentTxns() {
+        return paymentTxns;
+    }
+
+    public void setPaymentTxns(Set<PaymentTxn> paymentTxns) {
+        this.paymentTxns = paymentTxns;
     }
 }

@@ -37,7 +37,7 @@ public class VendorController {
         //return String.format("Testing get endpoint for id %s", id);
     }
 
-    @GetMapping("/email")
+    @GetMapping("/email/{email}")
     FetchVendorDto getVendorByEmail(@PathVariable(value="email") String email) {
         return vendorService.findVendorDtoByEmail(email);
     }

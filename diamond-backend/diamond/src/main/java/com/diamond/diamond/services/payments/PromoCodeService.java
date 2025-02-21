@@ -39,6 +39,16 @@ public class PromoCodeService {
         return promoCodeRepository.findById(id).orElseThrow();
     }
 
+    // find all Payments that include a given PromoCode
+    // public List<Payment> findPayments(Long id) {
+
+    // }
+
+    // // find all transactions where a given PromoCode was applied
+    // public List<PaymentTxn> findPaymentTxns(Long id) {
+
+    // }
+
     public PromoCodeDto updateDiscount(Long id, Double discount) {
         PromoCode promoCode = promoCodeRepository.findById(id).orElseThrow();
         promoCode.setDiscount(discount);

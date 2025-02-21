@@ -2,6 +2,7 @@ package com.diamond.diamond.services.payments;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import com.diamond.diamond.dtos.payments.txns.FetchPaymentTxnDto;
@@ -70,13 +71,17 @@ public class PaymentTxnService<T extends PaymentTxn> {
         return convertTxnToFetchDto(txnRepository.findByTxHash(txHash).orElseThrow());
     }
 
+    // find all promo codes that were applied for a given transaction
+    // public Set<PromoCode> findPromoCodesApplied(UUID id) {
+    // }
+
     public FetchPaymentTxnDto updateStatus(UUID id, PaymentStatus status) {
         T txn = txnRepository.findById(id).orElseThrow();
         txn.setStatus(status);
         return convertTxnToFetchDto(txnRepository.save(txn));
     }
 
-    public FetchPaymentTxnDto updateCodesApplied(UUID id, List<PromoCode> codesApplied) {
+    public FetchPaymentTxnDto updateCodesApplied(UUID id, Set<PromoCode> codesApplied) {
         T txn = txnRepository.findById(id).orElseThrow();
         txn.setCodesApplied(codesApplied);
         return convertTxnToFetchDto(txnRepository.save(txn));

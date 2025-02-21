@@ -33,11 +33,8 @@ public class CheckoutPayment extends Payment {
     @Column(name="promo_codes_enabled", nullable=false)
     private Boolean enablePromoCodes;
 
-    @OneToMany(mappedBy="id")
+    @OneToMany(mappedBy="payment")
     private List<PromoCode> validPromoCodes;
-
-    // @OneToMany(mappedBy="code")
-    // private List<PromoCode> codesApplied;
 
     public CheckoutPayment() {}
 

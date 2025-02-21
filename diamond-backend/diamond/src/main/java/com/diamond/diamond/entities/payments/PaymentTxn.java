@@ -1,6 +1,6 @@
 package com.diamond.diamond.entities.payments;
 
-import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import com.diamond.diamond.entities.Customer;
@@ -16,8 +16,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 
 /*
  * Used for CheckoutPayment transactions and LinkPayment Transactions
@@ -56,13 +57,17 @@ public abstract class PaymentTxn {
     @Enumerated(EnumType.STRING)
     private PaymentStatus status;
 
-    @OneToMany(mappedBy="id")
-    @Column(name="codes_applied")
-    private List<PromoCode> codesApplied;
+    @ManyToMany
+    @JoinTable(
+        name = "payment_txn_promo_codes", // Optional: Custom name for the join table
+        joinColumns = @JoinColumn(name = "payment_txn_id"),
+        inverseJoinColumns = @JoinColumn(name = "promo_code_id")
+    )
+    private Set<PromoCode> codesApplied;
 
     public PaymentTxn() {}
 
-    public PaymentTxn(Payment payment, Customer customer, Double revenue, List<PromoCode> codesApplied) {
+    public PaymentTxn(Payment payment, Customer customer, Double revenue, Set<PromoCode> codesApplied) {
         this.payment = payment;
         this.customer = customer;
         this.revenue = revenue;
@@ -94,10 +99,10 @@ public abstract class PaymentTxn {
     public void setStatus(PaymentStatus status) {
         this.status = status;
     }
-    public List<PromoCode> getCodesApplied() {
+    public Set<PromoCode> getCodesApplied() {
         return codesApplied;
     }
-    public void setCodesApplied(List<PromoCode> codesApplied) {
+    public void setCodesApplied(Set<PromoCode> codesApplied) {
         this.codesApplied = codesApplied;
     }
 

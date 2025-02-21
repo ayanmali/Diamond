@@ -30,7 +30,7 @@ public class Vendor {
     @Column(nullable = false, name="business_name")
     private String businessName;
 
-    @OneToMany(mappedBy="id", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy="vendor", cascade=CascadeType.ALL)
     private List<VendorWallet> wallets;
 
     @Column(unique = true, length = 100, nullable = false)
@@ -39,7 +39,7 @@ public class Vendor {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(mappedBy="id", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy="vendor", cascade=CascadeType.ALL)
     private List<Customer> customers;
 
     @CreationTimestamp

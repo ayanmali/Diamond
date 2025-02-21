@@ -125,10 +125,12 @@ package com.diamond.diamond.entities;
 
 
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.diamond.diamond.entities.payments.Payment;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.StablecoinCurrency;
 import com.diamond.diamond.types.Wallet;
@@ -142,6 +144,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -177,6 +180,9 @@ public class VendorWallet implements Wallet {
     @ManyToOne
     @JoinColumn(name="vendor_id", referencedColumnName="id", nullable=false)
     private Vendor vendor;
+
+    @ManyToMany(mappedBy = "walletDistribution")
+    private List<Payment> payments;
 
     public VendorWallet() {}
 
@@ -240,6 +246,14 @@ public class VendorWallet implements Wallet {
 
     public void setStatus(WalletStatus status) {
         this.status = status;
+    }
+
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
     }
 
 }

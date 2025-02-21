@@ -94,7 +94,10 @@ public class VendorService {
     // public List<VendorWallet> findWallets(UUID walletId) {
     //     return vendorRepository.findWallets(walletId);
     // }
-    public List<FetchVendorWalletDto> findVendorWallets(UUID vendorId) {
+    public List<FetchVendorWalletDto> findVendorWallets(UUID vendorId) {        
+        FetchVendorDto vendorDto = findVendorDtoById(vendorId);
+        if (vendorDto.getWallets() == null) return new ArrayList<>();
+
         Vendor vendor = vendorRepository.findById(vendorId).orElseThrow();
         List<FetchVendorWalletDto> wallets = new ArrayList<>();
         for (VendorWallet wallet : vendor.getWallets()) {
