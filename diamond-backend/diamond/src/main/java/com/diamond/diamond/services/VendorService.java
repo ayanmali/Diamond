@@ -13,6 +13,8 @@ import com.diamond.diamond.entities.Vendor;
 import com.diamond.diamond.entities.VendorWallet;
 import com.diamond.diamond.repositories.VendorRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class VendorService {
 
@@ -40,6 +42,7 @@ public class VendorService {
         return vendorDto;
     }
 
+    //@Transactional
     public FetchVendorDto signUp(RegisterUserDto input) {
         Vendor user = new Vendor();
         user.setEmail(input.getEmail());
@@ -54,20 +57,24 @@ public class VendorService {
         
     // }
 
+    //@Transactional
     public FetchVendorDto findVendorDtoById(String id) {
         UUID uuidId = UUID.fromString(id);
         return convertVendorToFetchDto(vendorRepository.findById(uuidId).orElseThrow());
     }
 
+    //@Transactional
     public FetchVendorDto findVendorDtoById(UUID id) {
         return convertVendorToFetchDto(vendorRepository.findById(id).orElseThrow());
-    }
+    }   
 
+    //@Transactional
     public Vendor findVendorById(String id) {
         UUID uuidId = UUID.fromString(id);
         return vendorRepository.findById(uuidId).orElseThrow();
     }
 
+    //@Transactional
     public Vendor findVendorById(UUID id) {
         return vendorRepository.findById(id).orElseThrow();
     }
@@ -94,6 +101,7 @@ public class VendorService {
     // public List<VendorWallet> findWallets(UUID walletId) {
     //     return vendorRepository.findWallets(walletId);
     // }
+    @Transactional
     public List<FetchVendorWalletDto> findVendorWallets(UUID vendorId) {        
         FetchVendorDto vendorDto = findVendorDtoById(vendorId);
         if (vendorDto.getWallets() == null) return new ArrayList<>();

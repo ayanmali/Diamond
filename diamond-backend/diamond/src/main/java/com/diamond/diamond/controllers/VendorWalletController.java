@@ -1,5 +1,7 @@
 package com.diamond.diamond.controllers;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +14,8 @@ import com.diamond.diamond.dtos.wallets.NewVendorWalletDto;
 import com.diamond.diamond.entities.Vendor;
 import com.diamond.diamond.services.VendorService;
 import com.diamond.diamond.services.VendorWalletService;
+//import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/vwallets")
@@ -35,6 +39,12 @@ public class VendorWalletController {
     public FetchVendorWalletDto getWalletByWalletId(@PathVariable(value = "id") Long id) {
         return vendorWalletService.findWalletDtoById(id);
     }
+
+    @GetMapping("/vendorid/{id}")
+    public List<FetchVendorWalletDto> getWalletsByVendor(@PathVariable(value="id") String vendorId) {
+        return vendorWalletService.findWalletsByVendor(vendorService.findVendorById(vendorId));
+    }
+    
 
     @GetMapping("/address/{address}")
     public FetchVendorWalletDto getWalletByAddress(@PathVariable(value = "address") String address) {

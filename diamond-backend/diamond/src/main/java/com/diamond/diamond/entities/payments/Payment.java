@@ -128,6 +128,21 @@ import jakarta.persistence.ManyToOne;
         // this.distributor = new PaymentDistributor(vendor, mappings, "");
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Payment)) {
+            return false;
+        }
+        Payment paymentObj = (Payment) o;
+        return this.id == paymentObj.getId();
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }   
+
     /*
      * Distributes payments to multiple wallets according to the 
      */

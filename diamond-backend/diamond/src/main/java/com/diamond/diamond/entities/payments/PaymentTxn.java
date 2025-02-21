@@ -75,6 +75,21 @@ public abstract class PaymentTxn {
         this.status = PaymentStatus.PENDING;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof PaymentTxn)) {
+            return false;
+        }
+        PaymentTxn txnObject = (PaymentTxn) o;
+        return this.id == txnObject.getId();
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
     public Payment getPayment() {
         return payment;
     }

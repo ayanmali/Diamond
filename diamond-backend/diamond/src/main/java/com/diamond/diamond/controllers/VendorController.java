@@ -1,6 +1,5 @@
 package com.diamond.diamond.controllers;
 
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.diamond.diamond.dtos.vendor.FetchVendorDto;
 import com.diamond.diamond.dtos.vendor.RegisterUserDto;
-import com.diamond.diamond.dtos.wallets.FetchVendorWalletDto;
 import com.diamond.diamond.services.VendorService;
 
 @RestController
@@ -42,10 +40,10 @@ public class VendorController {
         return vendorService.findVendorDtoByEmail(email);
     }
 
-    @GetMapping("wallets/{id}")
-    List<FetchVendorWalletDto> getWallets(@PathVariable(value="id") String id) {
-        return vendorService.findVendorWallets(UUID.fromString(id));
-    }
+    // @GetMapping("wallets/{id}")
+    // List<FetchVendorWalletDto> getWallets(@PathVariable(value="id") String id) {
+    //     return vendorService.findVendorWallets(UUID.fromString(id));
+    // }
     
     @PostMapping("update-email/{id}")
     FetchVendorDto updateEmail(@RequestBody String email, @PathVariable(value="id") String id) {

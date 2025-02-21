@@ -1,5 +1,8 @@
 package com.diamond.diamond.services;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.wallets.FetchVendorWalletDto;
@@ -30,13 +33,14 @@ public class VendorWalletService {
         return walletDto;
     }
 
-    public FetchVendorWalletDto saveWallet(NewVendorWalletDto wallet, Vendor vendor) {
+    public FetchVendorWalletDto saveWallet(NewVendorWalletDto walletDto, Vendor vendor) {
         VendorWallet vendorWallet = new VendorWallet(
-                                        wallet.getAddress(),
-                                        wallet.getWalletName(),
+                                        walletDto.getAddress(),
+                                        walletDto.getWalletName(),
                                         vendor,
-                                        wallet.getChain());
+                                        walletDto.getChain());
         vendorWallet.setStatus(WalletStatus.ACTIVE);
+
         return convertVendorWalletToFetchDto(vendorWalletRepository.save(vendorWallet));
     }
 
@@ -54,6 +58,14 @@ public class VendorWalletService {
 
     public VendorWallet findWalletByAddress(String address) {
         return vendorWalletRepository.findByAddress(address).orElseThrow();
+    }
+
+    public List<FetchVendorWalletDto> findWalletsByVendor(Vendor vendor) {
+        List<VendorWallet> vendorWallets = vendorWalletRepository.findByVendor(vendor);
+        //List<VendorWallet> vendorWallets = vendorWalletRepository.findAll();
+        return vendorWallets.stream() // Convert the List<VendorWallet> to a Stream<VendorWallet>
+            .map(VendorWalletService::convertVendorWalletToFetchDto) // Map each VendorWallet to FetchVendorWalletDto
+            .collect(Collectors.toList()); // Collect the results into a List<FetchVendorWalletDto>
     }
 
     public FetchVendorWalletDto updateWalletName(Long id, String name) {
