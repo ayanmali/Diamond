@@ -1,7 +1,10 @@
 package com.diamond.diamond.services;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.customer.FetchCustomerDto;
@@ -19,23 +22,32 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public FetchCustomerDto convertCustomerToFetchDto(Customer customer) {
+    public static FetchCustomerDto convertCustomerToFetchDto(Customer customer) {
         FetchCustomerDto customerDto = new FetchCustomerDto();
+        
         customerDto.setId(customer.getId());
         customerDto.setName(customer.getName());
         customerDto.setEmail(customer.getEmail());
-        customerDto.setWallets(customer.getWallets());
         customerDto.setVendorId(customer.getVendor().getId());
         customerDto.setCreatedAt(customer.getCreatedAt());
         customerDto.setUpdatedAt(customer.getUpdatedAt());
+
+
+        if (customer.getWallets() != null && Hibernate.isInitialized(customer.getWallets())) {
+            customerDto.setWallets(
+                customer.getWallets().stream() // Convert the List<CustomerWallet> to a Stream<CustomerWallet>
+                .map(CustomerWalletService::convertCustomerWalletToFetchDto) // Map each Customerallet to FetchCustomerWalletDto
+                .collect(Collectors.toList()));
+        }
+
         return customerDto;
     }
 
     public FetchCustomerDto saveCustomer(NewCustomerDto newCustomer, Vendor vendor) {
         Customer customer = new Customer(vendor,
                                          newCustomer.getName(),
-                                         newCustomer.getEmail(),
-                                         newCustomer.getWallets() 
+                                         newCustomer.getEmail()
+                                         //newCustomer.getWallets() 
                                         );
         
         return convertCustomerToFetchDto(customerRepository.save(customer));
@@ -50,11 +62,17 @@ public class CustomerService {
     }
 
     public FetchCustomerDto findCustomerDtoById(String id) {
-        return convertCustomerToFetchDto(customerRepository.findById(UUID.fromString(id)).orElseThrow());
+        //return convertCustomerToFetchDto(customerRepository.findById(UUID.fromString(id)).orElseThrow());
+        return convertCustomerToFetchDto(
+            customerRepository.findById(UUID.fromString(id))
+            .orElseThrow());
     }
 
     public FetchCustomerDto findCustomerDtoById(UUID id) {
-        return convertCustomerToFetchDto(customerRepository.findById(id).orElseThrow());
+        //return convertCustomerToFetchDto(customerRepository.findById(id).orElseThrow());
+        return convertCustomerToFetchDto(
+            customerRepository.findById(id)
+            .orElseThrow());
     }
 
     public Customer findCustomerByEmail(String email) {
@@ -63,6 +81,16 @@ public class CustomerService {
 
     public FetchCustomerDto findCustomerDtoByEmail(String email) {
         return convertCustomerToFetchDto(customerRepository.findByEmail(email).orElseThrow());
+    }
+
+    public List<FetchCustomerDto> findCustomerDtosByVendor(Vendor vendor) {
+        return customerRepository.findByVendor(vendor).stream() // Convert the List<Customer> to a Stream<Customer>
+        .map(CustomerService::convertCustomerToFetchDto) // Map each Customer to FetchCustomerDto
+        .collect(Collectors.toList());
+    }
+
+    public List<Customer> findCustomersByVendor(Vendor vendor) {
+        return customerRepository.findByVendor(vendor);
     }
 
     public FetchCustomerDto updateCustomerEmail(UUID id, String email) {

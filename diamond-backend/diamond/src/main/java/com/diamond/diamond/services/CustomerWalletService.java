@@ -1,5 +1,8 @@
 package com.diamond.diamond.services;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.wallets.FetchCustomerWalletDto;
@@ -16,7 +19,7 @@ public class CustomerWalletService {
         this.customerWalletRepository = customerWalletRepository;
     }
 
-    public FetchCustomerWalletDto convertCustomerWalletToFetchDto(CustomerWallet wallet) {
+    public static FetchCustomerWalletDto convertCustomerWalletToFetchDto(CustomerWallet wallet) {
         FetchCustomerWalletDto walletDto = new FetchCustomerWalletDto();
         walletDto.setId(wallet.getId());
         walletDto.setAddress(wallet.getAddress());
@@ -46,6 +49,16 @@ public class CustomerWalletService {
 
     public CustomerWallet findWalletByAddress(String address) {
         return customerWalletRepository.findByAddress(address).orElseThrow();
+    }
+
+    public List<CustomerWallet> findWalletsByCustomer(Customer customer) {
+        return customerWalletRepository.findByCustomer(customer);
+    }
+
+    public List<FetchCustomerWalletDto> findWalletDtosByCustomer(Customer customer) {
+        return customerWalletRepository.findByCustomer(customer).stream() // Convert the List<Customer> to a Stream<Customer>
+        .map(CustomerWalletService::convertCustomerWalletToFetchDto) // Map each Customer to FetchCustomerDto
+        .collect(Collectors.toList());
     }
 
     public void deleteWalletById(Long id) {

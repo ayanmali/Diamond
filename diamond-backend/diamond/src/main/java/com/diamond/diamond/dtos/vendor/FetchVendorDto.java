@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import com.diamond.diamond.entities.VendorWallet;
+import com.diamond.diamond.dtos.wallets.FetchVendorWalletDto;
 
 public class FetchVendorDto {
     private String email;
@@ -12,7 +12,7 @@ public class FetchVendorDto {
     private String businessName;
     private Date createdAt;
     private Date updatedAt;
-    private List<VendorWallet> wallets;
+    private List<FetchVendorWalletDto> wallets;
 
     public String getEmail() {
         return email;
@@ -54,11 +54,13 @@ public class FetchVendorDto {
         this.updatedAt = updatedAt;
     }
 
-    public List<VendorWallet> getWallets() {
+    public List<FetchVendorWalletDto> getWallets() {
         return wallets;
     }
 
-    public void setWallets(List<VendorWallet> wallets) {
+    public void setWallets(List<FetchVendorWalletDto> wallets) {
         this.wallets = wallets;
     }
+
+    
 }

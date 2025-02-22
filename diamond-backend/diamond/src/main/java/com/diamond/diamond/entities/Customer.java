@@ -33,7 +33,7 @@ public class Customer {
     @Column(nullable=false)
     private String email;
 
-    @OneToMany(mappedBy="address", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy="customer", cascade=CascadeType.ALL)
     private List<CustomerWallet> wallets;
 
     @ManyToOne
@@ -65,6 +65,12 @@ public class Customer {
         this.email = email;
         this.wallets = new ArrayList<>();
         this.wallets.add(wallet);
+    }
+
+    public Customer(Vendor vendor, String name, String email) {
+        this.vendor = vendor;
+        this.name = name;
+        this.email = email;
     }
 
     public Customer(Vendor vendor, String name, String email, List<CustomerWallet> wallets) {

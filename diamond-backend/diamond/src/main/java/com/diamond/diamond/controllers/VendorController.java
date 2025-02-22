@@ -1,5 +1,6 @@
 package com.diamond.diamond.controllers;
 
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -12,15 +13,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.diamond.diamond.dtos.vendor.FetchVendorDto;
 import com.diamond.diamond.dtos.vendor.RegisterUserDto;
+import com.diamond.diamond.dtos.wallets.FetchVendorWalletDto;
 import com.diamond.diamond.services.VendorService;
+import com.diamond.diamond.services.VendorWalletService;
 
 @RestController
 @RequestMapping("/vendor")
 public class VendorController {
     private final VendorService vendorService;
+    private final VendorWalletService vendorWalletService;
 
-    public VendorController(VendorService vendorService) {
+    public VendorController(VendorService vendorService, VendorWalletService vendorWalletService) {
         this.vendorService = vendorService;
+        this.vendorWalletService = vendorWalletService;
     }
 
     @PostMapping("/signup")
@@ -30,14 +35,29 @@ public class VendorController {
     
     @GetMapping("/id/{id}")
     FetchVendorDto getVendorById(@PathVariable(value = "id") String id) {
-        //return "wfqwgqg";
-        return vendorService.findVendorDtoById(id);
-        //return String.format("Testing get endpoint for id %s", id);
+        // finding all wallets associated with this vendor
+        List<FetchVendorWalletDto> wallets = vendorWalletService.findWalletDtosByVendor(
+                                                                vendorService.findVendorById(id));
+        // getting the vendor dto
+        FetchVendorDto vendorDto = vendorService.findVendorDtoById(id);
+        // setting the wallets for this vendor dto
+        vendorDto.setWallets(wallets);
+
+        return vendorDto;
     }
 
     @GetMapping("/email/{email}")
     FetchVendorDto getVendorByEmail(@PathVariable(value="email") String email) {
-        return vendorService.findVendorDtoByEmail(email);
+        // finding all wallets associated with this vendor
+        List<FetchVendorWalletDto> wallets = vendorWalletService.findWalletDtosByVendor(
+                                                                vendorService.findVendorByEmail(email));
+        // getting the vendor dto
+        FetchVendorDto vendorDto = vendorService.findVendorDtoByEmail(email);
+        // setting the wallets for this vendor dto
+        vendorDto.setWallets(wallets);
+
+        return vendorDto;
+
     }
 
     // @GetMapping("wallets/{id}")

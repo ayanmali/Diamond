@@ -60,12 +60,16 @@ public class VendorWalletService {
         return vendorWalletRepository.findByAddress(address).orElseThrow();
     }
 
-    public List<FetchVendorWalletDto> findWalletsByVendor(Vendor vendor) {
-        List<VendorWallet> vendorWallets = vendorWalletRepository.findByVendor(vendor);
+    public List<FetchVendorWalletDto> findWalletDtosByVendor(Vendor vendor) {
+        // List<VendorWallet> vendorWallets = vendorWalletRepository.findByVendor(vendor);
         //List<VendorWallet> vendorWallets = vendorWalletRepository.findAll();
-        return vendorWallets.stream() // Convert the List<VendorWallet> to a Stream<VendorWallet>
+        return vendorWalletRepository.findByVendor(vendor).stream() // Convert the List<VendorWallet> to a Stream<VendorWallet>
             .map(VendorWalletService::convertVendorWalletToFetchDto) // Map each VendorWallet to FetchVendorWalletDto
             .collect(Collectors.toList()); // Collect the results into a List<FetchVendorWalletDto>
+    }
+
+    public List<VendorWallet> findWalletsByVendor(Vendor vendor) {
+        return vendorWalletRepository.findByVendor(vendor);
     }
 
     public FetchVendorWalletDto updateWalletName(Long id, String name) {

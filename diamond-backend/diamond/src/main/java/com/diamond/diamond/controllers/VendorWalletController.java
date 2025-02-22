@@ -40,12 +40,14 @@ public class VendorWalletController {
         return vendorWalletService.findWalletDtoById(id);
     }
 
+    /*
+     * Get all wallets associated with a Vendor
+     */
     @GetMapping("/vendorid/{id}")
     public List<FetchVendorWalletDto> getWalletsByVendor(@PathVariable(value="id") String vendorId) {
-        return vendorWalletService.findWalletsByVendor(vendorService.findVendorById(vendorId));
+        return vendorWalletService.findWalletDtosByVendor(vendorService.findVendorById(vendorId));
     }
     
-
     @GetMapping("/address/{address}")
     public FetchVendorWalletDto getWalletByAddress(@PathVariable(value = "address") String address) {
         return vendorWalletService.findWalletDtoByAddress(address);

@@ -1,19 +1,15 @@
 package com.diamond.diamond.services;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.vendor.FetchVendorDto;
 import com.diamond.diamond.dtos.vendor.RegisterUserDto;
-import com.diamond.diamond.dtos.wallets.FetchVendorWalletDto;
 import com.diamond.diamond.entities.Vendor;
-import com.diamond.diamond.entities.VendorWallet;
 import com.diamond.diamond.repositories.VendorRepository;
-
-import jakarta.transaction.Transactional;
 
 @Service
 public class VendorService {
@@ -39,6 +35,13 @@ public class VendorService {
         vendorDto.setId(vendor.getId());
         vendorDto.setCreatedAt(vendor.getCreatedAt());
         vendorDto.setUpdatedAt(vendor.getUpdatedAt());
+
+        if (vendor.getWallets() != null && Hibernate.isInitialized(vendor.getWallets())) {
+            vendorDto.setWallets(
+                vendor.getWallets().stream() // Convert the List<VendorWallet> to a Stream<VendorWallet>
+                .map(VendorWalletService::convertVendorWalletToFetchDto) // Map each VendorWallet to FetchVendorWalletDto
+                .collect(Collectors.toList()));
+        }
         return vendorDto;
     }
 
@@ -59,28 +62,34 @@ public class VendorService {
 
     //@Transactional
     public FetchVendorDto findVendorDtoById(String id) {
-        UUID uuidId = UUID.fromString(id);
-        return convertVendorToFetchDto(vendorRepository.findById(uuidId).orElseThrow());
+        return convertVendorToFetchDto(
+            vendorRepository.findById(UUID.fromString(id))
+            .orElseThrow());
     }
 
     //@Transactional
     public FetchVendorDto findVendorDtoById(UUID id) {
-        return convertVendorToFetchDto(vendorRepository.findById(id).orElseThrow());
+        return convertVendorToFetchDto(
+            vendorRepository.findById(id)
+            .orElseThrow());
     }   
 
     //@Transactional
     public Vendor findVendorById(String id) {
-        UUID uuidId = UUID.fromString(id);
-        return vendorRepository.findById(uuidId).orElseThrow();
+        return vendorRepository.findById(UUID.fromString(id))
+        .orElseThrow();
     }
 
     //@Transactional
     public Vendor findVendorById(UUID id) {
-        return vendorRepository.findById(id).orElseThrow();
+        return vendorRepository.findById(id)
+        .orElseThrow();
     }
 
     public FetchVendorDto findVendorDtoByEmail(String email) {
-        return convertVendorToFetchDto(vendorRepository.findByEmail(email).orElseThrow());
+        return convertVendorToFetchDto(
+            vendorRepository.findByEmail(email)
+            .orElseThrow());
 
         // List<Vendor> vendors = vendorRepository.findByEmail(email);
         // return vendors.stream().map(vendor -> {
@@ -101,18 +110,18 @@ public class VendorService {
     // public List<VendorWallet> findWallets(UUID walletId) {
     //     return vendorRepository.findWallets(walletId);
     // }
-    @Transactional
-    public List<FetchVendorWalletDto> findVendorWallets(UUID vendorId) {        
-        FetchVendorDto vendorDto = findVendorDtoById(vendorId);
-        if (vendorDto.getWallets() == null) return new ArrayList<>();
+    // @Transactional
+    // public List<FetchVendorWalletDto> findVendorWallets(UUID vendorId) {        
+    //     FetchVendorDto vendorDto = findVendorDtoById(vendorId);
+    //     if (vendorDto.getWallets() == null) return new ArrayList<>();
 
-        Vendor vendor = vendorRepository.findById(vendorId).orElseThrow();
-        List<FetchVendorWalletDto> wallets = new ArrayList<>();
-        for (VendorWallet wallet : vendor.getWallets()) {
-            wallets.add(VendorWalletService.convertVendorWalletToFetchDto(wallet));
-        }
-        return wallets;
-    }
+    //     Vendor vendor = vendorRepository.findById(vendorId).orElseThrow();
+    //     List<FetchVendorWalletDto> wallets = new ArrayList<>();
+    //     for (VendorWallet wallet : vendor.getWallets()) {
+    //         wallets.add(VendorWalletService.convertVendorWalletToFetchDto(wallet));
+    //     }
+    //     return wallets;
+    // }
 
     public FetchVendorDto updateVendorEmail(UUID id, String email) {
         Vendor vendor = vendorRepository.findById(id).orElseThrow();
