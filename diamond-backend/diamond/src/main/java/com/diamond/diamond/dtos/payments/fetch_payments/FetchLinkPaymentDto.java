@@ -2,11 +2,18 @@ package com.diamond.diamond.dtos.payments.fetch_payments;
 
 import java.util.List;
 
+import com.diamond.diamond.entities.payments.Payment;
+
 public class FetchLinkPaymentDto extends FetchPaymentDto {
     private Boolean hasMaxNumberOfPayments;
     private Integer maxNumberOfPayments;
     private Boolean enablePromoCodes;
     private List<Long> validPromoCodeIds;
+
+    public FetchLinkPaymentDto() {}
+    public FetchLinkPaymentDto(Payment payment) {
+        super(payment);
+    }
     
     public Boolean getHasMaxNumberOfPayments() {
         return hasMaxNumberOfPayments;

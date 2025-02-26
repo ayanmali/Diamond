@@ -4,26 +4,19 @@
 package com.diamond.diamond.dtos.payments.new_payments;
 
 import java.util.List;
-import java.util.UUID;
 
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.StablecoinCurrency;
 
 public abstract class NewPaymentDto {
 
-    private UUID id;
+    //private UUID id;
     private Double amount;
     private String vendorId;
     private StablecoinCurrency currency;
     private Blockchain chain;
     private List<Long> vendorWalletIds;
 
-    public UUID getId() {
-        return id;
-    }
-    public void setId(UUID id) {
-        this.id = id;
-    }
     public Double getAmount() {
         return amount;
     }

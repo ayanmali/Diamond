@@ -16,7 +16,7 @@ import com.diamond.diamond.services.payments.PromoCodeService;
 import com.diamond.diamond.services.payments.checkouts.CheckoutService;
 
 @RestController
-@RequestMapping("/payments/checkout-payments")
+@RequestMapping("/checkout-payments")
 public class CheckoutPaymentController extends PaymentController<CheckoutPayment, NewCheckoutPaymentDto> {
     private final PromoCodeService promoCodeService;
 

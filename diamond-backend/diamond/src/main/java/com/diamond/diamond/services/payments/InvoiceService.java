@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.diamond.diamond.dtos.payments.fetch_payments.FetchInvoiceDto;
 import com.diamond.diamond.entities.Customer;
 import com.diamond.diamond.entities.payments.Invoice;
-import com.diamond.diamond.entities.payments.Payment;
 import com.diamond.diamond.repositories.payments.InvoiceRepository;
 
 @Service
@@ -19,10 +18,15 @@ public class InvoiceService extends PaymentService<Invoice> {
     }
 
     @Override
-    public FetchInvoiceDto convertPaymentToFetchDto(Payment payment) {
-        Invoice invoice = (Invoice) payment;
+    public FetchInvoiceDto convertPaymentToFetchDto(Invoice invoice) {
+        //Invoice invoice = (Invoice) payment;
         // TODO Auto-generated method stub
-        FetchInvoiceDto invoiceDto = (FetchInvoiceDto) super.convertPaymentToFetchDto(payment);
+        FetchInvoiceDto invoiceDto =  new FetchInvoiceDto(invoice);
+        // invoiceDto.setAmount(checkoutPayment.getAmount());
+        // invoiceDto.setChain(checkoutPayment.getChain());
+        // invoiceDto.setCreatedAt(checkoutPayment.getCreatedAt());
+        // invoiceDto.setCurrency(checkoutPayment.getStablecoinCurrency());
+        // invoiceDto.setId(checkoutPayment.getId());
 
         invoiceDto.setTimePaid(invoice.getTimePaid());
         invoiceDto.setTimeSent(invoice.getTimeSent());

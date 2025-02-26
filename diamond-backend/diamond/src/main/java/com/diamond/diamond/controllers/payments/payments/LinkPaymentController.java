@@ -16,7 +16,7 @@ import com.diamond.diamond.services.payments.PromoCodeService;
 import com.diamond.diamond.services.payments.linkpayments.LinkPaymentService;
 
 @RestController
-@RequestMapping("/payments/link-payments")
+@RequestMapping("/link-payments")
 public class LinkPaymentController extends PaymentController<LinkPayment, NewLinkPaymentDto> {
     private final PromoCodeService promoCodeService;
 

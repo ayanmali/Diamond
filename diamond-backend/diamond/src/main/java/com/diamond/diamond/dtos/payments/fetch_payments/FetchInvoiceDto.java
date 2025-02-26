@@ -3,12 +3,19 @@ package com.diamond.diamond.dtos.payments.fetch_payments;
 import java.util.Date;
 import java.util.UUID;
 
+import com.diamond.diamond.entities.payments.Payment;
+
 public class FetchInvoiceDto extends FetchPaymentDto {
     private UUID customerId;
     private Date timeSent;
     private Date timePaid;
     private String vendorComments;
     private String customerComments;
+
+    public FetchInvoiceDto() {}
+    public FetchInvoiceDto(Payment payment) {
+        super(payment);
+    }
 
     public UUID getCustomerId() {
         return customerId;

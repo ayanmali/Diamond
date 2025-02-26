@@ -17,18 +17,20 @@ public abstract class PaymentService<T extends Payment> {
     
     public PaymentService(PaymentRepository<T> paymentRepository) {
         this.paymentRepository = paymentRepository;
-    }
+    }  
 
-    public FetchPaymentDto convertPaymentToFetchDto(Payment payment) {
-        FetchPaymentDto paymentDto = new FetchPaymentDto();
-        paymentDto.setAmount(payment.getAmount());
-        paymentDto.setChain(payment.getChain());
-        paymentDto.setCreatedAt(payment.getCreatedAt());
-        paymentDto.setCurrency(payment.getStablecoinCurrency());
-        paymentDto.setId(payment.getId());
+    // public FetchPaymentDto convertPaymentToFetchDto(T payment) {
+    //     FetchPaymentDto paymentDto = new FetchPaymentDto();
+    //     paymentDto.setAmount(payment.getAmount());
+    //     paymentDto.setChain(payment.getChain());
+    //     paymentDto.setCreatedAt(payment.getCreatedAt());
+    //     paymentDto.setCurrency(payment.getStablecoinCurrency());
+    //     paymentDto.setId(payment.getId());
 
-        return paymentDto;
-    }
+    //     return paymentDto;
+    // }
+
+    public abstract FetchPaymentDto convertPaymentToFetchDto(T payment);
 
     public T savePayment(T payment) {
         return paymentRepository.save(payment);

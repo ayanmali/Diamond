@@ -73,13 +73,18 @@ public class CustomerController {
         // return a list containing all the customers, each customer contains a list of walletDtos that belong to them
         return customerDtos;
 
-        // List<FetchCustomerWalletDto> customerWallets = customerWalletService.findWalletsByCustomer(customer);
-        // return customerService.findCustomerDtosByVendor(vendorService.findVendorById(vendorId));
     }
     
     @GetMapping("/email/{email}")
     public FetchCustomerDto getCustomerByEmail(@PathVariable(value="email") String email) {
-        return customerService.findCustomerDtoByEmail(email);
+        List<FetchCustomerWalletDto> customerWallets = customerWalletService.findWalletDtosByCustomer(
+                                                                    customerService.findCustomerByEmail(email));
+        
+        FetchCustomerDto customerDto = customerService.findCustomerDtoByEmail(email);
+
+        customerDto.setWallets(customerWallets);
+
+        return customerDto;
     }
 
     @PostMapping("/update-name/{id}")

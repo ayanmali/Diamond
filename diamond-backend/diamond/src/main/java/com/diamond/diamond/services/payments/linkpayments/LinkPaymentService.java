@@ -7,7 +7,6 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.payments.fetch_payments.FetchLinkPaymentDto;
-import com.diamond.diamond.entities.payments.Payment;
 import com.diamond.diamond.entities.payments.PromoCode;
 import com.diamond.diamond.entities.payments.link_payments.LinkPayment;
 import com.diamond.diamond.repositories.payments.linkpayments.LinkPaymentRepository;
@@ -23,10 +22,19 @@ public class LinkPaymentService extends PaymentService<LinkPayment> {
     }
 
     @Override
-    public FetchLinkPaymentDto convertPaymentToFetchDto(Payment payment) {
+    public FetchLinkPaymentDto convertPaymentToFetchDto(LinkPayment linkPayment) {
         // TODO Auto-generated method stub
-        LinkPayment linkPayment = (LinkPayment) payment;
-        FetchLinkPaymentDto linkPaymentDto = (FetchLinkPaymentDto) super.convertPaymentToFetchDto(linkPayment);
+        //LinkPayment linkPayment = (LinkPayment) payment;
+        // FetchLinkPaymentDto linkPaymentDto = (FetchLinkPaymentDto) super.convertPaymentToFetchDto(linkPayment);
+
+        //FetchPaymentDto parent = super.convertPaymentToFetchDto(linkPayment);
+        FetchLinkPaymentDto linkPaymentDto = new FetchLinkPaymentDto(linkPayment);
+
+        // linkPaymentDto.setAmount(linkPayment.getAmount());
+        // linkPaymentDto.setChain(linkPayment.getChain());
+        // linkPaymentDto.setCreatedAt(linkPayment.getCreatedAt());
+        // linkPaymentDto.setCurrency(linkPayment.getStablecoinCurrency());
+        // linkPaymentDto.setId(linkPayment.getId());
 
         linkPaymentDto.setHasMaxNumberOfPayments(linkPayment.getHasMaxNumberOfPayments());
         linkPaymentDto.setMaxNumberOfPayments(linkPayment.getMaxNumberOfPayments());

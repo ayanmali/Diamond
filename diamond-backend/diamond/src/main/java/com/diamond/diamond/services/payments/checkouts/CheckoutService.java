@@ -7,7 +7,6 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.payments.fetch_payments.FetchCheckoutPaymentDto;
-import com.diamond.diamond.entities.payments.Payment;
 import com.diamond.diamond.entities.payments.PromoCode;
 import com.diamond.diamond.entities.payments.checkouts.CheckoutPayment;
 import com.diamond.diamond.repositories.payments.checkoutpayments.CheckoutRepository;
@@ -21,10 +20,15 @@ public class CheckoutService extends PaymentService<CheckoutPayment> {
     }
 
     @Override
-    public FetchCheckoutPaymentDto convertPaymentToFetchDto(Payment payment) {
+    public FetchCheckoutPaymentDto convertPaymentToFetchDto(CheckoutPayment checkoutPayment) {
         // TODO Auto-generated method stub
-        CheckoutPayment checkoutPayment = (CheckoutPayment) payment;
-        FetchCheckoutPaymentDto checkoutPaymentDto = (FetchCheckoutPaymentDto) super.convertPaymentToFetchDto(checkoutPayment);
+        FetchCheckoutPaymentDto checkoutPaymentDto = new FetchCheckoutPaymentDto(checkoutPayment);
+
+        // checkoutPaymentDto.setAmount(checkoutPayment.getAmount());
+        // checkoutPaymentDto.setChain(checkoutPayment.getChain());
+        // checkoutPaymentDto.setCreatedAt(checkoutPayment.getCreatedAt());
+        // checkoutPaymentDto.setCurrency(checkoutPayment.getStablecoinCurrency());
+        // checkoutPaymentDto.setId(checkoutPayment.getId());
 
         checkoutPaymentDto.setHasMaxNumberOfPayments(checkoutPayment.getHasMaxNumberOfPayments());
         checkoutPaymentDto.setMaxNumberOfPayments(checkoutPayment.getMaxNumberOfPayments());

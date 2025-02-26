@@ -12,7 +12,7 @@ import com.diamond.diamond.services.CustomerService;
 import com.diamond.diamond.services.VendorService;
 
 @RestController
-@RequestMapping("/payments/invoices")
+@RequestMapping("/invoices")
 public class InvoiceController extends PaymentController<Invoice, NewInvoiceDto> {
     private final CustomerService customerService;
 

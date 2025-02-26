@@ -1,9 +1,12 @@
 package com.diamond.diamond.dtos.payments.fetch_payments;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.diamond.diamond.entities.VendorWallet;
+import com.diamond.diamond.entities.payments.Payment;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.StablecoinCurrency;
 
@@ -16,6 +19,25 @@ public class FetchPaymentDto {
     private List<Long> vendorWalletIds;
     private Date createdAt;
     private Date updatedAt;
+
+    public FetchPaymentDto() {}
+
+    public FetchPaymentDto(Payment payment) {
+        this.id = payment.getId();
+        this.amount = payment.getAmount();
+        this.vendorId = payment.getVendor().getId();
+        this.currency = payment.getStablecoinCurrency();
+        this.chain = payment.getChain();
+
+        List<Long> walletIds = new ArrayList<>();
+        for (VendorWallet vw : payment.getWalletDistribution()) {
+            walletIds.add(vw.getId());
+        }
+        this.vendorWalletIds = walletIds;
+
+        this.createdAt = payment.getCreatedAt();
+        this.updatedAt = payment.getUpdatedAt();
+    }
 
     public UUID getId() {
         return id;
