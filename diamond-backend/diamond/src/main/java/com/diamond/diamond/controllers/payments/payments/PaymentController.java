@@ -40,7 +40,19 @@ public abstract class PaymentController<P extends Payment, N extends NewPaymentD
 
     @GetMapping("/id/{id}")
     public FetchPaymentDto getPaymentById(@PathVariable(value="id") String id) {
-        return paymentService.convertPaymentToFetchDto(paymentService.findPaymentById(id));
+        P payment = paymentService.findPaymentById(id);
+        FetchPaymentDto paymentDto = paymentService.convertPaymentToFetchDto(payment);
+        
+        // Retrieving the wallet distribution for this Payment
+        List<VendorWallet> walletDistribution = vendorWalletService.findWalletsByPayment(payment);
+
+        List<Long> walletIds = new ArrayList<>();
+        for (VendorWallet vw : walletDistribution) {
+            walletIds.add(vw.getId());
+        }
+        paymentDto.setVendorWalletIds(walletIds);
+
+        return paymentDto;
     }
 
     @PostMapping("/update-amount/{id}")

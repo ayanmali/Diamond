@@ -43,10 +43,11 @@ public class CustomerController {
 
     @GetMapping("/id/{id}")
     public FetchCustomerDto getCustomerById(@PathVariable(value="id") String id) {
+        Customer customer = customerService.findCustomerById(id);
         List<FetchCustomerWalletDto> customerWallets = customerWalletService.findWalletDtosByCustomer(
-                                                                    customerService.findCustomerById(id));
+                                                                    customer);
         
-        FetchCustomerDto customerDto = customerService.findCustomerDtoById(id);
+        FetchCustomerDto customerDto = CustomerService.convertCustomerToFetchDto(customer);
 
         customerDto.setWallets(customerWallets);
 
@@ -77,8 +78,9 @@ public class CustomerController {
     
     @GetMapping("/email/{email}")
     public FetchCustomerDto getCustomerByEmail(@PathVariable(value="email") String email) {
+        Customer customer = customerService.findCustomerByEmail(email);
         List<FetchCustomerWalletDto> customerWallets = customerWalletService.findWalletDtosByCustomer(
-                                                                    customerService.findCustomerByEmail(email));
+                                                                    customer);
         
         FetchCustomerDto customerDto = customerService.findCustomerDtoByEmail(email);
 

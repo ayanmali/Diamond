@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.payments.fetch_payments.FetchCheckoutPaymentDto;
@@ -34,12 +35,14 @@ public class CheckoutService extends PaymentService<CheckoutPayment> {
         checkoutPaymentDto.setMaxNumberOfPayments(checkoutPayment.getMaxNumberOfPayments());
         checkoutPaymentDto.setEnablePromoCodes(checkoutPayment.getEnablePromoCodes());
         
-        // Getting the IDs of the valid promo codes for this payment
-        List<Long> promoCodeIds = new ArrayList<>();
-        for (PromoCode promoCode : checkoutPayment.getValidPromoCodes()) {
-            promoCodeIds.add(promoCode.getId());
+        if (checkoutPayment.getValidPromoCodes() != null && Hibernate.isInitialized(checkoutPayment.getValidPromoCodes())) {
+            // Getting the IDs of the valid promo codes for this payment
+            List<Long> promoCodeIds = new ArrayList<>();
+            for (PromoCode promoCode : checkoutPayment.getValidPromoCodes()) {
+                promoCodeIds.add(promoCode.getId());
+            }
+            checkoutPaymentDto.setValidPromoCodeIds(promoCodeIds);
         }
-        checkoutPaymentDto.setValidPromoCodeIds(promoCodeIds);
 
         return checkoutPaymentDto;
     }

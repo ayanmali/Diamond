@@ -9,6 +9,7 @@ import com.diamond.diamond.dtos.wallets.FetchVendorWalletDto;
 import com.diamond.diamond.dtos.wallets.NewVendorWalletDto;
 import com.diamond.diamond.entities.Vendor;
 import com.diamond.diamond.entities.VendorWallet;
+import com.diamond.diamond.entities.payments.Payment;
 import com.diamond.diamond.repositories.VendorWalletRepository;
 import com.diamond.diamond.types.WalletStatus;
 
@@ -70,6 +71,26 @@ public class VendorWalletService {
 
     public List<VendorWallet> findWalletsByVendor(Vendor vendor) {
         return vendorWalletRepository.findByVendor(vendor);
+    }
+
+    public List<VendorWallet> findWalletsByPayment(Payment payment) {
+        return vendorWalletRepository.findByPayments(List.of(payment));
+    }
+
+    public List<FetchVendorWalletDto> findWalletDtosByPayment(Payment payment) {
+        return vendorWalletRepository.findByPayments(List.of(payment)).stream() // Convert the List<VendorWallet> to a Stream<VendorWallet>
+        .map(VendorWalletService::convertVendorWalletToFetchDto) // Map each VendorWallet to FetchVendorWalletDto
+        .collect(Collectors.toList()); // Collect the results into a List<FetchVendorWalletDto>
+    }
+
+    public List<VendorWallet> findWalletsByPayments(List<Payment> payments) {
+        return vendorWalletRepository.findByPayments(payments);
+    }
+
+    public List<FetchVendorWalletDto> findWalletDtosByPayments(List<Payment> payments) {
+        return vendorWalletRepository.findByPayments(payments).stream() // Convert the List<VendorWallet> to a Stream<VendorWallet>
+        .map(VendorWalletService::convertVendorWalletToFetchDto) // Map each VendorWallet to FetchVendorWalletDto
+        .collect(Collectors.toList()); // Collect the results into a List<FetchVendorWalletDto>
     }
 
     public FetchVendorWalletDto updateWalletName(Long id, String name) {

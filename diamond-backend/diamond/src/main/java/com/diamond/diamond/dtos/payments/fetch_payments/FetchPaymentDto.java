@@ -5,6 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.hibernate.Hibernate;
+
 import com.diamond.diamond.entities.VendorWallet;
 import com.diamond.diamond.entities.payments.Payment;
 import com.diamond.diamond.types.Blockchain;
@@ -16,7 +18,7 @@ public class FetchPaymentDto {
     private UUID vendorId;
     private StablecoinCurrency currency;
     private Blockchain chain;
-    private List<Long> vendorWalletIds;
+    private List<Long> walletDistribution;
     private Date createdAt;
     private Date updatedAt;
 
@@ -29,11 +31,13 @@ public class FetchPaymentDto {
         this.currency = payment.getStablecoinCurrency();
         this.chain = payment.getChain();
 
-        List<Long> walletIds = new ArrayList<>();
-        for (VendorWallet vw : payment.getWalletDistribution()) {
-            walletIds.add(vw.getId());
+        if (payment.getWalletDistribution() != null && Hibernate.isInitialized(payment.getWalletDistribution())) {
+            List<Long> walletIds = new ArrayList<>();
+            for (VendorWallet vw : payment.getWalletDistribution()) {
+                walletIds.add(vw.getId());
+            }
+            this.walletDistribution = walletIds;
         }
-        this.vendorWalletIds = walletIds;
 
         this.createdAt = payment.getCreatedAt();
         this.updatedAt = payment.getUpdatedAt();
@@ -70,10 +74,10 @@ public class FetchPaymentDto {
         this.chain = chain;
     }
     public List<Long> getVendorWalletIds() {
-        return vendorWalletIds;
+        return walletDistribution;
     }
     public void setVendorWalletIds(List<Long> vendorWalletIds) {
-        this.vendorWalletIds = vendorWalletIds;
+        this.walletDistribution = vendorWalletIds;
     }
 
     public Date getCreatedAt() {

@@ -3,6 +3,7 @@ package com.diamond.diamond.services.payments;
 import java.util.Date;
 import java.util.UUID;
 
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.payments.fetch_payments.FetchInvoiceDto;
@@ -32,7 +33,10 @@ public class InvoiceService extends PaymentService<Invoice> {
         invoiceDto.setTimeSent(invoice.getTimeSent());
         invoiceDto.setUpdatedAt(invoice.getUpdatedAt());
         invoiceDto.setVendorComments(invoice.getVendorComments());
-        invoiceDto.setVendorId(invoice.getVendor().getId());
+
+        if (invoice.getVendor() != null && Hibernate.isInitialized(invoice.getVendor())) {
+            invoiceDto.setVendorId(invoice.getVendor().getId());
+        }
 
         return invoiceDto;
     }

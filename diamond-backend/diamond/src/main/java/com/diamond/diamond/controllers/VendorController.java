@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.diamond.diamond.dtos.vendor.FetchVendorDto;
 import com.diamond.diamond.dtos.vendor.RegisterUserDto;
 import com.diamond.diamond.dtos.wallets.FetchVendorWalletDto;
+import com.diamond.diamond.entities.Vendor;
 import com.diamond.diamond.services.VendorService;
 import com.diamond.diamond.services.VendorWalletService;
 
@@ -36,10 +37,11 @@ public class VendorController {
     @GetMapping("/id/{id}")
     FetchVendorDto getVendorById(@PathVariable(value = "id") String id) {
         // finding all wallets associated with this vendor
+        Vendor vendor = vendorService.findVendorById(id);
         List<FetchVendorWalletDto> wallets = vendorWalletService.findWalletDtosByVendor(
-                                                                vendorService.findVendorById(id));
+                                                                vendor);
         // getting the vendor dto
-        FetchVendorDto vendorDto = vendorService.findVendorDtoById(id);
+        FetchVendorDto vendorDto = vendorService.convertVendorToFetchDto(vendor);
         // setting the wallets for this vendor dto
         vendorDto.setWallets(wallets);
 
@@ -49,10 +51,11 @@ public class VendorController {
     @GetMapping("/email/{email}")
     FetchVendorDto getVendorByEmail(@PathVariable(value="email") String email) {
         // finding all wallets associated with this vendor
+        Vendor vendor = vendorService.findVendorByEmail(email);
         List<FetchVendorWalletDto> wallets = vendorWalletService.findWalletDtosByVendor(
-                                                                vendorService.findVendorByEmail(email));
+                                                                vendor);
         // getting the vendor dto
-        FetchVendorDto vendorDto = vendorService.findVendorDtoByEmail(email);
+        FetchVendorDto vendorDto = vendorService.convertVendorToFetchDto(vendor);
         // setting the wallets for this vendor dto
         vendorDto.setWallets(wallets);
 

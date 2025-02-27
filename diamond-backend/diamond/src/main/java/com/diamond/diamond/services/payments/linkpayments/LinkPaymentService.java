@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.payments.fetch_payments.FetchLinkPaymentDto;
@@ -40,12 +41,15 @@ public class LinkPaymentService extends PaymentService<LinkPayment> {
         linkPaymentDto.setMaxNumberOfPayments(linkPayment.getMaxNumberOfPayments());
         linkPaymentDto.setEnablePromoCodes(linkPayment.getEnablePromoCodes());
         
-        // Getting the IDs of the valid promo codes for this payment
-        List<Long> promoCodeIds = new ArrayList<>();
-        for (PromoCode promoCode : linkPayment.getValidPromoCodes()) {
-            promoCodeIds.add(promoCode.getId());
+        if (linkPayment.getValidPromoCodes() != null && Hibernate.isInitialized(linkPayment.getValidPromoCodes())) {
+            // Getting the IDs of the valid promo codes for this payment
+            List<Long> promoCodeIds = new ArrayList<>();
+            for (PromoCode promoCode : linkPayment.getValidPromoCodes()) {
+                promoCodeIds.add(promoCode.getId());
+            }
+
+            linkPaymentDto.setValidPromoCodeIds(promoCodeIds);
         }
-        linkPaymentDto.setValidPromoCodeIds(promoCodeIds);
 
         return linkPaymentDto;
     }
