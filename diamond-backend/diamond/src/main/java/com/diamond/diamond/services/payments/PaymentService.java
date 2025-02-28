@@ -40,9 +40,18 @@ public abstract class PaymentService<T extends Payment> {
         return paymentRepository.findById(id).orElseThrow();
     }
 
+    public FetchPaymentDto findPaymentDtoById(UUID id) {
+        return convertPaymentToFetchDto(paymentRepository.findById(id).orElseThrow());
+    }
+
     public T findPaymentById(String id) {
         UUID uuidId = UUID.fromString(id);
         return this.findPaymentById(uuidId);
+    }
+
+    public FetchPaymentDto findPaymentDtoById(String id) {
+        UUID uuidId = UUID.fromString(id);
+        return convertPaymentToFetchDto(this.findPaymentById(uuidId));
     }
 
     // find all valid promo codes for a given payment

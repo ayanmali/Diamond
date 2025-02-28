@@ -34,6 +34,13 @@ public class CustomerController {
         this.customerWalletService = customerWalletService;
     }
 
+    private FetchCustomerDto loadCustomerWallets(FetchCustomerDto customerDto) {
+        Customer customer = customerService.findCustomerById(customerDto.getId());
+        List<FetchCustomerWalletDto> customerWallets = customerWalletService.findWalletDtosByCustomer(customer);
+        customerDto.setWallets(customerWallets);
+        return customerDto;
+    }
+
     @PostMapping("/new")
     public FetchCustomerDto addCustomer(@RequestBody NewCustomerDto customerDto) {
         //TODO: process POST request
@@ -43,14 +50,9 @@ public class CustomerController {
 
     @GetMapping("/id/{id}")
     public FetchCustomerDto getCustomerById(@PathVariable(value="id") String id) {
-        Customer customer = customerService.findCustomerById(id);
-        List<FetchCustomerWalletDto> customerWallets = customerWalletService.findWalletDtosByCustomer(
-                                                                    customer);
-        
-        FetchCustomerDto customerDto = CustomerService.convertCustomerToFetchDto(customer);
-
-        customerDto.setWallets(customerWallets);
-
+        //Customer customer = customerService.findCustomerById(id);
+        FetchCustomerDto customerDto = customerService.findCustomerDtoById(id);
+        customerDto = loadCustomerWallets(customerDto);
         return customerDto;
     }
 
@@ -63,11 +65,9 @@ public class CustomerController {
         
         // get the list of wallets for each of those customers
         for (Customer customer : customers) {
-            List<FetchCustomerWalletDto> customerWallets = customerWalletService.findWalletDtosByCustomer(customer);
             // get the dto for this customer
             FetchCustomerDto customerDto = CustomerService.convertCustomerToFetchDto(customer);
-            // set the wallets attribute
-            customerDto.setWallets(customerWallets);
+            customerDto = loadCustomerWallets(customerDto);
             // add the customer dto to the list
             customerDtos.add(customerDto);
         }
@@ -78,33 +78,34 @@ public class CustomerController {
     
     @GetMapping("/email/{email}")
     public FetchCustomerDto getCustomerByEmail(@PathVariable(value="email") String email) {
-        Customer customer = customerService.findCustomerByEmail(email);
-        List<FetchCustomerWalletDto> customerWallets = customerWalletService.findWalletDtosByCustomer(
-                                                                    customer);
-        
         FetchCustomerDto customerDto = customerService.findCustomerDtoByEmail(email);
-
-        customerDto.setWallets(customerWallets);
-
+        customerDto = loadCustomerWallets(customerDto);
         return customerDto;
     }
 
     @PostMapping("/update-name/{id}")
     public FetchCustomerDto updateName(@PathVariable(value="id") String id, @RequestBody String name) {
         //TODO: process POST request
-        return customerService.updateCustomerName(UUID.fromString(id), name);
+        FetchCustomerDto customerDto = customerService.updateCustomerName(UUID.fromString(id), name);
+        customerDto = loadCustomerWallets(customerDto);
+        return customerDto;
     }
 
     @PostMapping("/update-email")
     public FetchCustomerDto updateEmail(@PathVariable(value="id") String id, @RequestBody String email) {
         //TODO: process POST request
-        return customerService.updateCustomerEmail(UUID.fromString(id), email);
+        FetchCustomerDto customerDto = customerService.updateCustomerEmail(UUID.fromString(id), email);
+        customerDto = loadCustomerWallets(customerDto);
+        return customerDto;
     }
 
     @PostMapping("/delete/{id}")
-    public void delete(@PathVariable(value="id") String id) {
+    public FetchCustomerDto delete(@PathVariable(value="id") String id) {
         //TODO: process POST request
+        FetchCustomerDto customerDto = customerService.findCustomerDtoById(id);
+        customerDto = loadCustomerWallets(customerDto);
         customerService.deleteCustomerById(id);
+        return customerDto;
     }
     
 }

@@ -1,7 +1,6 @@
 package com.diamond.diamond.controllers;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +28,15 @@ public class VendorController {
         this.vendorWalletService = vendorWalletService;
     }
 
+    private FetchVendorDto loadVendorWallets(FetchVendorDto vendorDto) {
+        Vendor vendor = vendorService.findVendorById(vendorDto.getId());
+        List<FetchVendorWalletDto> wallets = vendorWalletService.findWalletDtosByVendor(
+                                                                vendor);
+        vendorDto.setWallets(wallets);
+        return vendorDto;
+        
+    }
+
     @PostMapping("/signup")
     FetchVendorDto signup(@RequestBody RegisterUserDto registerUserDto) {
         return vendorService.signUp(registerUserDto);
@@ -36,31 +44,21 @@ public class VendorController {
     
     @GetMapping("/id/{id}")
     FetchVendorDto getVendorById(@PathVariable(value = "id") String id) {
-        // finding all wallets associated with this vendor
-        Vendor vendor = vendorService.findVendorById(id);
-        List<FetchVendorWalletDto> wallets = vendorWalletService.findWalletDtosByVendor(
-                                                                vendor);
-        // getting the vendor dto
-        FetchVendorDto vendorDto = vendorService.convertVendorToFetchDto(vendor);
-        // setting the wallets for this vendor dto
-        vendorDto.setWallets(wallets);
+        FetchVendorDto vendorDto = vendorService.findVendorDtoById(id);
+
+        vendorDto = loadVendorWallets(vendorDto);
 
         return vendorDto;
     }
 
     @GetMapping("/email/{email}")
     FetchVendorDto getVendorByEmail(@PathVariable(value="email") String email) {
-        // finding all wallets associated with this vendor
-        Vendor vendor = vendorService.findVendorByEmail(email);
-        List<FetchVendorWalletDto> wallets = vendorWalletService.findWalletDtosByVendor(
-                                                                vendor);
         // getting the vendor dto
-        FetchVendorDto vendorDto = vendorService.convertVendorToFetchDto(vendor);
-        // setting the wallets for this vendor dto
-        vendorDto.setWallets(wallets);
+        FetchVendorDto vendorDto = vendorService.findVendorDtoByEmail(email);
+        
+        vendorDto = loadVendorWallets(vendorDto);
 
         return vendorDto;
-
     }
 
     // @GetMapping("wallets/{id}")
@@ -71,22 +69,26 @@ public class VendorController {
     @PostMapping("update-email/{id}")
     FetchVendorDto updateEmail(@RequestBody String email, @PathVariable(value="id") String id) {
         //TODO: process POST request
-        
-        return vendorService.updateVendorEmail(UUID.fromString(id), email);
+        FetchVendorDto vendorDto = vendorService.updateVendorEmail(UUID.fromString(id), email);
+        vendorDto = loadVendorWallets(vendorDto);
+        return vendorDto;
     }
     
     @PostMapping("/update-name/{id}")
     FetchVendorDto updateBusinessName(@RequestBody String name, @PathVariable(value="id") String id) {
         //TODO: process POST request
-        return vendorService.updateVendorName(UUID.fromString(id), name);
+        FetchVendorDto vendorDto = vendorService.updateVendorName(UUID.fromString(id), name);
+        vendorDto = loadVendorWallets(vendorDto);
+        return vendorDto;
     }
 
     @PostMapping("/delete/{id}")
-    Map<String, String> deleteVendor(@PathVariable(value="id") String id) {
+    FetchVendorDto deleteVendor(@PathVariable(value="id") String id) {
         //TODO: process POST request
-        
+        FetchVendorDto vendorDto = vendorService.findVendorDtoById(id);
+        vendorDto = loadVendorWallets(vendorDto);
         vendorService.deleteVendorById(id);
-        return Map.of("id", id);
+        return vendorDto;
         
     }
     
