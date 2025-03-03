@@ -12,6 +12,8 @@ public class PromoCodeDto {
     private Date expiration;
     private Double discount;
 
+    public PromoCodeDto() {}
+
     public Long getId() {
         return id;
     }

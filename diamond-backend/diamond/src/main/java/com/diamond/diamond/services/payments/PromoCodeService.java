@@ -1,10 +1,14 @@
 package com.diamond.diamond.services.payments;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.payments.PromoCodeDto;
+import com.diamond.diamond.entities.payments.PaymentTxn;
 import com.diamond.diamond.entities.payments.PromoCode;
 import com.diamond.diamond.repositories.payments.PromoCodeRepository;
 
@@ -37,6 +41,18 @@ public class PromoCodeService {
 
     public PromoCode findPromoCodeById(Long id) {
         return promoCodeRepository.findById(id).orElseThrow();
+    }
+
+    public List<PromoCodeDto> findPromoCodesAppliedByPaymentTxn(PaymentTxn paymentTxn) {
+        return promoCodeRepository.findByPaymentTxns(Set.of(paymentTxn)).stream() // Convert the List<PromoCode> to a Stream<PromoCode>
+        .map(this::convertPromoCodeToDto) // Map each VendorWallet to PromoCodeDto
+        .collect(Collectors.toList()); // Collect the results into a List<PromoCodeDto>
+    }
+
+    public List<PromoCodeDto> findPromoCodesAppliedByPaymentTxns(Set<PaymentTxn> paymentTxns) {
+        return promoCodeRepository.findByPaymentTxns(paymentTxns).stream() // Convert the List<PromoCode> to a Stream<PromoCode>
+        .map(this::convertPromoCodeToDto) // Map each VendorWallet to PromoCodeDto
+        .collect(Collectors.toList()); // Collect the results into a List<PromoCodeDto>
     }
 
     // find all Payments that include a given PromoCode

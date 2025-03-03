@@ -55,7 +55,7 @@ public abstract class PaymentService<T extends Payment> {
     }
 
     // find all valid promo codes for a given payment
-    // public Set<PromoCode> findValidPromoCodes(UUID id) {
+    // public List<PromoCode> findValidPromoCodes(UUID id) {
 
     // }
 

@@ -1,6 +1,7 @@
 package com.diamond.diamond.entities.payments;
 
-import java.util.Set;
+import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import com.diamond.diamond.entities.Customer;
@@ -57,17 +58,20 @@ public abstract class PaymentTxn {
     @Enumerated(EnumType.STRING)
     private PaymentStatus status;
 
+    @Column(name="time_paid")
+    private Date timePaid;
+
     @ManyToMany
     @JoinTable(
         name = "payment_txn_promo_codes", // Optional: Custom name for the join table
         joinColumns = @JoinColumn(name = "payment_txn_id"),
         inverseJoinColumns = @JoinColumn(name = "promo_code_id")
     )
-    private Set<PromoCode> codesApplied;
+    private List<PromoCode> codesApplied;
 
     public PaymentTxn() {}
 
-    public PaymentTxn(Payment payment, Customer customer, Double revenue, Set<PromoCode> codesApplied) {
+    public PaymentTxn(Payment payment, Customer customer, Double revenue, List<PromoCode> codesApplied) {
         this.payment = payment;
         this.customer = customer;
         this.revenue = revenue;
@@ -114,10 +118,10 @@ public abstract class PaymentTxn {
     public void setStatus(PaymentStatus status) {
         this.status = status;
     }
-    public Set<PromoCode> getCodesApplied() {
+    public List<PromoCode> getCodesApplied() {
         return codesApplied;
     }
-    public void setCodesApplied(Set<PromoCode> codesApplied) {
+    public void setCodesApplied(List<PromoCode> codesApplied) {
         this.codesApplied = codesApplied;
     }
 
@@ -143,6 +147,14 @@ public abstract class PaymentTxn {
 
     public void setTxHash(String txHash) {
         this.txHash = txHash;
+    }
+
+    public Date getTimePaid() {
+        return timePaid;
+    }
+
+    public void setTimePaid(Date timePaid) {
+        this.timePaid = timePaid;
     }
 
 }

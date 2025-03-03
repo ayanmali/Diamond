@@ -1,6 +1,6 @@
 package com.diamond.diamond.entities.payments.checkouts;
 
-import java.util.Set;
+import java.util.List;
 
 import com.diamond.diamond.entities.Customer;
 import com.diamond.diamond.entities.payments.PaymentTxn;
@@ -17,7 +17,7 @@ import jakarta.persistence.Table;
 public class CheckoutPaymentTxn extends PaymentTxn {
 
     public CheckoutPaymentTxn() {}
-    public CheckoutPaymentTxn(CheckoutPayment payment, Customer customer, Double revenue, Set<PromoCode> codesApplied) {
+    public CheckoutPaymentTxn(CheckoutPayment payment, Customer customer, Double revenue, List<PromoCode> codesApplied) {
         super(payment, customer, revenue, codesApplied);
     }
     

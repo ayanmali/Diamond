@@ -10,7 +10,10 @@ public class NewPaymentTxnDto {
     private UUID paymentId;
     private UUID customerId;
     private Double revenue;
+    private String signHash;
     private List<Long> codesAppliedIds;
+
+    public NewPaymentTxnDto() {}
 
     public UUID getPaymentId() {
         return paymentId;
@@ -37,6 +40,14 @@ public class NewPaymentTxnDto {
 
     public void setCodesAppliedIds(List<Long> codesAppliedIds) {
         this.codesAppliedIds = codesAppliedIds;
+    }
+
+    public String getSignHash() {
+        return signHash;
+    }
+
+    public void setSignHash(String signHash) {
+        this.signHash = signHash;
     }
     
     

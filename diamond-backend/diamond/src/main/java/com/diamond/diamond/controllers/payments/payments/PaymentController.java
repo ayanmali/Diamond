@@ -26,6 +26,7 @@ public abstract class PaymentController<P extends Payment, N extends NewPaymentD
     protected VendorWalletService vendorWalletService;
     abstract P convertNewDtoToPayment(N paymentDto); // helper method for converting to and from the Payment type and the NewPaymentDTO
 
+    // Used in child classes
     protected List<VendorWallet> getVendorWalletsFromPaymentDto(N paymentDto) {
         List<VendorWallet> vendorWallets = new ArrayList<>();
         for (Long walletId : paymentDto.getVendorWalletIds()) {

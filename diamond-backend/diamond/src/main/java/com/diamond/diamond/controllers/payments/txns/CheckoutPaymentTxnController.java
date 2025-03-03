@@ -1,7 +1,7 @@
 package com.diamond.diamond.controllers.payments.txns;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,7 +28,7 @@ public class CheckoutPaymentTxnController extends PaymentTxnController<CheckoutP
     @Override
     CheckoutPaymentTxn convertNewDtoToTxn(NewPaymentTxnDto txnDto) {
         // TODO Auto-generated method stub
-        Set<PromoCode> codesApplied = new HashSet<>();
+        List<PromoCode> codesApplied = new ArrayList<>();
         for (Long promoCodeId : txnDto.getCodesAppliedIds()) {
             codesApplied.add(promoCodeService.findPromoCodeById(promoCodeId));
         }

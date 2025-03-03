@@ -2,8 +2,9 @@ package com.diamond.diamond.services.payments;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
+
+import org.hibernate.Hibernate;
 
 import com.diamond.diamond.dtos.payments.txns.FetchPaymentTxnDto;
 import com.diamond.diamond.entities.payments.PaymentTxn;
@@ -23,20 +24,23 @@ public class PaymentTxnService<T extends PaymentTxn> {
     }
 
     public FetchPaymentTxnDto convertTxnToFetchDto(T txn) {
-        List<Long> codesAppliedIds = new ArrayList<>();
-        for (PromoCode promoCode : txn.getCodesApplied()) {
-            codesAppliedIds.add(promoCode.getId());
-        }
-
         FetchPaymentTxnDto txnDto = new FetchPaymentTxnDto();
         txnDto.setCustomerId(txn.getCustomer().getId());
         txnDto.setId(txn.getId());
         txnDto.setPaymentId(txn.getPayment().getId());
-        txnDto.setPromoCodesAppliedIds(codesAppliedIds);
         txnDto.setRevenue(txn.getRevenue());
         txnDto.setSignHash(txn.getSignHash());
         txnDto.setStatus(txn.getStatus());
         txnDto.setTxHash(txn.getTxHash());
+        
+        if (txn.getCodesApplied() != null && Hibernate.isInitialized(txn.getCodesApplied())) {
+            List<Long> codesAppliedIds = new ArrayList<>();
+            for (PromoCode promoCode : txn.getCodesApplied()) {
+                codesAppliedIds.add(promoCode.getId());
+            }
+            txnDto.setPromoCodesAppliedIds(codesAppliedIds);
+        }
+
         return txnDto;
     }
 
@@ -58,22 +62,32 @@ public class PaymentTxnService<T extends PaymentTxn> {
     //     return txnRepository.save(txn);
     // }
 
-    public FetchPaymentTxnDto findTxnById(UUID id) {
-        return convertTxnToFetchDto(txnRepository.findById(id).orElseThrow());
+    public FetchPaymentTxnDto findTxnDtoById(UUID id) {
+        T txn = txnRepository.findById(id).orElseThrow();
+        return convertTxnToFetchDto(txn);
     }
 
-    public FetchPaymentTxnDto findTxnById(String id) {
+    public PaymentTxn findTxnById(UUID id) {
+        return txnRepository.findById(id).orElseThrow();
+    }
+
+    public FetchPaymentTxnDto findTxnDtoById(String id) {
+        UUID uuidId = UUID.fromString(id);
+        return this.findTxnDtoById(uuidId);
+    }
+
+    public PaymentTxn findTxnById(String id) {
         UUID uuidId = UUID.fromString(id);
         return this.findTxnById(uuidId);
     }
 
-    public FetchPaymentTxnDto findTxnByTxHash(String txHash) {
+    public FetchPaymentTxnDto findTxnDtoByTxHash(String txHash) {
         return convertTxnToFetchDto(txnRepository.findByTxHash(txHash).orElseThrow());
     }
 
-    // find all promo codes that were applied for a given transaction
-    // public Set<PromoCode> findPromoCodesApplied(UUID id) {
-    // }
+    public PaymentTxn findTxnByTxHash(String txHash) {
+        return txnRepository.findByTxHash(txHash).orElseThrow();
+    }
 
     public FetchPaymentTxnDto updateStatus(UUID id, PaymentStatus status) {
         T txn = txnRepository.findById(id).orElseThrow();
@@ -81,7 +95,7 @@ public class PaymentTxnService<T extends PaymentTxn> {
         return convertTxnToFetchDto(txnRepository.save(txn));
     }
 
-    public FetchPaymentTxnDto updateCodesApplied(UUID id, Set<PromoCode> codesApplied) {
+    public FetchPaymentTxnDto updateCodesApplied(UUID id, List<PromoCode> codesApplied) {
         T txn = txnRepository.findById(id).orElseThrow();
         txn.setCodesApplied(codesApplied);
         return convertTxnToFetchDto(txnRepository.save(txn));

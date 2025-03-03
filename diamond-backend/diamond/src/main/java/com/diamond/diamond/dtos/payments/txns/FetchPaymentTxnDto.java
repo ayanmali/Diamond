@@ -1,5 +1,6 @@
 package com.diamond.diamond.dtos.payments.txns;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,7 +17,10 @@ public class FetchPaymentTxnDto {
     private String signHash;
     private String txHash;
     private PaymentStatus status;
+    private Date timePaid;
     private List<Long> promoCodesAppliedIds;
+
+    public FetchPaymentTxnDto() {}
     
     public UUID getId() {
         return id;
@@ -60,11 +64,20 @@ public class FetchPaymentTxnDto {
     public void setStatus(PaymentStatus status) {
         this.status = status;
     }
+
     public List<Long> getPromoCodesAppliedIds() {
         return promoCodesAppliedIds;
     }
     public void setPromoCodesAppliedIds(List<Long> promoCodesAppliedIds) {
         this.promoCodesAppliedIds = promoCodesAppliedIds;
+    }
+
+    public Date getTimePaid() {
+        return timePaid;
+    }
+
+    public void setTimePaid(Date timePaid) {
+        this.timePaid = timePaid;
     }
     
 
