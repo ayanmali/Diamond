@@ -4,17 +4,17 @@ import java.util.UUID;
 
 import com.diamond.diamond.types.Blockchain;
 
-public class NewVendorWalletDto {
+public class NewAccountWalletDto {
     private String address;
     private Blockchain chain;
     private String walletName;
-    private UUID vendorId;
+    private UUID accountId;
 
-    public UUID getVendorId() {
-        return vendorId;
+    public UUID getAccountId() {
+        return accountId;
     }
-    public void setVendorId(UUID vendorId) {
-        this.vendorId = vendorId;
+    public void setAccountId(UUID accountId) {
+        this.accountId = accountId;
     }
     public String getAddress() {
         return address;

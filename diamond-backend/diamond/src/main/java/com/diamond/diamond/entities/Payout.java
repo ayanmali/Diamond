@@ -31,8 +31,8 @@ public class Payout {
     private UUID id;
 
     @ManyToOne
-    @JoinColumn(name="vendor_id", referencedColumnName="id")
-    private Vendor vendor;
+    @JoinColumn(name="account_id", referencedColumnName="id")
+    private Account account;
 
     @ManyToMany
     @JoinTable(
@@ -40,7 +40,7 @@ public class Payout {
         joinColumns = @JoinColumn(name = "payout_id"),
         inverseJoinColumns = @JoinColumn(name = "wallet_id")
     )
-    private List<VendorWallet> offrampWallets;
+    private List<AccountWallet> offrampWallets;
 
     // amount in tokens being off-ramped
     @Column(name="amount")
@@ -65,8 +65,8 @@ public class Payout {
 
     public Payout() {}
 
-    public Payout(Vendor vendor, List<VendorWallet> offrampWallets, Double amount, StablecoinCurrency stablecoinCurrency, FiatCurrency fiatCurrency) {
-        this.vendor = vendor;
+    public Payout(Account account, List<AccountWallet> offrampWallets, Double amount, StablecoinCurrency stablecoinCurrency, FiatCurrency fiatCurrency) {
+        this.account = account;
         this.offrampWallets = offrampWallets;
         this.amount = amount;
         this.stablecoinCurrency = stablecoinCurrency;
@@ -81,12 +81,12 @@ public class Payout {
         this.id = id;
     }
 
-    public Vendor getVendor() {
-        return vendor;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setVendor(Vendor vendor) {
-        this.vendor = vendor;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public Double getAmount() {
@@ -129,11 +129,11 @@ public class Payout {
         this.reversed = reversed;
     }
 
-    public List<VendorWallet> getOfframpWallets() {
+    public List<AccountWallet> getOfframpWallets() {
         return offrampWallets;
     }
 
-    public void setOfframpWallets(List<VendorWallet> offrampWallets) {
+    public void setOfframpWallets(List<AccountWallet> offrampWallets) {
         this.offrampWallets = offrampWallets;
     }
 

@@ -4,7 +4,7 @@ package com.diamond.diamond.entities;
 // import java.util.Arrays;
 // import java.util.List;
 
-// public class VendorWallet implements Wallet {
+// public class AccountWallet implements Wallet {
 
 //     private final long id;
 //     private final String address;
@@ -13,7 +13,7 @@ package com.diamond.diamond.entities;
 //     private String secondaryKey;
 //     private String tertiaryKey;
 //     private String walletName;
-//     private final long vendorId;
+//     private final long accountId;
 //     private final Blockchain chain;
 //     private double USDCBalance;
 //     private double EURCBalance;
@@ -22,10 +22,10 @@ package com.diamond.diamond.entities;
 //     private final long dateCreated;
 
 //     /* Constructor Method */
-//     public VendorWallet(String address, String walletName, long vendorId, Blockchain chain) {
+//     public AccountWallet(String address, String walletName, long accountId, Blockchain chain) {
 //         this.address = address;
 //         this.walletName = walletName;
-//         this.vendorId = vendorId;
+//         this.accountId = accountId;
 //         this.chain = chain;
 
 //         this.privateKey = "private_key";
@@ -66,8 +66,8 @@ package com.diamond.diamond.entities;
 //         return walletName;
 //     }
 
-//     public long getVendorId() {
-//         return vendorId;
+//     public long getAccountId() {
+//         return accountId;
 //     }
 
 //     @Override
@@ -149,8 +149,8 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="vendor_wallets")
-public class VendorWallet implements Wallet {
+@Table(name="account_wallets")
+public class AccountWallet implements Wallet {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
@@ -178,8 +178,8 @@ public class VendorWallet implements Wallet {
     private Date updatedAt;
 
     @ManyToOne
-    @JoinColumn(name="vendor_id", referencedColumnName="id", nullable=false)
-    private Vendor vendor;
+    @JoinColumn(name="account_id", referencedColumnName="id", nullable=false)
+    private Account account;
 
     @ManyToMany(mappedBy = "walletDistribution")
     private List<Payment> payments;
@@ -187,12 +187,12 @@ public class VendorWallet implements Wallet {
     @ManyToMany(mappedBy = "offrampWallets")
     private List<Payout> payouts;
 
-    public VendorWallet() {}
+    public AccountWallet() {}
 
-    public VendorWallet(String address, String walletName, Vendor vendor, Blockchain chain) {
+    public AccountWallet(String address, String walletName, Account account, Blockchain chain) {
         this.address = address;
         this.walletName = walletName;
-        this.vendor = vendor;
+        this.account = account;
         this.chain = chain;
         this.createdAt = new Date();
     }
@@ -219,8 +219,8 @@ public class VendorWallet implements Wallet {
         return createdAt;
     }
 
-    public Vendor getVendor() {
-        return vendor;
+    public Account getAccount() {
+        return account;
     }
 
     public Long getId() {
@@ -239,8 +239,8 @@ public class VendorWallet implements Wallet {
         this.walletName = name;
     }
 
-    public void setVendor(Vendor vendor) {
-        this.vendor = vendor;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public WalletStatus getStatus() {

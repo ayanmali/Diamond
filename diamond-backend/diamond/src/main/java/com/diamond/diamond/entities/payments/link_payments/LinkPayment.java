@@ -2,8 +2,8 @@ package com.diamond.diamond.entities.payments.link_payments;
 
 import java.util.List;
 
-import com.diamond.diamond.entities.Vendor;
-import com.diamond.diamond.entities.VendorWallet;
+import com.diamond.diamond.entities.Account;
+import com.diamond.diamond.entities.AccountWallet;
 import com.diamond.diamond.entities.payments.Payment;
 import com.diamond.diamond.entities.payments.PromoCode;
 import com.diamond.diamond.types.Blockchain;
@@ -32,9 +32,9 @@ public class LinkPayment extends Payment {
 
     public LinkPayment() {}
    
-    public LinkPayment(Double amount, Vendor vendor, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets,
+    public LinkPayment(Double amount, Account account, StablecoinCurrency currency, Blockchain chain, List<AccountWallet> accountWallets,
                         Boolean hasMaxNumberOfPayments, Integer maxNumberOfPayments, Boolean enablePromoCodes, List<PromoCode> validPromoCodes) {
-        super(amount, vendor, currency, chain, vendorWallets);
+        super(amount, account, currency, chain, accountWallets);
         
         this.hasMaxNumberOfPayments = hasMaxNumberOfPayments;
         this.maxNumberOfPayments = maxNumberOfPayments;

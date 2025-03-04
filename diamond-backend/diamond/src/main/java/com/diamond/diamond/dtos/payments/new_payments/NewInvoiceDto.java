@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class NewInvoiceDto extends NewPaymentDto {
     private UUID customerId;
-    private String vendorComments;
+    private String accountComments;
 
     public UUID getCustomerId() {
         return customerId;
@@ -14,11 +14,11 @@ public class NewInvoiceDto extends NewPaymentDto {
         this.customerId = customerId;
     }
 
-    public String getVendorComments() {
-        return vendorComments;
+    public String getAccountComments() {
+        return accountComments;
     }
 
-    public void setVendorComments(String vendorComments) {
-        this.vendorComments = vendorComments;
+    public void setAccountComments(String accountComments) {
+        this.accountComments = accountComments;
     }
 }

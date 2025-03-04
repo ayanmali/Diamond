@@ -10,8 +10,8 @@
 //     private SubscriptionStatus subscriptionStatus;
 //     private String locationPaid;
 
-//     public Subscription(double periodAmount, Vendor vendor, BillingCustomer customer, StablecoinCurrency currency, Blockchain chain, PaymentDistributor distributor, int billingBasis) throws Exception {
-//         super(periodAmount, vendor, customer, currency, chain, distributor);
+//     public Subscription(double periodAmount, Account Account, BillingCustomer customer, StablecoinCurrency currency, Blockchain chain, PaymentDistributor distributor, int billingBasis) throws Exception {
+//         super(periodAmount, Account, customer, currency, chain, distributor);
 //         this.billingBasis = billingBasis;
 //         this.subscriptionStatus = SubscriptionStatus.ACTIVE;
 //     }

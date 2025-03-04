@@ -34,7 +34,7 @@ public abstract class PaymentTxn {
 
     @ManyToOne
     @JoinColumn(name="payment_id", referencedColumnName="id", nullable=false)
-    private Payment payment; // the payment configuration created by the vendor that is associated with this transaction
+    private Payment payment; // the payment configuration created by the Account that is associated with this transaction
     
     @ManyToOne
     @JoinColumn(name="customer_id", referencedColumnName="id")

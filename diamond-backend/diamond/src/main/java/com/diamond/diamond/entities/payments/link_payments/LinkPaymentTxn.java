@@ -10,7 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 /*
- * Defining a single transaction between a customer and a vendor's payment link
+ * Defining a single transaction between a customer and a Account's payment link
  */
 @Entity
 @Table(name="link_txns")

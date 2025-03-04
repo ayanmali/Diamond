@@ -6,7 +6,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.payments.fetch_payments.FetchPaymentDto;
-import com.diamond.diamond.entities.VendorWallet;
+import com.diamond.diamond.entities.AccountWallet;
 import com.diamond.diamond.entities.payments.Payment;
 import com.diamond.diamond.repositories.payments.PaymentRepository;
 import com.diamond.diamond.types.StablecoinCurrency;
@@ -59,8 +59,8 @@ public abstract class PaymentService<T extends Payment> {
 
     // }
 
-    // // find the list of VendorWallets associated with a payment
-    // public List<VendorWallet> findWalletDistribution(UUID id) {
+    // // find the list of AccountWallets associated with a payment
+    // public List<AccountWallet> findWalletDistribution(UUID id) {
 
     // }
 
@@ -76,7 +76,7 @@ public abstract class PaymentService<T extends Payment> {
         return paymentRepository.save(payment);
     }
 
-    public T updateWalletDistribution(UUID id, List<VendorWallet> wallets) {
+    public T updateWalletDistribution(UUID id, List<AccountWallet> wallets) {
         T payment = paymentRepository.findById(id).orElseThrow();
         payment.setWalletDistribution(wallets);
         return paymentRepository.save(payment);

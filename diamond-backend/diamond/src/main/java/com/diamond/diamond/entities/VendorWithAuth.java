@@ -7,13 +7,13 @@
 
 // // import com.diamond.diamond.payments.walletdistribution.PaymentDistributor;
 
-// // public class Vendor {
+// // public class Account {
 
 // //     // private final long id;
-// //     // private final List<VendorWallet> wallets;
-// //     private final List<VendorWallet> solWallets;
-// //     private final List<VendorWallet> baseWallets;
-// //     private final List<VendorWallet> bscWallets;
+// //     // private final List<AccountWallet> wallets;
+// //     private final List<AccountWallet> solWallets;
+// //     private final List<AccountWallet> baseWallets;
+// //     private final List<AccountWallet> bscWallets;
 // //     private String businessName;
 // //     private double totalUSDCBalance;
 // //     private double totalEURCBalance;
@@ -26,7 +26,7 @@
 // //     private final long dateCreated;
 
 // //     /* Constructor method */
-// //     public Vendor(String businessName, String email) throws Exception {
+// //     public Account(String businessName, String email) throws Exception {
 // //         this.businessName = businessName;
 // //         this.primaryEmail = email;
 
@@ -43,28 +43,28 @@
 // //         this.dateCreated = Instant.now().toEpochMilli();
 // //     }
 
-// //     // public void addWallet(VendorWallet wallet) {
+// //     // public void addWallet(AccountWallet wallet) {
 // //     //     this.wallets.add(wallet);
 // //     // }
 // //     // public long getId() {
 // //     //     return id;
 // //     // }
-// //     // public List<VendorWallet> getWallets() {
+// //     // public List<AccountWallet> getWallets() {
 // //     //     return wallets;
 // //     // }
-// //     public List<VendorWallet> getSolWallets() {
+// //     public List<AccountWallet> getSolWallets() {
 // //         return solWallets;
 // //     }
 
-// //     public List<VendorWallet> getBaseWallets() {
+// //     public List<AccountWallet> getBaseWallets() {
 // //         return baseWallets;
 // //     }
 
-// //     public List<VendorWallet> getBscWallets() {
+// //     public List<AccountWallet> getBscWallets() {
 // //         return bscWallets;
 // //     }
 
-// //     public List<VendorWallet> getWallets(Blockchain chain) {
+// //     public List<AccountWallet> getWallets(Blockchain chain) {
 // //         switch (chain) {
 // //             case SOL -> {
 // //                 return this.getSolWallets();
@@ -143,31 +143,31 @@
 // //         this.totalBNBBalance = totalBNBBalance;
 // //     }
 
-// //     public void addSolWallet(VendorWallet wallet) {
+// //     public void addSolWallet(AccountWallet wallet) {
 // //         // add regex validation for the wallet's address to ensure it is on the right chain
 // //         solWallets.add(wallet);
 // //     }
 
-// //     public void addBaseWallet(VendorWallet wallet) {
+// //     public void addBaseWallet(AccountWallet wallet) {
 // //         // add regex validation for the wallet's address to ensure it is on the right chain
 // //         baseWallets.add(wallet);
 // //     }
 
-// //     public void addBscWallet(VendorWallet wallet) {
+// //     public void addBscWallet(AccountWallet wallet) {
 // //         // add regex validation for the wallet's address to ensure it is on the right chain
 // //         bscWallets.add(wallet);
 // //     }
 
 // //     /*
-// //      * Creates a new wallet for the vendor on the specified chain
+// //      * Creates a new wallet for the Account on the specified chain
 // //      */
-// //     public VendorWallet createWallet(Blockchain chain) {
-// //        VendorWallet wallet = new VendorWallet("", "My Wallet", 0, chain);
+// //     public AccountWallet createWallet(Blockchain chain) {
+// //        AccountWallet wallet = new AccountWallet("", "My Wallet", 0, chain);
 // //        addWallet(wallet);
 // //        return wallet;
 // //     }
 
-// //     public void addWallet(VendorWallet wallet) {
+// //     public void addWallet(AccountWallet wallet) {
 // //         switch (wallet.getChain()) {
 // //             case SOL -> addSolWallet(wallet);
 // //             case BASE -> addBaseWallet(wallet);
@@ -184,7 +184,7 @@
 // //         this.defaultDistributor = defaultDistributor;
 // //     }
 
-// //     public void setDefaultDistributor(Map<VendorWallet, Double> mappings) throws Exception {
+// //     public void setDefaultDistributor(Map<AccountWallet, Double> mappings) throws Exception {
 // //         this.defaultDistributor = new PaymentDistributor(this, mappings, this.getDefaultDistributor().getDistribution().getName());
 // //     }
 
@@ -216,9 +216,9 @@
 // import jakarta.persistence.Table;
 
 // @Entity
-// @Table(name = "vendors")
+// @Table(name = "Accounts")
 // // Implementing the UserDetails interface to use user data for authentication
-// public class Vendor implements UserDetails {
+// public class Account implements UserDetails {
 
 //     @Id
 //     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -229,7 +229,7 @@
 //     private String businessName;
 
 //     @OneToMany(mappedBy="address", cascade=CascadeType.ALL)
-//     private List<VendorWallet> wallets;
+//     private List<AccountWallet> wallets;
 
 //     @Column(unique = true, length = 100, nullable = false)
 //     private String email;
@@ -245,9 +245,9 @@
 //     @Column(name = "updated_at")
 //     private Date updatedAt;
 
-//     // private final List<VendorWallet> solWallets;
-//     // private final List<VendorWallet> baseWallets;
-//     // private final List<VendorWallet> bscWallets;
+//     // private final List<AccountWallet> solWallets;
+//     // private final List<AccountWallet> baseWallets;
+//     // private final List<AccountWallet> bscWallets;
 
 //     // private double totalUSDCBalance;
 //     // private double totalEURCBalance;
@@ -310,19 +310,19 @@
 //     //     this.defaultDistributor = defaultDistributor;
 //     // }
 
-//     public List<VendorWallet> getWallets() {
+//     public List<AccountWallet> getWallets() {
 //         return wallets;
 //     }
 
-//     public void setWallets(List<VendorWallet> wallets) {
+//     public void setWallets(List<AccountWallet> wallets) {
 //         this.wallets = wallets;
 //     }
 
-//     public void addWallet(VendorWallet wallet) {
+//     public void addWallet(AccountWallet wallet) {
 //         wallets.add(wallet);
 //     }
 
-//     public void removeWallet(VendorWallet wallet) throws Exception {
+//     public void removeWallet(AccountWallet wallet) throws Exception {
 //         if (wallets.contains(wallet)) {
 //             wallets.remove(wallet);
 //         } else {

@@ -18,9 +18,9 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "vendors")
+@Table(name = "accounts")
 // Implementing the UserDetails interface to use user data for authentication
-public class Vendor {
+public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,8 +30,8 @@ public class Vendor {
     @Column(nullable = false, name="business_name")
     private String businessName;
 
-    @OneToMany(mappedBy="vendor", cascade=CascadeType.ALL)
-    private List<VendorWallet> wallets;
+    @OneToMany(mappedBy="account", cascade=CascadeType.ALL)
+    private List<AccountWallet> wallets;
 
     @Column(unique = true, length = 100, nullable = false)
     private String email;
@@ -39,7 +39,7 @@ public class Vendor {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(mappedBy="vendor", cascade=CascadeType.ALL)
+    @OneToMany(mappedBy="account", cascade=CascadeType.ALL)
     private List<Customer> customers;
 
     @CreationTimestamp
@@ -50,9 +50,9 @@ public class Vendor {
     @Column(name = "updated_at")
     private Date updatedAt;
 
-    public Vendor() {this.wallets = new ArrayList<>();}
+    public Account() {this.wallets = new ArrayList<>();}
 
-    public Vendor(String businessName, String email) throws Exception {
+    public Account(String businessName, String email) throws Exception {
         this.businessName = businessName;
         this.email = email;
         this.wallets = new ArrayList<>();
@@ -100,19 +100,19 @@ public class Vendor {
         this.businessName = newBusinessName;
     }
 
-    public List<VendorWallet> getWallets() {
+    public List<AccountWallet> getWallets() {
         return wallets;
     }
 
-    public void setWallets(List<VendorWallet> wallets) {
+    public void setWallets(List<AccountWallet> wallets) {
         this.wallets = wallets;
     }
 
-    public void addWallet(VendorWallet wallet) {
+    public void addWallet(AccountWallet wallet) {
         wallets.add(wallet);
     }
 
-    public void removeWallet(VendorWallet wallet) throws Exception {
+    public void removeWallet(AccountWallet wallet) throws Exception {
         if (wallets.contains(wallet)) {
             wallets.remove(wallet);
         } else {

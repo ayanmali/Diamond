@@ -2,8 +2,8 @@
 
 // import java.util.List;
 
-// import com.diamond.diamond.entities.Vendor;
-// import com.diamond.diamond.entities.VendorWallet;
+// import com.diamond.diamond.entities.Account;
+// import com.diamond.diamond.entities.AccountWallet;
 // import com.diamond.diamond.entities.payments.PromoCode;
 // import com.diamond.diamond.entities.payments.checkouts.CheckoutPayment;
 // import com.diamond.diamond.types.Blockchain;
@@ -27,9 +27,9 @@
 
 //     public SubscriptionCheckout() {}
 
-//     public SubscriptionCheckout(Double amount, Vendor vendor, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets,
+//     public SubscriptionCheckout(Double amount, Account Account, StablecoinCurrency currency, Blockchain chain, List<AccountWallet> AccountWallets,
 //                                 Boolean hasMaxNumberOfPayments, Integer maxNumberOfPayments, Boolean enablePromoCodes, List<PromoCode> validPromoCodes) {
-//         super(amount, vendor, currency, chain, vendorWallets, hasMaxNumberOfPayments, maxNumberOfPayments, enablePromoCodes, validPromoCodes);
+//         super(amount, Account, currency, chain, AccountWallets, hasMaxNumberOfPayments, maxNumberOfPayments, enablePromoCodes, validPromoCodes);
 //         this.billingBasis = 30L;
 //         this.status = SubscriptionStatus.PAUSED;
 

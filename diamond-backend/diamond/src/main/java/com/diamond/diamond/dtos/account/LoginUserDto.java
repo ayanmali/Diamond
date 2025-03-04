@@ -1,7 +1,7 @@
 /*
  * todo: add input validation to prevent attacks
  */
-package com.diamond.diamond.dtos.vendor;
+package com.diamond.diamond.dtos.account;
 
 public class LoginUserDto {
 

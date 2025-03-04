@@ -13,7 +13,7 @@
 
 // import com.diamond.diamond.dtos.LoginUserDto;
 // import com.diamond.diamond.dtos.RegisterUserDto;
-// import com.diamond.diamond.entities.Vendor;
+// import com.diamond.diamond.entities.Account;
 // import com.diamond.diamond.responses.LoginResponse;
 // import com.diamond.diamond.services.AuthService;
 // import com.diamond.diamond.services.JwtService;
@@ -36,8 +36,8 @@
 //      * can be accessed without authentication
 //      */
 //     @PostMapping("/signup")
-//     public ResponseEntity<Vendor> signUpUser(@RequestBody RegisterUserDto registerUserDto) {
-//         Vendor user = authService.signUp(registerUserDto);
+//     public ResponseEntity<Account> signUpUser(@RequestBody RegisterUserDto registerUserDto) {
+//         Account user = authService.signUp(registerUserDto);
 
 //         // returning the newly registered user
 //         return ResponseEntity.ok(user);
@@ -49,7 +49,7 @@
 //      */
 //     @PostMapping("/login")
 //     public ResponseEntity<LoginResponse> loginUser(@RequestBody LoginUserDto loginUserDto) {
-//         Vendor authenticatedUser = authService.authenticate(loginUserDto);
+//         Account authenticatedUser = authService.authenticate(loginUserDto);
 
 //         String accessToken = jwtService.generateAccessToken(authenticatedUser);
 //         String refreshToken = jwtService.generateRefreshToken(authenticatedUser);
@@ -64,7 +64,7 @@
 //     }
 
 //     @GetMapping("/id")
-//     public String getVendorById(@RequestParam String param) {
+//     public String getAccountById(@RequestParam String param) {
 //         return "Testing ID endpoint";
 //     }
     

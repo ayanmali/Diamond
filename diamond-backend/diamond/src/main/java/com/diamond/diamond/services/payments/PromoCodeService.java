@@ -27,7 +27,7 @@ public class PromoCodeService {
         promoCodeDto.setExpiration(promoCode.getExpiration());
         promoCodeDto.setId(promoCode.getId());
         promoCodeDto.setPaymentId(promoCode.getPayment().getId());
-        promoCodeDto.setVendorId(promoCode.getVendor().getId());
+        promoCodeDto.setAccountId(promoCode.getAccount().getId());
         return promoCodeDto;
     }
 
@@ -45,13 +45,13 @@ public class PromoCodeService {
 
     public List<PromoCodeDto> findPromoCodesAppliedByPaymentTxn(PaymentTxn paymentTxn) {
         return promoCodeRepository.findByPaymentTxns(Set.of(paymentTxn)).stream() // Convert the List<PromoCode> to a Stream<PromoCode>
-        .map(PromoCodeService::convertPromoCodeToDto) // Map each VendorWallet to PromoCodeDto
+        .map(PromoCodeService::convertPromoCodeToDto) // Map each AccountWallet to PromoCodeDto
         .collect(Collectors.toList()); // Collect the results into a List<PromoCodeDto>
     }
 
     public List<PromoCodeDto> findPromoCodesAppliedByPaymentTxns(Set<PaymentTxn> paymentTxns) {
         return promoCodeRepository.findByPaymentTxns(paymentTxns).stream() // Convert the List<PromoCode> to a Stream<PromoCode>
-        .map(PromoCodeService::convertPromoCodeToDto) // Map each VendorWallet to PromoCodeDto
+        .map(PromoCodeService::convertPromoCodeToDto) // Map each AccountWallet to PromoCodeDto
         .collect(Collectors.toList()); // Collect the results into a List<PromoCodeDto>
     }
 

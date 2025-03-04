@@ -3,10 +3,9 @@ package com.diamond.diamond.dtos.payments;
 import java.util.Date;
 import java.util.UUID;
 
-
 public class PromoCodeDto {
     private Long id;
-    private UUID vendorId;
+    private UUID accountId;
     private UUID paymentId;
     private String code;
     private Date expiration;
@@ -20,11 +19,11 @@ public class PromoCodeDto {
     public void setId(Long id) {
         this.id = id;
     }
-    public UUID getVendorId() {
-        return vendorId;
+    public UUID getAccountId() {
+        return accountId;
     }
-    public void setVendorId(UUID vendorId) {
-        this.vendorId = vendorId;
+    public void setAccountId(UUID accountId) {
+        this.accountId = accountId;
     }
     public UUID getPaymentId() {
         return paymentId;

@@ -4,8 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import com.diamond.diamond.entities.Customer;
-import com.diamond.diamond.entities.Vendor;
-import com.diamond.diamond.entities.VendorWallet;
+import com.diamond.diamond.entities.Account;
+import com.diamond.diamond.entities.AccountWallet;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.StablecoinCurrency;
 
@@ -36,19 +36,19 @@ public class Invoice extends Payment {
     @Column(name="location_paid")
     private String locationPaid;
 
-    @Column(name="vendor_comments")
-    private String vendorComments;
+    @Column(name="account_comments")
+    private String accountComments;
 
     @Column(name="customer_comments")
     private String customerComments;
 
     public Invoice() {}
 
-    public Invoice(Double amount, Vendor vendor, Customer customer, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets, String vendorComments) {
-        super(amount, vendor, currency, chain, vendorWallets);
+    public Invoice(Double amount, Account account, Customer customer, StablecoinCurrency currency, Blockchain chain, List<AccountWallet> accountWallets, String accountComments) {
+        super(amount, account, currency, chain, accountWallets);
         this.customer = customer;
         this.timeSent = new Date();
-        this.vendorComments = vendorComments;
+        this.accountComments = accountComments;
     }
 
     // @Override
@@ -77,8 +77,8 @@ public class Invoice extends Payment {
         this.locationPaid = locationPaid;
     }
 
-    public String getVendorComments() {
-        return vendorComments;
+    public String getAccountComments() {
+        return accountComments;
     }
 
     public String getCustomerComments() {

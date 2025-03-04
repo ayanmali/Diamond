@@ -37,8 +37,8 @@ public class Customer {
     private List<CustomerWallet> wallets;
 
     @ManyToOne
-    @JoinColumn(name="vendor_id", referencedColumnName="id", nullable=false)
-    private Vendor vendor;
+    @JoinColumn(name="account_id", referencedColumnName="id", nullable=false)
+    private Account account;
 
     @CreationTimestamp
     @Column(name="created_at")
@@ -59,22 +59,22 @@ public class Customer {
 
     public Customer() {}
 
-    public Customer(Vendor vendor, String name, String email, CustomerWallet wallet) {
-        this.vendor = vendor;
+    public Customer(Account account, String name, String email, CustomerWallet wallet) {
+        this.account = account;
         this.name = name;
         this.email = email;
         this.wallets = new ArrayList<>();
         this.wallets.add(wallet);
     }
 
-    public Customer(Vendor vendor, String name, String email) {
-        this.vendor = vendor;
+    public Customer(Account account, String name, String email) {
+        this.account = account;
         this.name = name;
         this.email = email;
     }
 
-    public Customer(Vendor vendor, String name, String email, List<CustomerWallet> wallets) {
-        this.vendor = vendor;
+    public Customer(Account account, String name, String email, List<CustomerWallet> wallets) {
+        this.account = account;
         this.name = name;
         this.email = email;
         this.wallets = wallets;
@@ -153,12 +153,12 @@ public class Customer {
         return updatedAt;
     }
 
-    public Vendor getVendor() {
-        return vendor;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setVendor(Vendor vendor) {
-        this.vendor = vendor;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
 }

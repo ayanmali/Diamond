@@ -6,7 +6,7 @@ import java.util.UUID;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.WalletStatus;
 
-public class FetchVendorWalletDto {
+public class FetchAccountWalletDto {
     private long id;
     private String address;
     private Blockchain chain;
@@ -14,7 +14,7 @@ public class FetchVendorWalletDto {
     private WalletStatus status;
     private Date createdAt;
     private Date updatedAt;
-    private UUID vendorId;
+    private UUID accountId;
 
     public long getId() {
         return id;
@@ -72,11 +72,11 @@ public class FetchVendorWalletDto {
         this.updatedAt = updatedAt;
     }
 
-    public UUID getVendorId() {
-        return vendorId;
+    public UUID getAccountId() {
+        return accountId;
     }
 
-    public void setVendorId(UUID vendorId) {
-        this.vendorId = vendorId;
+    public void setAccountId(UUID accountId) {
+        this.accountId = accountId;
     }
 }

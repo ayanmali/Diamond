@@ -10,7 +10,7 @@ package main
 // service := NewSwapperService(url)
 // service = NewLoggingService(service)
 
-// var myWallet VendorWallet = *NewVendorWallet("0x000", "myWallet", 0, BASE)
+// var myWallet AccountWallet = *NewAccountWallet("0x000", "myWallet", 0, BASE)
 
 // err := service.SwapStablesToSpot(context.TODO(), myWallet, USDC, 1.0, BASE)
 

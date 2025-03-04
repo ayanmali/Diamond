@@ -15,22 +15,22 @@ import com.diamond.diamond.dtos.customer.FetchCustomerDto;
 import com.diamond.diamond.dtos.customer.NewCustomerDto;
 import com.diamond.diamond.dtos.wallets.FetchCustomerWalletDto;
 import com.diamond.diamond.entities.Customer;
-import com.diamond.diamond.entities.Vendor;
+import com.diamond.diamond.entities.Account;
 import com.diamond.diamond.services.CustomerService;
 import com.diamond.diamond.services.CustomerWalletService;
-import com.diamond.diamond.services.VendorService;
+import com.diamond.diamond.services.AccountService;
 
 
 @RestController
 @RequestMapping("/customers")
 public class CustomerController {
     private final CustomerService customerService;
-    private final VendorService vendorService;
+    private final AccountService accountService;
     private final CustomerWalletService customerWalletService;
 
-    public CustomerController(CustomerService customerService, VendorService vendorService, CustomerWalletService customerWalletService) {
+    public CustomerController(CustomerService customerService, AccountService accountService, CustomerWalletService customerWalletService) {
         this.customerService = customerService;
-        this.vendorService = vendorService;
+        this.accountService = accountService;
         this.customerWalletService = customerWalletService;
     }
 
@@ -44,8 +44,8 @@ public class CustomerController {
     @PostMapping("/new")
     public FetchCustomerDto addCustomer(@RequestBody NewCustomerDto customerDto) {
         //TODO: process POST request
-        Vendor vendor = vendorService.findVendorById(customerDto.getVendorId());
-        return customerService.saveCustomer(customerDto, vendor);
+        Account account = accountService.findAccountById(customerDto.getAccountId());
+        return customerService.saveCustomer(customerDto, account);
     }
 
     @GetMapping("/id/{id}")
@@ -56,12 +56,12 @@ public class CustomerController {
         return customerDto;
     }
 
-    @GetMapping("/vendorid/{id}")
-    public List<FetchCustomerDto> getCustomersByVendor(@PathVariable(value="id") String vendorId) {
+    @GetMapping("/accountid/{id}")
+    public List<FetchCustomerDto> getCustomersByAccount(@PathVariable(value="id") String accountId) {
         List<FetchCustomerDto> customerDtos = new ArrayList<>();
         
         // get all the customers
-        List<Customer> customers = customerService.findCustomersByVendor(vendorService.findVendorById(vendorId));
+        List<Customer> customers = customerService.findCustomersByAccount(accountService.findAccountById(accountId));
         
         // get the list of wallets for each of those customers
         for (Customer customer : customers) {

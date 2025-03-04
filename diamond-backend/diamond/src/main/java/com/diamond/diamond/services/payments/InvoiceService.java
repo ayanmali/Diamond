@@ -32,10 +32,10 @@ public class InvoiceService extends PaymentService<Invoice> {
         invoiceDto.setTimePaid(invoice.getTimePaid());
         invoiceDto.setTimeSent(invoice.getTimeSent());
         invoiceDto.setUpdatedAt(invoice.getUpdatedAt());
-        invoiceDto.setVendorComments(invoice.getVendorComments());
+        invoiceDto.setAccountComments(invoice.getAccountComments());
 
-        if (invoice.getVendor() != null && Hibernate.isInitialized(invoice.getVendor())) {
-            invoiceDto.setVendorId(invoice.getVendor().getId());
+        if (invoice.getAccount() != null && Hibernate.isInitialized(invoice.getAccount())) {
+            invoiceDto.setAccountId(invoice.getAccount().getId());
         }
 
         return invoiceDto;
@@ -83,7 +83,7 @@ public class InvoiceService extends PaymentService<Invoice> {
 
     // }
 
-    // public void getVendorComments() {
+    // public void getAccountComments() {
 
     // }
 
@@ -105,7 +105,7 @@ public class InvoiceService extends PaymentService<Invoice> {
 
     // }
 
-    // public void setVendorComments() {
+    // public void setAccountComments() {
 
     // }
 

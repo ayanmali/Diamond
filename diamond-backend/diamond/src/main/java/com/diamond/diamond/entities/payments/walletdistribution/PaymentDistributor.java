@@ -4,11 +4,11 @@ package com.diamond.diamond.entities.payments.walletdistribution;
 // import java.util.HashMap;
 // import java.util.Map;
 
-// import com.diamond.diamond.transactions.Vendor;
-// import com.diamond.diamond.transactions.VendorWallet;
+// import com.diamond.diamond.transactions.Account;
+// import com.diamond.diamond.transactions.AccountWallet;
 
 // /*
-//  * Defines how payments will be distributed across the vendor's wallets when receiving payments for security purposes
+//  * Defines how payments will be distributed across the Account's wallets when receiving payments for security purposes
 //  * How to use:
 //  * 1a. Define the Payment object (invoice, subscription, etc)
 //  * 1b. Instantiate the PaymentDistributor and pass in a HashMap for the wallet distribution
@@ -18,14 +18,14 @@ package com.diamond.diamond.entities.payments.walletdistribution;
 //  */
 // public class PaymentDistributor {
 
-//     private final Vendor vendor;
+//     private final Account Account;
 //     private PaymentDistribution distribution;
 
 //     /*
 //      * Instantiates a PaymentDistributor with no wallet distribution.
 //      */
-//     public PaymentDistributor(Vendor vendor, String name) throws Exception {
-//         this.vendor = vendor;
+//     public PaymentDistributor(Account Account, String name) throws Exception {
+//         this.Account account;
 //         this.distribution = new PaymentDistribution(new HashMap<>(), name);
 //     }
 
@@ -33,8 +33,8 @@ package com.diamond.diamond.entities.payments.walletdistribution;
 //      * Instantiates a PaymentDistributor with a predefined wallet distribution
 //      * This one is probably more convenient
 //      */
-//     public PaymentDistributor(Vendor vendor, Map<VendorWallet, Double> mappings, String name) throws Exception {
-//         this.vendor = vendor;
+//     public PaymentDistributor(Account Account, Map<AccountWallet, Double> mappings, String name) throws Exception {
+//         this.Account account;
 //         this.distribution = new PaymentDistribution(mappings, name);
 //     }
 
@@ -42,15 +42,15 @@ package com.diamond.diamond.entities.payments.walletdistribution;
 //      * Adds a wallet and it's corresponding payout allocation 
 //      * Note that every wallet in the walletDistribution must be of the same blockchain
 //      */
-//     // public void addWallet(VendorWallet vendorWallet, Double allocation) {
-//     //     walletDistribution.put(vendorWallet, allocation);
+//     // public void addWallet(AccountWallet AccountWallet, Double allocation) {
+//     //     walletDistribution.put(AccountWallet, allocation);
 //     //     if (!validateDistribution()) {
 //     //         throw new Error();
 //     //     }
-//     //     walletDistribution.remove(vendorWallet);
+//     //     walletDistribution.remove(AccountWallet);
 //     // }
-//     public Vendor getVendor() {
-//         return vendor;
+//     public Account getAccount() {
+//         return Account;
 //     }
 
 //     public PaymentDistribution getDistribution() {

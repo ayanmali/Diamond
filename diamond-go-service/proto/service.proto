@@ -13,15 +13,15 @@ service Swaps {
 
 }
 
-message VendorWallet {
-    int64 vendorID = 1;
+message AccountWallet {
+    int64 AccountID = 1;
     string walletAddress = 2;
     string chain = 3;
 }
 
 // Structure of an rpc request
 message SwapStablesToSpotRequest {
-    VendorWallet vendorWallet = 1;
+    AccountWallet AccountWallet = 1;
     string initialStablecoinCurrency = 2;
     double amount = 3;
     string targetToken = 4;
@@ -33,7 +33,7 @@ message SwapStablesToSpotResponse {
 }
 
 message SwapStablesToFiatRequest {
-    VendorWallet vendorWallet = 1;
+    AccountWallet AccountWallet = 1;
     string stablecoinCurrency = 2;
     double amount = 3;
 }
@@ -43,7 +43,7 @@ message SwapStablesToFiatResponse {
 }
 
 message SwapSpotToFiatRequest {
-    VendorWallet vendorWallet = 1;
+    AccountWallet AccountWallet = 1;
     double amount = 2;
 }
 

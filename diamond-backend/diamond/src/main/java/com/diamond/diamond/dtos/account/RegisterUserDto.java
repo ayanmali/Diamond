@@ -1,4 +1,4 @@
-package com.diamond.diamond.dtos.vendor;
+package com.diamond.diamond.dtos.account;
 
 import jakarta.validation.constraints.Email;
 

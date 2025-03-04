@@ -7,7 +7,7 @@
 
 // import com.diamond.diamond.transactions.Blockchain;
 // import com.diamond.diamond.transactions.StablecoinCurrency;
-// import com.diamond.diamond.transactions.VendorWallet;
+// import com.diamond.diamond.transactions.AccountWallet;
 
 // import io.grpc.Channel;
 // import proto.Service.SwapStablesToSpotRequest;
@@ -34,17 +34,17 @@
 //   /**
 //    * Blocking unary call example.  Calls getFeature and prints the response.
 //    */
-//   public void swapStablesToSpot(VendorWallet vendorWallet, StablecoinCurrency initialStablecoinCurrency, double amount, Blockchain targetToken) {
+//   public void swapStablesToSpot(AccountWallet AccountWallet, StablecoinCurrency initialStablecoinCurrency, double amount, Blockchain targetToken) {
 //     //info("*** GetFeature: lat={0} lon={1}", lat, lon);
-//     // Defining the VendorWallet object to be sent over gRPC to the microservice
-//     proto.Service.VendorWallet vendorWalletGRPC = proto.Service.VendorWallet.newBuilder()
-//     .setVendorID(vendorWallet.getVendorId())
-//     .setWalletAddress(vendorWallet.getAddress())
-//     .setChain(vendorWallet.getChain().toString())
+//     // Defining the AccountWallet object to be sent over gRPC to the microservice
+//     proto.Service.AccountWallet AccountWalletGRPC = proto.Service.AccountWallet.newBuilder()
+//     .setAccountID(AccountWallet.getAccountId())
+//     .setWalletAddress(AccountWallet.getAddress())
+//     .setChain(AccountWallet.getChain().toString())
 //     .build();
 
 //     SwapStablesToSpotRequest request = SwapStablesToSpotRequest.newBuilder()
-//     .setVendorWallet(vendorWalletGRPC)
+//     .setAccountWallet(AccountWalletGRPC)
 //     .setInitialStablecoinCurrency(initialStablecoinCurrency.toString())
 //     .setAmount(amount)
 //     .setTargetToken(targetToken.toString())

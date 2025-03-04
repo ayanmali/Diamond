@@ -7,20 +7,20 @@ import java.util.UUID;
 
 import org.hibernate.Hibernate;
 
-import com.diamond.diamond.dtos.wallets.FetchVendorWalletDto;
-import com.diamond.diamond.entities.VendorWallet;
+import com.diamond.diamond.dtos.wallets.FetchAccountWalletDto;
+import com.diamond.diamond.entities.AccountWallet;
 import com.diamond.diamond.entities.payments.Payment;
-import com.diamond.diamond.services.VendorWalletService;
+import com.diamond.diamond.services.AccountWalletService;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.StablecoinCurrency;
 
 public class FetchPaymentDto {
     private UUID id;
     private Double amount;
-    private UUID vendorId;
+    private UUID accountId;
     private StablecoinCurrency currency;
     private Blockchain chain;
-    private List<FetchVendorWalletDto> walletDistribution;
+    private List<FetchAccountWalletDto> walletDistribution;
     private Date createdAt;
     private Date updatedAt;
 
@@ -29,14 +29,14 @@ public class FetchPaymentDto {
     public FetchPaymentDto(Payment payment) {
         this.id = payment.getId();
         this.amount = payment.getAmount();
-        this.vendorId = payment.getVendor().getId();
+        this.accountId = payment.getAccount().getId();
         this.currency = payment.getStablecoinCurrency();
         this.chain = payment.getChain();
 
         if (payment.getWalletDistribution() != null && Hibernate.isInitialized(payment.getWalletDistribution())) {
-            List<FetchVendorWalletDto> walletDtos = new ArrayList<>();
-            for (VendorWallet vw : payment.getWalletDistribution()) {
-                walletDtos.add(VendorWalletService.convertVendorWalletToFetchDto(vw));
+            List<FetchAccountWalletDto> walletDtos = new ArrayList<>();
+            for (AccountWallet vw : payment.getWalletDistribution()) {
+                walletDtos.add(AccountWalletService.convertAccountWalletToFetchDto(vw));
             }
             this.walletDistribution = walletDtos;
         }
@@ -57,11 +57,11 @@ public class FetchPaymentDto {
     public void setAmount(Double amount) {
         this.amount = amount;
     }
-    public UUID getVendorId() {
-        return vendorId;
+    public UUID getAccountId() {
+        return accountId;
     }
-    public void setVendorId(UUID vendorId) {
-        this.vendorId = vendorId;
+    public void setAccountId(UUID accountId) {
+        this.accountId = accountId;
     }
     public StablecoinCurrency getCurrency() {
         return currency;
@@ -75,11 +75,11 @@ public class FetchPaymentDto {
     public void setChain(Blockchain chain) {
         this.chain = chain;
     }
-    public List<FetchVendorWalletDto> getVendorWalletDtos() {
+    public List<FetchAccountWalletDto> getAccountWalletDtos() {
         return walletDistribution;
     }
-    public void setVendorWalletDtos(List<FetchVendorWalletDto> vendorWalletDtos) {
-        this.walletDistribution = vendorWalletDtos;
+    public void setAccountWalletDtos(List<FetchAccountWalletDto> accountWalletDtos) {
+        this.walletDistribution = accountWalletDtos;
     }
 
     public Date getCreatedAt() {

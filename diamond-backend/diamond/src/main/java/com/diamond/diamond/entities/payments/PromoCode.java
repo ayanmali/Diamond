@@ -6,7 +6,7 @@ package com.diamond.diamond.entities.payments;
 import java.util.Date;
 import java.util.Set;
 
-import com.diamond.diamond.entities.Vendor;
+import com.diamond.diamond.entities.Account;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,8 +27,8 @@ public class PromoCode {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="vendor_id", referencedColumnName="id", nullable=false)
-    private Vendor vendor;
+    @JoinColumn(name="account_id", referencedColumnName="id", nullable=false)
+    private Account account;
 
     @ManyToOne
     @JoinColumn(name="payment_id", referencedColumnName="id", nullable=false)
@@ -47,8 +47,8 @@ public class PromoCode {
 
     public PromoCode() {}
 
-    public PromoCode(Vendor vendor, Payment payment, String code, Double discount) {
-        this.vendor = vendor;
+    public PromoCode(Account account, Payment payment, String code, Double discount) {
+        this.account = account;
         this.payment = payment;
         this.code = code;
         this.discount = discount;
@@ -62,12 +62,12 @@ public class PromoCode {
         this.id = id;
     }
 
-    public Vendor getVendor() {
-        return vendor;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setVendorId(Vendor vendor) {
-        this.vendor = vendor;
+    public void setAccountId(Account account) {
+        this.account = account;
     }
 
     public Payment getPayment() {

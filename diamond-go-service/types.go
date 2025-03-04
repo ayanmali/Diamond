@@ -86,17 +86,17 @@ func getStablecoinFromString(currencyString string) (coin StablecoinCurrency, ok
 	return res, true
 }
 
-/*           VENDOR LOGIC             */
+/*           Account LOGIC             */
 
-// A vendor's crypto wallet
-type VendorWallet struct {
+// A Account's crypto wallet
+type AccountWallet struct {
 	ID               uint64
 	Address          string
 	PrivateKey       string
 	RecoveryPhrase   []string
 	SecondaryKey     string
 	TertiaryKey      string
-	VendorId         uint64 // corresponds to the vendor (user) ID in the DB
+	AccountId         uint64 // corresponds to the Account (user) ID in the DB
 	WalletName       string
 	Chain            Blockchain
 	USDCBalance      float64
@@ -106,13 +106,13 @@ type VendorWallet struct {
 	DateCreated      int64
 }
 
-// Constructor for a VendorWallet struct
-func NewVendorWallet(address string, walletName string, vendorId uint64, chain Blockchain) *VendorWallet {
-	return &VendorWallet{
+// Constructor for a AccountWallet struct
+func NewAccountWallet(address string, walletName string, AccountId uint64, chain Blockchain) *AccountWallet {
+	return &AccountWallet{
 		ID:             0,
 		Address:        address,
 		WalletName:     walletName,
-		VendorId:       vendorId,
+		AccountId:       AccountId,
 		Chain:          chain,
 		PrivateKey:     "private_key",
 		RecoveryPhrase: make([]string, 12),
@@ -126,17 +126,17 @@ func NewVendorWallet(address string, walletName string, vendorId uint64, chain B
 }
 
 // Used for extracting data sent via a gRPC request
-func NewVendorWalletFromPb(address string, vendorId uint64, chain Blockchain) *VendorWallet {
-	return &VendorWallet{
+func NewAccountWalletFromPb(address string, AccountId uint64, chain Blockchain) *AccountWallet {
+	return &AccountWallet{
 		Address:  address,
-		VendorId: vendorId,
+		AccountId: AccountId,
 		Chain:    chain,
 	}
 }
 
-// Qualities associated with a vendor
-type Vendor struct {
-	Wallets             []VendorWallet
+// Qualities associated with a Account
+type Account struct {
+	Wallets             []AccountWallet
 	ID                  uint64
 	BusinessName        string
 	TotalUSDCBalance    float64
@@ -148,13 +148,13 @@ type Vendor struct {
 	DateCreated         int64
 }
 
-// Constructor for Vendor struct
-func NewVendor(businessName string, email string) *Vendor {
-	return &Vendor{
+// Constructor for Account struct
+func NewAccount(businessName string, email string) *Account {
+	return &Account{
 		ID:           0,
 		BusinessName: businessName,
 		PrimaryEmail: email,
-		Wallets:      make([]VendorWallet, 3),
+		Wallets:      make([]AccountWallet, 3),
 		// retrieve from DB or API call
 		TotalUSDCBalance:    0,
 		TotalEURCBalance:    0,

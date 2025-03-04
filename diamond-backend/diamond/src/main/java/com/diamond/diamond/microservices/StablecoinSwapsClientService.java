@@ -4,7 +4,7 @@
 
 // import com.diamond.diamond.transactions.Blockchain;
 // import com.diamond.diamond.transactions.StablecoinCurrency;
-// import com.diamond.diamond.transactions.VendorWallet;
+// import com.diamond.diamond.transactions.AccountWallet;
 
 // import proto.Service.SwapStablesToSpotRequest;
 // import proto.Service.SwapStablesToSpotResponse;
@@ -19,17 +19,17 @@
 //         this.swapsStub = swapsStub;
 //     }
 
-//     public void swapStablesToSpot(VendorWallet vendorWallet, StablecoinCurrency initialStablecoinCurrency, double amount, Blockchain targetToken) {
-//         // Defining the VendorWallet object to be sent over gRPC to the microservice
-//         proto.Service.VendorWallet vendorWalletGRPC = proto.Service.VendorWallet.newBuilder()
-//                 .setVendorID(vendorWallet.getVendorId())
-//                 .setWalletAddress(vendorWallet.getAddress())
-//                 .setChain(vendorWallet.getChain().toString())
+//     public void swapStablesToSpot(AccountWallet AccountWallet, StablecoinCurrency initialStablecoinCurrency, double amount, Blockchain targetToken) {
+//         // Defining the AccountWallet object to be sent over gRPC to the microservice
+//         proto.Service.AccountWallet AccountWalletGRPC = proto.Service.AccountWallet.newBuilder()
+//                 .setAccountID(AccountWallet.getAccountId())
+//                 .setWalletAddress(AccountWallet.getAddress())
+//                 .setChain(AccountWallet.getChain().toString())
 //                 .build();
 
 //         // Defining the parameters to be sent in the gRPC request
 //         SwapStablesToSpotRequest request = SwapStablesToSpotRequest.newBuilder()
-//                 .setVendorWallet(vendorWalletGRPC)
+//                 .setAccountWallet(AccountWalletGRPC)
 //                 .setInitialStablecoinCurrency(initialStablecoinCurrency.toString())
 //                 .setAmount(amount)
 //                 .setTargetToken(targetToken.toString())

@@ -10,79 +10,79 @@
 
 // import com.diamond.diamond.dtos.LoginUserDto;
 // import com.diamond.diamond.dtos.RegisterUserDto;
-// import com.diamond.diamond.entities.Vendor;
-// import com.diamond.diamond.repositories.VendorRepository;
+// import com.diamond.diamond.entities.Account;
+// import com.diamond.diamond.repositories.AccountRepository;
 
 // @Service
 // public class AuthService {
 
-//     private final VendorRepository vendorRepository;
+//     private final AccountRepository AccountRepository;
 //     private final PasswordEncoder passwordEncoder;
 //     private final AuthenticationManager authManager;
 
-//     public AuthService(VendorRepository vendorRepository, PasswordEncoder passwordEncoder, AuthenticationManager authManager) {
-//         this.vendorRepository = vendorRepository;
+//     public AuthService(AccountRepository AccountRepository, PasswordEncoder passwordEncoder, AuthenticationManager authManager) {
+//         this.AccountRepository accountRepository;
 //         this.passwordEncoder = passwordEncoder;
 //         this.authManager = authManager;
 //     }
 
-//     // public Vendor saveUser(Vendor vendor) {
-//     //     return vendorRepository.save(vendor);
+//     // public Account saveUser(Account Account) {
+//     //     return AccountRepository.save(Account);
 //     // }
 
-//     public Optional<Vendor> findVendorById(UUID id) {
-//         return vendorRepository.findById(id);
+//     public Optional<Account> findAccountById(UUID id) {
+//         return AccountRepository.findById(id);
 //     }
 
-//     public Optional<Vendor> findVendorByEmail(String email) {
-//         return vendorRepository.findByEmail(email);
+//     public Optional<Account> findAccountByEmail(String email) {
+//         return AccountRepository.findByEmail(email);
 //     }
 
-//     public Vendor updateVendorEmail(UUID id, String email) {
-//         Optional<Vendor> optionalVendor = vendorRepository.findById(id);
-//         if (optionalVendor.isPresent()) {
-//             Vendor vendor = optionalVendor.get();
-//             vendor.setEmail(email);
-//             return vendorRepository.save(vendor);
+//     public Account updateAccountEmail(UUID id, String email) {
+//         Optional<Account> optionalAccount accountRepository.findById(id);
+//         if (optionalAccount.isPresent()) {
+//             Account Account = optionalAccount.get();
+//             Account.setEmail(email);
+//             return AccountRepository.save(Account);
 //         }
 //         return null;
 //     }
 
-//     public Vendor updateVendorName(UUID id, String name) {
-//         Optional<Vendor> optionalVendor = vendorRepository.findById(id);
-//         if (optionalVendor.isPresent()) {
-//             Vendor vendor = optionalVendor.get();
-//             vendor.setBusinessName(name);
-//             return vendorRepository.save(vendor);
+//     public Account updateAccountName(UUID id, String name) {
+//         Optional<Account> optionalAccount accountRepository.findById(id);
+//         if (optionalAccount.isPresent()) {
+//             Account Account = optionalAccount.get();
+//             Account.setBusinessName(name);
+//             return AccountRepository.save(Account);
 //         }
 //         return null;
 //     }
 
-//     public void deleteVendorById(UUID id) {
-//         vendorRepository.deleteById(id);
+//     public void deleteAccountById(UUID id) {
+//         AccountRepository.deleteById(id);
 //     }
 
-//     public void deleteVendor(Vendor vendor) {
-//         vendorRepository.delete(vendor);
+//     public void deleteAccount(Account Account) {
+//         AccountRepository.delete(Account);
 //     }
 
-//     public Vendor signUp(RegisterUserDto input) {
-//         Vendor user = new Vendor();
+//     public Account signUp(RegisterUserDto input) {
+//         Account user = new Account();
 //         user.setEmail(input.getEmail());
 //         user.setPassword(passwordEncoder.encode(input.getPassword()));
 //         user.setBusinessName(input.getFullName());
 
 //         // saving the newly registered user to the Users repository
-//         return vendorRepository.save(user);
+//         return AccountRepository.save(user);
 //     }
 
-//     public Vendor authenticate(LoginUserDto input) {
+//     public Account authenticate(LoginUserDto input) {
 //         authManager.authenticate(
 //                 new UsernamePasswordAuthenticationToken(input.getEmail(), input.getPassword())
 //         );
 
 //         // returns the User object if it successfully authenticates
-//         return vendorRepository.findByEmail(input.getEmail())
+//         return AccountRepository.findByEmail(input.getEmail())
 //                 .orElseThrow();
 //     }
 // }

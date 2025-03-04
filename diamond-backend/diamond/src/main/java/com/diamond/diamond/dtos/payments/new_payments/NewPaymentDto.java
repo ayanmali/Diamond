@@ -12,10 +12,10 @@ public abstract class NewPaymentDto {
 
     //private UUID id;
     private Double amount;
-    private String vendorId;
+    private String accountId;
     private StablecoinCurrency currency;
     private Blockchain chain;
-    private List<Long> vendorWalletIds;
+    private List<Long> accountWalletIds;
 
     public Double getAmount() {
         return amount;
@@ -23,11 +23,11 @@ public abstract class NewPaymentDto {
     public void setAmount(Double amount) {
         this.amount = amount;
     }
-    public String getVendorId() {
-        return vendorId;
+    public String getAccountId() {
+        return accountId;
     }
-    public void setVendorId(String vendorId) {
-        this.vendorId = vendorId;
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
     public StablecoinCurrency getCurrency() {
         return currency;
@@ -41,11 +41,11 @@ public abstract class NewPaymentDto {
     public void setChain(Blockchain chain) {
         this.chain = chain;
     }
-    public List<Long> getVendorWalletIds() {
-        return vendorWalletIds;
+    public List<Long> getAccountWalletIds() {
+        return accountWalletIds;
     }
-    public void setVendorWalletIds(List<Long> vendorWalletIds) {
-        this.vendorWalletIds = vendorWalletIds;
+    public void setAccountWalletIds(List<Long> accountWalletIds) {
+        this.accountWalletIds = accountWalletIds;
     }
 
 }

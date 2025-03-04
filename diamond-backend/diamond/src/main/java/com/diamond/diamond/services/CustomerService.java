@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.diamond.diamond.dtos.customer.FetchCustomerDto;
 import com.diamond.diamond.dtos.customer.NewCustomerDto;
 import com.diamond.diamond.entities.Customer;
-import com.diamond.diamond.entities.Vendor;
+import com.diamond.diamond.entities.Account;
 import com.diamond.diamond.repositories.CustomerRepository;
 
 @Service
@@ -28,7 +28,7 @@ public class CustomerService {
         customerDto.setId(customer.getId());
         customerDto.setName(customer.getName());
         customerDto.setEmail(customer.getEmail());
-        customerDto.setVendorId(customer.getVendor().getId());
+        customerDto.setAccountId(customer.getAccount().getId());
         customerDto.setCreatedAt(customer.getCreatedAt());
         customerDto.setUpdatedAt(customer.getUpdatedAt());
 
@@ -43,8 +43,8 @@ public class CustomerService {
         return customerDto;
     }
 
-    public FetchCustomerDto saveCustomer(NewCustomerDto newCustomer, Vendor vendor) {
-        Customer customer = new Customer(vendor,
+    public FetchCustomerDto saveCustomer(NewCustomerDto newCustomer, Account account) {
+        Customer customer = new Customer(account,
                                          newCustomer.getName(),
                                          newCustomer.getEmail()
                                          //newCustomer.getWallets() 
@@ -83,14 +83,14 @@ public class CustomerService {
         return convertCustomerToFetchDto(customerRepository.findByEmail(email).orElseThrow());
     }
 
-    public List<FetchCustomerDto> findCustomerDtosByVendor(Vendor vendor) {
-        return customerRepository.findByVendor(vendor).stream() // Convert the List<Customer> to a Stream<Customer>
+    public List<FetchCustomerDto> findCustomerDtosByAccount(Account account) {
+        return customerRepository.findByAccount(account).stream() // Convert the List<Customer> to a Stream<Customer>
         .map(CustomerService::convertCustomerToFetchDto) // Map each Customer to FetchCustomerDto
         .collect(Collectors.toList());
     }
 
-    public List<Customer> findCustomersByVendor(Vendor vendor) {
-        return customerRepository.findByVendor(vendor);
+    public List<Customer> findCustomersByAccount(Account account) {
+        return customerRepository.findByAccount(account);
     }
 
     public FetchCustomerDto updateCustomerEmail(UUID id, String email) {

@@ -13,37 +13,37 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.diamond.diamond.dtos.payments.fetch_payments.FetchPaymentDto;
 import com.diamond.diamond.dtos.payments.new_payments.NewPaymentDto;
-import com.diamond.diamond.dtos.wallets.FetchVendorWalletDto;
-import com.diamond.diamond.entities.VendorWallet;
+import com.diamond.diamond.dtos.wallets.FetchAccountWalletDto;
+import com.diamond.diamond.entities.AccountWallet;
 import com.diamond.diamond.entities.payments.Payment;
-import com.diamond.diamond.services.VendorService;
-import com.diamond.diamond.services.VendorWalletService;
+import com.diamond.diamond.services.AccountService;
+import com.diamond.diamond.services.AccountWalletService;
 import com.diamond.diamond.services.payments.PaymentService;
 import com.diamond.diamond.types.StablecoinCurrency;
 
 //@RequestMapping("/payments")
 public abstract class PaymentController<P extends Payment, N extends NewPaymentDto> {
     protected PaymentService<P> paymentService; // the Service class for the given Payment type
-    protected VendorService vendorService;
-    protected VendorWalletService vendorWalletService;
+    protected AccountService accountService;
+    protected AccountWalletService accountWalletService;
     abstract P convertNewDtoToPayment(N paymentDto); // helper method for converting to and from the Payment type and the NewPaymentDTO
 
     // Used in child classes
-    protected List<VendorWallet> getVendorWalletsFromPaymentDto(N paymentDto) {
-        List<VendorWallet> vendorWallets = new ArrayList<>();
-        for (Long walletId : paymentDto.getVendorWalletIds()) {
-            vendorWallets.add(vendorWalletService.findWalletById(walletId));
+    protected List<AccountWallet> getAccountWalletsFromPaymentDto(N paymentDto) {
+        List<AccountWallet> accountWallets = new ArrayList<>();
+        for (Long walletId : paymentDto.getAccountWalletIds()) {
+            accountWallets.add(accountWalletService.findWalletById(walletId));
         }
-        return vendorWallets;
+        return accountWallets;
     }
 
-    private FetchPaymentDto loadVendorWallets(FetchPaymentDto paymentDto) {
+    private FetchPaymentDto loadAccountWallets(FetchPaymentDto paymentDto) {
         // Retrieving the wallet distribution for this Payment
-        List<FetchVendorWalletDto> walletDistribution = vendorWalletService.findWalletsByPayment(paymentService.findPaymentById(paymentDto.getId())).stream() // Convert the List<Customer> to a Stream<Customer>
-        .map(VendorWalletService::convertVendorWalletToFetchDto) // Map each Customer to FetchCustomerDto
-        .collect(Collectors.toList());;
+        List<FetchAccountWalletDto> walletDistribution = accountWalletService.findWalletsByPayment(paymentService.findPaymentById(paymentDto.getId())).stream() // Convert the List<Customer> to a Stream<Customer>
+        .map(AccountWalletService::convertAccountWalletToFetchDto) // Map each Customer to FetchCustomerDto
+        .collect(Collectors.toList());
         
-        paymentDto.setVendorWalletDtos(walletDistribution);
+        paymentDto.setAccountWalletDtos(walletDistribution);
         return paymentDto;
     }
     
@@ -56,33 +56,33 @@ public abstract class PaymentController<P extends Payment, N extends NewPaymentD
     public FetchPaymentDto getPaymentById(@PathVariable(value="id") String id) {
         //P payment = paymentService.findPaymentById(id);
         FetchPaymentDto paymentDto = paymentService.findPaymentDtoById(id);
-        paymentDto = loadVendorWallets(paymentDto);
+        paymentDto = loadAccountWallets(paymentDto);
         return paymentDto;
     }
 
     @PostMapping("/update-amount/{id}")
     public FetchPaymentDto updateAmount(@PathVariable(value="id") String id, @RequestParam Double amount) {
         FetchPaymentDto paymentDto = paymentService.convertPaymentToFetchDto(paymentService.updateAmount(UUID.fromString(id), amount));
-        paymentDto = loadVendorWallets(paymentDto);
+        paymentDto = loadAccountWallets(paymentDto);
         return paymentDto;
     }
 
     @PostMapping("/update-currency/{id}")
     public FetchPaymentDto updateCurrency(@PathVariable(value="id") String id, @RequestBody StablecoinCurrency currency) {
         FetchPaymentDto paymentDto = paymentService.convertPaymentToFetchDto(paymentService.updateCurrency(UUID.fromString(id), currency));
-        paymentDto = loadVendorWallets(paymentDto);
+        paymentDto = loadAccountWallets(paymentDto);
         return paymentDto;
     }
 
     // TODO: Test this endpoint
     @PostMapping("/update-wallet-distribution/{id}")
-    public FetchPaymentDto updateWallets(@PathVariable(value="id") String id, @RequestBody List<Long> vendorWalletIds) {
-        List<VendorWallet> vendorWallets = new ArrayList<>();
-        for (Long walletId : vendorWalletIds) {
-            vendorWallets.add(vendorWalletService.findWalletById(walletId));
+    public FetchPaymentDto updateWallets(@PathVariable(value="id") String id, @RequestBody List<Long> accountWalletIds) {
+        List<AccountWallet> accountWallets = new ArrayList<>();
+        for (Long walletId : accountWalletIds) {
+            accountWallets.add(accountWalletService.findWalletById(walletId));
         }
-        FetchPaymentDto paymentDto = paymentService.convertPaymentToFetchDto(paymentService.updateWalletDistribution(UUID.fromString(id), vendorWallets));
-        //paymentDto = loadVendorWallets(paymentDto);
+        FetchPaymentDto paymentDto = paymentService.convertPaymentToFetchDto(paymentService.updateWalletDistribution(UUID.fromString(id), accountWallets));
+        //paymentDto = loadAccountWallets(paymentDto);
         return paymentDto;
     }
 
@@ -90,7 +90,7 @@ public abstract class PaymentController<P extends Payment, N extends NewPaymentD
     public FetchPaymentDto deletePayment(@PathVariable(value="id") String id) {
         //P payment = paymentService.findPaymentById(id);
         FetchPaymentDto paymentDto = paymentService.findPaymentDtoById(id);
-        paymentDto = loadVendorWallets(paymentDto);
+        paymentDto = loadAccountWallets(paymentDto);
         paymentService.deletePaymentById(id);
         return paymentDto;
     }

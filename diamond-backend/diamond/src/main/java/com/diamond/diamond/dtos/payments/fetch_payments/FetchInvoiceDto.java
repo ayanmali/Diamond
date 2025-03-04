@@ -9,7 +9,7 @@ public class FetchInvoiceDto extends FetchPaymentDto {
     private UUID customerId;
     private Date timeSent;
     private Date timePaid;
-    private String vendorComments;
+    private String accountComments;
     private String customerComments;
 
     public FetchInvoiceDto() {}
@@ -35,11 +35,11 @@ public class FetchInvoiceDto extends FetchPaymentDto {
     public void setTimePaid(Date timePaid) {
         this.timePaid = timePaid;
     }
-    public String getVendorComments() {
-        return vendorComments;
+    public String getAccountComments() {
+        return accountComments;
     }
-    public void setVendorComments(String vendorComments) {
-        this.vendorComments = vendorComments;
+    public void setAccountComments(String accountComments) {
+        this.accountComments = accountComments;
     }
     public String getCustomerComments() {
         return customerComments;

@@ -10,7 +10,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 /*
- * Defines a transaction between a customer and vendor for a checkout payment
+ * Defines a transaction between a customer and Account for a checkout payment
  */
 @Entity
 @Table(name="checkout_txns")

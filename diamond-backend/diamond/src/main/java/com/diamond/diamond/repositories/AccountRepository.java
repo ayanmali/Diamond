@@ -6,10 +6,10 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.diamond.diamond.entities.Vendor;
+import com.diamond.diamond.entities.Account;
 
 @Repository
-public interface VendorRepository extends JpaRepository<Vendor, UUID> {
-    Optional<Vendor> findByEmail(String email);
-    //List<VendorWallet> findWallets(UUID id);
+public interface AccountRepository extends JpaRepository<Account, UUID> {
+    Optional<Account> findByEmail(String email);
+    //List<AccountWallet> findWallets(UUID id);
 }

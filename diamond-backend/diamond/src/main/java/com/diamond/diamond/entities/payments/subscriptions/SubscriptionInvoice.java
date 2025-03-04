@@ -3,8 +3,8 @@
 // import java.util.List;
 
 // import com.diamond.diamond.entities.Customer;
-// import com.diamond.diamond.entities.Vendor;
-// import com.diamond.diamond.entities.VendorWallet;
+// import com.diamond.diamond.entities.Account;
+// import com.diamond.diamond.entities.AccountWallet;
 // import com.diamond.diamond.entities.payments.Invoice;
 // import com.diamond.diamond.types.Blockchain;
 // import com.diamond.diamond.types.StablecoinCurrency;
@@ -27,8 +27,8 @@
 
 //     public SubscriptionInvoice() {}
 
-//     public SubscriptionInvoice(Double amount, Vendor vendor, Customer customer, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets, String vendorComments) {
-//         super(amount, vendor, customer, currency, chain, vendorWallets, vendorComments);
+//     public SubscriptionInvoice(Double amount, Account Account, Customer customer, StablecoinCurrency currency, Blockchain chain, List<AccountWallet> AccountWallets, String AccountComments) {
+//         super(amount, Account, customer, currency, chain, AccountWallets, AccountComments);
 //         this.billingBasis = 30L; // defaults to 30 day subscription
 //         this.status = SubscriptionStatus.PAUSED;
 //     }

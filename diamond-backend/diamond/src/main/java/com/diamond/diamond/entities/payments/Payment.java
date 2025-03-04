@@ -10,8 +10,8 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.diamond.diamond.entities.Vendor;
-import com.diamond.diamond.entities.VendorWallet;
+import com.diamond.diamond.entities.Account;
+import com.diamond.diamond.entities.AccountWallet;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.PaymentStatus;
 import com.diamond.diamond.types.StablecoinCurrency;
@@ -43,11 +43,11 @@ import jakarta.persistence.ManyToOne;
 
     @Column(nullable=false)
     private Double amount;
-    //final VendorWallet businessWallet;
+    //final AccountWallet businessWallet;
 
     @ManyToOne
-    @JoinColumn(name="vendor_id", referencedColumnName="id", nullable=false)
-    private Vendor vendor;
+    @JoinColumn(name="account_id", referencedColumnName="id", nullable=false)
+    private Account account;
 
     // remove
     // @ManyToOne
@@ -67,7 +67,7 @@ import jakarta.persistence.ManyToOne;
     // @Column(nullable=false)
     // private PaymentStatus status;
 
-    // used to define how payments are allocated between the vendor's wallets, if desired
+    // used to define how payments are allocated between the account's wallets, if desired
     //private PaymentDistributor distributor;
     @ManyToMany
     @JoinTable(
@@ -75,7 +75,7 @@ import jakarta.persistence.ManyToOne;
         joinColumns = @JoinColumn(name = "payment_id"),
         inverseJoinColumns = @JoinColumn(name = "wallet_id")
     )
-    private List<VendorWallet> walletDistribution;
+    private List<AccountWallet> walletDistribution;
 
     @CreationTimestamp
     @Column(name="created_at")
@@ -88,18 +88,18 @@ import jakarta.persistence.ManyToOne;
     // /*
     //  * Constructor method that uses a single wallet for routing payments by default
     //  */
-    // public Payment(double amount, Vendor vendor, Customer customer, StablecoinCurrency currency, Blockchain chain) throws Exception {
+    // public Payment(double amount, Account account, Customer customer, StablecoinCurrency currency, Blockchain chain) throws Exception {
     //     this.amount = amount;
-    //     this.vendor = vendor;
+    //     this.account = account;
     //     this.customer = customer;
     //     this.currency = currency;
     //     this.chain = chain;
     //     this.paymentStatus = PaymentStatus.PENDING;
 
-    //     // retrieves the vendor's first wallet on the speciied chain
-    //     VendorWallet wallet = this.vendor.getWallets(chain).get(0);
-    //     // Allocates all incoming payments to the vendor's primary wallet by default
-    //     this.distributor = new PaymentDistributor(vendor,
+    //     // retrieves the account's first wallet on the speciied chain
+    //     AccountWallet wallet = this.account.getWallets(chain).get(0);
+    //     // Allocates all incoming payments to the account's primary wallet by default
+    //     this.distributor = new PaymentDistributor(account,
     //             Map.of(wallet, 1.0),
     //             "");
     // }
@@ -108,24 +108,24 @@ import jakarta.persistence.ManyToOne;
     /*
      * Constructor method that uses a provided Map to route payments to multiple wallets
      */
-    public Payment(Double amount, Vendor vendor, StablecoinCurrency currency, Blockchain chain, List<VendorWallet> vendorWallets/*, PaymentDistributor distributor*/) /*throws Exception*/ {
+    public Payment(Double amount, Account account, StablecoinCurrency currency, Blockchain chain, List<AccountWallet> accountWallets/*, PaymentDistributor distributor*/) /*throws Exception*/ {
         this.amount = amount;
-        this.vendor = vendor;
+        this.account = account;
         this.currency = currency;
         this.chain = chain;
-        this.walletDistribution = vendorWallets;
+        this.walletDistribution = accountWallets;
         // this.distributor = distributor;
-        // this.distributor = new PaymentDistributor(vendor, mappings, "");
+        // this.distributor = new PaymentDistributor(account, mappings, "");
     }
 
-    public Payment(Double amount, Vendor vendor, StablecoinCurrency currency, Blockchain chain, VendorWallet vendorWallet/*, PaymentDistributor distributor*/) /*throws Exception*/ {
+    public Payment(Double amount, Account account, StablecoinCurrency currency, Blockchain chain, AccountWallet accountWallet/*, PaymentDistributor distributor*/) /*throws Exception*/ {
         this.amount = amount;
-        this.vendor = vendor;
+        this.account = account;
         this.currency = currency;
         this.chain = chain;
-        this.walletDistribution = new ArrayList<>(Arrays.asList(vendorWallet));
+        this.walletDistribution = new ArrayList<>(Arrays.asList(accountWallet));
         // this.distributor = distributor;
-        // this.distributor = new PaymentDistributor(vendor, mappings, "");
+        // this.distributor = new PaymentDistributor(account, mappings, "");
     }
 
     @Override
@@ -147,8 +147,8 @@ import jakarta.persistence.ManyToOne;
      * Distributes payments to multiple wallets according to the 
      */
     // public void distributePayment() {
-    //     Map<VendorWallet, Double> mappings = this.distributor.getDistribution().getMappings();
-    //     List<VendorWallet> keyList = new ArrayList<>(mappings.keySet());
+    //     Map<AccountWallet, Double> mappings = this.distributor.getDistribution().getMappings();
+    //     List<AccountWallet> keyList = new ArrayList<>(mappings.keySet());
 
     //     double remainingAmount = this.amount;
 
@@ -182,8 +182,8 @@ import jakarta.persistence.ManyToOne;
         return amount;
     }
 
-    public Vendor getVendor() {
-        return vendor;
+    public Account getAccount() {
+        return account;
     }
 
     public StablecoinCurrency getStablecoinCurrency() {
@@ -202,8 +202,8 @@ import jakarta.persistence.ManyToOne;
     //     this.distributor = distributor;
     // }
 
-    // public void setDistributor(Map<VendorWallet, Double> mappings) throws Exception {
-    //     this.distributor = new PaymentDistributor(this.vendor, mappings, "");
+    // public void setDistributor(Map<AccountWallet, Double> mappings) throws Exception {
+    //     this.distributor = new PaymentDistributor(this.account, mappings, "");
     // }
 
     public Blockchain getChain() {
@@ -218,15 +218,15 @@ import jakarta.persistence.ManyToOne;
         return id;
     }
 
-    public List<VendorWallet> getWalletDistribution() {
+    public List<AccountWallet> getWalletDistribution() {
         return walletDistribution;
     }
 
-    public void setWalletDistribution(List<VendorWallet> walletDistribution) {
+    public void setWalletDistribution(List<AccountWallet> walletDistribution) {
         this.walletDistribution = walletDistribution;
     }
 
-    public void addWallet(VendorWallet wallet) {
+    public void addWallet(AccountWallet wallet) {
         walletDistribution.add(wallet);
     }
 

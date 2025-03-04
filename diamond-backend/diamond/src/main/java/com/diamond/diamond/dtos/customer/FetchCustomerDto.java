@@ -11,7 +11,7 @@ public class FetchCustomerDto {
     private String name;
     private String email;
     private List<FetchCustomerWalletDto> wallets;
-    private UUID vendorId;
+    private UUID accountId;
     private Date createdAt;
     private Date updatedAt;
 
@@ -39,11 +39,11 @@ public class FetchCustomerDto {
     public void setWallets(List<FetchCustomerWalletDto> wallets) {
         this.wallets = wallets;
     }
-    public UUID getVendorId() {
-        return vendorId;
+    public UUID getAccountId() {
+        return accountId;
     }
-    public void setVendorId(UUID vendorId) {
-        this.vendorId = vendorId;
+    public void setAccountId(UUID accountId) {
+        this.accountId = accountId;
     }
     public Date getCreatedAt() {
         return createdAt;

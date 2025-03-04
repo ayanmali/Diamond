@@ -3,17 +3,17 @@
 
 // import java.util.Map;
 
-// import com.diamond.diamond.transactions.VendorWallet;
+// import com.diamond.diamond.transactions.AccountWallet;
 
 // public class PaymentDistribution {
 
 //     private static final double MARGIN_OF_ERROR = 0.001;
 
-//     private Map<VendorWallet, Double> mappings;
+//     private Map<AccountWallet, Double> mappings;
 //     private String name;
 //     private String description;
 
-//     public PaymentDistribution(Map<VendorWallet, Double> mappings, String name) throws Exception {
+//     public PaymentDistribution(Map<AccountWallet, Double> mappings, String name) throws Exception {
 //         if (isValidDistribution(mappings)) {
 //             this.mappings = mappings;
 //             this.name = name;
@@ -23,7 +23,7 @@
 //     /*
 //      * Helper method to determine if the given mappings of payments for each wallet is valid (i.e. each wallet's percentages add up to 1)
 //      */
-//     private static boolean isValidDistribution(Map<VendorWallet, Double> mappings) throws Exception {
+//     private static boolean isValidDistribution(Map<AccountWallet, Double> mappings) throws Exception {
 //         if (mappings.isEmpty()) {
 //             return true;
 //         }
@@ -47,11 +47,11 @@
 //         return true;
 //     }
 
-//     public Map<VendorWallet, Double> getMappings() {
+//     public Map<AccountWallet, Double> getMappings() {
 //         return mappings;
 //     }
 
-//     public void setDistribution(Map<VendorWallet, Double> mappings) throws Exception {
+//     public void setDistribution(Map<AccountWallet, Double> mappings) throws Exception {
 //         // Changes the object mappings if the provided mappings is valid
 //         if (isValidDistribution(mappings)) {
 //             this.mappings = mappings;

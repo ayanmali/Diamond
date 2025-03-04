@@ -6,33 +6,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.diamond.diamond.dtos.payments.new_payments.NewInvoiceDto;
-import com.diamond.diamond.entities.VendorWallet;
+import com.diamond.diamond.entities.AccountWallet;
 import com.diamond.diamond.entities.payments.Invoice;
 import com.diamond.diamond.services.CustomerService;
-import com.diamond.diamond.services.VendorService;
+import com.diamond.diamond.services.AccountService;
 
 @RestController
 @RequestMapping("/invoices")
 public class InvoiceController extends PaymentController<Invoice, NewInvoiceDto> {
     private final CustomerService customerService;
 
-    public InvoiceController(VendorService vendorService, CustomerService customerService) {
-        this.vendorService = vendorService;
+    public InvoiceController(AccountService accountService, CustomerService customerService) {
+        this.accountService = accountService;
         this.customerService = customerService;
     }
 
     @Override
     Invoice convertNewDtoToPayment(NewInvoiceDto paymentDto) {
         // TODO Auto-generated method stub
-        List<VendorWallet> vendorWallets = this.getVendorWalletsFromPaymentDto(paymentDto);
+        List<AccountWallet> accountWallets = this.getAccountWalletsFromPaymentDto(paymentDto);
 
         Invoice invoice = new Invoice(paymentDto.getAmount(), 
-                                      vendorService.findVendorById(paymentDto.getVendorId()), 
+                                      accountService.findAccountById(paymentDto.getAccountId()), 
                                       customerService.findCustomerById(paymentDto.getCustomerId()), 
                                       paymentDto.getCurrency(), 
                                       paymentDto.getChain(), 
-                                      vendorWallets, 
-                                      paymentDto.getVendorComments());
+                                      accountWallets, 
+                                      paymentDto.getAccountComments());
         return invoice;
     }
     

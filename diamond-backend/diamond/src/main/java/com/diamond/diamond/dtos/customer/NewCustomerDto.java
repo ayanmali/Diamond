@@ -5,7 +5,7 @@ import java.util.UUID;
 public class NewCustomerDto {
     private String name;
     private String email;
-    private UUID vendorId;
+    private UUID accountId;
     //private List<CustomerWallet> wallets;
 
     public String getName() {
@@ -32,11 +32,11 @@ public class NewCustomerDto {
     //     this.wallets = wallets;
     // }
 
-    public UUID getVendorId() {
-        return vendorId;
+    public UUID getAccountId() {
+        return accountId;
     }
 
-    public void setVendorId(UUID vendorId) {
-        this.vendorId = vendorId;
+    public void setAccountId(UUID accountId) {
+        this.accountId = accountId;
     }
 }
