@@ -76,7 +76,7 @@ public abstract class PaymentTxn {
         this.customer = customer;
         this.revenue = revenue;
         this.codesApplied = codesApplied;
-        this.status = PaymentStatus.PENDING;
+        this.status = PaymentStatus.PROCESSING;
     }
 
     @Override

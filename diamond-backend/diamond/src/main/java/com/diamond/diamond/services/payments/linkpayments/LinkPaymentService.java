@@ -1,8 +1,8 @@
 package com.diamond.diamond.services.payments.linkpayments;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
@@ -12,6 +12,7 @@ import com.diamond.diamond.entities.payments.PromoCode;
 import com.diamond.diamond.entities.payments.link_payments.LinkPayment;
 import com.diamond.diamond.repositories.payments.linkpayments.LinkPaymentRepository;
 import com.diamond.diamond.services.payments.PaymentService;
+import com.diamond.diamond.services.payments.PromoCodeService;
 
 @Service
 public class LinkPaymentService extends PaymentService<LinkPayment> {
@@ -43,12 +44,16 @@ public class LinkPaymentService extends PaymentService<LinkPayment> {
         
         if (linkPayment.getValidPromoCodes() != null && Hibernate.isInitialized(linkPayment.getValidPromoCodes())) {
             // Getting the IDs of the valid promo codes for this payment
-            List<Long> promoCodeIds = new ArrayList<>();
-            for (PromoCode promoCode : linkPayment.getValidPromoCodes()) {
-                promoCodeIds.add(promoCode.getId());
-            }
+            // List<Long> promoCodeIds = new ArrayList<>();
+            // for (PromoCode promoCode : linkPayment.getValidPromoCodes()) {
+            //     promoCodeIds.add(promoCode.getId());
+            // }
 
-            linkPaymentDto.setValidPromoCodeIds(promoCodeIds);
+            linkPaymentDto.setValidPromoCodeDtos(
+                linkPayment.getValidPromoCodes().stream() // Convert the List<Customer> to a Stream<Customer>
+                .map(PromoCodeService::convertPromoCodeToDto) // Map each Customer to FetchCustomerDto
+                .collect(Collectors.toList())
+            );
         }
 
         return linkPaymentDto;

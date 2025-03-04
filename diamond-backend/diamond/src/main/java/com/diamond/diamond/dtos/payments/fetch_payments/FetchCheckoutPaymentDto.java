@@ -2,13 +2,14 @@ package com.diamond.diamond.dtos.payments.fetch_payments;
 
 import java.util.List;
 
+import com.diamond.diamond.dtos.payments.PromoCodeDto;
 import com.diamond.diamond.entities.payments.Payment;
 
 public class FetchCheckoutPaymentDto extends FetchPaymentDto {
     private Boolean hasMaxNumberOfPayments;
     private Integer maxNumberOfPayments;
     private Boolean enablePromoCodes;
-    private List<Long> validPromoCodeIds;
+    private List<PromoCodeDto> validPromoCodeDtos;
 
     public FetchCheckoutPaymentDto() {}
     public FetchCheckoutPaymentDto(Payment payment) {
@@ -33,11 +34,13 @@ public class FetchCheckoutPaymentDto extends FetchPaymentDto {
     public void setEnablePromoCodes(Boolean enablePromoCodes) {
         this.enablePromoCodes = enablePromoCodes;
     }
-    public List<Long> getValidPromoCodeIds() {
-        return validPromoCodeIds;
+
+    public List<PromoCodeDto> getValidPromoCodeDtos() {
+        return validPromoCodeDtos;
     }
-    public void setValidPromoCodeIds(List<Long> validPromoCodeIds) {
-        this.validPromoCodeIds = validPromoCodeIds;
+
+    public void setValidPromoCodeDtos(List<PromoCodeDto> validPromoCodeDtos) {
+        this.validPromoCodeDtos = validPromoCodeDtos;
     }
     
 }

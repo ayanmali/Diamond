@@ -3,6 +3,7 @@ package com.diamond.diamond.controllers.payments.payments;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.diamond.diamond.dtos.payments.fetch_payments.FetchPaymentDto;
 import com.diamond.diamond.dtos.payments.new_payments.NewPaymentDto;
+import com.diamond.diamond.dtos.wallets.FetchVendorWalletDto;
 import com.diamond.diamond.entities.VendorWallet;
 import com.diamond.diamond.entities.payments.Payment;
 import com.diamond.diamond.services.VendorService;
@@ -37,13 +39,11 @@ public abstract class PaymentController<P extends Payment, N extends NewPaymentD
 
     private FetchPaymentDto loadVendorWallets(FetchPaymentDto paymentDto) {
         // Retrieving the wallet distribution for this Payment
-        List<VendorWallet> walletDistribution = vendorWalletService.findWalletsByPayment(paymentService.findPaymentById(paymentDto.getId()));
+        List<FetchVendorWalletDto> walletDistribution = vendorWalletService.findWalletsByPayment(paymentService.findPaymentById(paymentDto.getId())).stream() // Convert the List<Customer> to a Stream<Customer>
+        .map(VendorWalletService::convertVendorWalletToFetchDto) // Map each Customer to FetchCustomerDto
+        .collect(Collectors.toList());;
         
-        List<Long> walletIds = new ArrayList<>();
-        for (VendorWallet vw : walletDistribution) {
-            walletIds.add(vw.getId());
-        }
-        paymentDto.setVendorWalletIds(walletIds);
+        paymentDto.setVendorWalletDtos(walletDistribution);
         return paymentDto;
     }
     

@@ -184,6 +184,9 @@ public class VendorWallet implements Wallet {
     @ManyToMany(mappedBy = "walletDistribution")
     private List<Payment> payments;
 
+    @ManyToMany(mappedBy = "offrampWallets")
+    private List<Payout> payouts;
+
     public VendorWallet() {}
 
     public VendorWallet(String address, String walletName, Vendor vendor, Blockchain chain) {
@@ -254,6 +257,14 @@ public class VendorWallet implements Wallet {
 
     public void setPayments(List<Payment> payments) {
         this.payments = payments;
+    }
+
+    public List<Payout> getPayouts() {
+        return payouts;
+    }
+
+    public void setPayouts(List<Payout> payouts) {
+        this.payouts = payouts;
     }
 
 }

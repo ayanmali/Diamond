@@ -20,7 +20,7 @@ public class PromoCodeService {
         this.promoCodeRepository = promoCodeRepository;
     }
 
-    public PromoCodeDto convertPromoCodeToDto(PromoCode promoCode) {
+    public static PromoCodeDto convertPromoCodeToDto(PromoCode promoCode) {
         PromoCodeDto promoCodeDto = new PromoCodeDto();
         promoCodeDto.setCode(promoCode.getCode());
         promoCodeDto.setDiscount(promoCode.getDiscount());
@@ -45,13 +45,13 @@ public class PromoCodeService {
 
     public List<PromoCodeDto> findPromoCodesAppliedByPaymentTxn(PaymentTxn paymentTxn) {
         return promoCodeRepository.findByPaymentTxns(Set.of(paymentTxn)).stream() // Convert the List<PromoCode> to a Stream<PromoCode>
-        .map(this::convertPromoCodeToDto) // Map each VendorWallet to PromoCodeDto
+        .map(PromoCodeService::convertPromoCodeToDto) // Map each VendorWallet to PromoCodeDto
         .collect(Collectors.toList()); // Collect the results into a List<PromoCodeDto>
     }
 
     public List<PromoCodeDto> findPromoCodesAppliedByPaymentTxns(Set<PaymentTxn> paymentTxns) {
         return promoCodeRepository.findByPaymentTxns(paymentTxns).stream() // Convert the List<PromoCode> to a Stream<PromoCode>
-        .map(this::convertPromoCodeToDto) // Map each VendorWallet to PromoCodeDto
+        .map(PromoCodeService::convertPromoCodeToDto) // Map each VendorWallet to PromoCodeDto
         .collect(Collectors.toList()); // Collect the results into a List<PromoCodeDto>
     }
 

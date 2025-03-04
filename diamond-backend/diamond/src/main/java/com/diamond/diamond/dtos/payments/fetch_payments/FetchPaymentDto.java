@@ -7,8 +7,10 @@ import java.util.UUID;
 
 import org.hibernate.Hibernate;
 
+import com.diamond.diamond.dtos.wallets.FetchVendorWalletDto;
 import com.diamond.diamond.entities.VendorWallet;
 import com.diamond.diamond.entities.payments.Payment;
+import com.diamond.diamond.services.VendorWalletService;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.StablecoinCurrency;
 
@@ -18,7 +20,7 @@ public class FetchPaymentDto {
     private UUID vendorId;
     private StablecoinCurrency currency;
     private Blockchain chain;
-    private List<Long> walletDistribution;
+    private List<FetchVendorWalletDto> walletDistribution;
     private Date createdAt;
     private Date updatedAt;
 
@@ -32,11 +34,11 @@ public class FetchPaymentDto {
         this.chain = payment.getChain();
 
         if (payment.getWalletDistribution() != null && Hibernate.isInitialized(payment.getWalletDistribution())) {
-            List<Long> walletIds = new ArrayList<>();
+            List<FetchVendorWalletDto> walletDtos = new ArrayList<>();
             for (VendorWallet vw : payment.getWalletDistribution()) {
-                walletIds.add(vw.getId());
+                walletDtos.add(VendorWalletService.convertVendorWalletToFetchDto(vw));
             }
-            this.walletDistribution = walletIds;
+            this.walletDistribution = walletDtos;
         }
 
         this.createdAt = payment.getCreatedAt();
@@ -73,11 +75,11 @@ public class FetchPaymentDto {
     public void setChain(Blockchain chain) {
         this.chain = chain;
     }
-    public List<Long> getVendorWalletIds() {
+    public List<FetchVendorWalletDto> getVendorWalletDtos() {
         return walletDistribution;
     }
-    public void setVendorWalletIds(List<Long> vendorWalletIds) {
-        this.walletDistribution = vendorWalletIds;
+    public void setVendorWalletDtos(List<FetchVendorWalletDto> vendorWalletDtos) {
+        this.walletDistribution = vendorWalletDtos;
     }
 
     public Date getCreatedAt() {
@@ -96,5 +98,4 @@ public class FetchPaymentDto {
         this.updatedAt = updatedAt;
     }
 
-    
 }
