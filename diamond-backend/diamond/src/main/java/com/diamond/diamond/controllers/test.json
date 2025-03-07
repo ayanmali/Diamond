@@ -1,0 +1,41 @@
+[
+    {
+        "purpose" : "CREATING A USER",
+        "data": {
+            "users": [
+                {
+                    "id": "8d4b0210-6c5d-49cf-9ccb-b1b844c6c089",
+                    "status": "ENABLED",
+                    "createDate": "2025-01-07T18:21:30Z",
+                    "pinStatus": "ENABLED",
+                    "pinDetails": {
+                        "failedAttempts": 0
+                    },
+                    "securityQuestionStatus": "ENABLED",
+                    "securityQuestionDetails": {
+                        "failedAttempts": 0
+                    },
+                    "authMode": "PIN"
+                }
+            ]
+        }
+    },
+    {
+        "purpose" : "CREATING A USER SESSION ID",
+
+        "data": {
+            "id": "9faa40d8-c418-4c20-9a43-22cabf0cd6d8",
+            "status": "ENABLED",
+            "createDate": "2025-03-05T17:10:45Z",
+            "pinStatus": "UNSET",
+            "pinDetails": {
+                "failedAttempts": 0
+            },
+            "securityQuestionStatus": "UNSET",
+            "securityQuestionDetails": {
+                "failedAttempts": 0
+            },
+            "authMode": "PIN"
+        }
+    }
+]
