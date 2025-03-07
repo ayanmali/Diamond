@@ -63,72 +63,6 @@ public class CircleClient {
     //     // Complete URL
     //     String url = baseUrl + queryParams.toString();
     // }
-
-    // Converts a Date into an ISO 8601 timestamp
-    private String convertDateToISO(Date date) {
-        // Convert Date to Instant
-        Instant instant = date.toInstant();
-
-        // Format as ISO 8601 string
-        return DateTimeFormatter.ISO_INSTANT.format(instant);
-    }
-
-    private BoundRequestBuilder buildRequest(String method, String url, Map<String, Object> bodyParams) {
-        try {
-            // initializing the request object and adding Content-Type and API key headers for authorization
-            BoundRequestBuilder req = client.prepare(method, url)
-            .setHeader("Content-Type", "application/json");
-            if (method.equals("GET")) { return req; }
-
-            req.setHeader("Authorization", String.format("Bearer %s", dotenv.get("CIRCLE_API_KEY")));
-
-            String body = "{";
-            // POST requests must include an idempotency key to prevent duplicate requests
-            if (method.equals("POST")) {
-                body = body.concat(String.format("{\"idempotencyKey\":\"%s\",\"entitySecretCipherText\":\"%s\"}", generateUUID(), dotenv.get("CIRCLE_ENTITY_SECRET_CIPHERTEXT")));
-                //req.setBody(String.format("{\"idempotencyKey\":\"%s\",\"entitySecretCipherText\":\"%s\"}", generateUUID(), dotenv.get("CIRCLE_ENTITY_SECRET_CIPHERTEXT")));
-            }
-
-            if (bodyParams != null) {
-                // adding parameters to request body as desired
-                for (String key : bodyParams.keySet()) {
-                    Gson gson = new Gson();
-                    Object value = bodyParams.get(key);
-                    // Converting Lists into valid JSON strings
-                    if (value instanceof List) {
-                        String listAsString = gson.toJson(value);
-                        body = body.concat(String.format("\"%s\":\"%s,\"", key, listAsString));
-                        continue;
-                    }
-                    // if the given parameter is a string and not a list, then add it directly to the request body
-                    body = body.concat(String.format("\"%s\":\"%s,\"", key, value));
-                }
-            }
-
-            if (body.charAt(body.length()-1) == ',') {
-                body = body.substring(0, body.length()-1);
-            }
-            body = body.concat("}");
-            req.setBody(body);
-            return req;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    private String getResponse(BoundRequestBuilder req) {
-        try {
-            String response = req.execute()
-            .toCompletableFuture()
-            .thenApply(resp -> {return resp.getResponseBody();})
-            .join();
-            return response;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
     
     // private String createWalletSet(String walletName) {
     //     try (AsyncHttpClient client = new DefaultAsyncHttpClient()) {
@@ -150,12 +84,46 @@ public class CircleClient {
     //     }
     // }
 
+    /* Wallet Sets */
     private String createWalletSet(String walletSetName) {
         BoundRequestBuilder req = buildRequest("POST",
                                                "https://api.circle.com/v1/w3s/developer/walletSets",
                                                Map.of("name", walletSetName));
         return getResponse(req);
     }
+
+    private String getAllWalletSets(Optional<Date> fromDate, Optional<Date> toDate, Optional<Integer> pageSize) {
+        // Base URL for the API request
+        String baseUrl = "https://api.circle.com/v1/w3s/wallets";
+                
+        // Build query parameters
+        StringBuilder queryParams = new StringBuilder();
+        queryParams.append("?"); // Start query parameters
+
+        // Add parameters if present
+        fromDate.ifPresent(f -> queryParams.append("fromDate=").append(convertDateToISO(f)).append("&"));
+        toDate.ifPresent(t -> queryParams.append("toDate=").append(convertDateToISO(t)).append("&"));
+        pageSize.ifPresent(p -> queryParams.append("pageSize=").append(p).append("&"));
+
+        // Remove the last '&' if present
+        if (queryParams.length() > 1) {
+            queryParams.setLength(queryParams.length() - 1); // Remove the last '&'
+        }
+
+        // Complete URL
+        String url = baseUrl + queryParams.toString();
+
+        // Send the HTTP request
+        BoundRequestBuilder req = buildRequest("GET", url, null);
+        return getResponse(req);
+    }
+
+    private String getWalletSet(String walletSetId) {
+        BoundRequestBuilder req = buildRequest("GET", String.format("https://api.circle.com/v1/w3s/walletSets/%s", walletSetId), null);
+        return getResponse(req);
+    }
+
+    /* Wallets */
 
     private String createWallet(Integer count, Blockchain blockchain, String walletSetId) {
        BoundRequestBuilder req = buildRequest("POST",
@@ -242,6 +210,74 @@ public class CircleClient {
 
         BoundRequestBuilder req = buildRequest("GET", baseUrl, null);
         return getResponse(req);
+    }
+
+    /* Helper methods */
+
+    // Converts a Date into an ISO 8601 timestamp
+    private String convertDateToISO(Date date) {
+        // Convert Date to Instant
+        Instant instant = date.toInstant();
+
+        // Format as ISO 8601 string
+        return DateTimeFormatter.ISO_INSTANT.format(instant);
+    }
+
+    private BoundRequestBuilder buildRequest(String method, String url, Map<String, Object> bodyParams) {
+        try {
+            // initializing the request object and adding Content-Type and API key headers for authorization
+            BoundRequestBuilder req = client.prepare(method, url)
+            .setHeader("Content-Type", "application/json");
+            if (method.equals("GET")) { return req; }
+
+            req.setHeader("Authorization", String.format("Bearer %s", dotenv.get("CIRCLE_API_KEY")));
+
+            String body = "{";
+            // POST requests must include an idempotency key to prevent duplicate requests
+            if (method.equals("POST")) {
+                body = body.concat(String.format("{\"idempotencyKey\":\"%s\",\"entitySecretCipherText\":\"%s\"}", generateUUID(), dotenv.get("CIRCLE_ENTITY_SECRET_CIPHERTEXT")));
+                //req.setBody(String.format("{\"idempotencyKey\":\"%s\",\"entitySecretCipherText\":\"%s\"}", generateUUID(), dotenv.get("CIRCLE_ENTITY_SECRET_CIPHERTEXT")));
+            }
+
+            if (bodyParams != null) {
+                // adding parameters to request body as desired
+                for (String key : bodyParams.keySet()) {
+                    Gson gson = new Gson();
+                    Object value = bodyParams.get(key);
+                    // Converting Lists into valid JSON strings
+                    if (value instanceof List) {
+                        String listAsString = gson.toJson(value);
+                        body = body.concat(String.format("\"%s\":\"%s,\"", key, listAsString));
+                        continue;
+                    }
+                    // if the given parameter is a string and not a list, then add it directly to the request body
+                    body = body.concat(String.format("\"%s\":\"%s,\"", key, value));
+                }
+            }
+
+            if (body.charAt(body.length()-1) == ',') {
+                body = body.substring(0, body.length()-1);
+            }
+            body = body.concat("}");
+            req.setBody(body);
+            return req;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private String getResponse(BoundRequestBuilder req) {
+        try {
+            String response = req.execute()
+            .toCompletableFuture()
+            .thenApply(resp -> {return resp.getResponseBody();})
+            .join();
+            return response;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }
