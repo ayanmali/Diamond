@@ -7,7 +7,7 @@ public enum Blockchain {
 
     private static final Map<Blockchain, String> SPOT_TICKERS = Map.of(
             SOL, "SOL",
-            SOL_DEVNET, "SOL-DEVNET",
+            SOL_DEVNET, "SOL",
             BASE, "WETH",
             BSC, "BNB",
             TON, "TON",
@@ -18,6 +18,9 @@ public enum Blockchain {
     @Override
 
     public String toString() {
+        if (this.equals(SOL_DEVNET)) {
+            return "SOL-DEVNET";
+        }
         return name();
     }
 

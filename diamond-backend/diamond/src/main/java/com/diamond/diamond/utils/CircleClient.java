@@ -2,6 +2,7 @@ package com.diamond.diamond.utils;
 
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,8 @@ import java.util.stream.Stream;
 import org.asynchttpclient.AsyncHttpClient;
 import org.asynchttpclient.BoundRequestBuilder;
 import org.asynchttpclient.DefaultAsyncHttpClient;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.diamond.diamond.types.Blockchain;
 import com.google.gson.Gson;
@@ -27,10 +30,6 @@ public class CircleClient {
         // loads environment variables defined in .env file
         dotenv = Dotenv.configure().load();
         client = new DefaultAsyncHttpClient();
-    }
-
-    private UUID generateUUID() {
-        return UUID.randomUUID();
     }
 
     // /*
@@ -85,14 +84,25 @@ public class CircleClient {
     // }
 
     /* Wallet Sets */
+
+    /*
+     * Creates a Wallet Set and returns the ID for the Wallet Set
+     */
     private String createWalletSet(String walletSetName) {
         BoundRequestBuilder req = buildRequest("POST",
                                                "https://api.circle.com/v1/w3s/developer/walletSets",
                                                Map.of("name", walletSetName));
-        return getResponse(req);
+        String resp = getResponse(req);
+        final JSONObject obj = new JSONObject(resp);
+        // extracting necessary values from the JSON object
+        return obj.getJSONObject("data").getJSONObject("walletSet").getString("id");
+        
     }
 
-    private String getAllWalletSets(Optional<Date> fromDate, Optional<Date> toDate, Optional<Integer> pageSize) {
+    /*
+     * Returns a List containing the IDs of all wallet sets based on the provided parameters
+     */
+    private List<String> getAllWalletSets(Optional<Date> fromDate, Optional<Date> toDate, Optional<Integer> pageSize) {
         // Base URL for the API request
         String baseUrl = "https://api.circle.com/v1/w3s/wallets";
                 
@@ -115,17 +125,37 @@ public class CircleClient {
 
         // Send the HTTP request
         BoundRequestBuilder req = buildRequest("GET", url, null);
-        return getResponse(req);
+        String resp = getResponse(req);
+
+        List<String> walletSetIds = new ArrayList<>();
+        final JSONObject obj = new JSONObject(resp);
+        // extracting necessary values from the JSON object
+        JSONArray walletSetArray = obj.getJSONObject("data").getJSONArray("walletSets");
+        for (int i = 0; i < walletSetArray.length(); i++) {
+            JSONObject walletSetObj = walletSetArray.getJSONObject(i);
+            walletSetIds.add(walletSetObj.getString("id"));
+        }
+
+        return walletSetIds;
     }
 
+    /*
+     * Returns a single wallet set ID
+     */
     private String getWalletSet(String walletSetId) {
         BoundRequestBuilder req = buildRequest("GET", String.format("https://api.circle.com/v1/w3s/walletSets/%s", walletSetId), null);
-        return getResponse(req);
+        String resp = getResponse(req);
+
+        JSONObject jsonObj = new JSONObject(resp);
+        return jsonObj.getJSONObject("data").getJSONObject("walletSet").getString("id");
     }
 
     /* Wallets */
 
-    private String createWallet(Integer count, Blockchain blockchain, String walletSetId) {
+    /*
+     * Creates a wallet (developer-controlled wallet) and returns a JSON array containing wallet metadata for each wallet created
+     */
+    private JSONArray createWallets(Integer count, Blockchain blockchain, String walletSetId) {
        BoundRequestBuilder req = buildRequest("POST",
                                               "https://api.circle.com/v1/w3s/developer/wallets",
                                               Map.of("count", Integer.toString(count),
@@ -134,14 +164,47 @@ public class CircleClient {
                                                      .limit(count)
                                                      .collect(Collectors.toList())
                                                      ));
-        return getResponse(req);                                  
+        String resp = getResponse(req);
+        JSONObject jsonObj = new JSONObject(resp);
+        return jsonObj.getJSONArray("wallets");
+
     }
+
+    /*
+     * Creates a wallet (developer-controlled wallet) and returns a JSON object containing wallet metadata
+     */
+    private JSONArray createWallets(Integer count, List<Blockchain> blockchains, String walletSetId) {
+        BoundRequestBuilder req = buildRequest("POST",
+                                               "https://api.circle.com/v1/w3s/developer/wallets",
+                                               Map.of("count", Integer.toString(count),
+                                                      "walletSetId", walletSetId,
+                                                      "blockchains", blockchains
+                                                      ));
+        String resp = getResponse(req);
+        JSONObject jsonObj = new JSONObject(resp);
+        return jsonObj.getJSONArray("wallets");
+    }
+
+    /*
+     * Creates a wallet (developer-controlled wallet) and returns a JSON object containing wallet metadata
+     */
+    private JSONObject createWallet(Blockchain blockchain, String walletSetId) {
+        BoundRequestBuilder req = buildRequest("POST",
+                                               "https://api.circle.com/v1/w3s/developer/wallets",
+                                               Map.of("count", "1",
+                                                      "walletSetId", walletSetId,
+                                                      "blockchains", List.of(blockchain.toString())
+                                                      ));
+         String resp = getResponse(req);
+         JSONObject jsonObj = new JSONObject(resp);
+         return jsonObj.getJSONArray("wallets").getJSONObject(0);
+     }
 
     // private String getWallets(Optional<String> address, Optional<Blockchain> blockchain, Optional<String> scaCore, Optional<UUID> walletSetId, Optional<String> refId, Optional<Date> fromDate, Optional<Date> toDate) {
     //     BoundRequestBuilder req = buildRequest("GET", "https://api.circle.com/v1/w3s/wallets", null);
     //     return getResponse(req);
     // }
-    private String getWallets(Optional<String> address, 
+    private JSONArray getWallets(Optional<String> address, 
                           Optional<Blockchain> blockchain, 
                           Optional<String> walletSetId, 
                           Optional<String> refId, 
@@ -174,15 +237,25 @@ public class CircleClient {
 
         // Send the HTTP request
         BoundRequestBuilder req = buildRequest("GET", url, null);
-        return getResponse(req);
+        String resp = getResponse(req);
+        JSONObject jsonObj = new JSONObject(resp);
+        return jsonObj.getJSONObject("data").getJSONArray("wallets");
     }
 
-    private String retrieveWallet(String walletId) {
+    /*
+     * Retrieves a JSON object containing metadata for a specified wallet
+     */
+    private JSONObject retrieveWallet(String walletId) {
         BoundRequestBuilder req = buildRequest("GET", String.format("https://api.circle.com/v1/w3s/wallets/%s", walletId), null);
-        return getResponse(req);
+        String resp = getResponse(req);
+        JSONObject jsonObj = new JSONObject(resp);
+        return jsonObj.getJSONObject("data").getJSONObject("wallet");
     }
 
-    private String getTokenBalance(String walletId,
+    /*
+     * Returns a JSON array containing JSON objects, each representing a balance for a particular token in the specified wallet
+     */
+    private JSONArray getTokenBalance(String walletId,
                                    Optional<Boolean> includeAll,
                                    Optional<String> tokenName,
                                    Optional<String> tokenAddress,
@@ -209,7 +282,9 @@ public class CircleClient {
         String url = baseUrl + queryParams.toString();
 
         BoundRequestBuilder req = buildRequest("GET", baseUrl, null);
-        return getResponse(req);
+        String resp = getResponse(req);
+        JSONObject jsonObj = new JSONObject(resp);
+        return jsonObj.getJSONObject("data").getJSONArray("tokenBalances");
     }
 
     /* Helper methods */
@@ -235,8 +310,8 @@ public class CircleClient {
             String body = "{";
             // POST requests must include an idempotency key to prevent duplicate requests
             if (method.equals("POST")) {
-                body = body.concat(String.format("{\"idempotencyKey\":\"%s\",\"entitySecretCipherText\":\"%s\"}", generateUUID(), dotenv.get("CIRCLE_ENTITY_SECRET_CIPHERTEXT")));
-                //req.setBody(String.format("{\"idempotencyKey\":\"%s\",\"entitySecretCipherText\":\"%s\"}", generateUUID(), dotenv.get("CIRCLE_ENTITY_SECRET_CIPHERTEXT")));
+                body = body.concat(String.format("{\"idempotencyKey\":\"%s\",\"entitySecretCipherText\":\"%s\"}", generateUUID(), Encryption.generateEntityCiphertext()));
+                //req.setBody(String.format("{\"idempotencyKey\":\"%s\",\"entitySecretCipherText\":\"%s\"}", generateUUID(), Encryption.generateEntityCiphertext()));
             }
 
             if (bodyParams != null) {
@@ -271,7 +346,18 @@ public class CircleClient {
         try {
             String response = req.execute()
             .toCompletableFuture()
-            .thenApply(resp -> {return resp.getResponseBody();})
+            .thenApply(resp -> {
+                try {
+                    int statusCode = resp.getStatusCode();
+                    if(statusCode < 200 || statusCode >= 300) {
+                        throw new Exception(String.format("HTTP request failed with status %d -- %s", statusCode, resp.getStatusText()));
+                    }
+                    return resp.getResponseBody();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            })
             .join();
             return response;
         } catch (Exception e) {
@@ -279,5 +365,15 @@ public class CircleClient {
             return null;
         }
     }
+
+    private UUID generateUUID() {
+        return UUID.randomUUID();
+    }
+
+    // private parseResponse(String jsonString) {
+    //     final JSONObject resp = new JSONObject(jsonString);
+    //     resp.get
+
+    // }
 
 }

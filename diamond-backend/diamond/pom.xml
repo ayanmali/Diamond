@@ -167,6 +167,13 @@
 			<artifactId>gson</artifactId>
 		</dependency>
 
+		<!-- Parsing JSON -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20250107</version>
+		</dependency>
+
 		<!-- .env File Support -->
 		<dependency>
 			<groupId>io.github.cdimascio</groupId>
