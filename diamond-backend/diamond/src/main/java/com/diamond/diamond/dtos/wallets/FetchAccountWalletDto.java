@@ -7,7 +7,7 @@ import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.WalletStatus;
 
 public class FetchAccountWalletDto {
-    private long id;
+    private UUID id;
     private String address;
     private Blockchain chain;
     private String walletName;
@@ -16,11 +16,11 @@ public class FetchAccountWalletDto {
     private Date updatedAt;
     private UUID accountId;
 
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

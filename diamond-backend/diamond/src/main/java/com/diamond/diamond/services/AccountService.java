@@ -46,11 +46,12 @@ public class AccountService {
     }
 
     //@Transactional
-    public FetchAccountDto signUp(RegisterUserDto input) {
+    public FetchAccountDto signUp(RegisterUserDto input, UUID walletSetId) {
         Account user = new Account();
         user.setEmail(input.getEmail());
         user.setPassword(input.getPassword());
         user.setBusinessName(input.getBusinessName());
+        user.setWalletSetId(walletSetId);
 
         // saving the newly registered user to the Users repository
         return convertAccountToFetchDto(accountRepository.save(user));

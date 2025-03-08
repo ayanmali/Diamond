@@ -1,6 +1,7 @@
 package com.diamond.diamond.services;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -34,12 +35,13 @@ public class AccountWalletService {
         return walletDto;
     }
 
-    public FetchAccountWalletDto saveWallet(NewAccountWalletDto walletDto, Account account) {
+    public FetchAccountWalletDto saveWallet(NewAccountWalletDto walletDto, Account account, String address, UUID id) {
         AccountWallet accountWallet = new AccountWallet(
-                                        walletDto.getAddress(),
+                                        address,
                                         walletDto.getWalletName(),
                                         account,
-                                        walletDto.getChain());
+                                        walletDto.getChain(),
+                                        id);
         accountWallet.setStatus(WalletStatus.ACTIVE);
 
         return convertAccountWalletToFetchDto(accountWalletRepository.save(accountWallet));

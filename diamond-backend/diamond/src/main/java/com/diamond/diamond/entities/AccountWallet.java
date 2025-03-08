@@ -126,6 +126,7 @@ package com.diamond.diamond.entities;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -140,8 +141,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
@@ -152,9 +151,9 @@ import jakarta.persistence.Table;
 @Table(name="account_wallets")
 public class AccountWallet implements Wallet {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    // @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
-    private Long id;
+    private UUID id;
 
     @Column(unique=true, nullable=false, updatable=false)
     private String address;
@@ -189,11 +188,12 @@ public class AccountWallet implements Wallet {
 
     public AccountWallet() {}
 
-    public AccountWallet(String address, String walletName, Account account, Blockchain chain) {
+    public AccountWallet(String address, String walletName, Account account, Blockchain chain, UUID id) {
         this.address = address;
         this.walletName = walletName;
         this.account = account;
         this.chain = chain;
+        this.id = id;
         this.createdAt = new Date();
     }
 
@@ -223,11 +223,11 @@ public class AccountWallet implements Wallet {
         return account;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

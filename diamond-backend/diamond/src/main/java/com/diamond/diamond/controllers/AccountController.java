@@ -16,16 +16,19 @@ import com.diamond.diamond.dtos.wallets.FetchAccountWalletDto;
 import com.diamond.diamond.entities.Account;
 import com.diamond.diamond.services.AccountService;
 import com.diamond.diamond.services.AccountWalletService;
+import com.diamond.diamond.utils.CircleClient;
 
 @RestController
 @RequestMapping("/account")
 public class AccountController {
     private final AccountService accountService;
     private final AccountWalletService accountWalletService;
+    private final CircleClient circleClient;
 
-    public AccountController(AccountService accountService, AccountWalletService accountWalletService) {
+    public AccountController(AccountService accountService, AccountWalletService accountWalletService, CircleClient circleClient) {
         this.accountService = accountService;
         this.accountWalletService = accountWalletService;
+        this.circleClient = circleClient;
     }
 
     private FetchAccountDto loadAccountWallets(FetchAccountDto accountDto) {
@@ -38,12 +41,16 @@ public class AccountController {
     }
 
     @PostMapping("/signup")
-    FetchAccountDto signup(@RequestBody RegisterUserDto registerUserDto) {
-        return accountService.signUp(registerUserDto);
+    public FetchAccountDto signup(@RequestBody RegisterUserDto registerUserDto) {
+        UUID walletSetId = UUID.fromString(
+            circleClient.createWalletSet("", UUID.randomUUID())
+        );
+        FetchAccountDto accountDto = accountService.signUp(registerUserDto, walletSetId);
+        return accountDto;
     }
     
     @GetMapping("/id/{id}")
-    FetchAccountDto getAccountById(@PathVariable(value = "id") String id) {
+    public FetchAccountDto getAccountById(@PathVariable(value = "id") String id) {
         FetchAccountDto accountDto = accountService.findAccountDtoById(id);
 
         accountDto = loadAccountWallets(accountDto);
@@ -52,7 +59,7 @@ public class AccountController {
     }
 
     @GetMapping("/email/{email}")
-    FetchAccountDto getAccountByEmail(@PathVariable(value="email") String email) {
+    public FetchAccountDto getAccountByEmail(@PathVariable(value="email") String email) {
         // getting the account dto
         FetchAccountDto accountDto = accountService.findAccountDtoByEmail(email);
         
@@ -67,7 +74,7 @@ public class AccountController {
     // }
     
     @PostMapping("update-email/{id}")
-    FetchAccountDto updateEmail(@RequestBody String email, @PathVariable(value="id") String id) {
+    public FetchAccountDto updateEmail(@RequestBody String email, @PathVariable(value="id") String id) {
         //TODO: process POST request
         FetchAccountDto accountDto = accountService.updateAccountEmail(UUID.fromString(id), email);
         accountDto = loadAccountWallets(accountDto);
@@ -75,7 +82,7 @@ public class AccountController {
     }
     
     @PostMapping("/update-name/{id}")
-    FetchAccountDto updateBusinessName(@RequestBody String name, @PathVariable(value="id") String id) {
+    public FetchAccountDto updateBusinessName(@RequestBody String name, @PathVariable(value="id") String id) {
         //TODO: process POST request
         FetchAccountDto accountDto = accountService.updateAccountName(UUID.fromString(id), name);
         accountDto = loadAccountWallets(accountDto);
@@ -83,7 +90,7 @@ public class AccountController {
     }
 
     @PostMapping("/delete/{id}")
-    FetchAccountDto deleteAccount(@PathVariable(value="id") String id) {
+    public FetchAccountDto deleteAccount(@PathVariable(value="id") String id) {
         //TODO: process POST request
         FetchAccountDto accountDto = accountService.findAccountDtoById(id);
         accountDto = loadAccountWallets(accountDto);

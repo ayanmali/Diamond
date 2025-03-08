@@ -50,6 +50,10 @@ public class Account {
     @Column(name = "updated_at")
     private Date updatedAt;
 
+    // Metadata for Circle programmable wallets
+    @Column(name="wallet_set_id", unique=true, nullable=false)
+    private UUID walletSetId;
+
     public Account() {this.wallets = new ArrayList<>();}
 
     public Account(String businessName, String email) throws Exception {
@@ -142,6 +146,14 @@ public class Account {
 
     public void setCustomers(List<Customer> customers) {
         this.customers = customers;
+    }
+
+    public UUID getWalletSetId() {
+        return walletSetId;
+    }
+
+    public void setWalletSetId(UUID walletSetId) {
+        this.walletSetId = walletSetId;
     }
 
 }
