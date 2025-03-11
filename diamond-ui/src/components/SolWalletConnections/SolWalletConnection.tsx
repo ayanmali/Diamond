@@ -44,7 +44,7 @@ const SolWalletConnection: FC = () => {
             new LedgerWalletAdapter(),
             new TrezorWalletAdapter(),
         ],
-        [/**network*/]
+        [network]
     );
 
     const PublicAddress: FC = () => {

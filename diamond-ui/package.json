@@ -19,7 +19,7 @@
     "@solana/wallet-adapter-react-ui": "^0.9.35",
     "@solana/wallet-adapter-wallets": "^0.19.32",
     "@tanstack/react-query": "^5.63.0",
-    "@walletconnect/solana-adapter": "^0.0.6",
+    "@walletconnect/solana-adapter": "^0.0.4",
     "eventemitter3": "^5.0.1",
     "lucide-react": "^0.469.0",
     "react": "^18.3.1",
