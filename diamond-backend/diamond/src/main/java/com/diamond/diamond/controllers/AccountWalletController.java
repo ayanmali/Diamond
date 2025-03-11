@@ -55,7 +55,7 @@ public class AccountWalletController {
     }
 
     @GetMapping("/id/{id}")
-    public FetchAccountWalletDto getWalletByWalletId(@PathVariable(value = "id") Long id) {
+    public FetchAccountWalletDto getWalletByWalletId(@PathVariable(value = "id") UUID id) {
         return accountWalletService.findWalletDtoById(id);
     }
 
@@ -108,18 +108,18 @@ public class AccountWalletController {
     
     
     @PostMapping("/update-name/{id}")
-    public FetchAccountWalletDto updateWalletName(@RequestBody String name, @PathVariable(value = "id") Long id) {
+    public FetchAccountWalletDto updateWalletName(@RequestBody String name, @PathVariable(value = "id") UUID id) {
         return accountWalletService.updateWalletName(id, name);
     }
 
     @PostMapping("/archive/{id}")
-    public FetchAccountWalletDto archiveWallet(@PathVariable(value="id") Long id) {
+    public FetchAccountWalletDto archiveWallet(@PathVariable(value="id") UUID id) {
         //TODO: process POST request
         return accountWalletService.archiveWallet(id);
     }
 
     @PostMapping("/activate")
-    public FetchAccountWalletDto reactivateWallet(@PathVariable(value="id") Long id) {
+    public FetchAccountWalletDto reactivateWallet(@PathVariable(value="id") UUID id) {
         //TODO: process POST request
         return accountWalletService.reactivateWallet(id);
     }

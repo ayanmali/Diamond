@@ -4,6 +4,7 @@
 package com.diamond.diamond.dtos.payments.new_payments;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.StablecoinCurrency;
@@ -15,7 +16,7 @@ public abstract class NewPaymentDto {
     private String accountId;
     private StablecoinCurrency currency;
     private Blockchain chain;
-    private List<Long> accountWalletIds;
+    private List<UUID> accountWalletIds;
 
     public Double getAmount() {
         return amount;
@@ -41,10 +42,10 @@ public abstract class NewPaymentDto {
     public void setChain(Blockchain chain) {
         this.chain = chain;
     }
-    public List<Long> getAccountWalletIds() {
+    public List<UUID> getAccountWalletIds() {
         return accountWalletIds;
     }
-    public void setAccountWalletIds(List<Long> accountWalletIds) {
+    public void setAccountWalletIds(List<UUID> accountWalletIds) {
         this.accountWalletIds = accountWalletIds;
     }
 

@@ -47,11 +47,11 @@ public class AccountWalletService {
         return convertAccountWalletToFetchDto(accountWalletRepository.save(accountWallet));
     }
 
-    public FetchAccountWalletDto findWalletDtoById(Long id) {
+    public FetchAccountWalletDto findWalletDtoById(UUID id) {
         return convertAccountWalletToFetchDto(accountWalletRepository.findById(id).orElseThrow());
     }
 
-    public AccountWallet findWalletById(Long id) {
+    public AccountWallet findWalletById(UUID id) {
         return accountWalletRepository.findById(id).orElseThrow();
     }
 
@@ -95,25 +95,25 @@ public class AccountWalletService {
         .collect(Collectors.toList()); // Collect the results into a List<FetchAccountWalletDto>
     }
 
-    public FetchAccountWalletDto updateWalletName(Long id, String name) {
+    public FetchAccountWalletDto updateWalletName(UUID id, String name) {
         AccountWallet accountWallet = accountWalletRepository.findById(id).orElseThrow();
         accountWallet.setName(name);
         return convertAccountWalletToFetchDto(accountWalletRepository.save(accountWallet));
     }
 
-    public FetchAccountWalletDto archiveWallet(Long id) {
+    public FetchAccountWalletDto archiveWallet(UUID id) {
         AccountWallet accountWallet = accountWalletRepository.findById(id).orElseThrow();
         accountWallet.setStatus(WalletStatus.ARCHIVED);
         return convertAccountWalletToFetchDto(accountWalletRepository.save(accountWallet));
     }
 
-    public FetchAccountWalletDto reactivateWallet(Long id) {
+    public FetchAccountWalletDto reactivateWallet(UUID id) {
         AccountWallet accountWallet = accountWalletRepository.findById(id).orElseThrow();
         accountWallet.setStatus(WalletStatus.ACTIVE);
         return convertAccountWalletToFetchDto(accountWalletRepository.save(accountWallet));
     }
 
-    public void deleteWalletById(Long id) {
+    public void deleteWalletById(UUID id) {
         accountWalletRepository.deleteById(id);
     }
 

@@ -31,7 +31,7 @@ public abstract class PaymentController<P extends Payment, N extends NewPaymentD
     // Used in child classes
     protected List<AccountWallet> getAccountWalletsFromPaymentDto(N paymentDto) {
         List<AccountWallet> accountWallets = new ArrayList<>();
-        for (Long walletId : paymentDto.getAccountWalletIds()) {
+        for (UUID walletId : paymentDto.getAccountWalletIds()) {
             accountWallets.add(accountWalletService.findWalletById(walletId));
         }
         return accountWallets;
@@ -76,9 +76,9 @@ public abstract class PaymentController<P extends Payment, N extends NewPaymentD
 
     // TODO: Test this endpoint
     @PostMapping("/update-wallet-distribution/{id}")
-    public FetchPaymentDto updateWallets(@PathVariable(value="id") String id, @RequestBody List<Long> accountWalletIds) {
+    public FetchPaymentDto updateWallets(@PathVariable(value="id") String id, @RequestBody List<UUID> accountWalletIds) {
         List<AccountWallet> accountWallets = new ArrayList<>();
-        for (Long walletId : accountWalletIds) {
+        for (UUID walletId : accountWalletIds) {
             accountWallets.add(accountWalletService.findWalletById(walletId));
         }
         FetchPaymentDto paymentDto = paymentService.convertPaymentToFetchDto(paymentService.updateWalletDistribution(UUID.fromString(id), accountWallets));

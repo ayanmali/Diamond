@@ -2,6 +2,7 @@ package com.diamond.diamond.repositories;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -13,7 +14,7 @@ import com.diamond.diamond.entities.payments.Payment;
 
 
 @Repository
-public interface AccountWalletRepository extends JpaRepository<AccountWallet, Long> {
+public interface AccountWalletRepository extends JpaRepository<AccountWallet, UUID> {
 
     Optional<AccountWallet> findByAddress(String address);
     List<AccountWallet> findByAccount(Account account);
