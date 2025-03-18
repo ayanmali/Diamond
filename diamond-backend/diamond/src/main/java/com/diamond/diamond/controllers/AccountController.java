@@ -1,5 +1,6 @@
 package com.diamond.diamond.controllers;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.diamond.diamond.dtos.account.FetchAccountDto;
@@ -18,8 +20,9 @@ import com.diamond.diamond.services.AccountService;
 import com.diamond.diamond.services.AccountWalletService;
 import com.diamond.diamond.utils.CircleClient;
 
+
 @RestController
-@RequestMapping("/account")
+@RequestMapping("/accounts")
 public class AccountController {
     private final AccountService accountService;
     private final AccountWalletService accountWalletService;
@@ -56,6 +59,17 @@ public class AccountController {
         accountDto = loadAccountWallets(accountDto);
 
         return accountDto;
+    }
+
+    @GetMapping("/accounts")
+    public List<FetchAccountDto> getAccounts(@RequestParam(required=false) String id, @RequestParam(required=false) String email, @RequestParam(required=false) Date createdBefore, @RequestParam(required=false) Date createdAfter, @RequestParam(required=false) Integer pageSize) {
+        return accountService.findAccountsWithFilters(
+        id,
+        email,
+        createdBefore,
+        createdAfter,
+        pageSize
+        );
     }
 
     @GetMapping("/email/{email}")

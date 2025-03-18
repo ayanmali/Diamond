@@ -1,9 +1,14 @@
 package com.diamond.diamond.services;
 
+import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.hibernate.Hibernate;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.account.FetchAccountDto;
@@ -60,6 +65,33 @@ public class AccountService {
     // public List<AccountWallet> getAccountWallets(UUID id) {
         
     // }
+
+    public List<FetchAccountDto> findAccountsWithFilters(
+        String id, 
+        String email, 
+        Date createdBefore, 
+        Date createdAfter, 
+        Integer pageSize) {
+    
+        UUID uuid = id != null ? UUID.fromString(id) : null;
+    
+        Pageable pageable = pageSize != null ? 
+            PageRequest.of(0, pageSize) : 
+            Pageable.unpaged();
+
+        Page<Account> accounts = accountRepository.findAccountsWithFilters(
+            uuid, 
+            email, 
+            createdBefore, 
+            createdAfter, 
+            pageable
+        );
+
+        return accounts.getContent()
+            .stream()
+            .map(this::convertAccountToFetchDto)
+            .collect(Collectors.toList());
+    }
 
     //@Transactional
     public FetchAccountDto findAccountDtoById(String id) {

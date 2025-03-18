@@ -14,6 +14,7 @@ public class DiamondApplication {
         return "Welcome to Diamond";
     }
     public static void main(String[] args) {
+        //System.out.println(ProcessExecutor.executeScript());
         SpringApplication.run(DiamondApplication.class, args);
         
     }

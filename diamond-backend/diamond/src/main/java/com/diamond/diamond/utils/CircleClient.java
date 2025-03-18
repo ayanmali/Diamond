@@ -18,19 +18,18 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
+import static com.Keys.CIRCLE_API_KEY;
 import com.diamond.diamond.types.Blockchain;
 import com.google.gson.Gson;
 
-import io.github.cdimascio.dotenv.Dotenv;
-
 @Component
 public class CircleClient {
-    public final Dotenv dotenv;
-    public final AsyncHttpClient client;
+    //private final Dotenv dotenv;
+    private final AsyncHttpClient client;
 
     public CircleClient() {
         // loads environment variables defined in .env file
-        dotenv = Dotenv.configure().load();
+        //dotenv = Dotenv.load();
         client = new DefaultAsyncHttpClient();
     }
 
@@ -93,7 +92,7 @@ public class CircleClient {
     public String createWalletSet(String walletSetName, UUID idempotencyKey) {
         BoundRequestBuilder req = buildRequest("POST",
                                                "https://api.circle.com/v1/w3s/developer/walletSets",
-                                               Map.of("name", walletSetName),
+                                               null,
                                                Optional.of(idempotencyKey));
         String resp = getResponse(req);
         final JSONObject obj = new JSONObject(resp);
@@ -312,7 +311,7 @@ public class CircleClient {
             .setHeader("Content-Type", "application/json");
             if (method.equals("GET")) { return req; }
 
-            req.setHeader("Authorization", String.format("Bearer %s", dotenv.get("CIRCLE_API_KEY")));
+            req.setHeader("Authorization", String.format("Bearer %s", CIRCLE_API_KEY));
 
             String body = "{";
             // POST requests must include an idempotency key to prevent duplicate requests
@@ -320,7 +319,7 @@ public class CircleClient {
                 if (!idempotencyKey.isPresent()) {
                     throw new Exception("Idempotency key not found. POST requests must include a UUID v4 idempotency key.");
                 }
-                body = body.concat(String.format("{\"idempotencyKey\":\"%s\",\"entitySecretCipherText\":\"%s\"}", idempotencyKey.get(), Encryption.generateEntityCiphertext()));
+                body = body.concat(String.format("\"idempotencyKey\":\"%s\",\"entitySecretCipherText\":\"%s\",", idempotencyKey.get().toString(), ""));
                 //req.setBody(String.format("{\"idempotencyKey\":\"%s\",\"entitySecretCipherText\":\"%s\"}", generateUUID(), Encryption.generateEntityCiphertext()));
             }
 
@@ -332,7 +331,7 @@ public class CircleClient {
                     // Converting Lists into valid JSON strings
                     if (value instanceof List) {
                         String listAsString = gson.toJson(value);
-                        body = body.concat(String.format("\"%s\":\"%s,\"", key, listAsString));
+                        body = body.concat(String.format("\"%s\":\"%s\",", key, listAsString));
                         continue;
                     }
                     // if the given parameter is a string and not a list, then add it directly to the request body
@@ -345,6 +344,7 @@ public class CircleClient {
             }
             body = body.concat("}");
             req.setBody(body);
+            System.out.println(body);
             return req;
         } catch (Exception e) {
             e.printStackTrace();

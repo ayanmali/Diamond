@@ -29,7 +29,8 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
-/.env
+**/.env
+**/Keys.java
 
 ### VS Code ###
 .vscode/

@@ -12,6 +12,9 @@ services:
   #   depends_on:
   #     - postgres
 
+  # py-service:
+  
+
   # frontend:
   #   build:
   #     context: ./frontend/diamond-ui

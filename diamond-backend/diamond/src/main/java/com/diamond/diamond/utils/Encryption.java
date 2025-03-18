@@ -7,19 +7,26 @@ import java.util.Base64;
 
 import javax.crypto.Cipher;
 
-import io.github.cdimascio.dotenv.Dotenv;
+import static com.Keys.CIRCLE_ENTITY_PUBLIC_KEY;
+import static com.Keys.CIRCLE_ENTITY_SECRET;
 
 public class Encryption {
     public static String generateEntityCiphertext() {
         try {
-            Dotenv dotenv = Dotenv.configure().load();
-            String entitySecret = dotenv.get("CIRCLE_ENTITY_SECRET");
-            String entityPublicKey = dotenv.get("CIRCLE_ENTITY_PUBLIC_KEY"); // Replace with your actual public key
+            //Dotenv dotenv = Dotenv.load();
+            String entitySecret = CIRCLE_ENTITY_SECRET;
+            System.out.println(entitySecret);
+            String entityPublicKey = CIRCLE_ENTITY_PUBLIC_KEY; // Replace with your actual public key
+            System.out.println(entityPublicKey);
 
             // Encrypt the secret
-            return encrypt(entitySecret, entityPublicKey);
+            String encrypted = encrypt(entitySecret, entityPublicKey);
+            System.out.println(encrypted);
+            return encrypted;
+            
+            //return encrypt(entitySecret, entityPublicKey);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Error encrypting entity secret");
             return null;
         }
     }
