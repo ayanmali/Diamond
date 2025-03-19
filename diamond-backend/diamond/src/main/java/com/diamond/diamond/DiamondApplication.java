@@ -13,9 +13,15 @@ public class DiamondApplication {
     String home() {
         return "Welcome to Diamond";
     }
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         //System.out.println(ProcessExecutor.executeScript());
         SpringApplication.run(DiamondApplication.class, args);
+        // CircleGrpcClient client = new CircleGrpcClient("localhost", 50051);
+        // try {
+        //     client.createWalletSet("test_wallet");
+        // } finally {
+        //     client.shutdown();
+        // }
         
     }
 

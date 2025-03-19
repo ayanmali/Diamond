@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,34 +20,36 @@ import com.diamond.diamond.dtos.wallets.FetchAccountWalletDto;
 import com.diamond.diamond.dtos.wallets.FetchTokenBalanceDto;
 import com.diamond.diamond.dtos.wallets.NewAccountWalletDto;
 import com.diamond.diamond.entities.Account;
+import com.diamond.diamond.grpc_client.CircleGrpcClient;
 import com.diamond.diamond.services.AccountService;
 import com.diamond.diamond.services.AccountWalletService;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.Token;
-import com.diamond.diamond.utils.CircleClient;
+import com.diamond.diamond.utils.CircleApiClient;
 
 import jakarta.websocket.server.PathParam;
 
 
-
 @RestController
-@RequestMapping("/userwallets")
+@RequestMapping("/wallets")
 public class AccountWalletController {
     private final AccountWalletService accountWalletService;
     private final AccountService accountService;
-    private final CircleClient circleClient;
+    private final CircleApiClient circleApiClient;
+    private final CircleGrpcClient circleGrpcClient;
 
-    public AccountWalletController(AccountWalletService accountWalletService, AccountService accountService, CircleClient circleClient) {
+    public AccountWalletController(AccountWalletService accountWalletService, AccountService accountService, CircleApiClient circleApiClient, CircleGrpcClient circleGrpcClient) {
         this.accountWalletService = accountWalletService;
         this.accountService = accountService;
-        this.circleClient = circleClient;
+        this.circleApiClient = circleApiClient;
+        this.circleGrpcClient = circleGrpcClient;
     }
 
     @PostMapping("/new")
     public FetchAccountWalletDto createWallet(@RequestBody NewAccountWalletDto accountWalletDto) {
         //TODO: process POST request
         Account account = accountService.findAccountById(accountWalletDto.getAccountId());
-        JSONObject walletObj = circleClient.createWallet(accountWalletDto.getChain(), account.getWalletSetId(), UUID.randomUUID());
+        JSONObject walletObj = circleApiClient.createWallet(accountWalletDto.getChain(), account.getWalletSetId(), UUID.randomUUID());
         
         return accountWalletService.saveWallet(accountWalletDto,
                                                account,
@@ -75,9 +78,9 @@ public class AccountWalletController {
     /*
      * Retrieves token balances for one user wallet
      */
-    @GetMapping("/tokens/{id}")
+    @GetMapping("/id/{id}/tokens")
     public List<FetchTokenBalanceDto> getTokenBalances(@PathParam(value="id") String walletId, @RequestParam(required=false) Boolean includeAll, @RequestParam(required=false) String tokenName, @RequestParam(required=false) String tokenAddress, @RequestParam(required=false) Integer pageSize) {
-        JSONArray tokenBalances = circleClient.getTokenBalance(
+        JSONArray tokenBalances = circleApiClient.getTokenBalance(
             walletId, Optional.ofNullable(includeAll), Optional.ofNullable(tokenName), Optional.ofNullable(tokenAddress), Optional.ofNullable(pageSize));
 
         List<FetchTokenBalanceDto> tokenBalanceDtos = new ArrayList<>();
@@ -107,18 +110,18 @@ public class AccountWalletController {
     }
     
     
-    @PostMapping("/update-name/{id}")
+    @PatchMapping("id/{id}/update-name")
     public FetchAccountWalletDto updateWalletName(@RequestBody String name, @PathVariable(value = "id") UUID id) {
         return accountWalletService.updateWalletName(id, name);
     }
 
-    @PostMapping("/archive/{id}")
+    @PatchMapping("/id/{id}/archive")
     public FetchAccountWalletDto archiveWallet(@PathVariable(value="id") UUID id) {
         //TODO: process POST request
         return accountWalletService.archiveWallet(id);
     }
 
-    @PostMapping("/activate")
+    @PatchMapping("/id/{id}/activate")
     public FetchAccountWalletDto reactivateWallet(@PathVariable(value="id") UUID id) {
         //TODO: process POST request
         return accountWalletService.reactivateWallet(id);

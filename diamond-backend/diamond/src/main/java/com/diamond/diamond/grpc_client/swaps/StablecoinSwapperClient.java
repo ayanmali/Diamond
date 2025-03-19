@@ -1,4 +1,5 @@
-// package com.diamond.diamond.microservices;
+package com.diamond.diamond.grpc_client.swaps;
+// package com.diamond.diamond.microservices.swaps;
 
 // import org.springframework.beans.factory.annotation.Value;
 // import org.springframework.context.annotation.Bean;

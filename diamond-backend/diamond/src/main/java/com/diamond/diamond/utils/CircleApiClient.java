@@ -23,11 +23,11 @@ import com.diamond.diamond.types.Blockchain;
 import com.google.gson.Gson;
 
 @Component
-public class CircleClient {
+public class CircleApiClient {
     //private final Dotenv dotenv;
     private final AsyncHttpClient client;
 
-    public CircleClient() {
+    public CircleApiClient() {
         // loads environment variables defined in .env file
         //dotenv = Dotenv.load();
         client = new DefaultAsyncHttpClient();
@@ -89,16 +89,16 @@ public class CircleClient {
     /*
      * Creates a Wallet Set and returns the ID for the Wallet Set
      */
-    public String createWalletSet(String walletSetName, UUID idempotencyKey) {
-        BoundRequestBuilder req = buildRequest("POST",
-                                               "https://api.circle.com/v1/w3s/developer/walletSets",
-                                               null,
-                                               Optional.of(idempotencyKey));
-        String resp = getResponse(req);
-        final JSONObject obj = new JSONObject(resp);
-        // extracting necessary values from the JSON object
-        return obj.getJSONObject("data").getJSONObject("walletSet").getString("id");
-    }
+    // public String createWalletSet(String walletSetName, UUID idempotencyKey) {
+    //     BoundRequestBuilder req = buildRequest("POST",
+    //                                            "https://api.circle.com/v1/w3s/developer/walletSets",
+    //                                            null,
+    //                                            Optional.of(idempotencyKey));
+    //     String resp = getResponse(req);
+    //     final JSONObject obj = new JSONObject(resp);
+    //     // extracting necessary values from the JSON object
+    //     return obj.getJSONObject("data").getJSONObject("walletSet").getString("id");
+    // }
 
     /*
      * Returns a List containing the IDs of all wallet sets based on the provided parameters

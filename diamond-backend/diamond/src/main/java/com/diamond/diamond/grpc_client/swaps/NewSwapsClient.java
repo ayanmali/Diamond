@@ -1,6 +1,7 @@
+package com.diamond.diamond.grpc_client.swaps;
 // // TODO: fix the grpc client
 
-// package com.diamond.diamond.microservices;
+// package com.diamond.diamond.microservices.swaps;
 
 // //import java.util.Random;
 // //import java.util.logging.Logger;

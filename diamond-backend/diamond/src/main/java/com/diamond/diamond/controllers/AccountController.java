@@ -2,9 +2,12 @@ package com.diamond.diamond.controllers;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,9 +19,9 @@ import com.diamond.diamond.dtos.account.FetchAccountDto;
 import com.diamond.diamond.dtos.account.RegisterUserDto;
 import com.diamond.diamond.dtos.wallets.FetchAccountWalletDto;
 import com.diamond.diamond.entities.Account;
+import com.diamond.diamond.grpc_client.CircleGrpcClient;
 import com.diamond.diamond.services.AccountService;
 import com.diamond.diamond.services.AccountWalletService;
-import com.diamond.diamond.utils.CircleClient;
 
 
 @RestController
@@ -26,12 +29,14 @@ import com.diamond.diamond.utils.CircleClient;
 public class AccountController {
     private final AccountService accountService;
     private final AccountWalletService accountWalletService;
-    private final CircleClient circleClient;
+    //private final CircleApiClient circleApiClient;
+    private final CircleGrpcClient circleGrpcClient;
 
-    public AccountController(AccountService accountService, AccountWalletService accountWalletService, CircleClient circleClient) {
+    public AccountController(AccountService accountService, AccountWalletService accountWalletService, /*CircleApiClient circleApiClient,*/ CircleGrpcClient circleGrpcClient) {
         this.accountService = accountService;
         this.accountWalletService = accountWalletService;
-        this.circleClient = circleClient;
+        //this.circleApiClient = circleApiClient;
+        this.circleGrpcClient = circleGrpcClient;
     }
 
     private FetchAccountDto loadAccountWallets(FetchAccountDto accountDto) {
@@ -45,9 +50,12 @@ public class AccountController {
 
     @PostMapping("/signup")
     public FetchAccountDto signup(@RequestBody RegisterUserDto registerUserDto) {
-        UUID walletSetId = UUID.fromString(
-            circleClient.createWalletSet("", UUID.randomUUID())
-        );
+        Optional<UUID> optionalWalletSetId = circleGrpcClient.createWalletSet("", registerUserDto.getIdempotencyKey());
+        // todo: error handling
+        if (optionalWalletSetId.isEmpty()) {
+            return new FetchAccountDto();
+        }
+        UUID walletSetId = optionalWalletSetId.get();
         FetchAccountDto accountDto = accountService.signUp(registerUserDto, walletSetId);
         return accountDto;
     }
@@ -87,7 +95,7 @@ public class AccountController {
     //     return accountService.findAccountWallets(UUID.fromString(id));
     // }
     
-    @PostMapping("update-email/{id}")
+    @PatchMapping("/id/{id}/update-email")
     public FetchAccountDto updateEmail(@RequestBody String email, @PathVariable(value="id") String id) {
         //TODO: process POST request
         FetchAccountDto accountDto = accountService.updateAccountEmail(UUID.fromString(id), email);
@@ -95,7 +103,7 @@ public class AccountController {
         return accountDto;
     }
     
-    @PostMapping("/update-name/{id}")
+    @PatchMapping("/id/{id}/update-name")
     public FetchAccountDto updateBusinessName(@RequestBody String name, @PathVariable(value="id") String id) {
         //TODO: process POST request
         FetchAccountDto accountDto = accountService.updateAccountName(UUID.fromString(id), name);
@@ -103,14 +111,13 @@ public class AccountController {
         return accountDto;
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/id/{id}/delete")
     public FetchAccountDto deleteAccount(@PathVariable(value="id") String id) {
         //TODO: process POST request
         FetchAccountDto accountDto = accountService.findAccountDtoById(id);
         accountDto = loadAccountWallets(accountDto);
         accountService.deleteAccountById(id);
         return accountDto;
-        
     }
     
     // @GetMapping("/email")

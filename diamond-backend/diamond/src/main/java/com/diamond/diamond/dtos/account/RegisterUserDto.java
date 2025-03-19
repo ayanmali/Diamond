@@ -8,6 +8,7 @@ public class RegisterUserDto {
     private String email;
     private String password;
     private String businessName;
+    private String idempotencyKey;
 
     public String getEmail() {
         return this.email;
@@ -31,5 +32,13 @@ public class RegisterUserDto {
 
     public void setBusinessName(String newName) {
         this.businessName = newName;
+    }
+
+    public String getIdempotencyKey() {
+        return idempotencyKey;
+    }
+
+    public void setIdempotencyKey(String idempotencyKey) {
+        this.idempotencyKey = idempotencyKey;
     }
 }
