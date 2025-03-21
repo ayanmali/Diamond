@@ -1,5 +1,7 @@
 package com.diamond.diamond.dtos.account;
 
+import java.util.UUID;
+
 import jakarta.validation.constraints.Email;
 
 public class RegisterUserDto {
@@ -8,7 +10,7 @@ public class RegisterUserDto {
     private String email;
     private String password;
     private String businessName;
-    private String idempotencyKey;
+    private UUID idempotencyKey;
 
     public String getEmail() {
         return this.email;
@@ -34,11 +36,11 @@ public class RegisterUserDto {
         this.businessName = newName;
     }
 
-    public String getIdempotencyKey() {
+    public UUID getIdempotencyKey() {
         return idempotencyKey;
     }
 
-    public void setIdempotencyKey(String idempotencyKey) {
+    public void setIdempotencyKey(UUID idempotencyKey) {
         this.idempotencyKey = idempotencyKey;
     }
 }

@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,11 +16,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.diamond.diamond.dtos.customer.FetchCustomerDto;
 import com.diamond.diamond.dtos.customer.NewCustomerDto;
 import com.diamond.diamond.dtos.wallets.FetchCustomerWalletDto;
-import com.diamond.diamond.entities.Customer;
 import com.diamond.diamond.entities.Account;
+import com.diamond.diamond.entities.Customer;
+import com.diamond.diamond.services.AccountService;
 import com.diamond.diamond.services.CustomerService;
 import com.diamond.diamond.services.CustomerWalletService;
-import com.diamond.diamond.services.AccountService;
 
 
 @RestController
@@ -83,7 +85,7 @@ public class CustomerController {
         return customerDto;
     }
 
-    @PostMapping("/update-name/{id}")
+    @PatchMapping("/id/{id}/update-name")
     public FetchCustomerDto updateName(@PathVariable(value="id") String id, @RequestBody String name) {
         //TODO: process POST request
         FetchCustomerDto customerDto = customerService.updateCustomerName(UUID.fromString(id), name);
@@ -91,7 +93,7 @@ public class CustomerController {
         return customerDto;
     }
 
-    @PostMapping("/update-email")
+    @PatchMapping("/id/{id}/update-email")
     public FetchCustomerDto updateEmail(@PathVariable(value="id") String id, @RequestBody String email) {
         //TODO: process POST request
         FetchCustomerDto customerDto = customerService.updateCustomerEmail(UUID.fromString(id), email);
@@ -99,7 +101,7 @@ public class CustomerController {
         return customerDto;
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/id/{id}/delete")
     public FetchCustomerDto delete(@PathVariable(value="id") String id) {
         //TODO: process POST request
         FetchCustomerDto customerDto = customerService.findCustomerDtoById(id);

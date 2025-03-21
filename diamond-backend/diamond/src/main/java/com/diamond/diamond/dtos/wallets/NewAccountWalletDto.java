@@ -9,6 +9,7 @@ public class NewAccountWalletDto {
     private Blockchain chain;
     private String walletName;
     private UUID accountId;
+    private UUID idempotencyKey;
 
     public UUID getAccountId() {
         return accountId;
@@ -33,6 +34,14 @@ public class NewAccountWalletDto {
     }
     public void setWalletName(String walletName) {
         this.walletName = walletName;
+    }
+
+    public UUID getIdempotencyKey() {
+        return idempotencyKey;
+    }
+
+    public void setIdempotencyKey(UUID idempotencyKey) {
+        this.idempotencyKey = idempotencyKey;
     }
 
 }

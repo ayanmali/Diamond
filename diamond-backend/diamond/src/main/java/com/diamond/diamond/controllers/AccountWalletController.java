@@ -2,6 +2,7 @@ package com.diamond.diamond.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -49,12 +50,13 @@ public class AccountWalletController {
     public FetchAccountWalletDto createWallet(@RequestBody NewAccountWalletDto accountWalletDto) {
         //TODO: process POST request
         Account account = accountService.findAccountById(accountWalletDto.getAccountId());
-        JSONObject walletObj = circleApiClient.createWallet(accountWalletDto.getChain(), account.getWalletSetId(), UUID.randomUUID());
+        Map<String, Object> walletObj = circleGrpcClient.createWallet(accountWalletDto.getChain(), account.getWalletSetId(), accountWalletDto.getIdempotencyKey());
+        //JSONObject walletObj = circleApiClient.createWallet(accountWalletDto.getChain(), account.getWalletSetId(), UUID.randomUUID());
         
         return accountWalletService.saveWallet(accountWalletDto,
                                                account,
-                                               walletObj.getString("address"),
-                                               UUID.fromString(walletObj.getString("id")));
+                                               (String) walletObj.get("address"),
+                                               (UUID) walletObj.get("id"));
     }
 
     @GetMapping("/id/{id}")

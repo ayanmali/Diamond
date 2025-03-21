@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +29,7 @@ public abstract class PaymentController<P extends Payment, N extends NewPaymentD
     protected AccountService accountService;
     protected AccountWalletService accountWalletService;
     abstract P convertNewDtoToPayment(N paymentDto); // helper method for converting to and from the Payment type and the NewPaymentDTO
-
+    
     // Used in child classes
     protected List<AccountWallet> getAccountWalletsFromPaymentDto(N paymentDto) {
         List<AccountWallet> accountWallets = new ArrayList<>();
@@ -60,14 +62,14 @@ public abstract class PaymentController<P extends Payment, N extends NewPaymentD
         return paymentDto;
     }
 
-    @PostMapping("/update-amount/{id}")
+    @PatchMapping("/id/{id}/update-amount")
     public FetchPaymentDto updateAmount(@PathVariable(value="id") String id, @RequestParam Double amount) {
         FetchPaymentDto paymentDto = paymentService.convertPaymentToFetchDto(paymentService.updateAmount(UUID.fromString(id), amount));
         paymentDto = loadAccountWallets(paymentDto);
         return paymentDto;
     }
 
-    @PostMapping("/update-currency/{id}")
+    @PatchMapping("/id/{id}/update-currency")
     public FetchPaymentDto updateCurrency(@PathVariable(value="id") String id, @RequestBody StablecoinCurrency currency) {
         FetchPaymentDto paymentDto = paymentService.convertPaymentToFetchDto(paymentService.updateCurrency(UUID.fromString(id), currency));
         paymentDto = loadAccountWallets(paymentDto);
@@ -75,7 +77,7 @@ public abstract class PaymentController<P extends Payment, N extends NewPaymentD
     }
 
     // TODO: Test this endpoint
-    @PostMapping("/update-wallet-distribution/{id}")
+    @PatchMapping("/id/{id}/update-wallet-distribution")
     public FetchPaymentDto updateWallets(@PathVariable(value="id") String id, @RequestBody List<UUID> accountWalletIds) {
         List<AccountWallet> accountWallets = new ArrayList<>();
         for (UUID walletId : accountWalletIds) {
@@ -86,7 +88,7 @@ public abstract class PaymentController<P extends Payment, N extends NewPaymentD
         return paymentDto;
     }
 
-    @PostMapping("/delete/{id}")
+    @DeleteMapping("/id/{id}/delete")
     public FetchPaymentDto deletePayment(@PathVariable(value="id") String id) {
         //P payment = paymentService.findPaymentById(id);
         FetchPaymentDto paymentDto = paymentService.findPaymentDtoById(id);

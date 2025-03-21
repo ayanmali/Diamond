@@ -3,6 +3,7 @@ package com.diamond.diamond.controllers.payments.txns;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -68,7 +69,7 @@ public abstract class PaymentTxnController<T extends PaymentTxn, P extends Payme
 
     //@PostMapping("/update")
 
-    @PostMapping("/delete")
+    @DeleteMapping("/id/{id}/delete")
     public FetchPaymentTxnDto delete(@PathVariable(value="id") String id) {
         FetchPaymentTxnDto txnDto = txnService.findTxnDtoById(id);
         loadPromoCodesApplied(txnDto);

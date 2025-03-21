@@ -6,3 +6,5 @@ postgres_data
 
 go-msrvc
 */.env
+go.mod
+go.sum

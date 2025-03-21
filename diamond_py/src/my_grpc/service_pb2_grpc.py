@@ -26,15 +26,7 @@ if _version_not_supported:
 
 
 class CircleStub(object):
-    """message CreateWalletRequest() {
-
-    }
-
-    message CreateWalletResponse() {
-
-    }
-
-    """
+    """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
         """Constructor.
@@ -47,20 +39,34 @@ class CircleStub(object):
                 request_serializer=my__grpc_dot_service__pb2.CreateWalletSetRequest.SerializeToString,
                 response_deserializer=my__grpc_dot_service__pb2.CreateWalletSetResponse.FromString,
                 _registered_method=True)
+        self.CreateWallets = channel.unary_unary(
+                '/com.diamond.diamond.grpc_client.Circle/CreateWallets',
+                request_serializer=my__grpc_dot_service__pb2.CreateWalletsRequest.SerializeToString,
+                response_deserializer=my__grpc_dot_service__pb2.CreateWalletsResponse.FromString,
+                _registered_method=True)
+        self.CreateWallet = channel.unary_unary(
+                '/com.diamond.diamond.grpc_client.Circle/CreateWallet',
+                request_serializer=my__grpc_dot_service__pb2.CreateWalletRequest.SerializeToString,
+                response_deserializer=my__grpc_dot_service__pb2.CreateWalletResponse.FromString,
+                _registered_method=True)
 
 
 class CircleServicer(object):
-    """message CreateWalletRequest() {
-
-    }
-
-    message CreateWalletResponse() {
-
-    }
-
-    """
+    """Missing associated documentation comment in .proto file."""
 
     def CreateWalletSet(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def CreateWallets(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def CreateWallet(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -74,6 +80,16 @@ def add_CircleServicer_to_server(servicer, server):
                     request_deserializer=my__grpc_dot_service__pb2.CreateWalletSetRequest.FromString,
                     response_serializer=my__grpc_dot_service__pb2.CreateWalletSetResponse.SerializeToString,
             ),
+            'CreateWallets': grpc.unary_unary_rpc_method_handler(
+                    servicer.CreateWallets,
+                    request_deserializer=my__grpc_dot_service__pb2.CreateWalletsRequest.FromString,
+                    response_serializer=my__grpc_dot_service__pb2.CreateWalletsResponse.SerializeToString,
+            ),
+            'CreateWallet': grpc.unary_unary_rpc_method_handler(
+                    servicer.CreateWallet,
+                    request_deserializer=my__grpc_dot_service__pb2.CreateWalletRequest.FromString,
+                    response_serializer=my__grpc_dot_service__pb2.CreateWalletResponse.SerializeToString,
+            ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
             'com.diamond.diamond.grpc_client.Circle', rpc_method_handlers)
@@ -83,15 +99,7 @@ def add_CircleServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class Circle(object):
-    """message CreateWalletRequest() {
-
-    }
-
-    message CreateWalletResponse() {
-
-    }
-
-    """
+    """Missing associated documentation comment in .proto file."""
 
     @staticmethod
     def CreateWalletSet(request,
@@ -110,6 +118,60 @@ class Circle(object):
             '/com.diamond.diamond.grpc_client.Circle/CreateWalletSet',
             my__grpc_dot_service__pb2.CreateWalletSetRequest.SerializeToString,
             my__grpc_dot_service__pb2.CreateWalletSetResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def CreateWallets(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/com.diamond.diamond.grpc_client.Circle/CreateWallets',
+            my__grpc_dot_service__pb2.CreateWalletsRequest.SerializeToString,
+            my__grpc_dot_service__pb2.CreateWalletsResponse.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def CreateWallet(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/com.diamond.diamond.grpc_client.Circle/CreateWallet',
+            my__grpc_dot_service__pb2.CreateWalletRequest.SerializeToString,
+            my__grpc_dot_service__pb2.CreateWalletResponse.FromString,
             options,
             channel_credentials,
             insecure,

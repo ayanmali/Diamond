@@ -50,7 +50,7 @@ public class AccountController {
 
     @PostMapping("/signup")
     public FetchAccountDto signup(@RequestBody RegisterUserDto registerUserDto) {
-        Optional<UUID> optionalWalletSetId = circleGrpcClient.createWalletSet("", registerUserDto.getIdempotencyKey());
+        Optional<UUID> optionalWalletSetId = circleGrpcClient.createWalletSet("");
         // todo: error handling
         if (optionalWalletSetId.isEmpty()) {
             return new FetchAccountDto();

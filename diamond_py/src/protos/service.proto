@@ -4,27 +4,53 @@ option java_package = "com.diamond.diamond.grpc_client"; // Explicit package dec
 
 package com.diamond.diamond.grpc_client;
 
+/* Wallet Sets */
+
 /*
 Contains an idempotency key
 */
 message CreateWalletSetRequest {
     optional string walletName = 1;
-    string idempotencyKey = 2;
+    //string idempotencyKey = 2;
 }
 
 message CreateWalletSetResponse {
     string id = 1;
 }
 
-// message CreateWalletRequest() {
+/* Wallets */
 
-// }
+message CreateWalletRequest {
+    string blockchain = 1;
+    string walletSetId = 2;
+    string idempotencyKey = 3;
+}
 
-// message CreateWalletResponse() {
+message CreateWalletsRequest {
+    int32 count = 1;
+    repeated string blockchains = 2;
+    string walletSetId = 3;
+    string idempotencyKey = 4;
+}
 
-// }
+message CreateWalletResponse {
+    string id = 1;
+    string blockchain = 2;
+    string address = 3;
+    string createDate = 4;
+    string custodyType = 5;
+    string name = 6;
+    string walletSetId = 7;
+    string accountId = 8;
+    string initialPublicKey = 9;
+}
+
+message CreateWalletsResponse {
+    repeated CreateWalletResponse wallets = 1;
+}
 
 service Circle {
     rpc CreateWalletSet (CreateWalletSetRequest) returns (CreateWalletSetResponse) {};
-    //rpc CreateWallet (CreateWalletRequest) returns (CreateWalletResponse);
+    rpc CreateWallets (CreateWalletsRequest) returns (CreateWalletsResponse) {}; // creating multiple wallets at once
+    rpc CreateWallet (CreateWalletRequest) returns (CreateWalletResponse) {}; // creating only one wallet
 }

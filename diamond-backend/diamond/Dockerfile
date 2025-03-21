@@ -4,7 +4,7 @@ COPY ${JAR_FILE} app.jar
 ENTRYPOINT ["java","-jar","/app.jar"]
 
 # copy the proto file from the python service directory
-RUN cp ../../diamond_py/src/protos/service.proto ./service.proto
+RUN cp ../../diamond_py/src/protos/service.proto ./src/main/proto/service.proto
 
 # generate gRPC/protobuf code
 # RUN mvn clean compile
