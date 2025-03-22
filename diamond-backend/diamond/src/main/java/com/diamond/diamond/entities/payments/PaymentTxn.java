@@ -43,6 +43,11 @@ public abstract class PaymentTxn {
     @Column(name="revenue")
     private Double revenue;
 
+    // TODO: allow customers to pay with a chain of their choice and store it in this field
+    // @Column(name="chain")
+    // @Enumerated(EnumType.STRING)
+    // private Blockchain chain;
+
     /*
      * Hash for signing/approving the transaction in the user's wallet
      */

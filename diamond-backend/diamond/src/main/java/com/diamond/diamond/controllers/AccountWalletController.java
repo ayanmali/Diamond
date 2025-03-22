@@ -1,6 +1,7 @@
 package com.diamond.diamond.controllers;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,6 +27,7 @@ import com.diamond.diamond.services.AccountService;
 import com.diamond.diamond.services.AccountWalletService;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.Token;
+import com.diamond.diamond.types.WalletStatus;
 import com.diamond.diamond.utils.CircleApiClient;
 
 import jakarta.websocket.server.PathParam;
@@ -66,6 +68,18 @@ public class AccountWalletController {
                                                walletObj.getAddress(),
                                                UUID.fromString(walletObj.getId()));
     }
+
+    @GetMapping("/wallets")
+    public List<FetchAccountWalletDto> getWallets(@RequestBody(required=false) UUID walletId,
+                                                  @RequestBody(required=false) UUID accountId,
+                                                  @RequestBody(required=false) Blockchain chain,
+                                                  @RequestBody(required=false) WalletStatus status,
+                                                  @RequestBody(required=false) Date createdBefore,
+                                                  @RequestBody(required=false) Date createdAfter,
+                                                  @RequestBody(required=false) Integer pageSize) {
+        return accountWalletService.findWalletDtosWithFilters(walletId, accountId, chain, status, createdBefore, createdAfter, pageSize);
+    }
+    
 
     @GetMapping("/id/{id}")
     public FetchAccountWalletDto getWalletByWalletId(@PathVariable(value = "id") UUID id) {

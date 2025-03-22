@@ -39,6 +39,7 @@ public class AccountController {
         this.circleGrpcClient = circleGrpcClient;
     }
 
+    // helper method to add wallets to an account DTO object by fetching from the DB
     private FetchAccountDto loadAccountWallets(FetchAccountDto accountDto) {
         Account account = accountService.findAccountById(accountDto.getId());
         List<FetchAccountWalletDto> wallets = accountWalletService.findWalletDtosByAccount(
@@ -70,8 +71,8 @@ public class AccountController {
     }
 
     @GetMapping("/accounts")
-    public List<FetchAccountDto> getAccounts(@RequestParam(required=false) String id, @RequestParam(required=false) String email, @RequestParam(required=false) Date createdBefore, @RequestParam(required=false) Date createdAfter, @RequestParam(required=false) Integer pageSize) {
-        return accountService.findAccountsWithFilters(
+    public List<FetchAccountDto> getAccounts(@RequestParam(required=false) UUID id, @RequestParam(required=false) String email, @RequestParam(required=false) Date createdBefore, @RequestParam(required=false) Date createdAfter, @RequestParam(required=false) Integer pageSize) {
+        return accountService.findAccountDtosWithFilters(
         id,
         email,
         createdBefore,

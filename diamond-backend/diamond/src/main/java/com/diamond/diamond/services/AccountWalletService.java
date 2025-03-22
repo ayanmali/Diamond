@@ -1,9 +1,13 @@
 package com.diamond.diamond.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.wallets.FetchAccountWalletDto;
@@ -12,6 +16,7 @@ import com.diamond.diamond.entities.Account;
 import com.diamond.diamond.entities.AccountWallet;
 import com.diamond.diamond.entities.payments.Payment;
 import com.diamond.diamond.repositories.AccountWalletRepository;
+import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.WalletStatus;
 
 @Service
@@ -45,6 +50,39 @@ public class AccountWalletService {
         accountWallet.setStatus(WalletStatus.ACTIVE);
 
         return convertAccountWalletToFetchDto(accountWalletRepository.save(accountWallet));
+    }
+
+    public List<FetchAccountWalletDto> findWalletDtosWithFilters(
+        UUID accountId,
+        UUID walletId,
+        Blockchain chain,
+        WalletStatus status,
+        Date createdBefore,
+        Date createdAfter,
+        Integer pageSize
+    ) {
+
+       // Creating pageable object from the given page size 
+        Pageable pageable = pageSize != null ? 
+            PageRequest.of(0, pageSize) : 
+            Pageable.unpaged();
+
+        // calling the repository to query the DB
+        Page<AccountWallet> accountWallets = accountWalletRepository.findAccountsWithFilters(
+            walletId, 
+            accountId, 
+            chain,
+            status,
+            createdBefore, 
+            createdAfter, 
+            pageable
+        );
+
+        // returning the list of wallets in the appropriate format
+        return accountWallets.getContent()
+            .stream()
+            .map(AccountWalletService::convertAccountWalletToFetchDto)
+            .collect(Collectors.toList());
     }
 
     public FetchAccountWalletDto findWalletDtoById(UUID id) {

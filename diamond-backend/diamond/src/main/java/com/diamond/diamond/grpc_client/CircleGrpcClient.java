@@ -4,7 +4,6 @@
 
 package com.diamond.diamond.grpc_client;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
@@ -13,7 +12,6 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.types.Blockchain;
-import com.diamond.diamond.grpc_client.BlockchainProto;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;

@@ -1,6 +1,7 @@
 package com.diamond.diamond.controllers.payments.payments;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -21,6 +22,7 @@ import com.diamond.diamond.entities.payments.Payment;
 import com.diamond.diamond.services.AccountService;
 import com.diamond.diamond.services.AccountWalletService;
 import com.diamond.diamond.services.payments.PaymentService;
+import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.StablecoinCurrency;
 
 //@RequestMapping("/payments")
@@ -52,6 +54,20 @@ public abstract class PaymentController<P extends Payment, N extends NewPaymentD
     @PostMapping("/new")
     public FetchPaymentDto createPayment(@RequestBody N paymentDto) {
         return paymentService.convertPaymentToFetchDto(paymentService.savePayment(convertNewDtoToPayment(paymentDto)));
+    }
+
+    // TODO: filter for payments by wallets
+    @GetMapping("/payments")
+    public List<FetchPaymentDto> getPayments(@RequestBody(required=false) UUID id,
+                                             @RequestBody(required=false) UUID accountId,
+                                             @RequestBody(required=false) Blockchain chain,
+                                             @RequestBody(required=false) Double amountGreaterThan,
+                                             @RequestBody(required=false) Double amountLessThan,
+                                             @RequestBody(required=false) StablecoinCurrency currency,
+                                             @RequestBody(required=false) Date createdBefore,
+                                             @RequestBody(required=false) Date createdAfter,
+                                             @RequestBody(required=false) Integer pageSize) {
+        return paymentService.findPaymentDtosWithFilters(id, accountId, chain, amountGreaterThan, amountLessThan, currency, createdBefore, createdAfter, pageSize);
     }
 
     @GetMapping("/id/{id}")

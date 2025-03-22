@@ -1,14 +1,20 @@
 package com.diamond.diamond.services.payments;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.payments.fetch_payments.FetchPaymentDto;
 import com.diamond.diamond.entities.AccountWallet;
 import com.diamond.diamond.entities.payments.Payment;
 import com.diamond.diamond.repositories.payments.PaymentRepository;
+import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.StablecoinCurrency;
 
 @Service
@@ -34,6 +40,29 @@ public abstract class PaymentService<T extends Payment> {
 
     public T savePayment(T payment) {
         return paymentRepository.save(payment);
+    }
+
+    public List<FetchPaymentDto> findPaymentDtosWithFilters(UUID id, UUID accountId, Blockchain chain, Double amountGreaterThan, Double amountLessThan, StablecoinCurrency currency, Date createdBefore, Date createdAfter, Integer pageSize) {
+        Pageable pageable = pageSize != null ? 
+            PageRequest.of(0, pageSize) : 
+            Pageable.unpaged();
+        
+        Page<T> payments = paymentRepository.findPaymentsWithFilters(
+                id,
+                accountId,
+                chain,
+                amountGreaterThan,
+                amountLessThan,
+                currency,
+                createdBefore, 
+                createdAfter, 
+                pageable
+        );
+
+        return payments.getContent()
+            .stream()
+            .map(this::convertPaymentToFetchDto)
+            .collect(Collectors.toList());
     }
 
     public T findPaymentById(UUID id) {

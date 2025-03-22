@@ -1,16 +1,23 @@
 package com.diamond.diamond.services.payments;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.hibernate.Hibernate;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import com.diamond.diamond.dtos.payments.txns.FetchPaymentTxnDto;
 import com.diamond.diamond.entities.payments.PaymentTxn;
 import com.diamond.diamond.entities.payments.PromoCode;
 import com.diamond.diamond.repositories.payments.PaymentTxnRepository;
+import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.PaymentStatus;
+import com.diamond.diamond.types.StablecoinCurrency;
 
 /*
  * Defining service methods for Checkout/Link Payment transactions
@@ -61,6 +68,46 @@ public class PaymentTxnService<T extends PaymentTxn> {
     //     T txn = PaymentTransaction.createInstance((Class<T>) this.getClass(), payment, customer, txnDto.getRevenue());
     //     return txnRepository.save(txn);
     // }
+
+    public List<FetchPaymentTxnDto> findTxnDtosWithFilters(
+        UUID id,
+        UUID paymentId,
+        UUID accountId,
+        UUID customerId,
+        StablecoinCurrency currency,
+        Blockchain chain,
+        Double revenueGreaterThan,
+        Double revenueLessThan,
+        PaymentStatus status,
+        Date paidBefore,
+        Date paidAfter,
+        Integer pageSize
+    ) {
+        Pageable pageable = pageSize != null ? 
+            PageRequest.of(0, pageSize) : 
+            Pageable.unpaged();
+        
+        Page<T> paymentTxns = txnRepository.findTxnsWithFilters(
+            id,
+            paymentId,
+            accountId,
+            customerId,
+            currency,
+            chain,
+            revenueGreaterThan,
+            revenueLessThan,
+            status,
+            paidBefore,
+            paidAfter,
+            pageable
+        );
+
+        return paymentTxns.getContent()
+            .stream()
+            .map(this::convertTxnToFetchDto)
+            .collect(Collectors.toList());
+
+    }
 
     public FetchPaymentTxnDto findTxnDtoById(UUID id) {
         T txn = txnRepository.findById(id).orElseThrow();

@@ -1,7 +1,9 @@
 package com.diamond.diamond.controllers.payments.txns;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +21,9 @@ import com.diamond.diamond.services.CustomerService;
 import com.diamond.diamond.services.payments.PaymentService;
 import com.diamond.diamond.services.payments.PaymentTxnService;
 import com.diamond.diamond.services.payments.PromoCodeService;
+import com.diamond.diamond.types.Blockchain;
+import com.diamond.diamond.types.PaymentStatus;
+import com.diamond.diamond.types.StablecoinCurrency;
 
 @RequestMapping("/txns")
 public abstract class PaymentTxnController<T extends PaymentTxn, P extends Payment> {
@@ -41,6 +46,25 @@ public abstract class PaymentTxnController<T extends PaymentTxn, P extends Payme
     @PostMapping("/new")
     public FetchPaymentTxnDto newTxn(@RequestBody NewPaymentTxnDto txnDto) {
         return txnService.savePaymentTxn(convertNewDtoToTxn(txnDto));
+    }
+
+    // TODO: add filter for wallets
+    @GetMapping("/txns")
+    public List<FetchPaymentTxnDto> findTxns(
+        @RequestBody(required=false) UUID id,
+        @RequestBody(required=false) UUID paymentId,
+        @RequestBody(required=false) UUID accountId,
+        @RequestBody(required=false) UUID customerId,
+        @RequestBody(required=false) StablecoinCurrency currency,
+        @RequestBody(required=false) Blockchain chain,
+        @RequestBody(required=false) Double revenueGreaterThan,
+        @RequestBody(required=false) Double revenueLessThan,
+        @RequestBody(required=false) PaymentStatus status,
+        @RequestBody(required=false) Date paidBefore,
+        @RequestBody(required=false) Date paidAfter,
+        @RequestBody(required=false) Integer pageSize
+    ) {
+        return txnService.findTxnDtosWithFilters(id, paymentId, accountId, customerId, currency, chain, revenueGreaterThan, revenueLessThan, status, paidBefore, paidAfter, pageSize);
     }
 
     @GetMapping("/id/{id}")

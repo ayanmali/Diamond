@@ -1,10 +1,14 @@
 package com.diamond.diamond.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.hibernate.Hibernate;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.customer.FetchCustomerDto;
@@ -51,6 +55,29 @@ public class CustomerService {
                                         );
         
         return convertCustomerToFetchDto(customerRepository.save(customer));
+    }
+
+    public List<FetchCustomerDto> findCustomerDtosWithFilters(
+        UUID customerId,
+        String email,
+        UUID accountId,
+        Date createdBefore,
+        Date createdAfter,
+        Integer pageSize
+    ) {
+        // creating the pageable object from the page size
+        Pageable pageable = pageSize != null ?
+            PageRequest.of(0, pageSize) : 
+            Pageable.unpaged();
+
+        // using the repository to query the DB
+        Page<Customer> customers = customerRepository.findCustomersWithFilters(customerId, email, accountId, createdBefore, createdAfter, pageable);
+        
+        // returning the list of customers in the appropriate format
+        return customers.getContent()
+            .stream()
+            .map(CustomerService::convertCustomerToFetchDto)
+            .collect(Collectors.toList());
     }
 
     public Customer findCustomerById(String id) {

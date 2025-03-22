@@ -66,21 +66,21 @@ public class AccountService {
         
     // }
 
-    public List<FetchAccountDto> findAccountsWithFilters(
-        String id, 
+    public List<FetchAccountDto> findAccountDtosWithFilters(
+        UUID id, 
         String email, 
         Date createdBefore, 
         Date createdAfter, 
         Integer pageSize) {
     
-        UUID uuid = id != null ? UUID.fromString(id) : null;
+        //UUID uuid = id != null ? UUID.fromString(id) : null;
     
         Pageable pageable = pageSize != null ? 
             PageRequest.of(0, pageSize) : 
             Pageable.unpaged();
 
         Page<Account> accounts = accountRepository.findAccountsWithFilters(
-            uuid, 
+            id, 
             email, 
             createdBefore, 
             createdAfter, 

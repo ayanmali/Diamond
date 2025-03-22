@@ -1,6 +1,7 @@
 package com.diamond.diamond.controllers;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,6 +22,8 @@ import com.diamond.diamond.entities.Customer;
 import com.diamond.diamond.services.AccountService;
 import com.diamond.diamond.services.CustomerService;
 import com.diamond.diamond.services.CustomerWalletService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -49,6 +52,17 @@ public class CustomerController {
         Account account = accountService.findAccountById(customerDto.getAccountId());
         return customerService.saveCustomer(customerDto, account);
     }
+
+    @GetMapping("/customers")
+    public List<FetchCustomerDto> getCustomers(@RequestBody UUID customerId,
+                                               @RequestBody String email,
+                                               @RequestBody UUID accountId,
+                                               @RequestBody Date createdBefore,
+                                               @RequestBody Date createdAfter,
+                                               @RequestBody Integer pageSize) {
+        return customerService.findCustomerDtosWithFilters(customerId, email, accountId, createdBefore, createdAfter, pageSize);
+    }
+    
 
     @GetMapping("/id/{id}")
     public FetchCustomerDto getCustomerById(@PathVariable(value="id") String id) {

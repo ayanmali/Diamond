@@ -43,12 +43,11 @@ message CreateWalletResponse {
     string id = 1;
     BlockchainProto blockchain = 2;
     string address = 3;
-    string createDate = 4;
-    string custodyType = 5;
-    string name = 6;
-    string walletSetId = 7;
-    string accountId = 8;
-    string initialPublicKey = 9;
+    string custodyType = 4;
+    string name = 5;
+    string walletSetId = 6;
+    string accountId = 7;
+    string initialPublicKey = 8;
 }
 
 message CreateWalletsResponse {

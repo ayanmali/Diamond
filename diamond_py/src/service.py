@@ -1,3 +1,6 @@
+"""
+gRPC server for Circle API POST requests (related to wallets and wallet sets)
+"""
 from concurrent import futures
 from typing import List
 from dotenv import load_dotenv
