@@ -75,10 +75,12 @@ public class AccountService {
     
         //UUID uuid = id != null ? UUID.fromString(id) : null;
     
+        // creating the pagable object
         Pageable pageable = pageSize != null ? 
             PageRequest.of(0, pageSize) : 
             Pageable.unpaged();
-
+        
+        // Querying the DB
         Page<Account> accounts = accountRepository.findAccountsWithFilters(
             id, 
             email, 
@@ -86,7 +88,8 @@ public class AccountService {
             createdAfter, 
             pageable
         );
-
+        
+        // Returning the data in the appropriate format
         return accounts.getContent()
             .stream()
             .map(this::convertAccountToFetchDto)

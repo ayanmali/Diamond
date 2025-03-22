@@ -47,7 +47,6 @@ public class AccountWalletService {
                                         account,
                                         walletDto.getChain(),
                                         id);
-        accountWallet.setStatus(WalletStatus.ACTIVE);
 
         return convertAccountWalletToFetchDto(accountWalletRepository.save(accountWallet));
     }

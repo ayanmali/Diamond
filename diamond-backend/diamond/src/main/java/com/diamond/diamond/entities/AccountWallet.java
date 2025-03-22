@@ -195,6 +195,7 @@ public class AccountWallet implements Wallet {
         this.chain = chain;
         this.id = id;
         this.createdAt = new Date();
+        this.status = WalletStatus.ACTIVE;
     }
 
     public void cashOut(Double amount, StablecoinCurrency currency) {

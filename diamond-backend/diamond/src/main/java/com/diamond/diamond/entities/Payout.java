@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.diamond.diamond.types.FiatCurrency;
+import com.diamond.diamond.types.PayoutStatus;
 import com.diamond.diamond.types.StablecoinCurrency;
 
 import jakarta.persistence.Column;
@@ -17,8 +18,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
@@ -34,13 +33,16 @@ public class Payout {
     @JoinColumn(name="account_id", referencedColumnName="id")
     private Account account;
 
-    @ManyToMany
-    @JoinTable(
-        name = "payout_wallets", // Optional: Custom name for the join table
-        joinColumns = @JoinColumn(name = "payout_id"),
-        inverseJoinColumns = @JoinColumn(name = "wallet_id")
-    )
-    private List<AccountWallet> offrampWallets;
+    // @ManyToMany
+    // @JoinTable(
+    //     name = "payout_wallets", // Optional: Custom name for the join table
+    //     joinColumns = @JoinColumn(name = "payout_id"),
+    //     inverseJoinColumns = @JoinColumn(name = "wallet_id")
+    // )
+    // private List<AccountWallet> offrampWallets;
+    @ManyToOne
+    @JoinColumn(name="wallet_id", referencedColumnName="id")
+    private AccountWallet offrampWallet;
 
     // amount in tokens being off-ramped
     @Column(name="amount")
@@ -56,21 +58,26 @@ public class Payout {
     private FiatCurrency fiatCurrency;
 
     @CreationTimestamp
-    @Column(updatable = false, name = "payout_date")
+    @Column(updatable = false, name = "created_at")
+    private Date createdAt;
+
+    // Represents the time when the payout was completed
+    @Column(name = "payout_date")
     private Date payoutDate;
 
-    // indicates whether the payout was fully reversed (undone) or not
-    @Column(name="reversed")
-    private Boolean reversed;
+    // indicates whether the payout was succeeded, failed, cancelled, pending, or fully reversed (undone)
+    @Column(name="status")
+    private PayoutStatus status;
 
     public Payout() {}
 
-    public Payout(Account account, List<AccountWallet> offrampWallets, Double amount, StablecoinCurrency stablecoinCurrency, FiatCurrency fiatCurrency) {
+    public Payout(Account account, AccountWallet offrampWallet, Double amount, StablecoinCurrency stablecoinCurrency, FiatCurrency fiatCurrency) {
         this.account = account;
-        this.offrampWallets = offrampWallets;
+        this.offrampWallet = offrampWallet;
         this.amount = amount;
         this.stablecoinCurrency = stablecoinCurrency;
         this.fiatCurrency = fiatCurrency;
+        this.status = PayoutStatus.PENDING;
     }
 
     public UUID getId() {
@@ -121,22 +128,28 @@ public class Payout {
         this.payoutDate = payoutDate;
     }
 
-    public Boolean getReversed() {
-        return reversed;
+    public AccountWallet getOfframpWallet() {
+        return offrampWallet;
     }
 
-    public void setReversed(Boolean reversed) {
-        this.reversed = reversed;
+    public void setOfframpWallet(AccountWallet offrampWallets) {
+        this.offrampWallet = offrampWallets;
     }
 
-    public List<AccountWallet> getOfframpWallets() {
-        return offrampWallets;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setOfframpWallets(List<AccountWallet> offrampWallets) {
-        this.offrampWallets = offrampWallets;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
-    
+    public PayoutStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(PayoutStatus status) {
+        this.status = status;
+    }
 
 }
