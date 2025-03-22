@@ -4,6 +4,12 @@ option java_package = "com.diamond.diamond.grpc_client"; // Explicit package dec
 
 package com.diamond.diamond.grpc_client;
 
+enum BlockchainProto {
+    SOL = 0;
+    SOL_DEVNET = 1;
+    SOL_TESTNET = 2;
+    EVM = 3;
+}
 /* Wallet Sets */
 
 /*
@@ -21,21 +27,21 @@ message CreateWalletSetResponse {
 /* Wallets */
 
 message CreateWalletRequest {
-    string blockchain = 1;
+    BlockchainProto blockchain = 1;
     string walletSetId = 2;
     string idempotencyKey = 3;
 }
 
 message CreateWalletsRequest {
     int32 count = 1;
-    repeated string blockchains = 2;
+    repeated BlockchainProto blockchains = 2;
     string walletSetId = 3;
     string idempotencyKey = 4;
 }
 
 message CreateWalletResponse {
     string id = 1;
-    string blockchain = 2;
+    BlockchainProto blockchain = 2;
     string address = 3;
     string createDate = 4;
     string custodyType = 5;

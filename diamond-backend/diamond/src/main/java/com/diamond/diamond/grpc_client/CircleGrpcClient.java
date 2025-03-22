@@ -4,6 +4,7 @@
 
 package com.diamond.diamond.grpc_client;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
@@ -12,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.types.Blockchain;
+import com.diamond.diamond.grpc_client.BlockchainProto;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
@@ -114,7 +116,7 @@ public class CircleGrpcClient {
     public Optional<CreateWalletResponse> createWallet(Blockchain chain, UUID walletSetId, UUID idempotencyKey) {
         // Creating the RPC request
         CreateWalletRequest request = CreateWalletRequest.newBuilder()
-        .setBlockchain(chain.toString())
+        .setBlockchain(BlockchainProto.valueOf(chain.toString()))
         .setWalletSetId(walletSetId.toString())
         .setIdempotencyKey(idempotencyKey.toString())
         .build();
@@ -155,10 +157,15 @@ public class CircleGrpcClient {
 
     /*
      * Creates multiple wallets for a given user.
+     * TODO: implement this method
      */
-    // public Map<String, Object> createWallets(Integer count, List<Blockchain> chains, UUID walletSetId, UUID idempotencyKey) {
-
+    // public Optional<List<CreateWalletResponse>> createWallets(Integer count, List<Blockchain> chains, UUID walletSetId, UUID idempotencyKey) {
+    //     // Form the RPC request
+    //     CreateWalletsRequest request = CreateWalletsRequest.newBuilder()
+    //     .setBlockchains(count, BlockchainProto.SOL)
+    //     .build();
     // }
+
 
     // public static void main(String[] args) throws InterruptedException {
     //     CircleClient client = new CircleClient("localhost", 50051);

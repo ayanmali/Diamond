@@ -2,7 +2,6 @@ package com.diamond.diamond.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,6 +21,7 @@ import com.diamond.diamond.dtos.wallets.FetchTokenBalanceDto;
 import com.diamond.diamond.dtos.wallets.NewAccountWalletDto;
 import com.diamond.diamond.entities.Account;
 import com.diamond.diamond.grpc_client.CircleGrpcClient;
+import com.diamond.diamond.grpc_client.CreateWalletResponse;
 import com.diamond.diamond.services.AccountService;
 import com.diamond.diamond.services.AccountWalletService;
 import com.diamond.diamond.types.Blockchain;
@@ -50,13 +50,21 @@ public class AccountWalletController {
     public FetchAccountWalletDto createWallet(@RequestBody NewAccountWalletDto accountWalletDto) {
         //TODO: process POST request
         Account account = accountService.findAccountById(accountWalletDto.getAccountId());
-        Map<String, Object> walletObj = circleGrpcClient.createWallet(accountWalletDto.getChain(), account.getWalletSetId(), accountWalletDto.getIdempotencyKey());
+        Optional<CreateWalletResponse> optionalWalletObj = circleGrpcClient.createWallet(
+                                                    accountWalletDto.getChain(),
+                                                    account.getWalletSetId(),
+                                                    accountWalletDto.getIdempotencyKey());
         //JSONObject walletObj = circleApiClient.createWallet(accountWalletDto.getChain(), account.getWalletSetId(), UUID.randomUUID());
-        
+        if (optionalWalletObj.isEmpty()) {
+            System.out.println("Error - Wallet response object is empty.");
+            return new FetchAccountWalletDto();
+        }
+        CreateWalletResponse walletObj = optionalWalletObj.get();
+
         return accountWalletService.saveWallet(accountWalletDto,
                                                account,
-                                               (String) walletObj.get("address"),
-                                               (UUID) walletObj.get("id"));
+                                               walletObj.getAddress(),
+                                               UUID.fromString(walletObj.getId()));
     }
 
     @GetMapping("/id/{id}")
