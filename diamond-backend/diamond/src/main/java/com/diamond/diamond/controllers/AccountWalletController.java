@@ -30,8 +30,7 @@ import com.diamond.diamond.types.Token;
 import com.diamond.diamond.types.WalletStatus;
 import com.diamond.diamond.utils.CircleApiClient;
 
-import jakarta.websocket.server.PathParam;
-
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/wallets")
@@ -49,7 +48,7 @@ public class AccountWalletController {
     }
 
     @PostMapping("/new")
-    public FetchAccountWalletDto createWallet(@RequestBody NewAccountWalletDto accountWalletDto) {
+    public FetchAccountWalletDto createWallet(@Valid @RequestBody NewAccountWalletDto accountWalletDto) {
         //TODO: process POST request
         Account account = accountService.findAccountById(accountWalletDto.getAccountId());
         Optional<CreateWalletResponse> optionalWalletObj = circleGrpcClient.createWallet(
@@ -90,7 +89,7 @@ public class AccountWalletController {
      * Get all wallets associated with a Account
      */
     @GetMapping("/accountid/{id}")
-    public List<FetchAccountWalletDto> getWalletsByAccount(@PathVariable(value="id") String accountId) {
+    public List<FetchAccountWalletDto> getWalletsByAccount(@PathVariable(value="id") UUID accountId) {
         return accountWalletService.findWalletDtosByAccount(accountService.findAccountById(accountId));
     }
     
@@ -103,7 +102,7 @@ public class AccountWalletController {
      * Retrieves token balances for one user wallet
      */
     @GetMapping("/id/{id}/tokens")
-    public List<FetchTokenBalanceDto> getTokenBalances(@PathParam(value="id") String walletId, @RequestParam(required=false) Boolean includeAll, @RequestParam(required=false) String tokenName, @RequestParam(required=false) String tokenAddress, @RequestParam(required=false) Integer pageSize) {
+    public List<FetchTokenBalanceDto> getTokenBalances(@PathVariable(value="id") UUID walletId, @RequestParam(required=false) Boolean includeAll, @RequestParam(required=false) String tokenName, @RequestParam(required=false) String tokenAddress, @RequestParam(required=false) Integer pageSize) {
         JSONArray tokenBalances = circleApiClient.getTokenBalance(
             walletId, Optional.ofNullable(includeAll), Optional.ofNullable(tokenName), Optional.ofNullable(tokenAddress), Optional.ofNullable(pageSize));
 
@@ -113,7 +112,7 @@ public class AccountWalletController {
             FetchTokenBalanceDto tokenBalanceDto = new FetchTokenBalanceDto();
             Token token = new Token();
             JSONObject tokenBalance = tokenBalances.getJSONObject(i);
-            tokenBalanceDto.setAmount(tokenBalance.getDouble("amount"));
+            tokenBalanceDto.setAmount(tokenBalance.getBigDecimal("amount"));
 
             JSONObject tokenObj = new JSONObject(tokenBalance.getJSONObject("token"));
 

@@ -1,5 +1,6 @@
 package com.diamond.diamond.services.payments;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -65,7 +66,7 @@ public class PromoCodeService {
 
     // }
 
-    public PromoCodeDto updateDiscount(Long id, Double discount) {
+    public PromoCodeDto updateDiscount(Long id, BigDecimal discount) {
         PromoCode promoCode = promoCodeRepository.findById(id).orElseThrow();
         promoCode.setDiscount(discount);
         return convertPromoCodeToDto(promoCodeRepository.save(promoCode));

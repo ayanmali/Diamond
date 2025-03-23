@@ -1,7 +1,7 @@
 package com.diamond.diamond.entities;
 
+import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -46,7 +46,7 @@ public class Payout {
 
     // amount in tokens being off-ramped
     @Column(name="amount")
-    private Double amount;
+    private BigDecimal amount;
 
     // The stablecoin currency being converted into fiat currency
     @Enumerated(EnumType.STRING)
@@ -71,7 +71,7 @@ public class Payout {
 
     public Payout() {}
 
-    public Payout(Account account, AccountWallet offrampWallet, Double amount, StablecoinCurrency stablecoinCurrency, FiatCurrency fiatCurrency) {
+    public Payout(Account account, AccountWallet offrampWallet, BigDecimal amount, StablecoinCurrency stablecoinCurrency, FiatCurrency fiatCurrency) {
         this.account = account;
         this.offrampWallet = offrampWallet;
         this.amount = amount;
@@ -96,11 +96,11 @@ public class Payout {
         this.account = account;
     }
 
-    public Double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

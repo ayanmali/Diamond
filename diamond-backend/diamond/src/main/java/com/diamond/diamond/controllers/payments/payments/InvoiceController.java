@@ -35,5 +35,7 @@ public class InvoiceController extends PaymentController<Invoice, NewInvoiceDto>
                                       paymentDto.getAccountComments());
         return invoice;
     }
+
+    // TODO: override getWithFilters endpoint for invoices
     
 }

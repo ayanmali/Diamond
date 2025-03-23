@@ -1,5 +1,6 @@
 package com.diamond.diamond.entities.payments.checkouts;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.diamond.diamond.entities.Account;
@@ -38,7 +39,7 @@ public class CheckoutPayment extends Payment {
 
     public CheckoutPayment() {}
 
-    public CheckoutPayment(Double amount, Account account, StablecoinCurrency currency, Blockchain chain, List<AccountWallet> accountWallets,
+    public CheckoutPayment(BigDecimal amount, Account account, StablecoinCurrency currency, Blockchain chain, List<AccountWallet> accountWallets,
                             Boolean hasMaxNumberOfPayments, Integer maxNumberOfPayments, Boolean enablePromoCodes, List<PromoCode> validPromoCodes) {
         super(amount, account, currency, chain, accountWallets);
 

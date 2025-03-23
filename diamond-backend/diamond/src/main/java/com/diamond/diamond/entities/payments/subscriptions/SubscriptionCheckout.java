@@ -27,7 +27,7 @@
 
 //     public SubscriptionCheckout() {}
 
-//     public SubscriptionCheckout(Double amount, Account Account, StablecoinCurrency currency, Blockchain chain, List<AccountWallet> AccountWallets,
+//     public SubscriptionCheckout(BigDecimal amount, Account Account, StablecoinCurrency currency, Blockchain chain, List<AccountWallet> AccountWallets,
 //                                 Boolean hasMaxNumberOfPayments, Integer maxNumberOfPayments, Boolean enablePromoCodes, List<PromoCode> validPromoCodes) {
 //         super(amount, Account, currency, chain, AccountWallets, hasMaxNumberOfPayments, maxNumberOfPayments, enablePromoCodes, validPromoCodes);
 //         this.billingBasis = 30L;

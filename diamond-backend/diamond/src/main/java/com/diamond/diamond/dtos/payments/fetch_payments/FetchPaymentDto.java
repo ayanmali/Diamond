@@ -1,5 +1,6 @@
 package com.diamond.diamond.dtos.payments.fetch_payments;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +17,7 @@ import com.diamond.diamond.types.StablecoinCurrency;
 
 public class FetchPaymentDto {
     private UUID id;
-    private Double amount;
+    private BigDecimal amount;
     private UUID accountId;
     private StablecoinCurrency currency;
     private Blockchain chain;
@@ -51,10 +52,10 @@ public class FetchPaymentDto {
     public void setId(UUID id) {
         this.id = id;
     }
-    public Double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
-    public void setAmount(Double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
     public UUID getAccountId() {

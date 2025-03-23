@@ -1,5 +1,6 @@
 package com.diamond.diamond.entities.payments.link_payments;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.diamond.diamond.entities.Customer;
@@ -17,7 +18,7 @@ import jakarta.persistence.Table;
 public class LinkPaymentTxn extends PaymentTxn {
 
     public LinkPaymentTxn() {}
-    public LinkPaymentTxn(LinkPayment payment, Customer customer, Double revenue, List<PromoCode> codesApplied) {
+    public LinkPaymentTxn(LinkPayment payment, Customer customer, BigDecimal revenue, List<PromoCode> codesApplied) {
         super(payment, customer, revenue, codesApplied);
     }
 }

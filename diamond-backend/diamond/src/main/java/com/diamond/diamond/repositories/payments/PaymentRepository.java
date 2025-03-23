@@ -1,5 +1,6 @@
 package com.diamond.diamond.repositories.payments;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
@@ -30,8 +31,8 @@ public interface PaymentRepository<T extends Payment> extends JpaRepository<T, U
         @Param("id") UUID id,
         @Param("accountId") UUID accountId,
         @Param("chain") Blockchain chain,
-        @Param("amountGreaterThan") Double amountGreaterThan,
-        @Param("amountLessThan") Double amountLessThan,
+        @Param("amountGreaterThan") BigDecimal amountGreaterThan,
+        @Param("amountLessThan") BigDecimal amountLessThan,
         @Param("currency") StablecoinCurrency currency,
         @Param("createdBefore") Date createdBefore,
         @Param("createdAfter") Date createdAfter,

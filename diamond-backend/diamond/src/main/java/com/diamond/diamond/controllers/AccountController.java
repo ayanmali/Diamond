@@ -23,6 +23,8 @@ import com.diamond.diamond.grpc_client.CircleGrpcClient;
 import com.diamond.diamond.services.AccountService;
 import com.diamond.diamond.services.AccountWalletService;
 
+import jakarta.validation.Valid;
+
 
 @RestController
 @RequestMapping("/accounts")
@@ -50,7 +52,7 @@ public class AccountController {
     }
 
     @PostMapping("/signup")
-    public FetchAccountDto signup(@RequestBody RegisterUserDto registerUserDto) {
+    public FetchAccountDto signup(@Valid @RequestBody RegisterUserDto registerUserDto) {
         Optional<UUID> optionalWalletSetId = circleGrpcClient.createWalletSet("");
         // todo: error handling
         if (optionalWalletSetId.isEmpty()) {
@@ -62,7 +64,7 @@ public class AccountController {
     }
     
     @GetMapping("/id/{id}")
-    public FetchAccountDto getAccountById(@PathVariable(value = "id") String id) {
+    public FetchAccountDto getAccountById(@PathVariable(value = "id") UUID id) {
         FetchAccountDto accountDto = accountService.findAccountDtoById(id);
 
         accountDto = loadAccountWallets(accountDto);
@@ -97,23 +99,23 @@ public class AccountController {
     // }
     
     @PatchMapping("/id/{id}/update-email")
-    public FetchAccountDto updateEmail(@RequestBody String email, @PathVariable(value="id") String id) {
+    public FetchAccountDto updateEmail(@RequestBody String email, @PathVariable(value="id") UUID id) {
         //TODO: process POST request
-        FetchAccountDto accountDto = accountService.updateAccountEmail(UUID.fromString(id), email);
+        FetchAccountDto accountDto = accountService.updateAccountEmail(id, email);
         accountDto = loadAccountWallets(accountDto);
         return accountDto;
     }
     
     @PatchMapping("/id/{id}/update-name")
-    public FetchAccountDto updateBusinessName(@RequestBody String name, @PathVariable(value="id") String id) {
+    public FetchAccountDto updateBusinessName(@RequestBody String name, @PathVariable(value="id") UUID id) {
         //TODO: process POST request
-        FetchAccountDto accountDto = accountService.updateAccountName(UUID.fromString(id), name);
+        FetchAccountDto accountDto = accountService.updateAccountName(id, name);
         accountDto = loadAccountWallets(accountDto);
         return accountDto;
     }
 
     @DeleteMapping("/id/{id}/delete")
-    public FetchAccountDto deleteAccount(@PathVariable(value="id") String id) {
+    public FetchAccountDto deleteAccount(@PathVariable(value="id") UUID id) {
         //TODO: process POST request
         FetchAccountDto accountDto = accountService.findAccountDtoById(id);
         accountDto = loadAccountWallets(accountDto);

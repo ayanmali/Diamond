@@ -1,5 +1,6 @@
 package com.diamond.diamond.entities.payments.checkouts;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.diamond.diamond.entities.Customer;
@@ -17,7 +18,7 @@ import jakarta.persistence.Table;
 public class CheckoutPaymentTxn extends PaymentTxn {
 
     public CheckoutPaymentTxn() {}
-    public CheckoutPaymentTxn(CheckoutPayment payment, Customer customer, Double revenue, List<PromoCode> codesApplied) {
+    public CheckoutPaymentTxn(CheckoutPayment payment, Customer customer, BigDecimal revenue, List<PromoCode> codesApplied) {
         super(payment, customer, revenue, codesApplied);
     }
     

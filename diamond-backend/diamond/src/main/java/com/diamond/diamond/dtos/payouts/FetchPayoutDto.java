@@ -1,5 +1,6 @@
 package com.diamond.diamond.dtos.payouts;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
@@ -12,7 +13,7 @@ public class FetchPayoutDto {
     private UUID accountId;
     private UUID walletId;
     private String walletAddress;
-    private Double amount;
+    private BigDecimal amount;
     private StablecoinCurrency stablecoinCurrency;
     private FiatCurrency fiatCurrency;
     private Date createdAt;
@@ -37,10 +38,10 @@ public class FetchPayoutDto {
     public void setWalletId(UUID walletId) {
         this.walletId = walletId;
     }
-    public Double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
-    public void setAmount(Double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
     public StablecoinCurrency getStablecoinCurrency() {

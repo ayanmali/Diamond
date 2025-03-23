@@ -3,6 +3,7 @@
  */
 package com.diamond.diamond.entities.payments;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
 
@@ -40,14 +41,14 @@ public class PromoCode {
     private Date expiration;
 
     @Column(nullable=false)
-    private Double discount;
+    private BigDecimal discount;
 
     @ManyToMany(mappedBy = "codesApplied")
     private Set<PaymentTxn> paymentTxns;
 
     public PromoCode() {}
 
-    public PromoCode(Account account, Payment payment, String code, Double discount) {
+    public PromoCode(Account account, Payment payment, String code, BigDecimal discount) {
         this.account = account;
         this.payment = payment;
         this.code = code;
@@ -94,11 +95,11 @@ public class PromoCode {
         this.expiration = expiration;
     }
 
-    public Double getDiscount() {
+    public BigDecimal getDiscount() {
         return discount;
     }
 
-    public void setDiscount(Double discount) {
+    public void setDiscount(BigDecimal discount) {
         this.discount = discount;
     }
 

@@ -1,7 +1,11 @@
 package com.diamond.diamond.dtos.payments.txns;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
+
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Positive;
 
 /*
  * Used when sending API requests to add new transaction records (for checkout/link payments) in the database
@@ -9,7 +13,10 @@ import java.util.UUID;
 public class NewPaymentTxnDto {
     private UUID paymentId;
     private UUID customerId;
-    private Double revenue;
+    @Positive
+    private BigDecimal revenue;
+    // validates an ETH or SOL transaction hash
+    @Pattern(regexp="^(0x[A-Fa-f0-9]{64}|[1-9A-HJ-NP-Za-km-z]{88})$")
     private String signHash;
     private List<Long> codesAppliedIds;
 
@@ -27,10 +34,10 @@ public class NewPaymentTxnDto {
     public void setCustomerId(UUID customerId) {
         this.customerId = customerId;
     }
-    public Double getRevenue() {
+    public BigDecimal getRevenue() {
         return revenue;
     }
-    public void setRevenue(Double revenue) {
+    public void setRevenue(BigDecimal revenue) {
         this.revenue = revenue;
     }
 

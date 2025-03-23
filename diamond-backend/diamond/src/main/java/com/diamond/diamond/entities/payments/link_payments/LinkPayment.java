@@ -1,5 +1,6 @@
 package com.diamond.diamond.entities.payments.link_payments;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.diamond.diamond.entities.Account;
@@ -32,7 +33,7 @@ public class LinkPayment extends Payment {
 
     public LinkPayment() {}
    
-    public LinkPayment(Double amount, Account account, StablecoinCurrency currency, Blockchain chain, List<AccountWallet> accountWallets,
+    public LinkPayment(BigDecimal amount, Account account, StablecoinCurrency currency, Blockchain chain, List<AccountWallet> accountWallets,
                         Boolean hasMaxNumberOfPayments, Integer maxNumberOfPayments, Boolean enablePromoCodes, List<PromoCode> validPromoCodes) {
         super(amount, account, currency, chain, accountWallets);
         

@@ -27,7 +27,7 @@
 
 //     public SubscriptionInvoice() {}
 
-//     public SubscriptionInvoice(Double amount, Account Account, Customer customer, StablecoinCurrency currency, Blockchain chain, List<AccountWallet> AccountWallets, String AccountComments) {
+//     public SubscriptionInvoice(BigDecimal amount, Account Account, Customer customer, StablecoinCurrency currency, Blockchain chain, List<AccountWallet> AccountWallets, String AccountComments) {
 //         super(amount, Account, customer, currency, chain, AccountWallets, AccountComments);
 //         this.billingBasis = 30L; // defaults to 30 day subscription
 //         this.status = SubscriptionStatus.PAUSED;

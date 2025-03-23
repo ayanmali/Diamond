@@ -2,8 +2,11 @@ package com.diamond.diamond.dtos.payments.new_payments;
 
 import java.util.List;
 
+import jakarta.validation.constraints.Positive;
+
 public class NewCheckoutPaymentDto extends NewPaymentDto {
     private Boolean hasMaxNumberOfPayments;
+    @Positive
     private Integer maxNumberOfPayments;
     private Boolean enablePromoCodes;
     private List<Long> validPromoCodeIds;

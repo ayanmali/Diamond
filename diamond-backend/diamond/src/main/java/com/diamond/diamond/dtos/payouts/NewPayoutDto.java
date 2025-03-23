@@ -1,15 +1,21 @@
 package com.diamond.diamond.dtos.payouts;
 
-import java.util.Date;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 import com.diamond.diamond.types.FiatCurrency;
 import com.diamond.diamond.types.StablecoinCurrency;
 
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+
 public class NewPayoutDto {
     private UUID accountId;
     private UUID walletId;
-    private Double amount;
+
+    @DecimalMin(value="1.00", inclusive=true)
+    @DecimalMax(value="10000.000, inclusive=true")
+    private BigDecimal amount;
     private StablecoinCurrency stablecoinCurrency;
     private FiatCurrency fiatCurrency;
 
@@ -25,10 +31,10 @@ public class NewPayoutDto {
     public void setWalletId(UUID walletId) {
         this.walletId = walletId;
     }
-    public Double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
-    public void setAmount(Double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
     public StablecoinCurrency getStablecoinCurrency() {

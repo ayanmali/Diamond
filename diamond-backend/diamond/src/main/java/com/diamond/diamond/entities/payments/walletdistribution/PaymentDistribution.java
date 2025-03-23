@@ -9,11 +9,11 @@
 
 //     private static final double MARGIN_OF_ERROR = 0.001;
 
-//     private Map<AccountWallet, Double> mappings;
+//     private Map<AccountWallet, BigDecimal> mappings;
 //     private String name;
 //     private String description;
 
-//     public PaymentDistribution(Map<AccountWallet, Double> mappings, String name) throws Exception {
+//     public PaymentDistribution(Map<AccountWallet, BigDecimal> mappings, String name) throws Exception {
 //         if (isValidDistribution(mappings)) {
 //             this.mappings = mappings;
 //             this.name = name;
@@ -23,7 +23,7 @@
 //     /*
 //      * Helper method to determine if the given mappings of payments for each wallet is valid (i.e. each wallet's percentages add up to 1)
 //      */
-//     private static boolean isValidDistribution(Map<AccountWallet, Double> mappings) throws Exception {
+//     private static boolean isValidDistribution(Map<AccountWallet, BigDecimal> mappings) throws Exception {
 //         if (mappings.isEmpty()) {
 //             return true;
 //         }
@@ -31,7 +31,7 @@
 //         // TODO: Add regex validation to ensure all wallets have valid addresses and are of the same chain
 //         // Calculating the sum of percentages across all wallets in the mappings
 //         double total = 0.0;
-//         for (Double val : mappings.values()) {
+//         for (BigDecimal val : mappings.values()) {
 //             total += val;
 //             // if the total ever becomes greater than 1, then this mappings is not valid
 //             if (total > 1) {
@@ -47,11 +47,11 @@
 //         return true;
 //     }
 
-//     public Map<AccountWallet, Double> getMappings() {
+//     public Map<AccountWallet, BigDecimal> getMappings() {
 //         return mappings;
 //     }
 
-//     public void setDistribution(Map<AccountWallet, Double> mappings) throws Exception {
+//     public void setDistribution(Map<AccountWallet, BigDecimal> mappings) throws Exception {
 //         // Changes the object mappings if the provided mappings is valid
 //         if (isValidDistribution(mappings)) {
 //             this.mappings = mappings;

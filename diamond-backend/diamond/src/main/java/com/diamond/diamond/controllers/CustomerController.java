@@ -22,9 +22,8 @@ import com.diamond.diamond.entities.Customer;
 import com.diamond.diamond.services.AccountService;
 import com.diamond.diamond.services.CustomerService;
 import com.diamond.diamond.services.CustomerWalletService;
-import org.springframework.web.bind.annotation.RequestParam;
 
-
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/customers")
@@ -47,7 +46,7 @@ public class CustomerController {
     }
 
     @PostMapping("/new")
-    public FetchCustomerDto addCustomer(@RequestBody NewCustomerDto customerDto) {
+    public FetchCustomerDto addCustomer(@Valid @RequestBody NewCustomerDto customerDto) {
         //TODO: process POST request
         Account account = accountService.findAccountById(customerDto.getAccountId());
         return customerService.saveCustomer(customerDto, account);
@@ -65,7 +64,7 @@ public class CustomerController {
     
 
     @GetMapping("/id/{id}")
-    public FetchCustomerDto getCustomerById(@PathVariable(value="id") String id) {
+    public FetchCustomerDto getCustomerById(@PathVariable(value="id") UUID id) {
         //Customer customer = customerService.findCustomerById(id);
         FetchCustomerDto customerDto = customerService.findCustomerDtoById(id);
         customerDto = loadCustomerWallets(customerDto);
@@ -73,7 +72,7 @@ public class CustomerController {
     }
 
     @GetMapping("/accountid/{id}")
-    public List<FetchCustomerDto> getCustomersByAccount(@PathVariable(value="id") String accountId) {
+    public List<FetchCustomerDto> getCustomersByAccount(@PathVariable(value="id") UUID accountId) {
         List<FetchCustomerDto> customerDtos = new ArrayList<>();
         
         // get all the customers
@@ -100,23 +99,23 @@ public class CustomerController {
     }
 
     @PatchMapping("/id/{id}/update-name")
-    public FetchCustomerDto updateName(@PathVariable(value="id") String id, @RequestBody String name) {
+    public FetchCustomerDto updateName(@PathVariable(value="id") UUID id, @RequestBody String name) {
         //TODO: process POST request
-        FetchCustomerDto customerDto = customerService.updateCustomerName(UUID.fromString(id), name);
+        FetchCustomerDto customerDto = customerService.updateCustomerName(id, name);
         customerDto = loadCustomerWallets(customerDto);
         return customerDto;
     }
 
     @PatchMapping("/id/{id}/update-email")
-    public FetchCustomerDto updateEmail(@PathVariable(value="id") String id, @RequestBody String email) {
+    public FetchCustomerDto updateEmail(@PathVariable(value="id") UUID id, @RequestBody String email) {
         //TODO: process POST request
-        FetchCustomerDto customerDto = customerService.updateCustomerEmail(UUID.fromString(id), email);
+        FetchCustomerDto customerDto = customerService.updateCustomerEmail(id, email);
         customerDto = loadCustomerWallets(customerDto);
         return customerDto;
     }
 
     @DeleteMapping("/id/{id}/delete")
-    public FetchCustomerDto delete(@PathVariable(value="id") String id) {
+    public FetchCustomerDto delete(@PathVariable(value="id") UUID id) {
         //TODO: process POST request
         FetchCustomerDto customerDto = customerService.findCustomerDtoById(id);
         customerDto = loadCustomerWallets(customerDto);

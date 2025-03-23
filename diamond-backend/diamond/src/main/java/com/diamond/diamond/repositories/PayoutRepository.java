@@ -1,5 +1,6 @@
 package com.diamond.diamond.repositories;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
@@ -30,8 +31,8 @@ public interface PayoutRepository extends JpaRepository<Payout, UUID> {
         @Param("id") UUID id,
         @Param("accountId") UUID accountId,
         @Param("walletId") UUID walletId,
-        @Param("amountLessThan") Double amountLessThan,
-        @Param("amountGreaterThan") Double amountGreaterThan,
+        @Param("amountLessThan") BigDecimal amountLessThan,
+        @Param("amountGreaterThan") BigDecimal amountGreaterThan,
         @Param("status") PayoutStatus status,
         @Param("createdBefore") Date createdBefore,
         @Param("createdAfter") Date createdAfter,

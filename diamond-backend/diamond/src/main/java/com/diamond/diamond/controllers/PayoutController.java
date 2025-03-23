@@ -13,14 +13,14 @@ import com.diamond.diamond.types.PayoutStatus;
 
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
-
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/payouts")
@@ -36,7 +36,7 @@ public class PayoutController {
     }
     
     @PostMapping("/new")
-    private FetchPayoutDto createPayout(@RequestBody NewPayoutDto payoutDto) {
+    public FetchPayoutDto createPayout(@Valid @RequestBody NewPayoutDto payoutDto) {
         return payoutService.createPayout(
             payoutDto,
             accountService.findAccountById(payoutDto.getAccountId()),
@@ -48,8 +48,8 @@ public class PayoutController {
         @RequestBody(required=false) UUID id,
         @RequestBody(required=false) UUID accountId,
         @RequestBody(required=false) UUID walletId,
-        @RequestBody(required=false) Double amountLessThan,
-        @RequestBody(required=false) Double amountGreaterThan,
+        @RequestBody(required=false) BigDecimal amountLessThan,
+        @RequestBody(required=false) BigDecimal amountGreaterThan,
         @RequestBody(required=false) PayoutStatus status,
         @RequestBody(required=false) Date createdBefore,
         @RequestBody(required=false) Date createdAfter,
@@ -59,5 +59,7 @@ public class PayoutController {
     ) {
         return payoutService.findPayoutDtosWithFilters(id, accountId, walletId, amountLessThan, amountGreaterThan, status, createdBefore, createdAfter, paidBefore, paidAfter, pageSize);
     }
+
+    // TODO: add webhooks
     
 }

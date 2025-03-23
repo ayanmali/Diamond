@@ -2,9 +2,15 @@ package com.diamond.diamond.dtos.customer;
 
 import java.util.UUID;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
+
 public class NewCustomerDto {
+    @Size(min=1, max=50)
     private String name;
+    @Email
     private String email;
+    
     private UUID accountId;
     //private List<CustomerWallet> wallets;
 

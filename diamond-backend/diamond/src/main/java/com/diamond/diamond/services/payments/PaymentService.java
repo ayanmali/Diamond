@@ -1,5 +1,6 @@
 package com.diamond.diamond.services.payments;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -42,7 +43,7 @@ public abstract class PaymentService<T extends Payment> {
         return paymentRepository.save(payment);
     }
 
-    public List<FetchPaymentDto> findPaymentDtosWithFilters(UUID id, UUID accountId, Blockchain chain, Double amountGreaterThan, Double amountLessThan, StablecoinCurrency currency, Date createdBefore, Date createdAfter, Integer pageSize) {
+    public List<FetchPaymentDto> findPaymentDtosWithFilters(UUID id, UUID accountId, Blockchain chain, BigDecimal amountGreaterThan, BigDecimal amountLessThan, StablecoinCurrency currency, Date createdBefore, Date createdAfter, Integer pageSize) {
         Pageable pageable = pageSize != null ? 
             PageRequest.of(0, pageSize) : 
             Pageable.unpaged();
@@ -93,7 +94,7 @@ public abstract class PaymentService<T extends Payment> {
 
     // }
 
-    public T updateAmount(UUID id, Double amount) {
+    public T updateAmount(UUID id, BigDecimal amount) {
         T payment = paymentRepository.findById(id).orElseThrow();
         payment.setAmount(amount);
         return paymentRepository.save(payment);

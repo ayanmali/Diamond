@@ -16,6 +16,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 
 @Entity
 @Table(name = "accounts")
@@ -34,6 +35,7 @@ public class Account {
     private List<AccountWallet> wallets;
 
     @Column(unique = true, length = 100, nullable = false)
+    @Email
     private String email;
 
     @Column(nullable = false)

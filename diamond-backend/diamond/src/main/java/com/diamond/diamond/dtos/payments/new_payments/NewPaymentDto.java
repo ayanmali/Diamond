@@ -3,31 +3,37 @@
  */
 package com.diamond.diamond.dtos.payments.new_payments;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.StablecoinCurrency;
 
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+
 public abstract class NewPaymentDto {
 
     //private UUID id;
-    private Double amount;
-    private String accountId;
+    @DecimalMin(value="1.00", inclusive=true)
+    @DecimalMax(value="10000.00", inclusive=true)
+    private BigDecimal amount;
+    private UUID accountId;
     private StablecoinCurrency currency;
     private Blockchain chain;
     private List<UUID> accountWalletIds;
 
-    public Double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
-    public void setAmount(Double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
-    public String getAccountId() {
+    public UUID getAccountId() {
         return accountId;
     }
-    public void setAccountId(String accountId) {
+    public void setAccountId(UUID accountId) {
         this.accountId = accountId;
     }
     public StablecoinCurrency getCurrency() {

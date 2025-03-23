@@ -1,5 +1,6 @@
 package com.diamond.diamond.controllers.payments.payments;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +25,8 @@ import com.diamond.diamond.services.AccountWalletService;
 import com.diamond.diamond.services.payments.PaymentService;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.StablecoinCurrency;
+
+import jakarta.validation.Valid;
 
 //@RequestMapping("/payments")
 public abstract class PaymentController<P extends Payment, N extends NewPaymentDto> {
@@ -52,7 +55,7 @@ public abstract class PaymentController<P extends Payment, N extends NewPaymentD
     }
     
     @PostMapping("/new")
-    public FetchPaymentDto createPayment(@RequestBody N paymentDto) {
+    public FetchPaymentDto createPayment(@Valid @RequestBody N paymentDto) {
         return paymentService.convertPaymentToFetchDto(paymentService.savePayment(convertNewDtoToPayment(paymentDto)));
     }
 
@@ -61,8 +64,8 @@ public abstract class PaymentController<P extends Payment, N extends NewPaymentD
     public List<FetchPaymentDto> getPayments(@RequestBody(required=false) UUID id,
                                              @RequestBody(required=false) UUID accountId,
                                              @RequestBody(required=false) Blockchain chain,
-                                             @RequestBody(required=false) Double amountGreaterThan,
-                                             @RequestBody(required=false) Double amountLessThan,
+                                             @RequestBody(required=false) BigDecimal amountGreaterThan,
+                                             @RequestBody(required=false) BigDecimal amountLessThan,
                                              @RequestBody(required=false) StablecoinCurrency currency,
                                              @RequestBody(required=false) Date createdBefore,
                                              @RequestBody(required=false) Date createdAfter,
@@ -71,7 +74,7 @@ public abstract class PaymentController<P extends Payment, N extends NewPaymentD
     }
 
     @GetMapping("/id/{id}")
-    public FetchPaymentDto getPaymentById(@PathVariable(value="id") String id) {
+    public FetchPaymentDto getPaymentById(@PathVariable(value="id") UUID id) {
         //P payment = paymentService.findPaymentById(id);
         FetchPaymentDto paymentDto = paymentService.findPaymentDtoById(id);
         paymentDto = loadAccountWallets(paymentDto);
@@ -79,33 +82,33 @@ public abstract class PaymentController<P extends Payment, N extends NewPaymentD
     }
 
     @PatchMapping("/id/{id}/update-amount")
-    public FetchPaymentDto updateAmount(@PathVariable(value="id") String id, @RequestParam Double amount) {
-        FetchPaymentDto paymentDto = paymentService.convertPaymentToFetchDto(paymentService.updateAmount(UUID.fromString(id), amount));
+    public FetchPaymentDto updateAmount(@PathVariable(value="id") UUID id, @RequestParam BigDecimal amount) {
+        FetchPaymentDto paymentDto = paymentService.convertPaymentToFetchDto(paymentService.updateAmount(id, amount));
         paymentDto = loadAccountWallets(paymentDto);
         return paymentDto;
     }
 
     @PatchMapping("/id/{id}/update-currency")
-    public FetchPaymentDto updateCurrency(@PathVariable(value="id") String id, @RequestBody StablecoinCurrency currency) {
-        FetchPaymentDto paymentDto = paymentService.convertPaymentToFetchDto(paymentService.updateCurrency(UUID.fromString(id), currency));
+    public FetchPaymentDto updateCurrency(@PathVariable(value="id") UUID id, @RequestBody StablecoinCurrency currency) {
+        FetchPaymentDto paymentDto = paymentService.convertPaymentToFetchDto(paymentService.updateCurrency(id, currency));
         paymentDto = loadAccountWallets(paymentDto);
         return paymentDto;
     }
 
     // TODO: Test this endpoint
     @PatchMapping("/id/{id}/update-wallet-distribution")
-    public FetchPaymentDto updateWallets(@PathVariable(value="id") String id, @RequestBody List<UUID> accountWalletIds) {
+    public FetchPaymentDto updateWallets(@PathVariable(value="id") UUID id, @RequestBody List<UUID> accountWalletIds) {
         List<AccountWallet> accountWallets = new ArrayList<>();
         for (UUID walletId : accountWalletIds) {
             accountWallets.add(accountWalletService.findWalletById(walletId));
         }
-        FetchPaymentDto paymentDto = paymentService.convertPaymentToFetchDto(paymentService.updateWalletDistribution(UUID.fromString(id), accountWallets));
+        FetchPaymentDto paymentDto = paymentService.convertPaymentToFetchDto(paymentService.updateWalletDistribution(id, accountWallets));
         //paymentDto = loadAccountWallets(paymentDto);
         return paymentDto;
     }
 
     @DeleteMapping("/id/{id}/delete")
-    public FetchPaymentDto deletePayment(@PathVariable(value="id") String id) {
+    public FetchPaymentDto deletePayment(@PathVariable(value="id") UUID id) {
         //P payment = paymentService.findPaymentById(id);
         FetchPaymentDto paymentDto = paymentService.findPaymentDtoById(id);
         paymentDto = loadAccountWallets(paymentDto);

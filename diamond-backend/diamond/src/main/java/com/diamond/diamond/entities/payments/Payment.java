@@ -1,6 +1,7 @@
 package com.diamond.diamond.entities.payments;
 
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -42,7 +43,7 @@ import jakarta.persistence.ManyToOne;
     private UUID id;
 
     @Column(nullable=false)
-    private Double amount;
+    private BigDecimal amount;
     //final AccountWallet businessWallet;
 
     @ManyToOne
@@ -108,7 +109,7 @@ import jakarta.persistence.ManyToOne;
     /*
      * Constructor method that uses a provided Map to route payments to multiple wallets
      */
-    public Payment(Double amount, Account account, StablecoinCurrency currency, Blockchain chain, List<AccountWallet> accountWallets/*, PaymentDistributor distributor*/) /*throws Exception*/ {
+    public Payment(BigDecimal amount, Account account, StablecoinCurrency currency, Blockchain chain, List<AccountWallet> accountWallets/*, PaymentDistributor distributor*/) /*throws Exception*/ {
         this.amount = amount;
         this.account = account;
         this.currency = currency;
@@ -118,7 +119,7 @@ import jakarta.persistence.ManyToOne;
         // this.distributor = new PaymentDistributor(account, mappings, "");
     }
 
-    public Payment(Double amount, Account account, StablecoinCurrency currency, Blockchain chain, AccountWallet accountWallet/*, PaymentDistributor distributor*/) /*throws Exception*/ {
+    public Payment(BigDecimal amount, Account account, StablecoinCurrency currency, Blockchain chain, AccountWallet accountWallet/*, PaymentDistributor distributor*/) /*throws Exception*/ {
         this.amount = amount;
         this.account = account;
         this.currency = currency;
@@ -147,7 +148,7 @@ import jakarta.persistence.ManyToOne;
      * Distributes payments to multiple wallets according to the 
      */
     // public void distributePayment() {
-    //     Map<AccountWallet, Double> mappings = this.distributor.getDistribution().getMappings();
+    //     Map<AccountWallet, BigDecimal> mappings = this.distributor.getDistribution().getMappings();
     //     List<AccountWallet> keyList = new ArrayList<>(mappings.keySet());
 
     //     double remainingAmount = this.amount;
@@ -178,7 +179,7 @@ import jakarta.persistence.ManyToOne;
     // todo
     public PaymentStatus validatePayment() {return null;}
 
-    public Double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
@@ -202,7 +203,7 @@ import jakarta.persistence.ManyToOne;
     //     this.distributor = distributor;
     // }
 
-    // public void setDistributor(Map<AccountWallet, Double> mappings) throws Exception {
+    // public void setDistributor(Map<AccountWallet, BigDecimal> mappings) throws Exception {
     //     this.distributor = new PaymentDistributor(this.account, mappings, "");
     // }
 
@@ -210,7 +211,7 @@ import jakarta.persistence.ManyToOne;
         return chain;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

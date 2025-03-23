@@ -18,6 +18,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
 
 @Entity
 @Table(name="customers")
@@ -31,6 +32,7 @@ public class Customer {
     private String name;
 
     @Column(nullable=false)
+    @Email
     private String email;
 
     @OneToMany(mappedBy="customer", cascade=CascadeType.ALL)
@@ -49,7 +51,7 @@ public class Customer {
     private Date updatedAt;
 
     // @Column(name="total_spend")
-    // private Double totalSpend;
+    // private BigDecimal totalSpend;
 
     // @Column(name="total_payments")
     // private Integer totalPayments;
@@ -125,11 +127,11 @@ public class Customer {
         this.createdAt = createdAt;
     }
 
-    // public Double getTotalSpend() {
+    // public BigDecimal getTotalSpend() {
     //     return totalSpend;
     // }
 
-    // public void setTotalSpend(Double totalSpend) {
+    // public void setTotalSpend(BigDecimal totalSpend) {
     //     this.totalSpend = totalSpend;
     // }
 

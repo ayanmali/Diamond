@@ -4,9 +4,12 @@ import java.util.UUID;
 
 import com.diamond.diamond.types.Blockchain;
 
+import jakarta.validation.constraints.Size;
+
 public class NewAccountWalletDto {
     //private String address;
     private Blockchain chain;
+    @Size(min=1, max=40)
     private String walletName;
     private UUID accountId;
     private UUID idempotencyKey;

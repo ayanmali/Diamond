@@ -1,5 +1,6 @@
 package com.diamond.diamond.services.payments;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,9 +52,9 @@ public class PaymentTxnService<T extends PaymentTxn> {
         return txnDto;
     }
 
-    // public static <T extends PaymentTransaction> T createInstance(Class<T> clazz, Payment payment, Customer customer, Double revenue) {
+    // public static <T extends PaymentTransaction> T createInstance(Class<T> clazz, Payment payment, Customer customer, BigDecimal revenue) {
     //     try {
-    //         T instance = clazz.getDeclaredConstructor(Payment.class, Customer.class, Double.class).newInstance(payment, customer, revenue);
+    //         T instance = clazz.getDeclaredConstructor(Payment.class, Customer.class, BigDecimal.class).newInstance(payment, customer, revenue);
     //         return instance;
     //     } catch (IllegalAccessException | IllegalArgumentException | InstantiationException | NoSuchMethodException | SecurityException | InvocationTargetException e) {
     //         throw new RuntimeException("Failed to create PaymentTransaction instance", e);
@@ -76,8 +77,8 @@ public class PaymentTxnService<T extends PaymentTxn> {
         UUID customerId,
         StablecoinCurrency currency,
         Blockchain chain,
-        Double revenueGreaterThan,
-        Double revenueLessThan,
+        BigDecimal revenueGreaterThan,
+        BigDecimal revenueLessThan,
         PaymentStatus status,
         Date paidBefore,
         Date paidAfter,

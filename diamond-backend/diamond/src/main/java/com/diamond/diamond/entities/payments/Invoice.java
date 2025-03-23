@@ -1,5 +1,6 @@
 package com.diamond.diamond.entities.payments;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class Invoice extends Payment {
 
     public Invoice() {}
 
-    public Invoice(Double amount, Account account, Customer customer, StablecoinCurrency currency, Blockchain chain, List<AccountWallet> accountWallets, String accountComments) {
+    public Invoice(BigDecimal amount, Account account, Customer customer, StablecoinCurrency currency, Blockchain chain, List<AccountWallet> accountWallets, String accountComments) {
         super(amount, account, currency, chain, accountWallets);
         this.customer = customer;
         this.timeSent = new Date();

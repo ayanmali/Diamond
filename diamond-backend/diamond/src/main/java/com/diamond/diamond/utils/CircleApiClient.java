@@ -259,7 +259,7 @@ public class CircleApiClient {
     /*
      * Returns a JSON array containing JSON objects, each representing a balance for a particular token in the specified wallet
      */
-    public JSONArray getTokenBalance(String walletId,
+    public JSONArray getTokenBalance(UUID walletId,
                                    Optional<Boolean> includeAll,
                                    Optional<String> tokenName,
                                    Optional<String> tokenAddress,

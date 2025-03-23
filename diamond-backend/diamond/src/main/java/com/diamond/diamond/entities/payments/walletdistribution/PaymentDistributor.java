@@ -33,7 +33,7 @@ package com.diamond.diamond.entities.payments.walletdistribution;
 //      * Instantiates a PaymentDistributor with a predefined wallet distribution
 //      * This one is probably more convenient
 //      */
-//     public PaymentDistributor(Account Account, Map<AccountWallet, Double> mappings, String name) throws Exception {
+//     public PaymentDistributor(Account Account, Map<AccountWallet, BigDecimal> mappings, String name) throws Exception {
 //         this.Account account;
 //         this.distribution = new PaymentDistribution(mappings, name);
 //     }
@@ -42,7 +42,7 @@ package com.diamond.diamond.entities.payments.walletdistribution;
 //      * Adds a wallet and it's corresponding payout allocation 
 //      * Note that every wallet in the walletDistribution must be of the same blockchain
 //      */
-//     // public void addWallet(AccountWallet AccountWallet, Double allocation) {
+//     // public void addWallet(AccountWallet AccountWallet, BigDecimal allocation) {
 //     //     walletDistribution.put(AccountWallet, allocation);
 //     //     if (!validateDistribution()) {
 //     //         throw new Error();

@@ -149,6 +149,7 @@ def serve():
     )
     
     # Start the server
+    # TODO: add secure port https://grpc.io/docs/languages/python/alts/
     server.add_insecure_port('[::]:50051')  # Replace with your desired port
     server.start()
     print("Server started on port 50051")

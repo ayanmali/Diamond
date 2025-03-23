@@ -1,5 +1,7 @@
 package com.diamond.diamond.entities;
 
+import java.math.BigDecimal;
+
 // import java.time.Instant;
 // import java.util.Arrays;
 // import java.util.List;
@@ -198,7 +200,7 @@ public class AccountWallet implements Wallet {
         this.status = WalletStatus.ACTIVE;
     }
 
-    public void cashOut(Double amount, StablecoinCurrency currency) {
+    public void cashOut(BigDecimal amount, StablecoinCurrency currency) {
         // todo: add logic for cashing out stablecoins to a bank account
     }
 

@@ -184,7 +184,7 @@
 // //         this.defaultDistributor = defaultDistributor;
 // //     }
 
-// //     public void setDefaultDistributor(Map<AccountWallet, Double> mappings) throws Exception {
+// //     public void setDefaultDistributor(Map<AccountWallet, BigDecimal> mappings) throws Exception {
 // //         this.defaultDistributor = new PaymentDistributor(this, mappings, this.getDefaultDistributor().getDistribution().getName());
 // //     }
 

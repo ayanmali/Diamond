@@ -1,5 +1,6 @@
 package com.diamond.diamond.services;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -56,8 +57,8 @@ public class PayoutService {
         UUID id,
         UUID accountId,
         UUID walletId,
-        Double amountLessThan,
-        Double amountGreaterThan,
+        BigDecimal amountLessThan,
+        BigDecimal amountGreaterThan,
         PayoutStatus status,
         Date createdBefore,
         Date createdAfter,

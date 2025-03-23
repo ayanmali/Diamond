@@ -1,5 +1,6 @@
 package com.diamond.diamond.dtos.payments.txns;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -13,7 +14,7 @@ public class FetchPaymentTxnDto {
     private UUID id;
     private UUID paymentId;
     private UUID customerId;
-    private Double revenue;
+    private BigDecimal revenue;
     private String signHash;
     private String txHash;
     private PaymentStatus status;
@@ -40,10 +41,10 @@ public class FetchPaymentTxnDto {
     public void setCustomerId(UUID customerId) {
         this.customerId = customerId;
     }
-    public Double getRevenue() {
+    public BigDecimal getRevenue() {
         return revenue;
     }
-    public void setRevenue(Double revenue) {
+    public void setRevenue(BigDecimal revenue) {
         this.revenue = revenue;
     }
     public String getSignHash() {

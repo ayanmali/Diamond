@@ -1,5 +1,6 @@
 package com.diamond.diamond.entities.payments;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -41,7 +42,7 @@ public abstract class PaymentTxn {
     private Customer customer;
 
     @Column(name="revenue")
-    private Double revenue;
+    private BigDecimal revenue;
 
     // TODO: allow customers to pay with a chain of their choice and store it in this field
     // @Column(name="chain")
@@ -76,7 +77,7 @@ public abstract class PaymentTxn {
 
     public PaymentTxn() {}
 
-    public PaymentTxn(Payment payment, Customer customer, Double revenue, List<PromoCode> codesApplied) {
+    public PaymentTxn(Payment payment, Customer customer, BigDecimal revenue, List<PromoCode> codesApplied) {
         this.payment = payment;
         this.customer = customer;
         this.revenue = revenue;
@@ -111,10 +112,10 @@ public abstract class PaymentTxn {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-    public Double getRevenue() {
+    public BigDecimal getRevenue() {
         return revenue;
     }
-    public void setTotalRevenue(Double totalRevenue) {
+    public void setTotalRevenue(BigDecimal totalRevenue) {
         this.revenue = totalRevenue;
     }
     public PaymentStatus getStatus() {

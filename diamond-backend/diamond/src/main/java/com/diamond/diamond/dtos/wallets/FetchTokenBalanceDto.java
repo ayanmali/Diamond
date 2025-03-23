@@ -1,21 +1,23 @@
 package com.diamond.diamond.dtos.wallets;
 
+import java.math.BigDecimal;
+
 import com.diamond.diamond.types.Token;
 
 /*
  * Represents metadata and the balance of a particular token for a single user wallet
  */
 public class FetchTokenBalanceDto {
-    private Double amount;
+    private BigDecimal amount;
     private Token token;
 
     public FetchTokenBalanceDto() {}
 
-    public Double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

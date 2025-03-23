@@ -1,15 +1,27 @@
 package com.diamond.diamond.dtos.payments;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
+
 public class PromoCodeDto {
+    @PositiveOrZero
     private Long id;
     private UUID accountId;
     private UUID paymentId;
+    @Size(min=3, max=50)
     private String code;
+    @FutureOrPresent
     private Date expiration;
-    private Double discount;
+    @DecimalMin(value="0.0", inclusive=false)
+    @DecimalMax(value="1.0", inclusive=true)
+    private BigDecimal discount;
 
     public PromoCodeDto() {}
 
@@ -43,10 +55,10 @@ public class PromoCodeDto {
     public void setExpiration(Date expiration) {
         this.expiration = expiration;
     }
-    public Double getDiscount() {
+    public BigDecimal getDiscount() {
         return discount;
     }
-    public void setDiscount(Double discount) {
+    public void setDiscount(BigDecimal discount) {
         this.discount = discount;
     }
 
