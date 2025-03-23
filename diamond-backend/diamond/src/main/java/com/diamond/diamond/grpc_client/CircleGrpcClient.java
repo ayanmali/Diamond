@@ -27,7 +27,7 @@ public class CircleGrpcClient {
 
     public CircleGrpcClient(String host, int port) {
         channel = ManagedChannelBuilder.forAddress(host, port)
-                .usePlaintext()  // TODO: Use TLS in production!
+                .usePlaintext()  // TODO: Use TLS in production
                 .build();
         asyncStub = CircleGrpc.newStub(channel);
         //blockingStub = CircleGrpc.newBlockingStub(channel);

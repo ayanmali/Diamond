@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DiamondApplication {
 
     @GetMapping("/home")
-    String home() {
+    public String home() {
         return "Welcome to Diamond";
     }
     public static void main(String[] args) throws InterruptedException {

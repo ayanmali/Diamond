@@ -6,6 +6,6 @@ postgres_data
 
 /go-msrvc
 */.env
-./go.mod
-./go.sum
+go.mod
+go.sum
 /diamond-go-service
