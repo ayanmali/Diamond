@@ -5,6 +5,7 @@ diamond-backend.zip
 postgres_data
 
 /go-msrvc
+.env
 */.env
 go.mod
 go.sum

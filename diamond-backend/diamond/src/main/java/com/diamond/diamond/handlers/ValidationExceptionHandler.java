@@ -29,4 +29,5 @@ public class ValidationExceptionHandler {
     public ValidationError handleNoSuchElementExceptions(NoSuchElementException e) {
         return new ValidationError("", e.getMessage());
     }
+    
 }

@@ -29,7 +29,7 @@ public interface AccountWalletRepository extends JpaRepository<AccountWallet, UU
     List<AccountWallet> findByPayments(List<Payment> payments);
     //List<AccountWallet> findByPaymentId();
 
-    @Query("SELECT w from AccountWallet WHERE " +
+    @Query("SELECT w from AccountWallet w WHERE " +
     "(:walletId IS NULL OR w.id = :walletId) AND " +
     "(:accountId IS NULL OR w.account.id = :accountId) AND " + 
     "(:chain IS NULL OR w.chain = :chain) AND " + 

@@ -185,8 +185,8 @@ public class AccountWallet implements Wallet {
     @ManyToMany(mappedBy = "walletDistribution")
     private List<Payment> payments;
 
-    @ManyToMany(mappedBy = "offrampWallets")
-    private List<Payout> payouts;
+    // @ManyToMany(mappedBy = "offrampWallet")
+    // private List<Payout> payouts;
 
     public AccountWallet() {}
 
@@ -262,12 +262,12 @@ public class AccountWallet implements Wallet {
         this.payments = payments;
     }
 
-    public List<Payout> getPayouts() {
-        return payouts;
-    }
+    // public List<Payout> getPayouts() {
+    //     return payouts;
+    // }
 
-    public void setPayouts(List<Payout> payouts) {
-        this.payouts = payouts;
-    }
+    // public void setPayouts(List<Payout> payouts) {
+    //     this.payouts = payouts;
+    // }
 
 }

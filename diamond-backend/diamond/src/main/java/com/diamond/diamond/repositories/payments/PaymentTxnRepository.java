@@ -20,18 +20,18 @@ import com.diamond.diamond.types.StablecoinCurrency;
 @Repository
 public interface PaymentTxnRepository<T extends PaymentTxn> extends JpaRepository<T, UUID> {
     Optional<T> findByTxHash(String txHash);
-    @Query("SELECT t FROM T t WHERE " +
+    @Query("SELECT t FROM #{#entityName} t WHERE " +
            "(:id IS NULL OR t.id = :id) AND " +
            "(:paymentId IS NULL OR t.payment.id = :paymentId) AND " +
-           "(:accountId IS NULL OR t.payment.account.id = :id) AND " +
-           "(:customerId IS NULL OR t.customer.id = :customer) AND " +
+           "(:accountId IS NULL OR t.payment.account.id = :accountId) AND " +
+           "(:customerId IS NULL OR t.customer.id = :customerId) AND " +
            "(:currency IS NULL OR t.payment.currency = :currency) AND " +
            "(:chain IS NULL OR t.payment.chain = :chain) AND " +
            "(:revenueGreaterThan IS NULL OR t.revenue >= :revenueGreaterThan) AND " +
            "(:revenueLessThan IS NULL OR t.revenue <= :revenueLessThan) AND " +
            "(:status IS NULL OR t.status = :status) AND " +
-           "(:paidBefore IS NULL OR t.createdAt <= :createdBefore) AND " +
-           "(:paidAfter IS NULL OR t.createdAt >= :createdAfter)")
+           "(:paidBefore IS NULL OR t.timePaid <= :paidBefore) AND " +
+           "(:paidAfter IS NULL OR t.timePaid >= :paidAfter)")
     Page<T> findTxnsWithFilters(
         @Param("id") UUID id,
         @Param("paymentId") UUID paymentId,
@@ -42,8 +42,8 @@ public interface PaymentTxnRepository<T extends PaymentTxn> extends JpaRepositor
         @Param("revenueGreaterThan") BigDecimal revenueGreaterThan,
         @Param("revenueLessThan") BigDecimal revenueLessThan,
         @Param("status") PaymentStatus status,
-        @Param("createdBefore") Date paidBefore,
-        @Param("createdAfter") Date paidAfter,
+        @Param("paidBefore") Date paidBefore,
+        @Param("paidAfter") Date paidAfter,
         Pageable pageable
     );
 }

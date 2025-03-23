@@ -19,7 +19,7 @@ public interface AccountRepository extends JpaRepository<Account, UUID> {
     
     @Query("SELECT a FROM Account a WHERE " +
            "(:id IS NULL OR a.id = :id) AND " +
-           "(:email IS NULL OR a.email = :email) AND " +
+           "(:email IS NULL OR LOWER(a.email) = LOWER(:email)) AND " +
            "(:createdBefore IS NULL OR a.createdAt <= :createdBefore) AND " +
            "(:createdAfter IS NULL OR a.createdAt >= :createdAfter)")
     Page<Account> findAccountsWithFilters(

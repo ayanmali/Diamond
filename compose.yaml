@@ -1,20 +1,55 @@
 services:
-  # api:
-  #   build:
-  #     context: ./diamond-backend/diamond
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "8080:8080"
-  #   volumes:
-  #     - "./diamond-backend:/api"
-  #   env_file:
-  #     - ./diamond-backend/diamond/.env
-  #   depends_on:
-  #     - postgres
+  postgres:
+      image: 'postgres:latest'
+      env_file:
+        - .env
+      # environment:
+      #   - 'POSTGRES_DB=diamond_db'
+      #   - 'POSTGRES_PASSWORD=postgres'
+      #   - 'POSTGRES_USER=postgres'
+      ports:
+        - '5432:5432'
+      volumes:
+        - ./postgres_data:/var/lib/postgresql/data
+      healthcheck:
+        test: ["CMD-SHELL", "pg_isready -U postgres"]
+        interval: 5s
+        timeout: 5s
+        retries: 5
+    # redis:
+    #   image: 'redis:latest'
+    #   ports:
+    #     - '6379:6379'
 
-  # py-service:
+  api:
+    build:
+      context: ./diamond-backend/diamond
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    volumes:
+      - "./diamond-backend:/api"
+    # env_file:
+    #   - ./diamond-backend/diamond/.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  py-service:
+    build:
+      context: ./diamond_py
+      dockerfile: Dockerfile
+    ports:
+      - "50051:50051"
+    volumes:
+      - "./diamond_py:/py-service"
+    env_file:
+      - ./diamond_py/.env
+    depends_on:
+      - postgres
   
-
   # frontend:
   #   build:
   #     context: ./frontend/diamond-ui
@@ -27,21 +62,6 @@ services:
   #     - "./frontend/diamond-ui/.env"
   #   depends_on:
   #     - api
-
-  postgres:
-    image: 'postgres:latest'
-    environment:
-      - 'POSTGRES_DB=diamond_db'
-      - 'POSTGRES_PASSWORD=postgres'
-      - 'POSTGRES_USER=postgres'
-    ports:
-      - '5430:5432'
-    volumes:
-      - ./postgres_data:/var/lib/postgresql/data
-  # redis:
-  #   image: 'redis:latest'
-  #   ports:
-  #     - '6379:6379'
 
 volumes:
   postgres_data:
