@@ -38,15 +38,15 @@ public class SimplePaymentController extends PaymentController<SimplePayment, Ne
         }
     
         return new SimplePayment(paymentDto.getAmount(), 
-                                   accountService.findAccountById(paymentDto.getAccountId()), 
-                                   paymentDto.getCurrency(), 
+                                   accountService.findAccountById(paymentDto.getAccountId()),  
                                    paymentDto.getChain(), 
                                    accountWallets, 
                                    paymentDto.getHasMaxNumberOfPayments(), 
                                    paymentDto.getMaxNumberOfPayments(), 
                                    paymentDto.getEnablePromoCodes(), 
                                    validPromoCodes,
-                                   paymentDto.getCategory());
+                                   paymentDto.getCategory(), 
+                                   paymentDto.getCurrencies());
     }
 }
 

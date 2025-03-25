@@ -19,7 +19,7 @@ public class FetchPaymentDto {
     private UUID id;
     private BigDecimal amount;
     private UUID accountId;
-    private StablecoinCurrency currency;
+    private List<StablecoinCurrency> currencies;
     private Blockchain chain;
     private List<FetchAccountWalletDto> walletDistribution;
     private Date createdAt;
@@ -31,7 +31,7 @@ public class FetchPaymentDto {
         this.id = payment.getId();
         this.amount = payment.getAmount();
         this.accountId = payment.getAccount().getId();
-        this.currency = payment.getStablecoinCurrency();
+        this.currencies = payment.getAcceptedCurrencies();
         this.chain = payment.getChain();
 
         if (payment.getWalletDistribution() != null && Hibernate.isInitialized(payment.getWalletDistribution())) {
@@ -64,11 +64,11 @@ public class FetchPaymentDto {
     public void setAccountId(UUID accountId) {
         this.accountId = accountId;
     }
-    public StablecoinCurrency getCurrency() {
-        return currency;
+    public List<StablecoinCurrency> getCurrencies() {
+        return currencies;
     }
-    public void setCurrency(StablecoinCurrency currency) {
-        this.currency = currency;
+    public void setCurrencies(List<StablecoinCurrency> currencies) {
+        this.currencies = currencies;
     }
     public Blockchain getChain() {
         return chain;

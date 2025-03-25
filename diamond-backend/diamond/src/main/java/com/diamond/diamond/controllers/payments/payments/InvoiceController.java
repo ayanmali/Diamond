@@ -28,11 +28,11 @@ public class InvoiceController extends PaymentController<Invoice, NewInvoiceDto>
 
         Invoice invoice = new Invoice(paymentDto.getAmount(), 
                                       accountService.findAccountById(paymentDto.getAccountId()), 
-                                      customerService.findCustomerById(paymentDto.getCustomerId()), 
-                                      paymentDto.getCurrency(), 
+                                      customerService.findCustomerById(paymentDto.getCustomerId()),  
                                       paymentDto.getChain(), 
                                       accountWallets, 
-                                      paymentDto.getAccountComments());
+                                      paymentDto.getAccountComments(),
+                                      paymentDto.getCurrencies());
         return invoice;
     }
 

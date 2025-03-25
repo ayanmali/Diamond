@@ -21,7 +21,7 @@ public abstract class NewPaymentDto {
     @DecimalMax(value="10000.00", inclusive=true)
     private BigDecimal amount;
     private UUID accountId;
-    private StablecoinCurrency currency;
+    private List<StablecoinCurrency> currencies;
     private Blockchain chain;
     private List<UUID> accountWalletIds;
     private SimplePaymentCategory category;
@@ -38,11 +38,11 @@ public abstract class NewPaymentDto {
     public void setAccountId(UUID accountId) {
         this.accountId = accountId;
     }
-    public StablecoinCurrency getCurrency() {
-        return currency;
+    public List<StablecoinCurrency> getCurrencies() {
+        return currencies;
     }
-    public void setCurrency(StablecoinCurrency currency) {
-        this.currency = currency;
+    public void setCurrencies(List<StablecoinCurrency> currencies) {
+        this.currencies = currencies;
     }
     public Blockchain getChain() {
         return chain;

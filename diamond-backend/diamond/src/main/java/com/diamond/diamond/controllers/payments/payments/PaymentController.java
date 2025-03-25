@@ -89,8 +89,8 @@ public abstract class PaymentController<P extends Payment, N extends NewPaymentD
     }
 
     @PatchMapping("/id/{id}/update-currency")
-    public FetchPaymentDto updateCurrency(@PathVariable(value="id") UUID id, @RequestBody StablecoinCurrency currency) {
-        FetchPaymentDto paymentDto = paymentService.convertPaymentToFetchDto(paymentService.updateCurrency(id, currency));
+    public FetchPaymentDto updateCurrency(@PathVariable(value="id") UUID id, @RequestBody List<StablecoinCurrency> currencies) {
+        FetchPaymentDto paymentDto = paymentService.convertPaymentToFetchDto(paymentService.updateCurrency(id, currencies));
         paymentDto = loadAccountWallets(paymentDto);
         return paymentDto;
     }

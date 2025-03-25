@@ -55,9 +55,18 @@ import jakarta.persistence.ManyToOne;
     // @JoinColumn(name="customer_id", nullable=false)
     // private Customer customer;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable=false)
-    private StablecoinCurrency currency;
+    // @Enumerated(EnumType.STRING)
+    // @Column(nullable=false)
+    // private StablecoinCurrency currency;
+
+    @Column(name="accept_usdc", nullable=false)
+    private Boolean acceptUsdc = false;
+
+    @Column(name="accept_eurc", nullable=false)
+    private Boolean acceptEurc = false;
+
+    @Column(name="accept_usdt", nullable=false)
+    private Boolean acceptUsdt = false;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable=false)
@@ -109,20 +118,54 @@ import jakarta.persistence.ManyToOne;
     /*
      * Constructor method that uses a provided Map to route payments to multiple wallets
      */
-    public Payment(BigDecimal amount, Account account, StablecoinCurrency currency, Blockchain chain, List<AccountWallet> accountWallets/*, PaymentDistributor distributor*/) /*throws Exception*/ {
+    public Payment(BigDecimal amount, Account account, Blockchain chain, List<AccountWallet> accountWallets, List<StablecoinCurrency> acceptedCurrencies/*, PaymentDistributor distributor*/) /*throws Exception*/ {
         this.amount = amount;
         this.account = account;
-        this.currency = currency;
+        //this.currency = currency;
+
+        // Setting each of the accepted currency flags
+        for (StablecoinCurrency currency : acceptedCurrencies) {
+            switch (currency) {
+                case USDC:
+                    this.acceptUsdc = true;
+                    break;
+                case EURC:
+                    this.acceptEurc = true;
+                    break;
+                case USDT:
+                    this.acceptUsdt = true;
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+        }
         this.chain = chain;
         this.walletDistribution = accountWallets;
         // this.distributor = distributor;
         // this.distributor = new PaymentDistributor(account, mappings, "");
     }
 
-    public Payment(BigDecimal amount, Account account, StablecoinCurrency currency, Blockchain chain, AccountWallet accountWallet/*, PaymentDistributor distributor*/) /*throws Exception*/ {
+    public Payment(BigDecimal amount, Account account, Blockchain chain, AccountWallet accountWallet, List<StablecoinCurrency> acceptedCurrencies/*, PaymentDistributor distributor*/) /*throws Exception*/ {
         this.amount = amount;
         this.account = account;
-        this.currency = currency;
+        // Setting each of the accepted currency flags
+        for (StablecoinCurrency currency : acceptedCurrencies) {
+            switch (currency) {
+                case USDC:
+                    this.acceptUsdc = true;
+                    break;
+                case EURC:
+                    this.acceptEurc = true;
+                    break;
+                case USDT:
+                    this.acceptUsdt = true;
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+        }
+        //this.currency = currency;
+
         this.chain = chain;
         this.walletDistribution = new ArrayList<>(Arrays.asList(accountWallet));
         // this.distributor = distributor;
@@ -187,13 +230,13 @@ import jakarta.persistence.ManyToOne;
         return account;
     }
 
-    public StablecoinCurrency getStablecoinCurrency() {
-        return currency;
-    }
+    // public StablecoinCurrency getStablecoinCurrency() {
+    //     return currency;
+    // }
 
-    public void setCurrency(StablecoinCurrency currency) {
-        this.currency = currency;
-    }
+    // public void setCurrency(StablecoinCurrency currency) {
+    //     this.currency = currency;
+    // }
 
     // public PaymentDistributor getDistributor() {
     //     return distributor;
@@ -237,6 +280,60 @@ import jakarta.persistence.ManyToOne;
 
     public Date getUpdatedAt() {
         return updatedAt;
+    }
+
+    public Boolean getAcceptUsdc() {
+        return acceptUsdc;
+    }
+
+    public void setAcceptUsdc(Boolean acceptUsdc) {
+        this.acceptUsdc = acceptUsdc;
+    }
+
+    public Boolean getAcceptEurc() {
+        return acceptEurc;
+    }
+
+    public void setAcceptEurc(Boolean acceptEurc) {
+        this.acceptEurc = acceptEurc;
+    }
+
+    public Boolean getAcceptUsdt() {
+        return acceptUsdt;
+    }
+
+    public void setAcceptUsdt(Boolean acceptUsdt) {
+        this.acceptUsdt = acceptUsdt;
+    }
+
+    public List<StablecoinCurrency> getAcceptedCurrencies() {
+        List<StablecoinCurrency> currencies = List.of();
+        if (this.getAcceptUsdc()) {
+            currencies.add(StablecoinCurrency.USDC);
+        }
+        if (this.getAcceptEurc()) {
+            currencies.add(StablecoinCurrency.EURC);
+        }
+        if (this.getAcceptUsdt()) {
+            currencies.add(StablecoinCurrency.USDT);
+        }
+
+        return currencies;
+        
+    }
+
+    public void setAcceptedCurrencies(List<StablecoinCurrency> currencies) {
+        this.setAcceptUsdc(false);
+        this.setAcceptEurc(false);
+        this.setAcceptUsdt(false);
+        for (StablecoinCurrency currency : currencies) {
+            switch (currency) {
+                case USDC -> this.setAcceptUsdc(true);
+                case EURC -> this.setAcceptEurc(true);
+                case USDT -> this.setAcceptUsdt(true);
+                default -> throw new AssertionError();
+            }
+        }
     }
 
 }

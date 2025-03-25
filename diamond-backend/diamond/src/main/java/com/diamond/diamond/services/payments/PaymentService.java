@@ -100,9 +100,9 @@ public abstract class PaymentService<T extends Payment> {
         return paymentRepository.save(payment);
     }
 
-    public T updateCurrency(UUID id, StablecoinCurrency currency) {
+    public T updateCurrency(UUID id, List<StablecoinCurrency> currencies) {
         T payment = paymentRepository.findById(id).orElseThrow();
-        payment.setCurrency(currency);
+        payment.setAcceptedCurrencies(currencies);
         return paymentRepository.save(payment);
     }
 

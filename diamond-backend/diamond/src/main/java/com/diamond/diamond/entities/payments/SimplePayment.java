@@ -38,9 +38,10 @@ public class SimplePayment extends Payment {
 
     public SimplePayment() {}
    
-    public SimplePayment(BigDecimal amount, Account account, StablecoinCurrency currency, Blockchain chain, List<AccountWallet> accountWallets,
-                        Boolean hasMaxNumberOfPayments, Integer maxNumberOfPayments, Boolean enablePromoCodes, List<PromoCode> validPromoCodes, SimplePaymentCategory category) {
-        super(amount, account, currency, chain, accountWallets);
+    public SimplePayment(BigDecimal amount, Account account, Blockchain chain, List<AccountWallet> accountWallets,
+                        Boolean hasMaxNumberOfPayments, Integer maxNumberOfPayments, Boolean enablePromoCodes, List<PromoCode> validPromoCodes, SimplePaymentCategory category,
+                        List<StablecoinCurrency> acceptedCurrencies) {
+        super(amount, account, chain, accountWallets, acceptedCurrencies);
         
         this.hasMaxNumberOfPayments = hasMaxNumberOfPayments;
         this.maxNumberOfPayments = maxNumberOfPayments;

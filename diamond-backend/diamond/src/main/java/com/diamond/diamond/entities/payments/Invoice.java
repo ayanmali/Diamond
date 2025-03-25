@@ -4,9 +4,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import com.diamond.diamond.entities.Customer;
 import com.diamond.diamond.entities.Account;
 import com.diamond.diamond.entities.AccountWallet;
+import com.diamond.diamond.entities.Customer;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.StablecoinCurrency;
 
@@ -45,8 +45,8 @@ public class Invoice extends Payment {
 
     public Invoice() {}
 
-    public Invoice(BigDecimal amount, Account account, Customer customer, StablecoinCurrency currency, Blockchain chain, List<AccountWallet> accountWallets, String accountComments) {
-        super(amount, account, currency, chain, accountWallets);
+    public Invoice(BigDecimal amount, Account account, Customer customer, Blockchain chain, List<AccountWallet> accountWallets, String accountComments, List<StablecoinCurrency> acceptedCurrencies) {
+        super(amount, account, chain, accountWallets, acceptedCurrencies);
         this.customer = customer;
         this.timeSent = new Date();
         this.accountComments = accountComments;
