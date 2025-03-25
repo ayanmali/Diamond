@@ -18,7 +18,6 @@ import com.diamond.diamond.repositories.AccountRepository;
 
 @Service
 public class AccountService {
-
     private final AccountRepository accountRepository;
     // private final PasswordEncoder passwordEncoder;
     // private final AuthenticationManager authManager;
@@ -51,12 +50,12 @@ public class AccountService {
     }
 
     //@Transactional
-    public FetchAccountDto signUp(RegisterUserDto input, UUID walletSetId) {
+    public FetchAccountDto signUp(RegisterUserDto input) {
         Account user = new Account();
         user.setEmail(input.getEmail());
         user.setPassword(input.getPassword());
         user.setBusinessName(input.getBusinessName());
-        user.setWalletSetId(walletSetId);
+        //user.setWalletSetId(walletSetId);
 
         // saving the newly registered user to the Users repository
         return convertAccountToFetchDto(accountRepository.save(user));

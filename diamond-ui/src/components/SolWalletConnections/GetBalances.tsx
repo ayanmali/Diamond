@@ -14,8 +14,6 @@ export const FetchSolBalance: FC<{ endpoint: string }> = ({ endpoint }) => {
     const { publicKey } = useWallet();
     const [balance, setBalance] = useState<number | null>(null);
 
-    const connection = useMemo(() => new Connection(endpoint), [endpoint]);
-
     useEffect(() => {
         async function fetchBalance() {
             if (publicKey) {

@@ -53,8 +53,8 @@ public class Account {
     private Date updatedAt;
 
     // Metadata for Circle programmable wallets
-    @Column(name="wallet_set_id", unique=true, nullable=false)
-    private UUID walletSetId;
+    // @Column(name="wallet_set_id", unique=true, nullable=false)
+    // private UUID walletSetId;
 
     public Account() {this.wallets = new ArrayList<>();}
 
@@ -150,12 +150,12 @@ public class Account {
         this.customers = customers;
     }
 
-    public UUID getWalletSetId() {
-        return walletSetId;
-    }
+    // public UUID getWalletSetId() {
+    //     return walletSetId;
+    // }
 
-    public void setWalletSetId(UUID walletSetId) {
-        this.walletSetId = walletSetId;
-    }
+    // public void setWalletSetId(UUID walletSetId) {
+    //     this.walletSetId = walletSetId;
+    // }
 
 }

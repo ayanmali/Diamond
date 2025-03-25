@@ -12,6 +12,10 @@ public class FetchTokenBalanceDto {
     private Token token;
 
     public FetchTokenBalanceDto() {}
+    public FetchTokenBalanceDto(BigDecimal amount, Token token) {
+        this.amount = amount;
+        this.token = token;
+    }
 
     public BigDecimal getAmount() {
         return amount;

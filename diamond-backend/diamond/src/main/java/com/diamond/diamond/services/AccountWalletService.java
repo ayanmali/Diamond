@@ -40,13 +40,12 @@ public class AccountWalletService {
         return walletDto;
     }
 
-    public FetchAccountWalletDto saveWallet(NewAccountWalletDto walletDto, Account account, String address, UUID id) {
+    public FetchAccountWalletDto saveWallet(NewAccountWalletDto walletDto, Account account, String address) {
         AccountWallet accountWallet = new AccountWallet(
                                         address,
                                         walletDto.getWalletName(),
                                         account,
-                                        walletDto.getChain(),
-                                        id);
+                                        walletDto.getChain());
 
         return convertAccountWalletToFetchDto(accountWalletRepository.save(accountWallet));
     }

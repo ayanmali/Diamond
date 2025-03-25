@@ -2,7 +2,6 @@ package com.diamond.diamond.controllers;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,7 +18,6 @@ import com.diamond.diamond.dtos.account.FetchAccountDto;
 import com.diamond.diamond.dtos.account.RegisterUserDto;
 import com.diamond.diamond.dtos.wallets.FetchAccountWalletDto;
 import com.diamond.diamond.entities.Account;
-import com.diamond.diamond.grpc_client.CircleGrpcClient;
 import com.diamond.diamond.services.AccountService;
 import com.diamond.diamond.services.AccountWalletService;
 
@@ -32,13 +30,13 @@ public class AccountController {
     private final AccountService accountService;
     private final AccountWalletService accountWalletService;
     //private final CircleApiClient circleApiClient;
-    private final CircleGrpcClient circleGrpcClient;
+    //private final CircleGrpcClient circleGrpcClient;
 
-    public AccountController(AccountService accountService, AccountWalletService accountWalletService, /*CircleApiClient circleApiClient,*/ CircleGrpcClient circleGrpcClient) {
+    public AccountController(AccountService accountService, AccountWalletService accountWalletService /*,CircleApiClient circleApiClient, CircleGrpcClient circleGrpcClient*/) {
         this.accountService = accountService;
         this.accountWalletService = accountWalletService;
         //this.circleApiClient = circleApiClient;
-        this.circleGrpcClient = circleGrpcClient;
+        //this.circleGrpcClient = circleGrpcClient;
     }
 
     // helper method to add wallets to an account DTO object by fetching from the DB
@@ -53,13 +51,13 @@ public class AccountController {
 
     @PostMapping("/signup")
     public FetchAccountDto signup(@Valid @RequestBody RegisterUserDto registerUserDto) {
-        Optional<UUID> optionalWalletSetId = circleGrpcClient.createWalletSet("");
-        // todo: error handling
-        if (optionalWalletSetId.isEmpty()) {
-            return new FetchAccountDto();
-        }
-        UUID walletSetId = optionalWalletSetId.get();
-        FetchAccountDto accountDto = accountService.signUp(registerUserDto, walletSetId);
+        // Optional<UUID> optionalWalletSetId = circleGrpcClient.createWalletSet("");
+        // // todo: error handling
+        // if (optionalWalletSetId.isEmpty()) {
+        //     return new FetchAccountDto();
+        // }
+        // UUID walletSetId = optionalWalletSetId.get();
+        FetchAccountDto accountDto = accountService.signUp(registerUserDto);
         return accountDto;
     }
     
