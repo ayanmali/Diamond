@@ -37,18 +37,18 @@ services:
       postgres:
         condition: service_healthy
 
-  py-service:
-    build:
-      context: ./diamond_py
-      dockerfile: Dockerfile
-    ports:
-      - "50051:50051"
-    volumes:
-      - "./diamond_py:/py-service"
-    env_file:
-      - ./diamond_py/.env
-    depends_on:
-      - postgres
+  # py-service:
+  #   build:
+  #     context: ./diamond_py
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "50051:50051"
+  #   volumes:
+  #     - "./diamond_py:/py-service"
+  #   env_file:
+  #     - ./diamond_py/.env
+  #   depends_on:
+  #     - postgres
   
   # frontend:
   #   build:

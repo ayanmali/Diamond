@@ -7,6 +7,12 @@ postgres_data
 /go-msrvc
 .env
 */.env
+
 go.mod
 go.sum
 /diamond-go-service
+/diamond_py
+/diamond-ui
+py-reqs.sh
+start_app.sh
+copy_proto.sh
