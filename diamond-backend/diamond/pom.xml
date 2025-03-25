@@ -52,6 +52,12 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.36</version>
+		</dependency>
+
 		<!-- Data Validation -->
 		<dependency>
 			<groupId>org.hibernate.validator</groupId>
