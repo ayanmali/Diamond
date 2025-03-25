@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.diamond.diamond.types.Blockchain;
+import com.diamond.diamond.types.SimplePaymentCategory;
 import com.diamond.diamond.types.StablecoinCurrency;
 
 import jakarta.validation.constraints.DecimalMax;
@@ -23,6 +24,7 @@ public abstract class NewPaymentDto {
     private StablecoinCurrency currency;
     private Blockchain chain;
     private List<UUID> accountWalletIds;
+    private SimplePaymentCategory category;
 
     public BigDecimal getAmount() {
         return amount;
@@ -53,6 +55,14 @@ public abstract class NewPaymentDto {
     }
     public void setAccountWalletIds(List<UUID> accountWalletIds) {
         this.accountWalletIds = accountWalletIds;
+    }
+
+    public SimplePaymentCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(SimplePaymentCategory category) {
+        this.category = category;
     }
 
 }

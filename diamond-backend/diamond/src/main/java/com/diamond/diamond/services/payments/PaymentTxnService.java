@@ -24,14 +24,14 @@ import com.diamond.diamond.types.StablecoinCurrency;
  * Defining service methods for Checkout/Link Payment transactions
  */
 
-public class PaymentTxnService<T extends PaymentTxn> {
-    protected final PaymentTxnRepository<T> txnRepository;
+public class PaymentTxnService {
+    protected final PaymentTxnRepository txnRepository;
     
-    public PaymentTxnService(PaymentTxnRepository<T> txnRepository) {
+    public PaymentTxnService(PaymentTxnRepository txnRepository) {
         this.txnRepository = txnRepository;
     }
 
-    public FetchPaymentTxnDto convertTxnToFetchDto(T txn) {
+    public FetchPaymentTxnDto convertTxnToFetchDto(PaymentTxn txn) {
         FetchPaymentTxnDto txnDto = new FetchPaymentTxnDto();
         txnDto.setCustomerId(txn.getCustomer().getId());
         txnDto.setId(txn.getId());
@@ -61,7 +61,7 @@ public class PaymentTxnService<T extends PaymentTxn> {
     //     }
     // }
 
-    public FetchPaymentTxnDto savePaymentTxn(T txn) {
+    public FetchPaymentTxnDto savePaymentTxn(PaymentTxn txn) {
         return convertTxnToFetchDto(txnRepository.save(txn));
     }
 
@@ -88,7 +88,7 @@ public class PaymentTxnService<T extends PaymentTxn> {
             PageRequest.of(0, pageSize) : 
             Pageable.unpaged();
         
-        Page<T> paymentTxns = txnRepository.findTxnsWithFilters(
+        Page<PaymentTxn> paymentTxns = txnRepository.findTxnsWithFilters(
             id,
             paymentId,
             accountId,
@@ -111,7 +111,7 @@ public class PaymentTxnService<T extends PaymentTxn> {
     }
 
     public FetchPaymentTxnDto findTxnDtoById(UUID id) {
-        T txn = txnRepository.findById(id).orElseThrow();
+        PaymentTxn txn = txnRepository.findById(id).orElseThrow();
         return convertTxnToFetchDto(txn);
     }
 
@@ -138,13 +138,13 @@ public class PaymentTxnService<T extends PaymentTxn> {
     }
 
     public FetchPaymentTxnDto updateStatus(UUID id, PaymentStatus status) {
-        T txn = txnRepository.findById(id).orElseThrow();
+        PaymentTxn txn = txnRepository.findById(id).orElseThrow();
         txn.setStatus(status);
         return convertTxnToFetchDto(txnRepository.save(txn));
     }
 
     public FetchPaymentTxnDto updateCodesApplied(UUID id, List<PromoCode> codesApplied) {
-        T txn = txnRepository.findById(id).orElseThrow();
+        PaymentTxn txn = txnRepository.findById(id).orElseThrow();
         txn.setCodesApplied(codesApplied);
         return convertTxnToFetchDto(txnRepository.save(txn));
     }

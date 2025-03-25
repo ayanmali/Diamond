@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.diamond.diamond.dtos.payments.PromoCodeDto;
 import com.diamond.diamond.dtos.payments.txns.FetchPaymentTxnDto;
 import com.diamond.diamond.dtos.payments.txns.NewPaymentTxnDto;
-import com.diamond.diamond.entities.payments.Payment;
 import com.diamond.diamond.entities.payments.PaymentTxn;
+import com.diamond.diamond.entities.payments.PromoCode;
 import com.diamond.diamond.services.CustomerService;
-import com.diamond.diamond.services.payments.PaymentService;
 import com.diamond.diamond.services.payments.PaymentTxnService;
 import com.diamond.diamond.services.payments.PromoCodeService;
+import com.diamond.diamond.services.payments.SimplePaymentService;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.PaymentStatus;
 import com.diamond.diamond.types.StablecoinCurrency;
@@ -29,13 +29,21 @@ import com.diamond.diamond.types.StablecoinCurrency;
 import jakarta.validation.Valid;
 
 @RequestMapping("/txns")
-public abstract class PaymentTxnController<T extends PaymentTxn, P extends Payment> {
-    protected PaymentTxnService<T> txnService;
-    protected PaymentService<P> paymentService;
+public class PaymentTxnController {
+    protected PaymentTxnService txnService;
+    protected SimplePaymentService paymentService;
+    //protected PaymentService<P> paymentService;
     protected PromoCodeService promoCodeService;
     protected CustomerService customerService;
-    abstract T convertNewDtoToTxn(NewPaymentTxnDto txnDto); // helper method for converting to and from the PaymentTxn type and the NewPaymentTxn DTO
+    //abstract T convertNewDtoToTxn(NewPaymentTxnDto txnDto); // helper method for converting to and from the PaymentTxn type and the NewPaymentTxn DTO
     
+    public PaymentTxnController(PaymentTxnService txnService, SimplePaymentService paymentService, PromoCodeService promoCodeService, CustomerService customerService) {
+        this.txnService = txnService;
+        this.paymentService = paymentService;
+        this.promoCodeService = promoCodeService;
+        this.customerService = customerService;
+    }
+
     private FetchPaymentTxnDto loadPromoCodesApplied(FetchPaymentTxnDto txnDto) {
         List<PromoCodeDto> codesApplied = promoCodeService.findPromoCodesAppliedByPaymentTxn(txnService.findTxnById(txnDto.getId()));
         List<Long> promoCodeIds = new ArrayList<>();
@@ -46,8 +54,23 @@ public abstract class PaymentTxnController<T extends PaymentTxn, P extends Payme
         return txnDto;
     }
 
+    public PaymentTxn convertNewDtoToTxn(NewPaymentTxnDto txnDto) {
+        // TODO Auto-generated method stub
+        List<PromoCode> codesApplied = new ArrayList<>();
+        for (Long promoCodeId : txnDto.getCodesAppliedIds()) {
+            codesApplied.add(promoCodeService.findPromoCodeById(promoCodeId));
+        }
+
+        return new PaymentTxn(paymentService.findPaymentById(txnDto.getPaymentId()),
+                                                customerService.findCustomerById(txnDto.getCustomerId()),
+                                                txnDto.getRevenue(), 
+                                                codesApplied);
+        
+    }
+
     @PostMapping("/new")
     public FetchPaymentTxnDto newTxn(@Valid @RequestBody NewPaymentTxnDto txnDto) {
+        // TODO: email customer when transaction goes through
         return txnService.savePaymentTxn(convertNewDtoToTxn(txnDto));
     }
 

@@ -16,7 +16,7 @@ import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.StablecoinCurrency;
 
 @Repository
-public interface PaymentRepository<T extends Payment> extends JpaRepository<T, UUID>{
+public interface PaymentRepository<T extends Payment> extends JpaRepository<T, UUID> {
     @Query("SELECT p FROM #{#entityName} p WHERE " +
            "(:id IS NULL OR p.id = :id) AND " +
            "(:accountId IS NULL OR p.account.id = :accountId) AND " +

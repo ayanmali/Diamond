@@ -18,9 +18,9 @@ import com.diamond.diamond.types.PaymentStatus;
 import com.diamond.diamond.types.StablecoinCurrency;
 
 @Repository
-public interface PaymentTxnRepository<T extends PaymentTxn> extends JpaRepository<T, UUID> {
-    Optional<T> findByTxHash(String txHash);
-    @Query("SELECT t FROM #{#entityName} t WHERE " +
+public interface PaymentTxnRepository extends JpaRepository<PaymentTxn, UUID> {
+    Optional<PaymentTxn> findByTxHash(String txHash);
+    @Query("SELECT t FROM PaymentTxn t WHERE " +
            "(:id IS NULL OR t.id = :id) AND " +
            "(:paymentId IS NULL OR t.payment.id = :paymentId) AND " +
            "(:accountId IS NULL OR t.payment.account.id = :accountId) AND " +
@@ -32,7 +32,7 @@ public interface PaymentTxnRepository<T extends PaymentTxn> extends JpaRepositor
            "(:status IS NULL OR t.status = :status) AND " +
            "(:paidBefore IS NULL OR t.timePaid <= :paidBefore) AND " +
            "(:paidAfter IS NULL OR t.timePaid >= :paidAfter)")
-    Page<T> findTxnsWithFilters(
+    Page<PaymentTxn> findTxnsWithFilters(
         @Param("id") UUID id,
         @Param("paymentId") UUID paymentId,
         @Param("accountId") UUID accountId,

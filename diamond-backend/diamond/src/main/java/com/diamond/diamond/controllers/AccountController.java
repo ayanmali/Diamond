@@ -23,7 +23,6 @@ import com.diamond.diamond.services.AccountWalletService;
 
 import jakarta.validation.Valid;
 
-
 @RestController
 @RequestMapping("/accounts")
 public class AccountController {

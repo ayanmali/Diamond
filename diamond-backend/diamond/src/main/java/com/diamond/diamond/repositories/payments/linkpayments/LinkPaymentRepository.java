@@ -1,11 +1,11 @@
-package com.diamond.diamond.repositories.payments.linkpayments;
+// package com.diamond.diamond.repositories.payments.linkpayments;
 
-import org.springframework.stereotype.Repository;
+// import org.springframework.stereotype.Repository;
 
-import com.diamond.diamond.entities.payments.link_payments.LinkPayment;
-import com.diamond.diamond.repositories.payments.PaymentRepository;
+// import com.diamond.diamond.entities.payments.link_payments.LinkPayment;
+// import com.diamond.diamond.repositories.payments.PaymentRepository;
 
-@Repository
-public interface LinkPaymentRepository extends PaymentRepository<LinkPayment>{
+// @Repository
+// public interface LinkPaymentRepository extends PaymentRepository<LinkPayment>{
     
-}
+// }

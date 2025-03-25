@@ -29,6 +29,8 @@ public class SseService {
     public void emitEvents() {
         for (SseEmitter emitter : emitters) {
             try {
+                // TODO: send email to vendor after invoice is paid
+                // TODO: send notification to vendor dashboard on the frontend after a payment goes through/fails
                 emitter.send("Testing SSE");
             } catch (IOException e) {
                 emitter.complete();
