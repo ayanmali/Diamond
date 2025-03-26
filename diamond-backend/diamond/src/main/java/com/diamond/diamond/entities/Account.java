@@ -28,6 +28,9 @@ public class Account {
     @Column(nullable = false)
     private UUID id;
 
+    @Column(nullable=false)
+    private String name;
+
     @Column(nullable = false, name="business_name")
     private String businessName;
 
@@ -157,5 +160,13 @@ public class Account {
     // public void setWalletSetId(UUID walletSetId) {
     //     this.walletSetId = walletSetId;
     // }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
 }

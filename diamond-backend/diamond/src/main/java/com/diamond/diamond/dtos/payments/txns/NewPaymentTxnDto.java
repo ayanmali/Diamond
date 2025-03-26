@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
+import com.diamond.diamond.types.StablecoinCurrency;
+
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 
@@ -19,6 +21,7 @@ public class NewPaymentTxnDto {
     @Pattern(regexp="^(0x[A-Fa-f0-9]{64}|[1-9A-HJ-NP-Za-km-z]{88})$")
     private String signHash;
     private List<Long> codesAppliedIds;
+    private StablecoinCurrency currencyUsed;
 
     public NewPaymentTxnDto() {}
 
@@ -55,6 +58,14 @@ public class NewPaymentTxnDto {
 
     public void setSignHash(String signHash) {
         this.signHash = signHash;
+    }
+
+    public StablecoinCurrency getCurrencyUsed() {
+        return currencyUsed;
+    }
+
+    public void setCurrencyUsed(StablecoinCurrency currencyUsed) {
+        this.currencyUsed = currencyUsed;
     }
     
     

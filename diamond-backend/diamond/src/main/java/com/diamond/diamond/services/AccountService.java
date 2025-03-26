@@ -35,6 +35,7 @@ public class AccountService {
         FetchAccountDto accountDto = new FetchAccountDto();
         
         accountDto.setEmail(account.getEmail());
+        accountDto.setName(account.getName());
         accountDto.setBusinessName(account.getBusinessName());
         accountDto.setId(account.getId());
         accountDto.setCreatedAt(account.getCreatedAt());
@@ -53,7 +54,7 @@ public class AccountService {
     public FetchAccountDto signUp(RegisterUserDto input) {
         Account user = new Account();
         user.setEmail(input.getEmail());
-        user.setPassword(input.getPassword());
+        user.setName(input.getName());
         user.setBusinessName(input.getBusinessName());
         //user.setWalletSetId(walletSetId);
 

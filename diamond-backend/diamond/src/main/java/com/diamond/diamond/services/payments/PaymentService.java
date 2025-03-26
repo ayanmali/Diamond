@@ -43,7 +43,7 @@ public abstract class PaymentService<T extends Payment> {
         return paymentRepository.save(payment);
     }
 
-    public List<FetchPaymentDto> findPaymentDtosWithFilters(UUID id, UUID accountId, Blockchain chain, BigDecimal amountGreaterThan, BigDecimal amountLessThan, StablecoinCurrency currency, Date createdBefore, Date createdAfter, Integer pageSize) {
+    public List<FetchPaymentDto> findPaymentDtosWithFilters(UUID id, UUID accountId, Blockchain chain, BigDecimal amountGreaterThan, BigDecimal amountLessThan, Date createdBefore, Date createdAfter, Integer pageSize) {
         Pageable pageable = pageSize != null ? 
             PageRequest.of(0, pageSize) : 
             Pageable.unpaged();
@@ -54,7 +54,6 @@ public abstract class PaymentService<T extends Payment> {
                 chain,
                 amountGreaterThan,
                 amountLessThan,
-                currency,
                 createdBefore, 
                 createdAfter, 
                 pageable

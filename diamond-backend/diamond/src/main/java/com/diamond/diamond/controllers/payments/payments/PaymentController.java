@@ -66,11 +66,10 @@ public abstract class PaymentController<P extends Payment, N extends NewPaymentD
                                              @RequestBody(required=false) Blockchain chain,
                                              @RequestBody(required=false) BigDecimal amountGreaterThan,
                                              @RequestBody(required=false) BigDecimal amountLessThan,
-                                             @RequestBody(required=false) StablecoinCurrency currency,
                                              @RequestBody(required=false) Date createdBefore,
                                              @RequestBody(required=false) Date createdAfter,
                                              @RequestBody(required=false) Integer pageSize) {
-        return paymentService.findPaymentDtosWithFilters(id, accountId, chain, amountGreaterThan, amountLessThan, currency, createdBefore, createdAfter, pageSize);
+        return paymentService.findPaymentDtosWithFilters(id, accountId, chain, amountGreaterThan, amountLessThan, createdBefore, createdAfter, pageSize);
     }
 
     @GetMapping("/id/{id}")

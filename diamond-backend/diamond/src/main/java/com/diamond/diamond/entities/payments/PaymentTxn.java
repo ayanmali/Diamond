@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import com.diamond.diamond.entities.Customer;
 import com.diamond.diamond.types.PaymentStatus;
+import com.diamond.diamond.types.StablecoinCurrency;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -41,6 +42,10 @@ public class PaymentTxn {
 
     @Column(name="revenue")
     private BigDecimal revenue;
+
+    @Column(name="currency_used")
+    @Enumerated(EnumType.STRING)
+    private StablecoinCurrency currencyUsed;
 
     // TODO: allow customers to pay with a chain of their choice and store it in this field
     // @Column(name="chain")
@@ -159,6 +164,14 @@ public class PaymentTxn {
 
     public void setTimePaid(Date timePaid) {
         this.timePaid = timePaid;
+    }
+
+    public StablecoinCurrency getCurrencyUsed() {
+        return currencyUsed;
+    }
+
+    public void setCurrencyUsed(StablecoinCurrency currencyUsed) {
+        this.currencyUsed = currencyUsed;
     }
 
 }

@@ -8,6 +8,7 @@ import com.diamond.diamond.dtos.wallets.FetchAccountWalletDto;
 
 public class FetchAccountDto {
     private String email;
+    private String name;
     private UUID id;
     private String businessName;
     private Date createdAt;
@@ -60,6 +61,14 @@ public class FetchAccountDto {
 
     public void setWallets(List<FetchAccountWalletDto> wallets) {
         this.wallets = wallets;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     

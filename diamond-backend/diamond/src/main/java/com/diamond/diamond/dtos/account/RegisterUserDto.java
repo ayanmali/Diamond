@@ -9,8 +9,7 @@ public class RegisterUserDto {
 
     @Email
     private String email;
-    @Size(min=8, max=50)
-    private String password;
+    private String name;
     @Size(min=2, max=50)
     private String businessName;
     private UUID idempotencyKey;
@@ -19,8 +18,8 @@ public class RegisterUserDto {
         return this.email;
     }
 
-    public String getPassword() {
-        return this.password;
+    public String getName() {
+        return this.name;
     }
 
     public String getBusinessName() {
@@ -31,8 +30,8 @@ public class RegisterUserDto {
         this.email = newEmail;
     }
 
-    public void setPassword(String newPassword) {
-        this.password = newPassword;
+    public void setName(String newName) {
+        this.name = newName;
     }
 
     public void setBusinessName(String newName) {

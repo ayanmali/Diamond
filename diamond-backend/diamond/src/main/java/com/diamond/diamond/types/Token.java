@@ -3,7 +3,7 @@ package com.diamond.diamond.types;
 public class Token {
     //private String tokenName;
     // E.g. ERC20, Fungible, etc.
-    private StablecoinCurrency currency;
+    private StablecoinCurrency symbol;
     private String standard;
     private Blockchain chain;
     private Integer decimals;
@@ -11,8 +11,8 @@ public class Token {
     private String tokenAddress;
 
     public Token() {}
-    public Token(StablecoinCurrency currency, String standard, Blockchain chain, Integer decimals, String tokenAddress) {
-        this.currency = currency;
+    public Token(StablecoinCurrency symbol, String standard, Blockchain chain, Integer decimals, String tokenAddress) {
+        this.symbol = symbol;
         this.standard = standard;
         this.chain = chain;
         this.decimals = decimals;
@@ -50,11 +50,11 @@ public class Token {
     // public void setIsNative(Boolean isNative) {
     //     this.isNative = isNative;
     // }
-    public StablecoinCurrency getCurrency() {
-        return currency;
+    public StablecoinCurrency getSymbol() {
+        return symbol;
     }
-    public void setCurrency(StablecoinCurrency currency) {
-        this.currency = currency;
+    public void setSymbol(StablecoinCurrency symbol) {
+        this.symbol = symbol;
     }
     public String getTokenAddress() {
         return tokenAddress;

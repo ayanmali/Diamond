@@ -40,6 +40,8 @@ public class PaymentTxnService {
         txnDto.setSignHash(txn.getSignHash());
         txnDto.setStatus(txn.getStatus());
         txnDto.setTxHash(txn.getTxHash());
+        txnDto.setTimePaid(txn.getTimePaid());
+        txnDto.setCurrencyUsed(txn.getCurrencyUsed());
         
         if (txn.getCodesApplied() != null && Hibernate.isInitialized(txn.getCodesApplied())) {
             List<Long> codesAppliedIds = new ArrayList<>();

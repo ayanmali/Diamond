@@ -25,7 +25,7 @@ public interface PaymentTxnRepository extends JpaRepository<PaymentTxn, UUID> {
            "(:paymentId IS NULL OR t.payment.id = :paymentId) AND " +
            "(:accountId IS NULL OR t.payment.account.id = :accountId) AND " +
            "(:customerId IS NULL OR t.customer.id = :customerId) AND " +
-           "(:currency IS NULL OR t.payment.currency = :currency) AND " +
+           "(:currency IS NULL OR t.currencyUsed = :currency) AND " +
            "(:chain IS NULL OR t.payment.chain = :chain) AND " +
            "(:revenueGreaterThan IS NULL OR t.revenue >= :revenueGreaterThan) AND " +
            "(:revenueLessThan IS NULL OR t.revenue <= :revenueLessThan) AND " +

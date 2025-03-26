@@ -1,5 +1,12 @@
 package com.diamond.diamond.controllers;
 
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,15 +17,6 @@ import com.diamond.diamond.services.AccountService;
 import com.diamond.diamond.services.AccountWalletService;
 import com.diamond.diamond.services.PayoutService;
 import com.diamond.diamond.types.PayoutStatus;
-
-import org.springframework.web.bind.annotation.PostMapping;
-
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
-
-import org.springframework.web.bind.annotation.GetMapping;
 
 import jakarta.validation.Valid;
 
@@ -60,6 +58,6 @@ public class PayoutController {
         return payoutService.findPayoutDtosWithFilters(id, accountId, walletId, amountLessThan, amountGreaterThan, status, createdBefore, createdAfter, paidBefore, paidAfter, pageSize);
     }
 
-    // TODO: add webhooks
+    // TODO: add SSEs
     
 }

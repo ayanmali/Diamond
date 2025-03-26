@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 
 import com.diamond.diamond.entities.payments.Payment;
 import com.diamond.diamond.types.Blockchain;
-import com.diamond.diamond.types.StablecoinCurrency;
 
 @Repository
 public interface PaymentRepository<T extends Payment> extends JpaRepository<T, UUID> {
@@ -23,7 +22,6 @@ public interface PaymentRepository<T extends Payment> extends JpaRepository<T, U
            "(:chain IS NULL OR p.chain = :chain) AND " +
            "(:amountGreaterThan IS NULL OR p.amount >= :amountGreaterThan) AND " +
            "(:amountLessThan IS NULL OR p.amount <= :amountLessThan) AND " +
-           "(:currency IS NULL OR p.currency = :currency) AND " +
            "(:chain IS NULL OR p.chain = :chain) AND " +
            "(:createdBefore IS NULL OR p.createdAt <= :createdBefore) AND " +
            "(:createdAfter IS NULL OR p.createdAt >= :createdAfter)")
@@ -33,7 +31,6 @@ public interface PaymentRepository<T extends Payment> extends JpaRepository<T, U
         @Param("chain") Blockchain chain,
         @Param("amountGreaterThan") BigDecimal amountGreaterThan,
         @Param("amountLessThan") BigDecimal amountLessThan,
-        @Param("currency") StablecoinCurrency currency,
         @Param("createdBefore") Date createdBefore,
         @Param("createdAfter") Date createdAfter,
         Pageable pageable

@@ -1,6 +1,5 @@
 package com.diamond.diamond.entities;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -10,7 +9,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import com.diamond.diamond.entities.payments.Payment;
 import com.diamond.diamond.types.Blockchain;
-import com.diamond.diamond.types.StablecoinCurrency;
 import com.diamond.diamond.types.Wallet;
 import com.diamond.diamond.types.WalletStatus;
 
@@ -74,10 +72,6 @@ public class AccountWallet implements Wallet {
         this.chain = chain;
         this.createdAt = new Date();
         this.status = WalletStatus.ACTIVE;
-    }
-
-    public void cashOut(BigDecimal amount, StablecoinCurrency currency) {
-        // todo: add logic for cashing out stablecoins to a bank account
     }
 
     @Override

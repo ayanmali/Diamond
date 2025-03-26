@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.diamond.diamond.types.PaymentStatus;
+import com.diamond.diamond.types.StablecoinCurrency;
 
 /*
  * Defining the DTO for retrieved transactions
@@ -15,6 +16,7 @@ public class FetchPaymentTxnDto {
     private UUID paymentId;
     private UUID customerId;
     private BigDecimal revenue;
+    private StablecoinCurrency currencyUsed;
     private String signHash;
     private String txHash;
     private PaymentStatus status;
@@ -79,6 +81,14 @@ public class FetchPaymentTxnDto {
 
     public void setTimePaid(Date timePaid) {
         this.timePaid = timePaid;
+    }
+
+    public StablecoinCurrency getCurrencyUsed() {
+        return currencyUsed;
+    }
+
+    public void setCurrencyUsed(StablecoinCurrency currencyUsed) {
+        this.currencyUsed = currencyUsed;
     }
     
 
