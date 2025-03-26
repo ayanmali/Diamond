@@ -7,6 +7,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
+/*
+ * TODO: add Single sign on
+ * TODO: add 2FA
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
@@ -24,15 +28,15 @@ public class SecurityConfiguration {
 
         // Logout user
         .logout(logout -> logout
-        .logoutSuccessUrl("/")
+        .logoutSuccessUrl("/logout")
         .clearAuthentication(true)
         .deleteCookies("JSESSIONID"))
         
         // Exception handling -- redirect user to login page
         .exceptionHandling(exception -> exception
-            .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
+            .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/idk"))
         );
-
+        
         return http.build();
     }
 }

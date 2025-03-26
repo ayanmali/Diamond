@@ -1,24 +1,18 @@
-import { StrictMode, useState } from 'react'
+import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+// import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import './index.css'
+//import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './components/ui/card'
+//import { Button } from './components/ui/button'
+//import LoginCard from './components/login/Login'
+import { Hero } from './components/ui/animated-hero'
 //import App from './App.tsx'
-import { Button } from './components/ui/button.tsx'
-
-const App = () => {
-  const [flag, setFlag] = useState(false);
-
-  return (
-  <div className='min-h-screen flex flex-col items-center justify-center'>
-    <Button size={"lg"} onClick={() => setFlag(!flag)}>Click me</Button>
-    {flag && <span>Appear</span>}
-  </div>
-  )
-  
-}
+// import { Button } from './components/ui/button.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
-    {/* <MyComp/> */}
+    <div className='block'>
+      <Hero/>
+    </div>
   </StrictMode>,
 )
