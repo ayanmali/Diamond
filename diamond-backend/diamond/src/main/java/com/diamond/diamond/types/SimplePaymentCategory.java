@@ -1,7 +1,7 @@
 package com.diamond.diamond.types;
 
 public enum SimplePaymentCategory {
-    CHECKOUT, LINK;
+    CHECKOUT, LINK, FLEXIBLE;
 
     @Override
     public String toString() {

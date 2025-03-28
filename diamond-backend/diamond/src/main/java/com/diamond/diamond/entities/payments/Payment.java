@@ -43,7 +43,8 @@ import jakarta.validation.constraints.Positive;
     @Column(nullable=false)
     private UUID id;
 
-    @Column(nullable=false)
+    // null value denotes flexible payments (donations)
+    @Column
     @Positive
     private BigDecimal amount;
     //final AccountWallet businessWallet;
@@ -117,6 +118,33 @@ import jakarta.validation.constraints.Positive;
     // }
 
     public Payment() {}
+
+    /*
+     * Alternate constructor -- to be overridden by FlexiblePayment class (doesn't involve an amount value)
+     */
+    public Payment(Account account, Blockchain chain, List<AccountWallet> accountWallets, List<StablecoinCurrency> acceptedCurrencies) {
+        this.amount = null;
+        this.account = account;
+
+        // Setting each of the accepted currency flags
+        for (StablecoinCurrency currency : acceptedCurrencies) {
+            switch (currency) {
+                case USDC:
+                    this.acceptUsdc = true;
+                    break;
+                case EURC:
+                    this.acceptEurc = true;
+                    break;
+                case USDT:
+                    this.acceptUsdt = true;
+                    break;
+                default:
+                    throw new AssertionError();
+            }
+        }
+        this.chain = chain;
+        this.walletDistribution = accountWallets;
+    }
     /*
      * Constructor method that uses a provided Map to route payments to multiple wallets
      */

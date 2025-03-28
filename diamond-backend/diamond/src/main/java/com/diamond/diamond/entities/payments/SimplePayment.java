@@ -1,3 +1,6 @@
+/*
+ * Defines a customer-facing payment (payment links, checkout payments, etc)
+ */
 package com.diamond.diamond.entities.payments;
 
 import java.math.BigDecimal;
