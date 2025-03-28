@@ -14,46 +14,55 @@ import { HiOutlineLink } from "react-icons/hi2";
 import { LiaFileInvoiceSolid, LiaExchangeAltSolid } from "react-icons/lia";
 import { IoPersonOutline } from "react-icons/io5";
 import { MdOutlineShoppingCart } from "react-icons/md";
+//import { AiOutlineProduct } from "react-icons/ai";
 
  
 // Menu items.
-const items = [
+const dashboardItems = [
   {
     title: "Home",
-    url: "#",
+    url: "",
     icon: Home,
   },
   {
     title: "Wallets",
-    url: "#",
+    url: "/wallets",
     icon: WalletMinimal,
   },
   {
     title: "Transactions",
-    url: "#",
+    url: "/transactions",
     icon: LiaExchangeAltSolid,
   },
   {
     title: "Customers",
-    url: "#",
+    url: "/customers",
     icon: IoPersonOutline,
   },
+//   {
+//     title: "Product Catalogue",
+//     url: "/products",
+//     icon: AiOutlineProduct,
+//   },
+]
+
+const paymentItems = [
   {
     title: "Payment Links",
-    url: "#",
+    url: "/links",
     icon: HiOutlineLink,
   },
   {
     title: "Checkout Page Integrations",
-    url: "#",
+    url: "/checkouts",
     icon: MdOutlineShoppingCart,
   },
   {
     title: "Invoices",
-    url: "#",
+    url: "/invoices",
     icon: LiaFileInvoiceSolid,
   },
-]
+] 
  
 export function AppSidebar() {
   return (
@@ -63,7 +72,25 @@ export function AppSidebar() {
           <SidebarGroupLabel>Dashboard</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu className="md:pt-3">
-              {items.map((item) => (
+              {dashboardItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <a href={item.url}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Payments</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu className="md:pt-3">
+              {paymentItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <a href={item.url}>
