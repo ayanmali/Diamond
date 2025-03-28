@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.diamond.diamond.entities.Customer;
-import com.diamond.diamond.entities.CustomerWallet;
+import com.diamond.diamond.entities.user.Customer;
+import com.diamond.diamond.entities.user.CustomerWallet;
 
 
 @Repository

@@ -1,4 +1,4 @@
-package com.diamond.diamond.entities;
+package com.diamond.diamond.entities.user;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -20,6 +20,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name="payouts")
@@ -46,6 +47,7 @@ public class Payout {
 
     // amount in tokens being off-ramped
     @Column(name="amount")
+    @Positive
     private BigDecimal amount;
 
     // The stablecoin currency being converted into fiat currency
@@ -67,6 +69,7 @@ public class Payout {
 
     // indicates whether the payout was succeeded, failed, cancelled, pending, or fully reversed (undone)
     @Column(name="status")
+    @Enumerated
     private PayoutStatus status;
 
     public Payout() {}

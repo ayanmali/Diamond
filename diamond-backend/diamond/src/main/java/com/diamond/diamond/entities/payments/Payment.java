@@ -11,8 +11,8 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.diamond.diamond.entities.Account;
-import com.diamond.diamond.entities.AccountWallet;
+import com.diamond.diamond.entities.user.Account;
+import com.diamond.diamond.entities.user.AccountWallet;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.PaymentStatus;
 import com.diamond.diamond.types.StablecoinCurrency;
@@ -30,6 +30,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.Positive;
 
 /*
  * Used to define the generic attributes and methods across the structures (not records) of all types of payments.
@@ -43,6 +44,7 @@ import jakarta.persistence.ManyToOne;
     private UUID id;
 
     @Column(nullable=false)
+    @Positive
     private BigDecimal amount;
     //final AccountWallet businessWallet;
 

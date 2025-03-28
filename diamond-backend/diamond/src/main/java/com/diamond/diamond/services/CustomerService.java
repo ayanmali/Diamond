@@ -13,8 +13,8 @@ import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.customer.FetchCustomerDto;
 import com.diamond.diamond.dtos.customer.NewCustomerDto;
-import com.diamond.diamond.entities.Customer;
-import com.diamond.diamond.entities.Account;
+import com.diamond.diamond.entities.user.Account;
+import com.diamond.diamond.entities.user.Customer;
 import com.diamond.diamond.repositories.CustomerRepository;
 
 @Service

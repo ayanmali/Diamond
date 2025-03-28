@@ -9,8 +9,8 @@ import java.util.UUID;
 import org.hibernate.Hibernate;
 
 import com.diamond.diamond.dtos.wallets.FetchAccountWalletDto;
-import com.diamond.diamond.entities.AccountWallet;
 import com.diamond.diamond.entities.payments.Payment;
+import com.diamond.diamond.entities.user.AccountWallet;
 import com.diamond.diamond.services.AccountWalletService;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.StablecoinCurrency;

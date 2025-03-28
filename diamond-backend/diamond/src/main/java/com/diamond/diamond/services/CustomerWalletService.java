@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.wallets.FetchCustomerWalletDto;
 import com.diamond.diamond.dtos.wallets.NewCustomerWalletDto;
-import com.diamond.diamond.entities.Customer;
-import com.diamond.diamond.entities.CustomerWallet;
+import com.diamond.diamond.entities.user.Customer;
+import com.diamond.diamond.entities.user.CustomerWallet;
 import com.diamond.diamond.repositories.CustomerWalletRepository;
 
 @Service

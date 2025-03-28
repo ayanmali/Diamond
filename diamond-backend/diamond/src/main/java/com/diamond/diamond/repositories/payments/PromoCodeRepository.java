@@ -6,8 +6,8 @@ import java.util.Set;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import com.diamond.diamond.entities.catalogue.coupons.PromoCode;
 import com.diamond.diamond.entities.payments.PaymentTxn;
-import com.diamond.diamond.entities.payments.PromoCode;
 
 @Repository
 public interface PromoCodeRepository extends JpaRepository<PromoCode, Long> {

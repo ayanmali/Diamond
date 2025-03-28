@@ -1,4 +1,4 @@
-package com.diamond.diamond.entities;
+package com.diamond.diamond.entities.user;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,6 +19,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name="customers")
@@ -29,6 +30,7 @@ public class Customer {
     private UUID id;
 
     @Column(nullable=false)
+    @Size(min=1, max=50)
     private String name;
 
     @Column(nullable=false)

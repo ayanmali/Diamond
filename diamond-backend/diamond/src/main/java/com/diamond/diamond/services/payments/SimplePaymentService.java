@@ -8,7 +8,7 @@ import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.payments.fetch_payments.FetchSimplePaymentDto;
-import com.diamond.diamond.entities.payments.PromoCode;
+import com.diamond.diamond.entities.catalogue.coupons.PromoCode;
 import com.diamond.diamond.entities.payments.SimplePayment;
 import com.diamond.diamond.repositories.payments.SimplePaymentRepository;
 

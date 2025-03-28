@@ -3,18 +3,21 @@ package com.diamond.diamond.entities.payments;
 import java.math.BigDecimal;
 import java.util.List;
 
-import com.diamond.diamond.entities.Account;
-import com.diamond.diamond.entities.AccountWallet;
+import com.diamond.diamond.entities.catalogue.coupons.PromoCode;
+import com.diamond.diamond.entities.user.Account;
+import com.diamond.diamond.entities.user.AccountWallet;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.SimplePaymentCategory;
 import com.diamond.diamond.types.StablecoinCurrency;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name="simple_payments")
@@ -24,6 +27,7 @@ public class SimplePayment extends Payment {
     private Boolean hasMaxNumberOfPayments;
     
     @Column(name="max_num_of_payments")
+    @Positive
     private Integer maxNumberOfPayments;
 
     @Column(name="promo_codes_enabled", nullable=false)
@@ -33,7 +37,8 @@ public class SimplePayment extends Payment {
     @Enumerated(EnumType.STRING)
     private SimplePaymentCategory category;
 
-    @OneToMany(mappedBy="payment")
+    @OneToMany(cascade=CascadeType.ALL)
+    @Column(name="valid_promo_codes")
     private List<PromoCode> validPromoCodes;
 
     public SimplePayment() {}

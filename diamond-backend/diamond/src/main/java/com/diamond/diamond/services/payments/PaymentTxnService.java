@@ -13,8 +13,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.diamond.diamond.dtos.payments.txns.FetchPaymentTxnDto;
+import com.diamond.diamond.entities.catalogue.coupons.PromoCode;
 import com.diamond.diamond.entities.payments.PaymentTxn;
-import com.diamond.diamond.entities.payments.PromoCode;
 import com.diamond.diamond.repositories.payments.PaymentTxnRepository;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.PaymentStatus;

@@ -1,4 +1,4 @@
-package com.diamond.diamond.entities;
+package com.diamond.diamond.entities.user;
 
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.Wallet;
@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name="customer_wallets")
@@ -24,12 +25,13 @@ public class CustomerWallet implements Wallet {
     private Long id;
 
     @Column(unique=true, nullable=false, updatable=false)
+    @Pattern(regexp="^(0x[a-fA-F0-9]{40}|[1-9A-HJ-NP-Za-km-z]{32,44})$")
     private String address;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable=false, updatable=false)
     private Blockchain chain;
-
+    
     @ManyToOne
     @JoinColumn(name="customer_id", referencedColumnName="id")
     private Customer customer;

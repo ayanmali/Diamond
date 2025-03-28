@@ -5,7 +5,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import com.diamond.diamond.entities.Customer;
+import com.diamond.diamond.entities.catalogue.coupons.PromoCode;
+import com.diamond.diamond.entities.user.Customer;
 import com.diamond.diamond.types.PaymentStatus;
 import com.diamond.diamond.types.StablecoinCurrency;
 
@@ -20,11 +21,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Positive;
 
 /*
  * Used for SimplePayments (checkout and link payment) Transactions
  */
 @Entity
+@Table(name="txns")
 //@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class PaymentTxn {
     @Id
@@ -41,6 +47,7 @@ public class PaymentTxn {
     private Customer customer;
 
     @Column(name="revenue")
+    @Positive
     private BigDecimal revenue;
 
     @Column(name="currency_used")
@@ -56,18 +63,22 @@ public class PaymentTxn {
      * Hash for signing/approving the transaction in the user's wallet
      */
     @Column(name="sign_hash", unique=true)
+    @Pattern(regexp="^(0x[A-Fa-f0-9]{64}|[1-9A-HJ-NP-Za-km-z]{88})$")
     private String signHash;
 
     /*
      * Hash for the token transfer
      */
     @Column(name="tx_hash", unique=true)
+    @Pattern(regexp="^(0x[A-Fa-f0-9]{64}|[1-9A-HJ-NP-Za-km-z]{88})$")
     private String txHash;
 
     @Enumerated(EnumType.STRING)
+    @Column(name="status", nullable=false)
     private PaymentStatus status;
 
     @Column(name="time_paid")
+    @PastOrPresent
     private Date timePaid;
 
     @ManyToMany

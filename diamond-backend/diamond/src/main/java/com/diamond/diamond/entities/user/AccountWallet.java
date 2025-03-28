@@ -1,13 +1,11 @@
-package com.diamond.diamond.entities;
+package com.diamond.diamond.entities.user;
 
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.diamond.diamond.entities.payments.Payment;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.Wallet;
 import com.diamond.diamond.types.WalletStatus;
@@ -20,9 +18,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name="account_wallets")
@@ -33,12 +32,15 @@ public class AccountWallet implements Wallet {
     private UUID id;
 
     @Column(unique=true, nullable=false, updatable=false)
+    @Pattern(regexp="^(0x[a-fA-F0-9]{40}|[1-9A-HJ-NP-Za-km-z]{32,44})$")
     private String address;
 
     @Column(updatable=false, nullable=false)
+    @Enumerated(EnumType.STRING)
     private Blockchain chain;
 
     @Column(name="wallet_name")
+    @Size(min=1, max=50)
     private String walletName;
 
     @Enumerated(EnumType.STRING)
@@ -57,8 +59,8 @@ public class AccountWallet implements Wallet {
     @JoinColumn(name="account_id", referencedColumnName="id", nullable=false)
     private Account account;
 
-    @ManyToMany(mappedBy = "walletDistribution")
-    private List<Payment> payments;
+    // @ManyToMany(mappedBy = "walletDistribution", cascade=CascadeType.ALL)
+    // private List<Payment> payments;
 
     // @ManyToMany(mappedBy = "offrampWallet")
     // private List<Payout> payouts;
@@ -124,13 +126,13 @@ public class AccountWallet implements Wallet {
         this.status = status;
     }
 
-    public List<Payment> getPayments() {
-        return payments;
-    }
+    // public List<Payment> getPayments() {
+    //     return payments;
+    // }
 
-    public void setPayments(List<Payment> payments) {
-        this.payments = payments;
-    }
+    // public void setPayments(List<Payment> payments) {
+    //     this.payments = payments;
+    // }
 
     // public List<Payout> getPayouts() {
     //     return payouts;

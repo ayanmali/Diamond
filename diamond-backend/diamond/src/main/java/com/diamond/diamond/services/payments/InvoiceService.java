@@ -7,8 +7,8 @@ import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.payments.fetch_payments.FetchInvoiceDto;
-import com.diamond.diamond.entities.Customer;
 import com.diamond.diamond.entities.payments.Invoice;
+import com.diamond.diamond.entities.user.Customer;
 import com.diamond.diamond.repositories.payments.InvoiceRepository;
 
 @Service

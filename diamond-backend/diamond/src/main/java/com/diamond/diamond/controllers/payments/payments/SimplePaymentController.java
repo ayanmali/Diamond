@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.diamond.diamond.dtos.payments.new_payments.NewSimplePaymentDto;
-import com.diamond.diamond.entities.AccountWallet;
-import com.diamond.diamond.entities.payments.PromoCode;
+import com.diamond.diamond.entities.catalogue.coupons.PromoCode;
 import com.diamond.diamond.entities.payments.SimplePayment;
+import com.diamond.diamond.entities.user.AccountWallet;
 import com.diamond.diamond.services.AccountService;
 import com.diamond.diamond.services.AccountWalletService;
 import com.diamond.diamond.services.payments.PromoCodeService;

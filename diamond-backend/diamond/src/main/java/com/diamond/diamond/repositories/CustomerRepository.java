@@ -12,8 +12,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.diamond.diamond.entities.Customer;
-import com.diamond.diamond.entities.Account;
+import com.diamond.diamond.entities.user.Account;
+import com.diamond.diamond.entities.user.Customer;
 
 
 @Repository

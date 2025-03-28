@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.account.FetchAccountDto;
 import com.diamond.diamond.dtos.account.RegisterUserDto;
-import com.diamond.diamond.entities.Account;
+import com.diamond.diamond.entities.user.Account;
 import com.diamond.diamond.repositories.AccountRepository;
 
 @Service

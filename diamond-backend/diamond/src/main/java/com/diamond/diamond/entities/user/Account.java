@@ -1,4 +1,4 @@
-package com.diamond.diamond.entities;
+package com.diamond.diamond.entities.user;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "accounts")
@@ -28,21 +29,24 @@ public class Account {
     @Column(nullable = false)
     private UUID id;
 
+    // The name of the user
     @Column(nullable=false)
+    @Size(min=1, max=50)
     private String name;
 
+    // The name of the organization/business the user is apart of
     @Column(nullable = false, name="business_name")
+    @Size(min=1, max=50)
     private String businessName;
 
+    // The wallets belonging to this user
     @OneToMany(mappedBy="account", cascade=CascadeType.ALL)
     private List<AccountWallet> wallets;
 
+    // The email address belonging to this user
     @Column(unique = true, length = 100, nullable = false)
     @Email
     private String email;
-
-    @Column(nullable = false)
-    private String password;
 
     @OneToMany(mappedBy="account", cascade=CascadeType.ALL)
     private List<Customer> customers;
@@ -73,10 +77,6 @@ public class Account {
     //     return List.of();
     // }
 
-    public String getPassword() {
-        return password;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -99,10 +99,6 @@ public class Account {
 
     public void setEmail(String newEmail) {
         this.email = newEmail;
-    }
-
-    public void setPassword(String newPassword) {
-        this.password = newPassword;
     }
 
     public void setBusinessName(String newBusinessName) {

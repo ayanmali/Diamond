@@ -3,18 +3,21 @@ package com.diamond.diamond.entities.payments;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
-import com.diamond.diamond.entities.Account;
-import com.diamond.diamond.entities.AccountWallet;
-import com.diamond.diamond.entities.Customer;
+import com.diamond.diamond.entities.catalogue.coupons.Coupon;
+import com.diamond.diamond.entities.user.Account;
+import com.diamond.diamond.entities.user.AccountWallet;
+import com.diamond.diamond.entities.user.Customer;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.StablecoinCurrency;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.PastOrPresent;
 
 /*
  * This class defines the structure of as well as records of invoices
@@ -24,18 +27,24 @@ import jakarta.persistence.Table;
 @Table(name="invoices")
 public class Invoice extends Payment {
 
-    @ManyToOne
-    @JoinColumn(name="customer_id", referencedColumnName="id")
+    @Column(name="customer_id", table="customers")
     private Customer customer;
 
     @Column(name="time_sent")
+    @PastOrPresent
     private Date timeSent;
 
     @Column(name="time_paid")
+    @PastOrPresent
     private Date timePaid;
 
     @Column(name="location_paid")
     private String locationPaid;
+
+    // the coupons that are applied across this payment object
+    @ManyToMany(mappedBy="invoicesAppliedTo", cascade=CascadeType.ALL)
+    @Column(name="coupons_applied")
+    private Set<Coupon> couponsApplied;
 
     @Column(name="account_comments")
     private String accountComments;
@@ -96,6 +105,14 @@ public class Invoice extends Payment {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public Set<Coupon> getCouponsApplied() {
+        return couponsApplied;
+    }
+
+    public void setCouponsApplied(Set<Coupon> couponsApplied) {
+        this.couponsApplied = couponsApplied;
     }
 
 }

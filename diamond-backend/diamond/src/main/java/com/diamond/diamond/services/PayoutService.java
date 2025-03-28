@@ -13,9 +13,9 @@ import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.payouts.FetchPayoutDto;
 import com.diamond.diamond.dtos.payouts.NewPayoutDto;
-import com.diamond.diamond.entities.Account;
-import com.diamond.diamond.entities.AccountWallet;
-import com.diamond.diamond.entities.Payout;
+import com.diamond.diamond.entities.user.Account;
+import com.diamond.diamond.entities.user.AccountWallet;
+import com.diamond.diamond.entities.user.Payout;
 import com.diamond.diamond.repositories.PayoutRepository;
 import com.diamond.diamond.types.PayoutStatus;
 

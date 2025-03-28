@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.payments.PromoCodeDto;
+import com.diamond.diamond.entities.catalogue.coupons.PromoCode;
 import com.diamond.diamond.entities.payments.PaymentTxn;
-import com.diamond.diamond.entities.payments.PromoCode;
 import com.diamond.diamond.repositories.payments.PromoCodeRepository;
 
 @Service

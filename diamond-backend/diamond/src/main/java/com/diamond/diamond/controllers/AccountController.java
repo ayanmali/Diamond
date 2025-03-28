@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.diamond.diamond.dtos.account.FetchAccountDto;
 import com.diamond.diamond.dtos.account.RegisterUserDto;
 import com.diamond.diamond.dtos.wallets.FetchAccountWalletDto;
-import com.diamond.diamond.entities.Account;
+import com.diamond.diamond.entities.user.Account;
 import com.diamond.diamond.services.AccountService;
 import com.diamond.diamond.services.AccountWalletService;
 
