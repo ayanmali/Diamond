@@ -8,6 +8,7 @@ import LoginCard from './components/login/Login';
 import { ThemeProvider } from './components/theme-provider';
 import { LandingPage } from './components/lander/Lander';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Dashboard from './components/dashboard/Dashboard';
 
 //import App from './App.tsx'
 // import { Button } from './components/ui/button.tsx'
@@ -20,6 +21,7 @@ createRoot(document.getElementById('root')!).render(
           <Routes>
             <Route path="/" element={<LandingPage/>}/>
             <Route path="/login" element={<LoginCard/>}/>
+            <Route path="/dashboard" element={<Dashboard/>}/>
           </Routes>
         </BrowserRouter>
       </div>
