@@ -1,4 +1,4 @@
-package com.diamond.diamond.services;
+package com.diamond.diamond.services.payments;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -13,10 +13,10 @@ import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.payouts.FetchPayoutDto;
 import com.diamond.diamond.dtos.payouts.NewPayoutDto;
+import com.diamond.diamond.entities.payments.Payout;
 import com.diamond.diamond.entities.user.Account;
 import com.diamond.diamond.entities.user.AccountWallet;
-import com.diamond.diamond.entities.user.Payout;
-import com.diamond.diamond.repositories.PayoutRepository;
+import com.diamond.diamond.repositories.payments.PayoutRepository;
 import com.diamond.diamond.types.PayoutStatus;
 
 @Service

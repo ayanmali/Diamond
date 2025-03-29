@@ -1,5 +1,7 @@
 package com.diamond.diamond.entities.user;
 
+import java.util.UUID;
+
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.Wallet;
 
@@ -22,7 +24,7 @@ public class CustomerWallet implements Wallet {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
-    private Long id;
+    private UUID id;
 
     @Column(unique=true, nullable=false, updatable=false)
     @Pattern(regexp="^(0x[a-fA-F0-9]{40}|[1-9A-HJ-NP-Za-km-z]{32,44})$")
@@ -102,11 +104,11 @@ public class CustomerWallet implements Wallet {
         this.customer = customer;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 }

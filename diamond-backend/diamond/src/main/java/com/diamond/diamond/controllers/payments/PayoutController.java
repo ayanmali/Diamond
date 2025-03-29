@@ -1,4 +1,4 @@
-package com.diamond.diamond.controllers;
+package com.diamond.diamond.controllers.payments;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.diamond.diamond.dtos.payouts.FetchPayoutDto;
 import com.diamond.diamond.dtos.payouts.NewPayoutDto;
-import com.diamond.diamond.services.AccountService;
-import com.diamond.diamond.services.AccountWalletService;
-import com.diamond.diamond.services.PayoutService;
+import com.diamond.diamond.services.payments.PayoutService;
+import com.diamond.diamond.services.user.AccountService;
+import com.diamond.diamond.services.user.AccountWalletService;
 import com.diamond.diamond.types.PayoutStatus;
 
 import jakarta.validation.Valid;

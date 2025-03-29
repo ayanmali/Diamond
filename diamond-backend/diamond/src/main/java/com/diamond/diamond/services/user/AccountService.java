@@ -1,4 +1,4 @@
-package com.diamond.diamond.services;
+package com.diamond.diamond.services.user;
 
 import java.util.Date;
 import java.util.List;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import com.diamond.diamond.dtos.account.FetchAccountDto;
 import com.diamond.diamond.dtos.account.RegisterUserDto;
 import com.diamond.diamond.entities.user.Account;
-import com.diamond.diamond.repositories.AccountRepository;
+import com.diamond.diamond.repositories.user.AccountRepository;
 
 @Service
 public class AccountService {

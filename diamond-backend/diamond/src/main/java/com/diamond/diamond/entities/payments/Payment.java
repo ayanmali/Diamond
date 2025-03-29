@@ -42,9 +42,8 @@ import jakarta.validation.constraints.Positive;
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable=false)
     private UUID id;
-
-    // null value denotes flexible payments (donations)
-    @Column
+    
+    @Column(nullable=false)
     @Positive
     private BigDecimal amount;
     //final AccountWallet businessWallet;

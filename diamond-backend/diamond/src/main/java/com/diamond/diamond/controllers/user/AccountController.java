@@ -1,4 +1,4 @@
-package com.diamond.diamond.controllers;
+package com.diamond.diamond.controllers.user;
 
 import java.util.Date;
 import java.util.List;
@@ -18,8 +18,8 @@ import com.diamond.diamond.dtos.account.FetchAccountDto;
 import com.diamond.diamond.dtos.account.RegisterUserDto;
 import com.diamond.diamond.dtos.wallets.FetchAccountWalletDto;
 import com.diamond.diamond.entities.user.Account;
-import com.diamond.diamond.services.AccountService;
-import com.diamond.diamond.services.AccountWalletService;
+import com.diamond.diamond.services.user.AccountService;
+import com.diamond.diamond.services.user.AccountWalletService;
 
 import jakarta.validation.Valid;
 

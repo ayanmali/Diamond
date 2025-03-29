@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import com.diamond.diamond.entities.payments.PaymentTxn;
 import com.diamond.diamond.types.PaymentStatus;
 import com.diamond.diamond.types.StablecoinCurrency;
 
@@ -23,7 +24,26 @@ public class FetchPaymentTxnDto {
     private Date timePaid;
     private List<Long> promoCodesAppliedIds;
 
-    public FetchPaymentTxnDto() {}
+    public FetchPaymentTxnDto(PaymentTxn txn) {
+        this.customerId = txn.getCustomer().getId();
+        this.id = txn.getId();
+        this.paymentId = txn.getPayment().getId();
+        this.revenue = txn.getRevenue();
+        this.signHash = txn.getSignHash();
+        this.txHash = txn.getTxHash();
+        this.timePaid = txn.getTimePaid();
+        this.status = txn.getStatus();
+        this.currencyUsed = txn.getCurrencyUsed();
+
+        // if (txn.getCodesApplied() != null && Hibernate.isInitialized(txn.getCodesApplied())) {
+        //     List<Long> codesAppliedIds = new ArrayList<>();
+        //     for (PromoCode promoCode : txn.getCodesApplied()) {
+        //         codesAppliedIds.add(promoCode.getId());
+        //     }
+        //     txnDto.setPromoCodesAppliedIds(codesAppliedIds);
+        // }
+
+    }
     
     public UUID getId() {
         return id;

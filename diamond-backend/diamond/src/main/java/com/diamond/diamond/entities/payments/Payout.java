@@ -1,4 +1,4 @@
-package com.diamond.diamond.entities.user;
+package com.diamond.diamond.entities.payments;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -6,6 +6,8 @@ import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.diamond.diamond.entities.user.Account;
+import com.diamond.diamond.entities.user.AccountWallet;
 import com.diamond.diamond.types.FiatCurrency;
 import com.diamond.diamond.types.PayoutStatus;
 import com.diamond.diamond.types.StablecoinCurrency;

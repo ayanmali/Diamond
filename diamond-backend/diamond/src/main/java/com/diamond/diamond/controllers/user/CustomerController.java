@@ -1,4 +1,4 @@
-package com.diamond.diamond.controllers;
+package com.diamond.diamond.controllers.user;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,9 +19,9 @@ import com.diamond.diamond.dtos.customer.NewCustomerDto;
 import com.diamond.diamond.dtos.wallets.FetchCustomerWalletDto;
 import com.diamond.diamond.entities.user.Account;
 import com.diamond.diamond.entities.user.Customer;
-import com.diamond.diamond.services.AccountService;
-import com.diamond.diamond.services.CustomerService;
-import com.diamond.diamond.services.CustomerWalletService;
+import com.diamond.diamond.services.user.AccountService;
+import com.diamond.diamond.services.user.CustomerService;
+import com.diamond.diamond.services.user.CustomerWalletService;
 
 import jakarta.validation.Valid;
 

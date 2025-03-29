@@ -1,4 +1,4 @@
-package com.diamond.diamond.repositories;
+package com.diamond.diamond.repositories.payments;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.diamond.diamond.entities.user.Payout;
+import com.diamond.diamond.entities.payments.Payout;
 import com.diamond.diamond.types.PayoutStatus;
 
 @Repository

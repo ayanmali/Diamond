@@ -1,4 +1,4 @@
-package com.diamond.diamond.services;
+package com.diamond.diamond.services.user;
 
 import java.util.Date;
 import java.util.List;
@@ -15,7 +15,7 @@ import com.diamond.diamond.dtos.wallets.NewAccountWalletDto;
 import com.diamond.diamond.entities.payments.Payment;
 import com.diamond.diamond.entities.user.Account;
 import com.diamond.diamond.entities.user.AccountWallet;
-import com.diamond.diamond.repositories.AccountWalletRepository;
+import com.diamond.diamond.repositories.user.AccountWalletRepository;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.WalletStatus;
 

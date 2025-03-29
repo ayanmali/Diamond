@@ -1,19 +1,16 @@
 package com.diamond.diamond.services.payments;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.hibernate.Hibernate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.diamond.diamond.dtos.payments.txns.FetchPaymentTxnDto;
-import com.diamond.diamond.entities.catalogue.coupons.PromoCode;
 import com.diamond.diamond.entities.payments.PaymentTxn;
 import com.diamond.diamond.repositories.payments.PaymentTxnRepository;
 import com.diamond.diamond.types.Blockchain;
@@ -31,28 +28,28 @@ public class PaymentTxnService {
         this.txnRepository = txnRepository;
     }
 
-    public FetchPaymentTxnDto convertTxnToFetchDto(PaymentTxn txn) {
-        FetchPaymentTxnDto txnDto = new FetchPaymentTxnDto();
-        txnDto.setCustomerId(txn.getCustomer().getId());
-        txnDto.setId(txn.getId());
-        txnDto.setPaymentId(txn.getPayment().getId());
-        txnDto.setRevenue(txn.getRevenue());
-        txnDto.setSignHash(txn.getSignHash());
-        txnDto.setStatus(txn.getStatus());
-        txnDto.setTxHash(txn.getTxHash());
-        txnDto.setTimePaid(txn.getTimePaid());
-        txnDto.setCurrencyUsed(txn.getCurrencyUsed());
+    // public FetchPaymentTxnDto convertTxnToFetchDto(PaymentTxn txn) {
+    //     FetchPaymentTxnDto txnDto = new FetchPaymentTxnDto();
+    //     txnDto.setCustomerId(txn.getCustomer().getId());
+    //     txnDto.setId(txn.getId());
+    //     txnDto.setPaymentId(txn.getPayment().getId());
+    //     txnDto.setRevenue(txn.getRevenue());
+    //     txnDto.setSignHash(txn.getSignHash());
+    //     txnDto.setStatus(txn.getStatus());
+    //     txnDto.setTxHash(txn.getTxHash());
+    //     txnDto.setTimePaid(txn.getTimePaid());
+    //     txnDto.setCurrencyUsed(txn.getCurrencyUsed());
         
-        if (txn.getCodesApplied() != null && Hibernate.isInitialized(txn.getCodesApplied())) {
-            List<Long> codesAppliedIds = new ArrayList<>();
-            for (PromoCode promoCode : txn.getCodesApplied()) {
-                codesAppliedIds.add(promoCode.getId());
-            }
-            txnDto.setPromoCodesAppliedIds(codesAppliedIds);
-        }
+    //     if (txn.getCodesApplied() != null && Hibernate.isInitialized(txn.getCodesApplied())) {
+    //         List<Long> codesAppliedIds = new ArrayList<>();
+    //         for (PromoCode promoCode : txn.getCodesApplied()) {
+    //             codesAppliedIds.add(promoCode.getId());
+    //         }
+    //         txnDto.setPromoCodesAppliedIds(codesAppliedIds);
+    //     }
 
-        return txnDto;
-    }
+    //     return txnDto;
+    // }
 
     // public static <T extends PaymentTransaction> T createInstance(Class<T> clazz, Payment payment, Customer customer, BigDecimal revenue) {
     //     try {
@@ -64,7 +61,7 @@ public class PaymentTxnService {
     // }
 
     public FetchPaymentTxnDto savePaymentTxn(PaymentTxn txn) {
-        return convertTxnToFetchDto(txnRepository.save(txn));
+        return new FetchPaymentTxnDto(txnRepository.save(txn));
     }
 
     // public T newPayment(NewPaymentTxnDto txnDto, Payment payment, Customer customer) {
@@ -107,14 +104,13 @@ public class PaymentTxnService {
 
         return paymentTxns.getContent()
             .stream()
-            .map(this::convertTxnToFetchDto)
+            .map(FetchPaymentTxnDto::new)
             .collect(Collectors.toList());
 
     }
 
     public FetchPaymentTxnDto findTxnDtoById(UUID id) {
-        PaymentTxn txn = txnRepository.findById(id).orElseThrow();
-        return convertTxnToFetchDto(txn);
+        return new FetchPaymentTxnDto(txnRepository.findById(id).orElseThrow());
     }
 
     public PaymentTxn findTxnById(UUID id) {
@@ -132,24 +128,24 @@ public class PaymentTxnService {
     }
 
     public FetchPaymentTxnDto findTxnDtoByTxHash(String txHash) {
-        return convertTxnToFetchDto(txnRepository.findByTxHash(txHash).orElseThrow());
+        return new FetchPaymentTxnDto(txnRepository.findByTxHash(txHash).orElseThrow());
     }
 
     public PaymentTxn findTxnByTxHash(String txHash) {
         return txnRepository.findByTxHash(txHash).orElseThrow();
     }
 
-    public FetchPaymentTxnDto updateStatus(UUID id, PaymentStatus status) {
+    public PaymentTxn updateStatus(UUID id, PaymentStatus status) {
         PaymentTxn txn = txnRepository.findById(id).orElseThrow();
         txn.setStatus(status);
-        return convertTxnToFetchDto(txnRepository.save(txn));
+        return txnRepository.save(txn);
     }
 
-    public FetchPaymentTxnDto updateCodesApplied(UUID id, List<PromoCode> codesApplied) {
-        PaymentTxn txn = txnRepository.findById(id).orElseThrow();
-        txn.setCodesApplied(codesApplied);
-        return convertTxnToFetchDto(txnRepository.save(txn));
-    }
+    // public PaymentTxn updateCodesApplied(UUID id, List<PromoCode> codesApplied) {
+    //     PaymentTxn txn = txnRepository.findById(id).orElseThrow();
+    //     txn.setCodesApplied(codesApplied);
+    //     return txnRepository.save(txn);
+    // }
 
     public void deleteTxnById(UUID id) {
         txnRepository.deleteById(id);

@@ -1,4 +1,4 @@
-package com.diamond.diamond.services;
+package com.diamond.diamond.services.user;
 
 import java.util.Date;
 import java.util.List;
@@ -15,7 +15,7 @@ import com.diamond.diamond.dtos.customer.FetchCustomerDto;
 import com.diamond.diamond.dtos.customer.NewCustomerDto;
 import com.diamond.diamond.entities.user.Account;
 import com.diamond.diamond.entities.user.Customer;
-import com.diamond.diamond.repositories.CustomerRepository;
+import com.diamond.diamond.repositories.user.CustomerRepository;
 
 @Service
 public class CustomerService {

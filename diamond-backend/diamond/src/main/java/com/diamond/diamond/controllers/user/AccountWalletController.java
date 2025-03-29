@@ -1,4 +1,4 @@
-package com.diamond.diamond.controllers;
+package com.diamond.diamond.controllers.user;
 
 import java.util.Date;
 import java.util.List;
@@ -16,8 +16,8 @@ import com.diamond.diamond.dtos.wallets.FetchAccountWalletDto;
 import com.diamond.diamond.dtos.wallets.FetchTokenBalanceDto;
 import com.diamond.diamond.dtos.wallets.NewAccountWalletDto;
 import com.diamond.diamond.entities.user.Account;
-import com.diamond.diamond.services.AccountService;
-import com.diamond.diamond.services.AccountWalletService;
+import com.diamond.diamond.services.user.AccountService;
+import com.diamond.diamond.services.user.AccountWalletService;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.Token;
 import static com.diamond.diamond.types.Tokens.STABLECOIN_TOKENS;

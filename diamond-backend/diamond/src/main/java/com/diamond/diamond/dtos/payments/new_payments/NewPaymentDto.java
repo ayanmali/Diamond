@@ -8,12 +8,14 @@ import java.util.List;
 import java.util.UUID;
 
 import com.diamond.diamond.types.Blockchain;
-import com.diamond.diamond.types.SimplePaymentCategory;
 import com.diamond.diamond.types.StablecoinCurrency;
 
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 
+/*
+ * Abstract class that represents a user's request to define any kind of Payment
+ */
 public abstract class NewPaymentDto {
 
     //private UUID id;
@@ -24,7 +26,14 @@ public abstract class NewPaymentDto {
     private List<StablecoinCurrency> currencies;
     private Blockchain chain;
     private List<UUID> accountWalletIds;
-    private SimplePaymentCategory category;
+
+    public NewPaymentDto(BigDecimal amount, UUID accountId, List<StablecoinCurrency> currencies, Blockchain chain, List<UUID> accountWalletIds) {
+        this.amount = amount;
+        this.accountId = accountId;
+        this.currencies = currencies;
+        this.chain = chain;
+        this.accountWalletIds = accountWalletIds;
+    }
 
     public BigDecimal getAmount() {
         return amount;
@@ -55,14 +64,6 @@ public abstract class NewPaymentDto {
     }
     public void setAccountWalletIds(List<UUID> accountWalletIds) {
         this.accountWalletIds = accountWalletIds;
-    }
-
-    public SimplePaymentCategory getCategory() {
-        return category;
-    }
-
-    public void setCategory(SimplePaymentCategory category) {
-        this.category = category;
     }
 
 }

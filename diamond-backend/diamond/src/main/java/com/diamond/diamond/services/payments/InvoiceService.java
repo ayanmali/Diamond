@@ -3,7 +3,6 @@ package com.diamond.diamond.services.payments;
 import java.util.Date;
 import java.util.UUID;
 
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.payments.fetch_payments.FetchInvoiceDto;
@@ -20,23 +19,16 @@ public class InvoiceService extends PaymentService<Invoice> {
 
     @Override
     public FetchInvoiceDto convertPaymentToFetchDto(Invoice invoice) {
-        //Invoice invoice = (Invoice) payment;
-        // TODO Auto-generated method stub
         FetchInvoiceDto invoiceDto =  new FetchInvoiceDto(invoice);
-        // invoiceDto.setAmount(checkoutPayment.getAmount());
-        // invoiceDto.setChain(checkoutPayment.getChain());
-        // invoiceDto.setCreatedAt(checkoutPayment.getCreatedAt());
-        // invoiceDto.setCurrency(checkoutPayment.getStablecoinCurrency());
-        // invoiceDto.setId(checkoutPayment.getId());
 
-        invoiceDto.setTimePaid(invoice.getTimePaid());
-        invoiceDto.setTimeSent(invoice.getTimeSent());
-        invoiceDto.setUpdatedAt(invoice.getUpdatedAt());
-        invoiceDto.setAccountComments(invoice.getAccountComments());
+        // invoiceDto.setTimePaid(invoice.getTimePaid());
+        // invoiceDto.setTimeSent(invoice.getTimeSent());
+        // invoiceDto.setUpdatedAt(invoice.getUpdatedAt());
+        // invoiceDto.setAccountComments(invoice.getAccountComments());
 
-        if (invoice.getAccount() != null && Hibernate.isInitialized(invoice.getAccount())) {
-            invoiceDto.setAccountId(invoice.getAccount().getId());
-        }
+        // if (invoice.getAccount() != null && Hibernate.isInitialized(invoice.getAccount())) {
+        //     invoiceDto.setAccountId(invoice.getAccount().getId());
+        // }
 
         return invoiceDto;
     }

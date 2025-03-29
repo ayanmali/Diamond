@@ -2,10 +2,8 @@ package com.diamond.diamond.entities.payments;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
-import com.diamond.diamond.entities.catalogue.coupons.PromoCode;
 import com.diamond.diamond.entities.user.Customer;
 import com.diamond.diamond.types.PaymentStatus;
 import com.diamond.diamond.types.StablecoinCurrency;
@@ -18,8 +16,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.PastOrPresent;
@@ -81,21 +77,21 @@ public class PaymentTxn {
     @PastOrPresent
     private Date timePaid;
 
-    @ManyToMany
-    @JoinTable(
-        name = "payment_txn_promo_codes", // Optional: Custom name for the join table
-        joinColumns = @JoinColumn(name = "payment_txn_id"),
-        inverseJoinColumns = @JoinColumn(name = "promo_code_id")
-    )
-    private List<PromoCode> codesApplied;
+    // @ManyToMany
+    // @JoinTable(
+    //     name = "payment_txn_promo_codes", // Optional: Custom name for the join table
+    //     joinColumns = @JoinColumn(name = "payment_txn_id"),
+    //     inverseJoinColumns = @JoinColumn(name = "promo_code_id")
+    // )
+    // private List<PromoCode> codesApplied;
 
     public PaymentTxn() {}
 
-    public PaymentTxn(SimplePayment payment, Customer customer, BigDecimal revenue, List<PromoCode> codesApplied) {
+    public PaymentTxn(SimplePayment payment, Customer customer, BigDecimal revenue/*, List<PromoCode> codesApplied*/) {
         this.payment = payment;
         this.customer = customer;
         this.revenue = revenue;
-        this.codesApplied = codesApplied;
+        // this.codesApplied = codesApplied;
         this.status = PaymentStatus.PROCESSING;
     }
 
@@ -138,12 +134,12 @@ public class PaymentTxn {
     public void setStatus(PaymentStatus status) {
         this.status = status;
     }
-    public List<PromoCode> getCodesApplied() {
-        return codesApplied;
-    }
-    public void setCodesApplied(List<PromoCode> codesApplied) {
-        this.codesApplied = codesApplied;
-    }
+    // public List<PromoCode> getCodesApplied() {
+    //     return codesApplied;
+    // }
+    // public void setCodesApplied(List<PromoCode> codesApplied) {
+    //     this.codesApplied = codesApplied;
+    // }
 
     public UUID getId() {
         return id;

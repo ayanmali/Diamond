@@ -1,6 +1,7 @@
-package com.diamond.diamond.services;
+package com.diamond.diamond.services.user;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -9,7 +10,7 @@ import com.diamond.diamond.dtos.wallets.FetchCustomerWalletDto;
 import com.diamond.diamond.dtos.wallets.NewCustomerWalletDto;
 import com.diamond.diamond.entities.user.Customer;
 import com.diamond.diamond.entities.user.CustomerWallet;
-import com.diamond.diamond.repositories.CustomerWalletRepository;
+import com.diamond.diamond.repositories.user.CustomerWalletRepository;
 
 @Service
 public class CustomerWalletService {
@@ -35,11 +36,11 @@ public class CustomerWalletService {
         return convertCustomerWalletToFetchDto(customerWalletRepository.save(wallet));
     }
 
-    public FetchCustomerWalletDto findWalletDtoById(Long id) {
+    public FetchCustomerWalletDto findWalletDtoById(UUID id) {
         return convertCustomerWalletToFetchDto(customerWalletRepository.findById(id).orElseThrow());
     }
 
-    public CustomerWallet findWalletById(Long id) {
+    public CustomerWallet findWalletById(UUID id) {
         return customerWalletRepository.findById(id).orElseThrow();
     }
 
@@ -61,7 +62,7 @@ public class CustomerWalletService {
         .collect(Collectors.toList());
     }
 
-    public void deleteWalletById(Long id) {
+    public void deleteWalletById(UUID id) {
         customerWalletRepository.deleteById(id);
     }
 

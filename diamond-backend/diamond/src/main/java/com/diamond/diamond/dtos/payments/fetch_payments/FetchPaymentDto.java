@@ -11,7 +11,7 @@ import org.hibernate.Hibernate;
 import com.diamond.diamond.dtos.wallets.FetchAccountWalletDto;
 import com.diamond.diamond.entities.payments.Payment;
 import com.diamond.diamond.entities.user.AccountWallet;
-import com.diamond.diamond.services.AccountWalletService;
+import com.diamond.diamond.services.user.AccountWalletService;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.StablecoinCurrency;
 
@@ -25,14 +25,26 @@ public class FetchPaymentDto {
     private Date createdAt;
     private Date updatedAt;
 
-    public FetchPaymentDto() {}
-
+    public FetchPaymentDto(UUID id, BigDecimal amount, UUID accountId, List<StablecoinCurrency> currencies, Blockchain chain, List<FetchAccountWalletDto> walletDistribution, Date createdAt, Date updatedAt) {
+        this.id = id;
+        this.amount = amount;
+        this.accountId = accountId;
+        this.currencies = currencies;
+        this.chain = chain;
+        this.walletDistribution = walletDistribution;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+    
     public FetchPaymentDto(Payment payment) {
         this.id = payment.getId();
         this.amount = payment.getAmount();
-        this.accountId = payment.getAccount().getId();
         this.currencies = payment.getAcceptedCurrencies();
         this.chain = payment.getChain();
+
+        if (payment.getAccount() != null && Hibernate.isInitialized(payment.getAccount())) {
+            this.accountId = payment.getAccount().getId();
+        }
 
         if (payment.getWalletDistribution() != null && Hibernate.isInitialized(payment.getWalletDistribution())) {
             List<FetchAccountWalletDto> walletDtos = new ArrayList<>();

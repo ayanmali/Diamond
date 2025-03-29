@@ -3,6 +3,7 @@
  */
 package com.diamond.diamond.entities.payments;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.diamond.diamond.entities.user.Account;
@@ -18,8 +19,8 @@ import jakarta.persistence.Table;
 @Table(name="flexible_payments")
 // Inherits from the Simple Payment class. Does not include an explicit 'amount' value.
 public class FlexiblePayment extends SimplePayment {
-    public FlexiblePayment(Account account, List<StablecoinCurrency> acceptedCurrencies, Blockchain chain, List<AccountWallet> accountWallets, Boolean hasMaxNumberOfPayments, Integer maxNumberOfPayments) {
-        super(null, account, chain, accountWallets, hasMaxNumberOfPayments, maxNumberOfPayments, false, null, SimplePaymentCategory.FLEXIBLE, acceptedCurrencies);
+    public FlexiblePayment(BigDecimal minAmount, Account account, List<StablecoinCurrency> acceptedCurrencies, Blockchain chain, List<AccountWallet> accountWallets, Boolean hasMaxNumberOfPayments, Integer maxNumberOfPayments) {
+        super(minAmount, account, chain, accountWallets, hasMaxNumberOfPayments, maxNumberOfPayments, /*false, null, */SimplePaymentCategory.FLEXIBLE, acceptedCurrencies);
     }
 
 }

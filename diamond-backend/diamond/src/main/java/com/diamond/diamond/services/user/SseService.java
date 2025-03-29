@@ -1,4 +1,4 @@
-package com.diamond.diamond.services;
+package com.diamond.diamond.services.user;
 
 import java.io.IOException;
 import java.util.List;

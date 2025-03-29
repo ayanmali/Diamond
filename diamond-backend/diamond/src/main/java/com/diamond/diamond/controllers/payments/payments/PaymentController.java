@@ -20,9 +20,9 @@ import com.diamond.diamond.dtos.payments.new_payments.NewPaymentDto;
 import com.diamond.diamond.dtos.wallets.FetchAccountWalletDto;
 import com.diamond.diamond.entities.payments.Payment;
 import com.diamond.diamond.entities.user.AccountWallet;
-import com.diamond.diamond.services.AccountService;
-import com.diamond.diamond.services.AccountWalletService;
 import com.diamond.diamond.services.payments.PaymentService;
+import com.diamond.diamond.services.user.AccountService;
+import com.diamond.diamond.services.user.AccountWalletService;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.StablecoinCurrency;
 

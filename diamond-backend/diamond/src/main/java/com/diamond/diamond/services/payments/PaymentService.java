@@ -61,7 +61,7 @@ public abstract class PaymentService<T extends Payment> {
 
         return payments.getContent()
             .stream()
-            .map(this::convertPaymentToFetchDto)
+            .map(FetchPaymentDto::new)
             .collect(Collectors.toList());
     }
 
@@ -70,7 +70,7 @@ public abstract class PaymentService<T extends Payment> {
     }
 
     public FetchPaymentDto findPaymentDtoById(UUID id) {
-        return convertPaymentToFetchDto(paymentRepository.findById(id).orElseThrow());
+        return new FetchPaymentDto(paymentRepository.findById(id).orElseThrow());
     }
 
     public T findPaymentById(String id) {
@@ -80,7 +80,7 @@ public abstract class PaymentService<T extends Payment> {
 
     public FetchPaymentDto findPaymentDtoById(String id) {
         UUID uuidId = UUID.fromString(id);
-        return convertPaymentToFetchDto(this.findPaymentById(uuidId));
+        return new FetchPaymentDto(this.findPaymentById(uuidId));
     }
 
     // find all valid promo codes for a given payment

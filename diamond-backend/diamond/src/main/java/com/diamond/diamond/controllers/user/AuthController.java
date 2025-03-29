@@ -1,3 +1,4 @@
+package com.diamond.diamond.controllers.user;
 // /*
 //  * Defining API endpoints for user authentication
 //  */

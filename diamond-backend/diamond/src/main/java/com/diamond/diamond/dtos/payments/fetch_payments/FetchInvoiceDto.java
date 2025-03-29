@@ -3,6 +3,7 @@ package com.diamond.diamond.dtos.payments.fetch_payments;
 import java.util.Date;
 import java.util.UUID;
 
+import com.diamond.diamond.entities.payments.Invoice;
 import com.diamond.diamond.entities.payments.Payment;
 
 public class FetchInvoiceDto extends FetchPaymentDto {
@@ -12,9 +13,23 @@ public class FetchInvoiceDto extends FetchPaymentDto {
     private String accountComments;
     private String customerComments;
 
-    public FetchInvoiceDto() {}
-    public FetchInvoiceDto(Payment payment) {
+    //public FetchInvoiceDto() {}
+    public FetchInvoiceDto(Invoice invoice) {
+        super(invoice);
+        this.customerId = invoice.getCustomer().getId();
+        this.timeSent = invoice.getTimeSent();
+        this.timePaid = invoice.getTimePaid();
+        this.accountComments = invoice.getAccountComments();
+        this.customerComments = invoice.getCustomerComments();
+
+    }
+    public FetchInvoiceDto(Payment payment, UUID customerId, Date timeSent, Date timePaid, String accountComments, String customerComments) {
         super(payment);
+        this.customerId = customerId;
+        this.timeSent = timeSent;
+        this.timePaid = timePaid;
+        this.accountComments = accountComments;
+        this.customerComments = customerComments;
     }
 
     public UUID getCustomerId() {

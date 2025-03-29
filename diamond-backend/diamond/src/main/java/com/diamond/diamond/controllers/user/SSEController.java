@@ -1,7 +1,7 @@
 /*
  * Controller for server-sent events (e.g. sending notifications to client)
  */
-package com.diamond.diamond.controllers;
+package com.diamond.diamond.controllers.user;
 
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;

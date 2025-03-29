@@ -5,15 +5,15 @@ import java.util.UUID;
 import com.diamond.diamond.types.Blockchain;
 
 public class FetchCustomerWalletDto {
-    private Long id;
+    private UUID id;
     private String address;
     private Blockchain chain;
     private UUID customerId;
     
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
     public String getAddress() {

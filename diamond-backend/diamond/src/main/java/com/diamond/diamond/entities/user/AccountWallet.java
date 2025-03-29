@@ -1,15 +1,18 @@
 package com.diamond.diamond.entities.user;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.diamond.diamond.entities.payments.Payment;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.Wallet;
 import com.diamond.diamond.types.WalletStatus;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -18,6 +21,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Pattern;
@@ -59,8 +63,9 @@ public class AccountWallet implements Wallet {
     @JoinColumn(name="account_id", referencedColumnName="id", nullable=false)
     private Account account;
 
-    // @ManyToMany(mappedBy = "walletDistribution", cascade=CascadeType.ALL)
-    // private List<Payment> payments;
+    // join table stores the account wallets used for a given payment
+    @ManyToMany(mappedBy = "walletDistribution", cascade=CascadeType.ALL)
+    private List<Payment> payments;
 
     // @ManyToMany(mappedBy = "offrampWallet")
     // private List<Payout> payouts;
@@ -141,5 +146,13 @@ public class AccountWallet implements Wallet {
     // public void setPayouts(List<Payout> payouts) {
     //     this.payouts = payouts;
     // }
+
+    public List<Payment> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
+    }
 
 }

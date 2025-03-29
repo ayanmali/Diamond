@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.diamond.diamond.dtos.payments.new_payments.NewInvoiceDto;
 import com.diamond.diamond.entities.payments.Invoice;
 import com.diamond.diamond.entities.user.AccountWallet;
-import com.diamond.diamond.services.CustomerService;
-import com.diamond.diamond.services.AccountService;
+import com.diamond.diamond.services.user.AccountService;
+import com.diamond.diamond.services.user.CustomerService;
 
 @RestController
 @RequestMapping("/invoices")
