@@ -6,19 +6,23 @@ package com.diamond.diamond.configs;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-// import org.springframework.security.authentication.AuthenticationManager;
-// import org.springframework.security.authentication.AuthenticationProvider;
-// import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-// import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-// import org.springframework.security.core.userdetails.UserDetailsService;
-// import org.springframework.security.core.userdetails.UsernameNotFoundException;
-// import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 // import com.diamond.diamond.repositories.AccountRepository;
 
 @Configuration
 @PropertySource("classpath:application.properties")
 public class AppConfig {
+    
+    // CORS Configuration (global)
+    // @Bean
+    // public WebMvcConfigurer corsConfigurer() {
+    //     return new WebMvcConfigurer() {
+    //         @Override
+    //         public void addCorsMappings(CorsRegistry registry) {
+    //             registry.addMapping("/").allowedOrigins("http://localhost:9000");
+    //         }
+    //     };
+    // }
 
     // private final AccountRepository userRepository;
 

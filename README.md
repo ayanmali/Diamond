@@ -1,6 +1,20 @@
 # Diamond - Accept payments with crypto
 Diamond is a cryptocurrency payment gateway that allows businesses to accept payment from customers with cryptocurrencies, including BTC, ETH, SOL, and USDC.
 
+TODO
+- redis caching
+- cors
+- auth
+- kafka message queue
+- batch writes (redis)
+- rate limiting w/ leaky bucket algo (redis?)
+- load balancing (aws/gcp)
+- microservices?
+
+- smart invoices
+
+
+<!-- 
 ### Design
 - Postgres for main data storage
 - Login system + JWTs for authentication/authorization, oauth
@@ -21,4 +35,4 @@ Diamond is a cryptocurrency payment gateway that allows businesses to accept pay
 - Assistance with tax filing
 
 #### Dependencies
-- solscan api, cryptoapis, circle API
+- solscan api, cryptoapis, circle API -->

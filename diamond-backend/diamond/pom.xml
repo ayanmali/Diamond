@@ -101,6 +101,18 @@
 			<artifactId>spring-boot-starter-oauth2-client</artifactId>
 		</dependency>
 
+		<!-- RabbitMQ -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.amqp</groupId>
+			<artifactId>spring-rabbit-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
 		<!-- JWT Dependencies -->
         <!-- <dependency>
 			<groupId>io.jsonwebtoken</groupId>
@@ -137,12 +149,12 @@
 		</dependency> -->
 
 		<!-- Docker -->
-		<!-- <dependency>
+		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-docker-compose</artifactId>
 			<scope>runtime</scope>
 			<optional>true</optional>
-		</dependency> -->
+		</dependency>
 
 		<!-- Postgres -->
 		<dependency>

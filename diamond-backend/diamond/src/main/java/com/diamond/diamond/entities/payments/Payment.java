@@ -5,7 +5,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -17,7 +19,9 @@ import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.PaymentStatus;
 import com.diamond.diamond.types.StablecoinCurrency;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -30,6 +34,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapKeyColumn;
 import jakarta.validation.constraints.Positive;
 
 /*
@@ -88,6 +93,15 @@ import jakarta.validation.constraints.Positive;
         inverseJoinColumns = @JoinColumn(name = "wallet_id")
     )
     private List<AccountWallet> walletDistribution;
+
+    @ElementCollection
+    @CollectionTable(
+        name = "payment_metadata",
+        joinColumns = @JoinColumn(name = "payment_id")
+    )
+    @MapKeyColumn(name = "key")
+    @Column(name = "value")
+    private Map<String, String> metadata = new HashMap<>();
 
     @CreationTimestamp
     @Column(name="created_at")
@@ -363,6 +377,14 @@ import jakarta.validation.constraints.Positive;
                 default -> throw new AssertionError();
             }
         }
+    }
+
+    public Map<String, String> getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(Map<String, String> metadata) {
+        this.metadata = metadata;
     }
 
 }

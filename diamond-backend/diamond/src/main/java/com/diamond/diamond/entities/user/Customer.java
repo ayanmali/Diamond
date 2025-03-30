@@ -2,20 +2,25 @@ package com.diamond.diamond.entities.user;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapKeyColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
@@ -43,6 +48,15 @@ public class Customer {
     @ManyToOne
     @JoinColumn(name="account_id", referencedColumnName="id", nullable=false)
     private Account account;
+
+    @ElementCollection
+    @CollectionTable(
+        name = "payment_metadata",
+        joinColumns = @JoinColumn(name = "payment_id")
+    )
+    @MapKeyColumn(name = "key")
+    @Column(name = "value")
+    private Map<String, String> metadata = new HashMap<>();
 
     @CreationTimestamp
     @Column(name="created_at")
@@ -163,6 +177,14 @@ public class Customer {
 
     public void setAccount(Account account) {
         this.account = account;
+    }
+
+    public Map<String, String> getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(Map<String, String> metadata) {
+        this.metadata = metadata;
     }
 
 }

@@ -1,3 +1,6 @@
+/*
+ * TODO: smart invoices for better explainability, easy re-sends and edits
+ */
 package com.diamond.diamond.entities.payments;
 
 import java.math.BigDecimal;
