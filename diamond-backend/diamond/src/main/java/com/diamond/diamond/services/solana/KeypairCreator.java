@@ -1,4 +1,4 @@
-package com.diamond.diamond.utils;
+package com.diamond.diamond.services.solana;
 
 import java.security.SecureRandom;
 
@@ -8,11 +8,11 @@ import org.bouncycastle.crypto.generators.Ed25519KeyPairGenerator;
 import org.bouncycastle.crypto.params.Ed25519KeyGenerationParameters;
 import org.bouncycastle.crypto.params.Ed25519PrivateKeyParameters;
 import org.bouncycastle.crypto.params.Ed25519PublicKeyParameters;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.types.WalletKeypair;
 
-@Component
+@Service
 public class KeypairCreator {
     Ed25519KeyPairGenerator keyPairGenerator;
 

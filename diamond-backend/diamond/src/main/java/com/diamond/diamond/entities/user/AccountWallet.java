@@ -39,6 +39,9 @@ public class AccountWallet implements Wallet {
     @Pattern(regexp="^(0x[a-fA-F0-9]{40}|[1-9A-HJ-NP-Za-km-z]{32,44})$")
     private String address;
 
+    @Column(unique=true, nullable=false, updatable=false)
+    private String encryptedPrivateKey;
+
     @Column(updatable=false, nullable=false)
     @Enumerated(EnumType.STRING)
     private Blockchain chain;
@@ -72,8 +75,9 @@ public class AccountWallet implements Wallet {
 
     public AccountWallet() {}
 
-    public AccountWallet(String address, String walletName, Account account, Blockchain chain) {
+    public AccountWallet(String address, String encryptedPrivateKey, String walletName, Account account, Blockchain chain) {
         this.address = address;
+        this.encryptedPrivateKey = encryptedPrivateKey;
         this.walletName = walletName;
         this.account = account;
         this.chain = chain;
@@ -153,6 +157,14 @@ public class AccountWallet implements Wallet {
 
     public void setPayments(List<Payment> payments) {
         this.payments = payments;
+    }
+
+    public String getEncryptedPrivateKey() {
+        return encryptedPrivateKey;
+    }
+
+    public void setEncryptedPrivateKey(String encryptedPrivateKey) {
+        this.encryptedPrivateKey = encryptedPrivateKey;
     }
 
 }

@@ -10,7 +10,7 @@
 // @Component
 // public class Receiver {
 //     // Signals that the message has been received (TODO: not to be used in prod)
-//     private CountDownLatch latch = new CountDownLatch(1);
+//     private final CountDownLatch latch = new CountDownLatch(1);
 
 //     public void receiveMessage(String message) {
 //         System.out.println("Received < " + message + " >");

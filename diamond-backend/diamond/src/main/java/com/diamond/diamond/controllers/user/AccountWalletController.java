@@ -64,8 +64,8 @@ public class AccountWalletController {
         // }
         // CreateWalletResponse walletObj = optionalWalletObj.get();
         WalletKeypair keypair = keypairCreator.generate();
-
-        accountWalletService.saveWallet(accountWalletDto, account, keypair.getPublicKey());
+        // TODO: encrypt private keys before storing them
+        accountWalletService.saveWallet(accountWalletDto, account, keypair.getPublicKey(), keypair.getPrivateKey());
         return keypair;
     }
 
@@ -132,6 +132,9 @@ public class AccountWalletController {
     //     }
     //     return tokenBalanceDtos;
     // }
+    /*
+     * Gets token balances for a specific user wallet
+     */
     @GetMapping("/id/{id}/balances")
     public List<FetchTokenBalanceDto> getTokenBalances(@PathVariable(value="id") UUID id) {
         // Getting this wallet's address based on its ID

@@ -119,6 +119,14 @@ public class AccountController {
         accountService.deleteAccountById(id);
         return accountDto;
     }
+
+    // @PostMapping("/transfer")
+    // public String transferTokens(@RequestBody NewTransferDto transferDto) {
+    //     //TODO: process POST request
+        
+    //     return entity;
+    // }
+    
     
     // @GetMapping("/email")
     // public String getMethodName(@RequestParam String param) {

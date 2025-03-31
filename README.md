@@ -5,7 +5,8 @@ TODO
 - redis caching
 - cors
 - auth
-- kafka message queue
+- csrf protection
+- rabbitmq
 - batch writes (redis)
 - rate limiting w/ leaky bucket algo (redis?)
 - load balancing (aws/gcp)
