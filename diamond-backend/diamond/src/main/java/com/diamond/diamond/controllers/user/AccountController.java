@@ -2,8 +2,12 @@ package com.diamond.diamond.controllers.user;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
+import org.sol4k.Connection;
+import org.sol4k.TransactionMessage;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -18,6 +22,7 @@ import com.diamond.diamond.dtos.account.FetchAccountDto;
 import com.diamond.diamond.dtos.account.RegisterUserDto;
 import com.diamond.diamond.dtos.wallets.FetchAccountWalletDto;
 import com.diamond.diamond.entities.user.Account;
+import com.diamond.diamond.services.solana.SolanaRPCClient;
 import com.diamond.diamond.services.user.AccountService;
 import com.diamond.diamond.services.user.AccountWalletService;
 
@@ -28,12 +33,17 @@ import jakarta.validation.Valid;
 public class AccountController {
     private final AccountService accountService;
     private final AccountWalletService accountWalletService;
+    private final SolanaRPCClient solanaRpcClient;
+    @Value("${solana.rpc.url}")
+    private String rpcEndpoint;
     //private final CircleApiClient circleApiClient;
     //private final CircleGrpcClient circleGrpcClient;
 
-    public AccountController(AccountService accountService, AccountWalletService accountWalletService /*,CircleApiClient circleApiClient, CircleGrpcClient circleGrpcClient*/) {
+    public AccountController(AccountService accountService, AccountWalletService accountWalletService, SolanaRPCClient solanaRpcClient /*,CircleApiClient circleApiClient, CircleGrpcClient circleGrpcClient*/) {
         this.accountService = accountService;
         this.accountWalletService = accountWalletService;
+        this.solanaRpcClient = solanaRpcClient;
+
         //this.circleApiClient = circleApiClient;
         //this.circleGrpcClient = circleGrpcClient;
     }
@@ -119,14 +129,23 @@ public class AccountController {
         accountService.deleteAccountById(id);
         return accountDto;
     }
-
+    
     // @PostMapping("/transfer")
     // public String transferTokens(@RequestBody NewTransferDto transferDto) {
-    //     //TODO: process POST request
-        
-    //     return entity;
+    //     // Authenticate the PIN that the user entered    
+
+    //     // Store this transfer in the DB
+
+    //     // Connect to Solana network
+    //     Connection connection = new Connection(rpcEndpoint);
+    //     // Create the message for transferring tokens
+    //     TransactionMessage message = solanaRpcClient.createTransferSplMessage(connection, fromPrivateKey, toPublicKey, amount, tokenToTransfer);
+    //     // Get the estimated network fee for the transfer
+    //     Long fee = solanaRpcClient.checkNetworkFee(message, Optional.empty());
+    //     // Sign the message and get the signature
+    //     String signature = solanaRpcClient.signMessage(connection, message, sender);
+    //     return signature;
     // }
-    
     
     // @GetMapping("/email")
     // public String getMethodName(@RequestParam String param) {

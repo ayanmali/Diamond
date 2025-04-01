@@ -39,6 +39,10 @@ public class Account {
     @Size(min=1, max=50)
     private String businessName;
 
+    @Column(nullable=false, name="pin")
+    @Size(min=4, max=4)
+    private String encryptedPin;
+
     // The wallets belonging to this user
     @OneToMany(mappedBy="account", cascade=CascadeType.ALL)
     private List<AccountWallet> wallets;

@@ -1,7 +1,7 @@
 package com.diamond.diamond.types;
 
 public enum StablecoinCurrency {
-    USDC, EURC, USDT;
+    USDC, EURC, USDT, SOL;
 
     @Override
     public String toString() {

@@ -1,11 +1,20 @@
 package com.diamond.diamond.services.user;
 
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.GCMParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+
 import org.hibernate.Hibernate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -19,11 +28,36 @@ import com.diamond.diamond.repositories.user.AccountRepository;
 @Service
 public class AccountService {
     private final AccountRepository accountRepository;
+    private static final int KEY_SIZE = 256;
+    private static final int DATA_LENGTH = 128;
+    private static final String ALGORITHM = "AES/GCM/NoPadding";
+
+    @Value("${wallet.encryption.key}")
+    private String WALLET_ENCRYPTION_KEY;
+
+    @Value("${pin.encryption.key}")
+    private String PIN_ENCRYPTION_KEY;
+
+    private final SecretKey secretWalletKey;
+    private final SecretKey secretPinKey;
     // private final PasswordEncoder passwordEncoder;
     // private final AuthenticationManager authManager;
 
     public AccountService(AccountRepository accountRepository/*, PasswordEncoder passwordEncoder, AuthenticationManager authManager*/) {
         this.accountRepository = accountRepository;
+
+        // Decode the Base64-encoded String key
+        byte[] decodedWalletKey = Base64.getDecoder().decode(WALLET_ENCRYPTION_KEY);
+
+        // Create a SecretKey object from the decoded key
+        this.secretWalletKey = new SecretKeySpec(decodedWalletKey, 0, decodedWalletKey.length, ALGORITHM);
+
+        // Decode the Base64-encoded String key
+        byte[] decodedPinKey = Base64.getDecoder().decode(PIN_ENCRYPTION_KEY);
+
+        // Create a SecretKey object from the decoded key
+        this.secretPinKey = new SecretKeySpec(decodedPinKey, 0, decodedPinKey.length, ALGORITHM);
+
         // this.passwordEncoder = passwordEncoder;
         // this.authManager = authManager;
     }
@@ -182,6 +216,69 @@ public class AccountService {
 
     public void deleteAccount(Account account) {
         accountRepository.delete(account);
+    }
+
+    // Generate a secure AES key
+    public static SecretKey generateKey() throws Exception {
+        KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
+        keyGenerator.init(KEY_SIZE, SecureRandom.getInstanceStrong());
+        return keyGenerator.generateKey();
+    }
+
+    // Encrypt a string (wallet private key or user PIN) using AES/GCM
+    // Pass in either the wallet encryption key or the PIN encryption key
+    public String encrypt(String data, SecretKey secretKey) throws Exception {
+        // Get Cipher Instance
+        Cipher cipher = Cipher.getInstance(ALGORITHM);
+
+        // Create IV (Initialization Vector)
+        byte[] iv = new byte[12];
+        SecureRandom.getInstanceStrong().nextBytes(iv);
+
+        // Create GCMParameterSpec
+        GCMParameterSpec gcmParameterSpec = new GCMParameterSpec(DATA_LENGTH, iv);
+
+        // Initialize Cipher for ENCRYPT_MODE
+        cipher.init(Cipher.ENCRYPT_MODE, secretKey, gcmParameterSpec);
+
+        // Perform Encryption
+        byte[] cipherText = cipher.doFinal(data.getBytes());
+
+        // Concatenate IV and ciphertext
+        byte[] encryptedData = new byte[iv.length + cipherText.length];
+        System.arraycopy(iv, 0, encryptedData, 0, iv.length);
+        System.arraycopy(cipherText, 0, encryptedData, iv.length, cipherText.length);
+
+        return Base64.getEncoder().encodeToString(encryptedData);
+    }
+
+    // Decrypt a string (wallet private key or user PIN) using AES/GCM
+    // Pass in either the wallet encryption key or the PIN encryption key
+    public String decrypt(String encryptedData, SecretKey secretKey) throws Exception {
+        // Get Cipher Instance
+        Cipher cipher = Cipher.getInstance(ALGORITHM);
+
+        // Decode the encrypted data
+        byte[] decoded = Base64.getDecoder().decode(encryptedData);
+
+        // Extract IV
+        byte[] iv = new byte[12];
+        System.arraycopy(decoded, 0, iv, 0, iv.length);
+
+        // Extract ciphertext
+        byte[] cipherText = new byte[decoded.length - iv.length];
+        System.arraycopy(decoded, iv.length, cipherText, 0, cipherText.length);
+
+        // Create GCMParameterSpec
+        GCMParameterSpec gcmParameterSpec = new GCMParameterSpec(DATA_LENGTH, iv);
+
+        // Initialize Cipher for DECRYPT_MODE
+        cipher.init(Cipher.DECRYPT_MODE,  secretKey, gcmParameterSpec);
+
+        // Perform Decryption
+        byte[] decryptedText = cipher.doFinal(cipherText);
+
+        return new String(decryptedText);
     }
 
 }

@@ -35,6 +35,7 @@ public class AccountWallet implements Wallet {
     @Column(nullable = false)
     private UUID id;
 
+    // public key
     @Column(unique=true, nullable=false, updatable=false)
     @Pattern(regexp="^(0x[a-fA-F0-9]{40}|[1-9A-HJ-NP-Za-km-z]{32,44})$")
     private String address;

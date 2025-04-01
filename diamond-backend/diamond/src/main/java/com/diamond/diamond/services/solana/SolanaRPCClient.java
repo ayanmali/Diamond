@@ -28,6 +28,7 @@ import org.sol4k.instruction.SplTransferInstruction;
 import org.sol4k.instruction.TransferInstruction;
 import org.springframework.stereotype.Service;
 
+import com.diamond.diamond.types.StablecoinCurrency;
 import com.diamond.diamond.types.Token;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -93,50 +94,52 @@ public class SolanaRPCClient {
         }
     }
 
-    public void transferSol(String publicKey, byte[] privateKey, BigDecimal amount) {
+    public TransactionMessage createTransferSolMessage(Connection connection, byte[] fromPrivateKey, String toPublicKey, Long amount) {
         try {
             // 1. Establish connection
-            Connection connection = new Connection(rpcEndpoint);
+            // Connection connection = new Connection(rpcEndpoint);
             
             // 2. Get recent blockhash
             String blockhash = connection.getLatestBlockhash();
             
             // 3. Load sender keypair (securely store private key)
-            Keypair sender = Keypair.fromSecretKey(privateKey);
+            Keypair sender = Keypair.fromSecretKey(fromPrivateKey);
             
             // 4. Define recipient
-            PublicKey receiver = new PublicKey(publicKey);
+            PublicKey receiver = new PublicKey(toPublicKey);
             
             // 5. Create transfer instruction
             TransferInstruction instruction = new TransferInstruction(
                 sender.getPublicKey(),
                 receiver,
-                amount.multiply(BigDecimal.valueOf(LAMPORTS_PER_SOL)).longValue()
+                amount * LAMPORTS_PER_SOL
             );
             
             // 6. Build transaction
-            TransactionMessage message = TransactionMessage.newMessage(
+            System.out.println("Message created successfully");
+            return TransactionMessage.newMessage(
                 sender.getPublicKey(),
                 blockhash,
                 instruction
             );
-            VersionedTransaction transaction = new VersionedTransaction(message);
+            // VersionedTransaction transaction = new VersionedTransaction(message);
             
-            // 7. Sign transaction
-            transaction.sign(sender);
+            // // 7. Sign transaction
+            // transaction.sign(sender);
             
-            // 8. Send transaction
-            String signature = connection.sendTransaction(transaction);
-            System.out.println("Transaction ID: " + signature);
+            // // 8. Send transaction
+            // String signature = connection.sendTransaction(transaction);
+            // System.out.println("Transaction ID: " + signature);
         } catch (Exception e) {
-            System.err.println("Transaction failed: " + e.getMessage());
+            System.err.println("Transfer Message creation failed: " + e.getMessage());
+            return null;
         }
     }
 
-    public void transferSplToken(byte[] fromPrivateKey, String toPublicKey, long amount, Token tokenToTransfer) {
+    public TransactionMessage createTransferSplMessage(Connection connection, byte[] fromPrivateKey, String toPublicKey, Long amount, Token tokenToTransfer) {
         try {
             // 1. Establish connection
-            Connection connection = new Connection(rpcEndpoint);
+            // Connection connection = new Connection(rpcEndpoint);
             
             // 2. Get recent blockhash
             String blockhash = connection.getLatestBlockhash();
@@ -173,25 +176,46 @@ public class SolanaRPCClient {
                 tokenMint, 
                 sender.getPublicKey(), 
                 amount, 
-                6);
+                6
+            );
             
-            // 6. Build transaction
-            TransactionMessage message = TransactionMessage.newMessage(
+            System.out.println("Message created successfully");
+            return TransactionMessage.newMessage(
                 sender.getPublicKey(),
                 blockhash,
                 instruction
             );
-            VersionedTransaction transaction = new VersionedTransaction(message);
+
+            // VersionedTransaction transaction = new VersionedTransaction(message);
             
+            // // 7. Sign transaction
+            // transaction.sign(sender);
+            
+            // // 8. Send transaction
+            // String signature = connection.sendTransaction(transaction);
+            // System.out.println("Transaction ID: " + signature);
+        } catch (Exception e) {
+            System.err.println("Transfer Message creation failed: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public String signMessage(Connection connection, TransactionMessage message, Keypair sender) {
+        try {
+            VersionedTransaction transaction = new VersionedTransaction(message);
+                
             // 7. Sign transaction
             transaction.sign(sender);
             
             // 8. Send transaction
             String signature = connection.sendTransaction(transaction);
             System.out.println("Transaction ID: " + signature);
-        } catch (Exception e) {
-            System.err.println("Transaction failed: " + e.getMessage());
+            return signature;
         }
+         catch (Exception e) {
+            System.out.println("Error signing message: " + e.getMessage());
+            return null;
+         }
     }
 
     /**
