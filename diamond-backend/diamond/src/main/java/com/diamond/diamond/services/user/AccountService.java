@@ -32,31 +32,42 @@ public class AccountService {
     private static final int DATA_LENGTH = 128;
     private static final String ALGORITHM = "AES/GCM/NoPadding";
 
+    // Encoded keys from application.properties
     @Value("${wallet.encryption.key}")
-    private String WALLET_ENCRYPTION_KEY;
+    private String walletEncryptionKey;
 
     @Value("${pin.encryption.key}")
-    private String PIN_ENCRYPTION_KEY;
+    private String pinEncryptionKey;
 
-    private final SecretKey secretWalletKey;
-    private final SecretKey secretPinKey;
+    // SecretKey objects used for encrypting data
+    private static SecretKey secretWalletKey;
+    private static SecretKey secretPinKey;
     // private final PasswordEncoder passwordEncoder;
     // private final AuthenticationManager authManager;
 
-    public AccountService(AccountRepository accountRepository/*, PasswordEncoder passwordEncoder, AuthenticationManager authManager*/) {
+    public AccountService(AccountRepository accountRepository, @Value("${wallet.encryption.key}") String walletEncryptionKey, @Value("${pin.encryption.key}") String pinEncryptionKey /*, PasswordEncoder passwordEncoder, AuthenticationManager authManager*/) {
         this.accountRepository = accountRepository;
+        this.walletEncryptionKey = walletEncryptionKey;
+        this.pinEncryptionKey = pinEncryptionKey;
 
-        // Decode the Base64-encoded String key
-        byte[] decodedWalletKey = Base64.getDecoder().decode(WALLET_ENCRYPTION_KEY);
+        // if (WALLET_ENCRYPTION_KEY == null || WALLET_ENCRYPTION_KEY.isEmpty()) {
+        //     throw new IllegalArgumentException("WALLET_ENCRYPTION_KEY is not set in the application properties.");
+        // } else {
+        //     System.out.println("ENCRYPTION KEY FOUND: " + WALLET_ENCRYPTION_KEY);
+        // }
 
-        // Create a SecretKey object from the decoded key
-        this.secretWalletKey = new SecretKeySpec(decodedWalletKey, 0, decodedWalletKey.length, ALGORITHM);
+        secretWalletKey = AccountService.stringToSecretKey(walletEncryptionKey);        // Decode the Base64-encoded String key
+        secretPinKey = AccountService.stringToSecretKey(pinEncryptionKey);              // Decode the Base64-encoded String key
+        // byte[] decodedWalletKey = Base64.getDecoder().decode(WALLET_ENCRYPTION_KEY);
 
-        // Decode the Base64-encoded String key
-        byte[] decodedPinKey = Base64.getDecoder().decode(PIN_ENCRYPTION_KEY);
+        // // Create a SecretKey object from the decoded key
+        // this.secretWalletKey = new SecretKeySpec(decodedWalletKey, 0, decodedWalletKey.length, ALGORITHM);
 
-        // Create a SecretKey object from the decoded key
-        this.secretPinKey = new SecretKeySpec(decodedPinKey, 0, decodedPinKey.length, ALGORITHM);
+        // // Decode the Base64-encoded String key
+        // byte[] decodedPinKey = Base64.getDecoder().decode(PIN_ENCRYPTION_KEY);
+
+        // // Create a SecretKey object from the decoded key
+        // this.secretPinKey = new SecretKeySpec(decodedPinKey, 0, decodedPinKey.length, ALGORITHM);
 
         // this.passwordEncoder = passwordEncoder;
         // this.authManager = authManager;
@@ -225,6 +236,16 @@ public class AccountService {
         return keyGenerator.generateKey();
     }
 
+    // public static String secretKeyToString(SecretKey secretKey) {
+    //     byte[] rawData = secretKey.getEncoded();
+    //     return Base64.getEncoder().encodeToString(rawData);
+    // }
+
+    public static SecretKey stringToSecretKey(String encodedKey) {
+        byte[] decodedKey = Base64.getDecoder().decode(encodedKey);
+        return new SecretKeySpec(decodedKey, 0, decodedKey.length, "AES");
+    }
+
     // Encrypt a string (wallet private key or user PIN) using AES/GCM
     // Pass in either the wallet encryption key or the PIN encryption key
     public String encrypt(String data, SecretKey secretKey) throws Exception {
@@ -279,6 +300,14 @@ public class AccountService {
         byte[] decryptedText = cipher.doFinal(cipherText);
 
         return new String(decryptedText);
+    }
+
+    public static SecretKey getSecretWalletKey() {
+        return secretWalletKey;
+    }
+
+    public static SecretKey getSecretPinKey() {
+        return secretPinKey;
     }
 
 }

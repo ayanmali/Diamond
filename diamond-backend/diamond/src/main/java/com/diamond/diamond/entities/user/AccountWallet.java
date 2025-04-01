@@ -41,7 +41,7 @@ public class AccountWallet implements Wallet {
     private String address;
 
     @Column(unique=true, nullable=false, updatable=false)
-    private String encryptedPrivateKey;
+    private byte[] encryptedPrivateKey;
 
     @Column(updatable=false, nullable=false)
     @Enumerated(EnumType.STRING)
@@ -76,7 +76,7 @@ public class AccountWallet implements Wallet {
 
     public AccountWallet() {}
 
-    public AccountWallet(String address, String encryptedPrivateKey, String walletName, Account account, Blockchain chain) {
+    public AccountWallet(String address, byte[] encryptedPrivateKey, String walletName, Account account, Blockchain chain) {
         this.address = address;
         this.encryptedPrivateKey = encryptedPrivateKey;
         this.walletName = walletName;
@@ -160,11 +160,11 @@ public class AccountWallet implements Wallet {
         this.payments = payments;
     }
 
-    public String getEncryptedPrivateKey() {
+    public byte[] getEncryptedPrivateKey() {
         return encryptedPrivateKey;
     }
 
-    public void setEncryptedPrivateKey(String encryptedPrivateKey) {
+    public void setEncryptedPrivateKey(byte[] encryptedPrivateKey) {
         this.encryptedPrivateKey = encryptedPrivateKey;
     }
 

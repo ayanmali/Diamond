@@ -40,7 +40,7 @@ public class AccountWalletService {
         return walletDto;
     }
 
-    public FetchAccountWalletDto saveWallet(NewAccountWalletDto walletDto, Account account, String walletAddress, String encryptedPrivateKey) {
+    public FetchAccountWalletDto saveWallet(NewAccountWalletDto walletDto, Account account, String walletAddress, byte[] encryptedPrivateKey) {
         AccountWallet accountWallet = new AccountWallet(
                                         walletAddress,
                                         encryptedPrivateKey,

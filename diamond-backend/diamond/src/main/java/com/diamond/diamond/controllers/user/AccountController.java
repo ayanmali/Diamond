@@ -2,11 +2,8 @@ package com.diamond.diamond.controllers.user;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
-import org.sol4k.Connection;
-import org.sol4k.TransactionMessage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

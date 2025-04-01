@@ -9,6 +9,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -26,9 +27,9 @@ import org.sol4k.TransactionMessage;
 import org.sol4k.VersionedTransaction;
 import org.sol4k.instruction.SplTransferInstruction;
 import org.sol4k.instruction.TransferInstruction;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.diamond.diamond.types.StablecoinCurrency;
 import com.diamond.diamond.types.Token;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,14 +38,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class SolanaRPCClient {
     private final int LAMPORTS_PER_SOL = 1_000_000_000;
 
-    private final String rpcEndpoint;
+    @Value("${solana.rpc.url}")
+    private String rpcEndpoint;
+
     private final HttpClient httpClient;
     private final ObjectMapper objectMapper;
     
-    public SolanaRPCClient(String rpcEndpoint, HttpClient httpClient, ObjectMapper objectMapper) {
+    public SolanaRPCClient(@Value("${solana.rpc.url}") String rpcEndpoint) {
         this.rpcEndpoint = rpcEndpoint;
-        this.httpClient = httpClient;
-        this.objectMapper = objectMapper;
+        this.httpClient = HttpClient.newBuilder()
+        .connectTimeout(Duration.ofSeconds(10))
+        .build();
+        this.objectMapper = new ObjectMapper();
     }
     
     public BigDecimal getTokenBalance(String walletAddress, String tokenAddress) {

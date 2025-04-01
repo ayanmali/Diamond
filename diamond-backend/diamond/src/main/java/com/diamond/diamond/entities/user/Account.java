@@ -39,9 +39,10 @@ public class Account {
     @Size(min=1, max=50)
     private String businessName;
 
+    // Used for confirming wallet interactions
     @Column(nullable=false, name="pin")
     @Size(min=4, max=4)
-    private String encryptedPin;
+    private byte[] encryptedPin;
 
     // The wallets belonging to this user
     @OneToMany(mappedBy="account", cascade=CascadeType.ALL)
@@ -167,6 +168,14 @@ public class Account {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public byte[] getEncryptedPin() {
+        return encryptedPin;
+    }
+
+    public void setEncryptedPin(byte[] encryptedPin) {
+        this.encryptedPin = encryptedPin;
     }
 
 }

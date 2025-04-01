@@ -65,7 +65,7 @@ public class AccountWalletController {
         // CreateWalletResponse walletObj = optionalWalletObj.get();
         WalletKeypair keypair = keypairCreator.generate();
         // TODO: encrypt private keys before storing them
-        accountWalletService.saveWallet(accountWalletDto, account, keypair.getPublicKey(), keypair.getPrivateKey());
+        accountWalletService.saveWallet(accountWalletDto, account, keypair.getPublicKey(), keypair.getPrivateKey().getBytes());
         return keypair;
     }
 

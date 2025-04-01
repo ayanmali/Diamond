@@ -1,6 +1,11 @@
 package com.diamond.diamond;
 
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.Map;
+
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,6 +14,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.diamond.diamond.services.user.AccountService;
 
 @RestController
 @SpringBootApplication
@@ -30,10 +37,17 @@ public class DiamondApplication {
     //     };
     // }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws Exception {
         //System.out.println(ProcessExecutor.executeScript());
         SpringApplication.run(DiamondApplication.class, args);
 
+        // Encode the private key into a string
+        // byte[] rawData = AccountService.generateKey().getEncoded();
+        // String encodedKey = Base64.getEncoder().encodeToString(rawData);
+        // System.out.println("ENCODED ENCRYPTION KEY: " + encodedKey);
+        // Convert the string back into a SecretKey
+        //byte[] decodedKey = Base64.getDecoder().decode(encodedKey);
+        //SecretKey originalKey = new SecretKeySpec(decodedKey, 0, decodedKey.length, "AES");
         
         // CircleGrpcClient client = new CircleGrpcClient("localhost", 50051);
         // try {
