@@ -5,10 +5,11 @@ TODO
 - redis caching
 - cors
 - auth
-- csrf protection
+- csrf protection (done)
 - rabbitmq
 - batch writes (redis)
 - rate limiting w/ leaky bucket algo (redis?)
+
 - load balancing (aws/gcp)
 - microservices?
 

@@ -1,31 +1,35 @@
 package com.diamond.diamond;
 
-import java.util.Arrays;
-import java.util.Base64;
-import java.util.Map;
-
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.diamond.diamond.services.user.AccountService;
+
+
 
 @RestController
 @SpringBootApplication
 @EnableScheduling
 public class DiamondApplication {
 
-    @GetMapping("/home")
-    public Map<String, String> home(@AuthenticationPrincipal OAuth2User principal) {
-        return Map.of("name", principal.getAttribute("name"));
+    @GetMapping("/")
+    public String base() {
+        return "Welcome to Diamond";
     }
+    
+    // @GetMapping("/home")
+    // public Map<String, String> home(@AuthenticationPrincipal OAuth2User principal) {
+    //     return Map.of("name", principal.getAttribute("name"), "email", principal.getAttribute("email"));
+    // }
+
+    
+    @GetMapping("/error")
+    public String error() {
+        return "Error";
+    }
+    
 
     // @Bean
     // public WebMvcConfigurer corsConfigurer() {

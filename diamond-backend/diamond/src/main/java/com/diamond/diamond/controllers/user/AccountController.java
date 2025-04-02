@@ -2,9 +2,12 @@ package com.diamond.diamond.controllers.user;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -31,6 +34,7 @@ public class AccountController {
     private final AccountService accountService;
     private final AccountWalletService accountWalletService;
     private final SolanaRPCClient solanaRpcClient;
+    //private final OAuthService oauthService;
     @Value("${solana.rpc.url}")
     private String rpcEndpoint;
     //private final CircleApiClient circleApiClient;
@@ -40,6 +44,7 @@ public class AccountController {
         this.accountService = accountService;
         this.accountWalletService = accountWalletService;
         this.solanaRpcClient = solanaRpcClient;
+        //this.oauthService = oauthService;
 
         //this.circleApiClient = circleApiClient;
         //this.circleGrpcClient = circleGrpcClient;
@@ -74,6 +79,13 @@ public class AccountController {
         accountDto = loadAccountWallets(accountDto);
 
         return accountDto;
+    }
+
+    @GetMapping("/user")
+    public Map<String, Object> user(@AuthenticationPrincipal OAuth2User principal) {
+        return Map.of("name", principal.getAttribute("name"), 
+                      "email", principal.getAttribute("email"));
+        //return Collections.singletonMap("name", principal.getAttribute("name"));
     }
 
     @GetMapping("/accounts")

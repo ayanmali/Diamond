@@ -77,6 +77,7 @@ public class SolanaRPCClient {
                     .build();
             
             HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        
             String responseBody = response.body();
             
             JSONObject jsonResponse = new JSONObject(responseBody);
