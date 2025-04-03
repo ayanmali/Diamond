@@ -13,10 +13,7 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.diamond.diamond.entities.user.Account;
-import com.diamond.diamond.entities.user.AccountWallet;
 import com.diamond.diamond.types.Blockchain;
-import com.diamond.diamond.types.PaymentStatus;
 import com.diamond.diamond.types.StablecoinCurrency;
 
 import jakarta.persistence.CollectionTable;
@@ -31,9 +28,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapKeyColumn;
 import jakarta.validation.constraints.Positive;
 
@@ -53,9 +47,11 @@ import jakarta.validation.constraints.Positive;
     private BigDecimal amount;
     //final AccountWallet businessWallet;
 
-    @ManyToOne
-    @JoinColumn(name="account_id", referencedColumnName="id", nullable=false)
-    private Account account;
+    // @ManyToOne
+    // @JoinColumn(name="account_id", referencedColumnName="id", nullable=false)
+    // private Account account;
+    @Column(name="account_id", nullable=false)
+    private UUID accountId;
 
     // remove
     // @ManyToOne
@@ -86,13 +82,18 @@ import jakarta.validation.constraints.Positive;
 
     // used to define how payments are allocated between the account's wallets, if desired
     //private PaymentDistributor distributor;
-    @ManyToMany
-    @JoinTable(
-        name = "payment_wallet_distribution", // Optional: Custom name for the join table
-        joinColumns = @JoinColumn(name = "payment_id"),
-        inverseJoinColumns = @JoinColumn(name = "wallet_id")
-    )
-    private List<AccountWallet> walletDistribution;
+    // @ManyToMany
+    // @JoinTable(
+    //     name = "payment_wallet_distribution", // Optional: Custom name for the join table
+    //     joinColumns = @JoinColumn(name = "payment_id"),
+    //     inverseJoinColumns = @JoinColumn(name = "wallet_id")
+    // )
+    // private List<AccountWallet> walletDistribution;
+    @ElementCollection
+    @CollectionTable(name = "account_wallet_ids", joinColumns = @JoinColumn(name = "payment_id"))
+    @Column(name = "wallet_id")
+    private List<UUID> walletDistribution;
+
 
     @ElementCollection
     @CollectionTable(
@@ -101,7 +102,7 @@ import jakarta.validation.constraints.Positive;
     )
     @MapKeyColumn(name = "key")
     @Column(name = "value")
-    private Map<String, String> metadata = new HashMap<>();
+    private Map<String, String> metadata;
 
     @CreationTimestamp
     @Column(name="created_at")
@@ -135,9 +136,9 @@ import jakarta.validation.constraints.Positive;
     /*
      * Alternate constructor -- to be overridden by FlexiblePayment class (doesn't involve an amount value)
      */
-    public Payment(Account account, Blockchain chain, List<AccountWallet> accountWallets, List<StablecoinCurrency> acceptedCurrencies) {
+    public Payment(UUID accountId, Blockchain chain, List<UUID> walletDistributionIds, List<StablecoinCurrency> acceptedCurrencies) {
         this.amount = null;
-        this.account = account;
+        this.accountId = accountId;
 
         // Setting each of the accepted currency flags
         for (StablecoinCurrency currency : acceptedCurrencies) {
@@ -151,19 +152,23 @@ import jakarta.validation.constraints.Positive;
                 case USDT:
                     this.acceptUsdt = true;
                     break;
+                case SOL:
+                    break;
                 default:
                     throw new AssertionError();
             }
         }
+
         this.chain = chain;
-        this.walletDistribution = accountWallets;
+        this.walletDistribution = walletDistributionIds;
+        this.metadata = new HashMap<>();
     }
     /*
      * Constructor method that uses a provided Map to route payments to multiple wallets
      */
-    public Payment(BigDecimal amount, Account account, Blockchain chain, List<AccountWallet> accountWallets, List<StablecoinCurrency> acceptedCurrencies/*, PaymentDistributor distributor*/) /*throws Exception*/ {
+    public Payment(BigDecimal amount, UUID accountId, Blockchain chain, List<UUID> walletDistributionIds, List<StablecoinCurrency> acceptedCurrencies/*, PaymentDistributor distributor*/) /*throws Exception*/ {
         this.amount = amount;
-        this.account = account;
+        this.accountId = accountId;
         //this.currency = currency;
 
         // Setting each of the accepted currency flags
@@ -178,19 +183,22 @@ import jakarta.validation.constraints.Positive;
                 case USDT:
                     this.acceptUsdt = true;
                     break;
+                case SOL:
+                    break;
                 default:
                     throw new AssertionError();
             }
         }
         this.chain = chain;
-        this.walletDistribution = accountWallets;
+        this.walletDistribution = walletDistributionIds;
+        this.metadata = new HashMap<>();
         // this.distributor = distributor;
         // this.distributor = new PaymentDistributor(account, mappings, "");
     }
 
-    public Payment(BigDecimal amount, Account account, Blockchain chain, AccountWallet accountWallet, List<StablecoinCurrency> acceptedCurrencies/*, PaymentDistributor distributor*/) /*throws Exception*/ {
+    public Payment(BigDecimal amount, UUID accountId, Blockchain chain, UUID accountWalletId, List<StablecoinCurrency> acceptedCurrencies/*, PaymentDistributor distributor*/) /*throws Exception*/ {
         this.amount = amount;
-        this.account = account;
+        this.accountId = accountId;
         // Setting each of the accepted currency flags
         for (StablecoinCurrency currency : acceptedCurrencies) {
             switch (currency) {
@@ -203,6 +211,8 @@ import jakarta.validation.constraints.Positive;
                 case USDT:
                     this.acceptUsdt = true;
                     break;
+                case SOL:
+                    break;
                 default:
                     throw new AssertionError();
             }
@@ -210,7 +220,8 @@ import jakarta.validation.constraints.Positive;
         //this.currency = currency;
 
         this.chain = chain;
-        this.walletDistribution = new ArrayList<>(Arrays.asList(accountWallet));
+        this.walletDistribution = new ArrayList<>(Arrays.asList(accountWalletId));
+        this.metadata = new HashMap<>();
         // this.distributor = distributor;
         // this.distributor = new PaymentDistributor(account, mappings, "");
     }
@@ -260,17 +271,8 @@ import jakarta.validation.constraints.Positive;
     //     }
     // }
 
-    // public abstract void pay();
-
-    // todo
-    public PaymentStatus validatePayment() {return null;}
-
     public BigDecimal getAmount() {
         return amount;
-    }
-
-    public Account getAccount() {
-        return account;
     }
 
     // public StablecoinCurrency getStablecoinCurrency() {
@@ -305,16 +307,16 @@ import jakarta.validation.constraints.Positive;
         return id;
     }
 
-    public List<AccountWallet> getWalletDistribution() {
+    public List<UUID> getWalletDistribution() {
         return walletDistribution;
     }
 
-    public void setWalletDistribution(List<AccountWallet> walletDistribution) {
+    public void setWalletDistribution(List<UUID> walletDistribution) {
         this.walletDistribution = walletDistribution;
     }
 
-    public void addWallet(AccountWallet wallet) {
-        walletDistribution.add(wallet);
+    public void addWallet(UUID walletId) {
+        walletDistribution.add(walletId);
     }
 
     public Date getCreatedAt() {
@@ -385,6 +387,14 @@ import jakarta.validation.constraints.Positive;
 
     public void setMetadata(Map<String, String> metadata) {
         this.metadata = metadata;
+    }
+
+    public UUID getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(UUID accountId) {
+        this.accountId = accountId;
     }
 
 }

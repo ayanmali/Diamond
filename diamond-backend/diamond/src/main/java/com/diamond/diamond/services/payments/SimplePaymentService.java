@@ -18,7 +18,7 @@ public class SimplePaymentService extends PaymentService<SimplePayment> {
 
     @Override
     public FetchSimplePaymentDto convertPaymentToFetchDto(SimplePayment simplePayment) {
-        FetchSimplePaymentDto simplePaymentDto = new FetchSimplePaymentDto(simplePayment);
+        return new FetchSimplePaymentDto(simplePayment);
 
         // checkoutPaymentDto.setAmount(checkoutPayment.getAmount());
         // checkoutPaymentDto.setChain(checkoutPayment.getChain());
@@ -43,7 +43,6 @@ public class SimplePaymentService extends PaymentService<SimplePayment> {
         //     );
         // }
 
-        return simplePaymentDto;
     }
     
     public SimplePayment updateHasMaxNumberOfPayments(UUID id, Boolean hasMaxNumberOfPayments) {

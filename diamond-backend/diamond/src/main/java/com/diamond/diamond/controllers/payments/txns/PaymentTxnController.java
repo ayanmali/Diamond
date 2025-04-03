@@ -5,39 +5,30 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.diamond.diamond.dtos.payments.txns.FetchPaymentTxnDto;
-import com.diamond.diamond.dtos.payments.txns.NewPaymentTxnDto;
-import com.diamond.diamond.entities.payments.PaymentTxn;
 import com.diamond.diamond.services.payments.PaymentTxnService;
-import com.diamond.diamond.services.payments.SimplePaymentService;
-import com.diamond.diamond.services.user.CustomerService;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.PaymentStatus;
 import com.diamond.diamond.types.StablecoinCurrency;
 
-import jakarta.validation.Valid;
-
 @RequestMapping("/txns")
 public class PaymentTxnController {
-    protected PaymentTxnService txnService;
-    protected SimplePaymentService paymentService;
-    //protected PaymentService<P> paymentService;
+    private final PaymentTxnService txnService;
+    //private final SimplePaymentService paymentService;
     //protected PromoCodeService promoCodeService;
-    protected CustomerService customerService;
+    //private final CustomerService customerService;
     //abstract T convertNewDtoToTxn(NewPaymentTxnDto txnDto); // helper method for converting to and from the PaymentTxn type and the NewPaymentTxn DTO
     
-    public PaymentTxnController(PaymentTxnService txnService, SimplePaymentService paymentService, /*PromoCodeService promoCodeService, */CustomerService customerService) {
+    public PaymentTxnController(PaymentTxnService txnService/*, SimplePaymentService paymentService, PromoCodeService promoCodeService, CustomerService customerService*/) {
         this.txnService = txnService;
-        this.paymentService = paymentService;
+        //this.paymentService = paymentService;
         //this.promoCodeService = promoCodeService;
-        this.customerService = customerService;
+        //this.customerService = customerService;
     }
 
     // private FetchPaymentTxnDto loadPromoCodesApplied(FetchPaymentTxnDto txnDto) {
@@ -50,31 +41,33 @@ public class PaymentTxnController {
     //     return txnDto;
     // }
 
-    public PaymentTxn convertNewDtoToTxn(NewPaymentTxnDto txnDto) {
-        // TODO Auto-generated method stub
-        // List<PromoCode> codesApplied = new ArrayList<>();
-        // for (Long promoCodeId : txnDto.getCodesAppliedIds()) {
-        //     codesApplied.add(promoCodeService.findPromoCodeById(promoCodeId));
-        // }
-        return new PaymentTxn(paymentService.findPaymentById(txnDto.getPaymentId()),
-                                                customerService.findCustomerById(txnDto.getCustomerId()),
-                                                txnDto.getRevenue()); 
-                                                //codesApplied);
+    // public PaymentTxn convertNewDtoToTxn(NewPaymentTxnDto txnDto) {
+    //     // TODO Auto-generated method stub
+    //     // List<PromoCode> codesApplied = new ArrayList<>();
+    //     // for (Long promoCodeId : txnDto.getCodesAppliedIds()) {
+    //     //     codesApplied.add(promoCodeService.findPromoCodeById(promoCodeId));
+    //     // }
+    //     return new PaymentTxn(paymentService.findPaymentById(txnDto.getPaymentId()),
+    //                                             customerService.findCustomerById(txnDto.getCustomerId()),
+    //                                             txnDto.getRevenue()); 
+    //                                             //codesApplied);
         
-    }
+    // }
 
-    @PostMapping("/new")
-    public FetchPaymentTxnDto newTxn(@Valid @RequestBody NewPaymentTxnDto txnDto) {
-        // TODO: email customer when transaction goes through
-        return txnService.savePaymentTxn(convertNewDtoToTxn(txnDto));
-    }
+    // Integrate WebSockets for transactions
+    // @PostMapping("/new")
+    // public FetchPaymentTxnDto newTxn(@Valid @RequestBody NewPaymentTxnDto txnDto) {
+    //     // TODO: email customer when transaction goes through
+    //     return txnService.savePaymentTxn(txnDto);
+    //     //return txnService.savePaymentTxn(convertNewDtoToTxn(txnDto));
+    // }
 
     // TODO: add filter for wallets
-    @GetMapping("/txns")
+    @GetMapping("/{id}/txns")
     public List<FetchPaymentTxnDto> findTxns(
         @RequestBody(required=false) UUID id,
         @RequestBody(required=false) UUID paymentId,
-        @RequestBody(required=false) UUID accountId,
+        @PathVariable(value="id")    UUID accountId,
         @RequestBody(required=false) UUID customerId,
         @RequestBody(required=false) StablecoinCurrency currency,
         @RequestBody(required=false) Blockchain chain,
@@ -88,7 +81,7 @@ public class PaymentTxnController {
         return txnService.findTxnDtosWithFilters(id, paymentId, accountId, customerId, currency, chain, revenueGreaterThan, revenueLessThan, status, paidBefore, paidAfter, pageSize);
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/txnid/{id}")
     public FetchPaymentTxnDto findById(@PathVariable(value="id") UUID id) {
         FetchPaymentTxnDto txnDto = txnService.findTxnDtoById(id);
         //loadPromoCodesApplied(txnDto);
@@ -101,7 +94,7 @@ public class PaymentTxnController {
     // }
 
     @GetMapping("/txhash/{txhash}")
-    public FetchPaymentTxnDto findByTxhash(@PathVariable(value="txhash") String txHash) {
+    public FetchPaymentTxnDto findByTxHash(@PathVariable(value="txhash") String txHash) {
         FetchPaymentTxnDto txnDto = txnService.findTxnDtoByTxHash(txHash);
         //loadPromoCodesApplied(txnDto);
         return txnDto;
@@ -114,12 +107,12 @@ public class PaymentTxnController {
 
     //@PostMapping("/update")
 
-    @DeleteMapping("/id/{id}/delete")
-    public FetchPaymentTxnDto delete(@PathVariable(value="id") UUID id) {
-        FetchPaymentTxnDto txnDto = txnService.findTxnDtoById(id);
-        //loadPromoCodesApplied(txnDto);
-        txnService.deleteTxnById(id);
-        return txnDto;
-    }
+    // @DeleteMapping("/id/{id}/delete")
+    // public FetchPaymentTxnDto delete(@PathVariable(value="id") UUID id) {
+    //     FetchPaymentTxnDto txnDto = txnService.findTxnDtoById(id);
+    //     //loadPromoCodesApplied(txnDto);
+    //     txnService.deleteTxnById(id);
+    //     return txnDto;
+    // }
     
 }

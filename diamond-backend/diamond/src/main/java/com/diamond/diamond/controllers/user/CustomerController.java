@@ -1,6 +1,5 @@
 package com.diamond.diamond.controllers.user;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -16,9 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.diamond.diamond.dtos.customer.FetchCustomerDto;
 import com.diamond.diamond.dtos.customer.NewCustomerDto;
-import com.diamond.diamond.dtos.wallets.FetchCustomerWalletDto;
-import com.diamond.diamond.entities.user.Account;
-import com.diamond.diamond.entities.user.Customer;
 import com.diamond.diamond.services.user.AccountService;
 import com.diamond.diamond.services.user.CustomerService;
 import com.diamond.diamond.services.user.CustomerWalletService;
@@ -38,24 +34,24 @@ public class CustomerController {
         this.customerWalletService = customerWalletService;
     }
 
-    private FetchCustomerDto loadCustomerWallets(FetchCustomerDto customerDto) {
-        Customer customer = customerService.findCustomerById(customerDto.getId());
-        List<FetchCustomerWalletDto> customerWallets = customerWalletService.findWalletDtosByCustomer(customer);
-        customerDto.setWallets(customerWallets);
-        return customerDto;
-    }
+    // private FetchCustomerDto loadCustomerWallets(FetchCustomerDto customerDto) {
+    //     Customer customer = customerService.findCustomerById(customerDto.getId());
+    //     List<FetchCustomerWalletDto> customerWallets = customerWalletService.findWalletDtosByCustomer(customer);
+    //     customerDto.setWallets(customerWallets);
+    //     return customerDto;
+    // }
 
-    @PostMapping("/new")
-    public FetchCustomerDto addCustomer(@Valid @RequestBody NewCustomerDto customerDto) {
+    @PostMapping("/{id}/new")
+    public FetchCustomerDto addCustomer(@PathVariable(value="id") UUID accountId, @Valid @RequestBody NewCustomerDto customerDto) {
         //TODO: process POST request
-        Account account = accountService.findAccountById(customerDto.getAccountId());
-        return customerService.saveCustomer(customerDto, account);
+        //Account account = accountService.findAccountById(customerDto.getAccountId());
+        return customerService.saveCustomer(customerDto, accountId);
     }
 
-    @GetMapping("/customers")
+    @GetMapping("/{id}/customers")
     public List<FetchCustomerDto> getCustomers(@RequestBody UUID customerId,
                                                @RequestBody String email,
-                                               @RequestBody UUID accountId,
+                                               @PathVariable(value="id") UUID accountId,
                                                @RequestBody Date createdBefore,
                                                @RequestBody Date createdAfter,
                                                @RequestBody Integer pageSize) {
@@ -63,62 +59,62 @@ public class CustomerController {
     }
     
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/customerid/{id}")
     public FetchCustomerDto getCustomerById(@PathVariable(value="id") UUID id) {
         //Customer customer = customerService.findCustomerById(id);
-        FetchCustomerDto customerDto = customerService.findCustomerDtoById(id);
-        customerDto = loadCustomerWallets(customerDto);
-        return customerDto;
+        return customerService.findCustomerDtoById(id);
+        //customerDto = loadCustomerWallets(customerDto);
+        //return customerDto;
     }
 
-    @GetMapping("/accountid/{id}")
-    public List<FetchCustomerDto> getCustomersByAccount(@PathVariable(value="id") UUID accountId) {
-        List<FetchCustomerDto> customerDtos = new ArrayList<>();
+    // @GetMapping("/accountid/{id}")
+    // public List<FetchCustomerDto> getCustomersByAccount(@PathVariable(value="id") UUID accountId) {
+    //     List<FetchCustomerDto> customerDtos = new ArrayList<>();
         
-        // get all the customers
-        List<Customer> customers = customerService.findCustomersByAccount(accountService.findAccountById(accountId));
+    //     // get all the customers
+    //     List<Customer> customers = customerService.findCustomersByAccount(accountService.findAccountById(accountId));
         
-        // get the list of wallets for each of those customers
-        for (Customer customer : customers) {
-            // get the dto for this customer
-            FetchCustomerDto customerDto = CustomerService.convertCustomerToFetchDto(customer);
-            customerDto = loadCustomerWallets(customerDto);
-            // add the customer dto to the list
-            customerDtos.add(customerDto);
-        }
-        // return a list containing all the customers, each customer contains a list of walletDtos that belong to them
-        return customerDtos;
+    //     // get the list of wallets for each of those customers
+    //     for (Customer customer : customers) {
+    //         // get the dto for this customer
+    //         FetchCustomerDto customerDto = CustomerService.convertCustomerToFetchDto(customer);
+    //         customerDto = loadCustomerWallets(customerDto);
+    //         // add the customer dto to the list
+    //         customerDtos.add(customerDto);
+    //     }
+    //     // return a list containing all the customers, each customer contains a list of walletDtos that belong to them
+    //     return customerDtos;
 
-    }
+    // }
     
     @GetMapping("/email/{email}")
     public FetchCustomerDto getCustomerByEmail(@PathVariable(value="email") String email) {
-        FetchCustomerDto customerDto = customerService.findCustomerDtoByEmail(email);
-        customerDto = loadCustomerWallets(customerDto);
-        return customerDto;
+        return customerService.findCustomerDtoByEmail(email);
+        // customerDto = loadCustomerWallets(customerDto);
+        // return customerDto;
     }
 
-    @PatchMapping("/id/{id}/update-name")
+    @PatchMapping("/customerid/{id}/update-name")
     public FetchCustomerDto updateName(@PathVariable(value="id") UUID id, @RequestBody String name) {
         //TODO: process POST request
-        FetchCustomerDto customerDto = customerService.updateCustomerName(id, name);
-        customerDto = loadCustomerWallets(customerDto);
-        return customerDto;
+        return customerService.updateCustomerName(id, name);
+        // customerDto = loadCustomerWallets(customerDto);
+        // return customerDto;
     }
 
-    @PatchMapping("/id/{id}/update-email")
+    @PatchMapping("/customerid/{id}/update-email")
     public FetchCustomerDto updateEmail(@PathVariable(value="id") UUID id, @RequestBody String email) {
         //TODO: process POST request
-        FetchCustomerDto customerDto = customerService.updateCustomerEmail(id, email);
-        customerDto = loadCustomerWallets(customerDto);
-        return customerDto;
+        return customerService.updateCustomerEmail(id, email);
+        // customerDto = loadCustomerWallets(customerDto);
+        // return customerDto;
     }
 
     @DeleteMapping("/id/{id}/delete")
     public FetchCustomerDto delete(@PathVariable(value="id") UUID id) {
         //TODO: process POST request
         FetchCustomerDto customerDto = customerService.findCustomerDtoById(id);
-        customerDto = loadCustomerWallets(customerDto);
+        //customerDto = loadCustomerWallets(customerDto);
         customerService.deleteCustomerById(id);
         return customerDto;
     }

@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.payments.fetch_payments.FetchPaymentDto;
 import com.diamond.diamond.entities.payments.Payment;
-import com.diamond.diamond.entities.user.AccountWallet;
 import com.diamond.diamond.repositories.payments.PaymentRepository;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.StablecoinCurrency;
@@ -24,7 +23,7 @@ public abstract class PaymentService<T extends Payment> {
     
     public PaymentService(PaymentRepository<T> paymentRepository) {
         this.paymentRepository = paymentRepository;
-    }  
+    }
 
     // public FetchPaymentDto convertPaymentToFetchDto(T payment) {
     //     FetchPaymentDto paymentDto = new FetchPaymentDto();
@@ -105,9 +104,9 @@ public abstract class PaymentService<T extends Payment> {
         return paymentRepository.save(payment);
     }
 
-    public T updateWalletDistribution(UUID id, List<AccountWallet> wallets) {
+    public T updateWalletDistribution(UUID id, List<UUID> walletIds) {
         T payment = paymentRepository.findById(id).orElseThrow();
-        payment.setWalletDistribution(wallets);
+        payment.setWalletDistribution(walletIds);
         return paymentRepository.save(payment);
     }
     

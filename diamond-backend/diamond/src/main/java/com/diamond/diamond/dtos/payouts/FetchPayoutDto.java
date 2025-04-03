@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
+import com.diamond.diamond.entities.payments.Payout;
 import com.diamond.diamond.types.FiatCurrency;
 import com.diamond.diamond.types.PayoutStatus;
 import com.diamond.diamond.types.StablecoinCurrency;
@@ -12,13 +13,25 @@ public class FetchPayoutDto {
     private UUID id;
     private UUID accountId;
     private UUID walletId;
-    private String walletAddress;
+    //private String walletAddress;
     private BigDecimal amount;
     private StablecoinCurrency stablecoinCurrency;
     private FiatCurrency fiatCurrency;
     private Date createdAt;
     private Date payoutDate;
     private PayoutStatus status;
+
+    public FetchPayoutDto(Payout payout) {
+        this.id = payout.getId();
+        this.accountId = payout.getAccountId();
+        this.walletId = payout.getOfframpWalletId();
+        this.amount = payout.getAmount();
+        this.stablecoinCurrency = payout.getStablecoinCurrency();
+        this.fiatCurrency = payout.getFiatCurrency();
+        this.createdAt = payout.getCreatedAt();
+        this.payoutDate = payout.getPayoutDate();
+        this.status = payout.getStatus();
+    }
 
     public UUID getId() {
         return id;
@@ -78,13 +91,12 @@ public class FetchPayoutDto {
         this.status = status;
     }
 
-    public String getWalletAddress() {
-        return walletAddress;
-    }
+    // public String getWalletAddress() {
+    //     return walletAddress;
+    // }
 
-    public void setWalletAddress(String walletAddress) {
-        this.walletAddress = walletAddress;
-    }
-
+    // public void setWalletAddress(String walletAddress) {
+    //     this.walletAddress = walletAddress;
+    // }
     
 }

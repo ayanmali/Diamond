@@ -8,13 +8,14 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import jakarta.persistence.CascadeType;
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
@@ -42,19 +43,25 @@ public class Account {
     // Used for confirming wallet interactions
     @Column(nullable=false, name="pin")
     @Size(min=4, max=4)
-    private byte[] encryptedPin;
+    private String encryptedPin;
 
     // The wallets belonging to this user
-    @OneToMany(mappedBy="account", cascade=CascadeType.ALL)
-    private List<AccountWallet> wallets;
+    //@OneToMany(mappedBy="account", cascade=CascadeType.ALL)
+    @ElementCollection
+    @CollectionTable(name="account_wallet_ids", joinColumns= @JoinColumn(name = "account_id"))
+    @Column(name="wallet_id")
+    private List<UUID> walletIds;
 
     // The email address belonging to this user
     @Column(unique = true, length = 100, nullable = false)
     @Email
     private String email;
 
-    @OneToMany(mappedBy="account", cascade=CascadeType.ALL)
-    private List<Customer> customers;
+    //OneToMany(mappedBy="account", cascade=CascadeType.ALL)
+    @ElementCollection
+    @CollectionTable(name="customer_ids", joinColumns= @JoinColumn(name = "customer_id"))
+    @Column(name="customer_id")
+    private List<UUID> customerIds;
 
     @CreationTimestamp
     @Column(updatable = false, name = "created_at")
@@ -68,13 +75,13 @@ public class Account {
     // @Column(name="wallet_set_id", unique=true, nullable=false)
     // private UUID walletSetId;
 
-    public Account() {this.wallets = new ArrayList<>();}
+    public Account() {this.walletIds = new ArrayList<>();}
 
     public Account(String businessName, String email) throws Exception {
         this.businessName = businessName;
         this.email = email;
-        this.wallets = new ArrayList<>();
-        this.createdAt = new Date();
+        this.walletIds = new ArrayList<>();
+        //this.createdAt = new Date();
     }
 
     /* Implementing the interface */
@@ -110,23 +117,23 @@ public class Account {
         this.businessName = newBusinessName;
     }
 
-    public List<AccountWallet> getWallets() {
-        return wallets;
+    public List<UUID> getWalletIds() {
+        return walletIds;
     }
 
-    public void setWallets(List<AccountWallet> wallets) {
-        this.wallets = wallets;
+    public void setWalletIds(List<UUID> walletIds) {
+        this.walletIds = walletIds;
     }
 
-    public void addWallet(AccountWallet wallet) {
-        wallets.add(wallet);
+    public void addWallet(UUID walletId) {
+        walletIds.add(walletId);
     }
 
-    public void removeWallet(AccountWallet wallet) throws Exception {
-        if (wallets.contains(wallet)) {
-            wallets.remove(wallet);
+    public void removeWallet(UUID walletId) throws Exception {
+        if (walletIds.contains(walletId)) {
+            walletIds.remove(walletId);
         } else {
-            throw new Exception(String.format("Wallet with address %s not found.", wallet.getAddress()));
+            throw new Exception(String.format("Wallet with ID %s not found.", walletId.toString()));
         }
     }
 
@@ -146,12 +153,12 @@ public class Account {
         return true;
     }
 
-    public List<Customer> getCustomers() {
-        return customers;
+    public List<UUID> getCustomerIds() {
+        return customerIds;
     }
 
-    public void setCustomers(List<Customer> customers) {
-        this.customers = customers;
+    public void setCustomers(List<UUID> customerIds) {
+        this.customerIds = customerIds;
     }
 
     // public UUID getWalletSetId() {
@@ -170,11 +177,11 @@ public class Account {
         this.name = name;
     }
 
-    public byte[] getEncryptedPin() {
+    public String getEncryptedPin() {
         return encryptedPin;
     }
 
-    public void setEncryptedPin(byte[] encryptedPin) {
+    public void setEncryptedPin(String encryptedPin) {
         this.encryptedPin = encryptedPin;
     }
 

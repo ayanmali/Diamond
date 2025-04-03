@@ -14,8 +14,6 @@ import org.springframework.stereotype.Service;
 import com.diamond.diamond.dtos.payouts.FetchPayoutDto;
 import com.diamond.diamond.dtos.payouts.NewPayoutDto;
 import com.diamond.diamond.entities.payments.Payout;
-import com.diamond.diamond.entities.user.Account;
-import com.diamond.diamond.entities.user.AccountWallet;
 import com.diamond.diamond.repositories.payments.PayoutRepository;
 import com.diamond.diamond.types.PayoutStatus;
 
@@ -27,30 +25,30 @@ public class PayoutService {
         this.payoutRepository = payoutRepository;
     }
 
-    public FetchPayoutDto convertPayoutToFetchDto(Payout payout) {
-        FetchPayoutDto payoutDto = new FetchPayoutDto();
+    // public FetchPayoutDto convertPayoutToFetchDto(Payout payout) {
+    //     FetchPayoutDto payoutDto = new FetchPayoutDto();
 
-        payoutDto.setId(payout.getId());
-        payoutDto.setAccountId(payout.getAccount().getId());
-        payoutDto.setAmount(payout.getAmount());
-        payoutDto.setFiatCurrency(payout.getFiatCurrency());
-        payoutDto.setPayoutDate(payout.getPayoutDate());
-        payoutDto.setStablecoinCurrency(payout.getStablecoinCurrency());
-        payoutDto.setWalletId(payout.getOfframpWallet().getId());
-        payoutDto.setWalletAddress(payout.getOfframpWallet().getAddress());
-        payoutDto.setStatus(payout.getStatus());
+    //     payoutDto.setId(payout.getId());
+    //     payoutDto.setAccountId(payout.getAccount().getId());
+    //     payoutDto.setAmount(payout.getAmount());
+    //     payoutDto.setFiatCurrency(payout.getFiatCurrency());
+    //     payoutDto.setPayoutDate(payout.getPayoutDate());
+    //     payoutDto.setStablecoinCurrency(payout.getStablecoinCurrency());
+    //     payoutDto.setWalletId(payout.getOfframpWallet().getId());
+    //     payoutDto.setWalletAddress(payout.getOfframpWallet().getAddress());
+    //     payoutDto.setStatus(payout.getStatus());
 
-        return payoutDto;
-    }
+    //     return payoutDto;
+    // }
 
-    public FetchPayoutDto createPayout(NewPayoutDto input, Account account, AccountWallet offrampWallet) {
+    public FetchPayoutDto createPayout(NewPayoutDto input, UUID accountId) {
         // TODO: payout logic with Banxa API
         // ...
 
         // Creating the Payout object
-        Payout payout = new Payout(account, offrampWallet, input.getAmount(), input.getStablecoinCurrency(), input.getFiatCurrency());
+        Payout payout = new Payout(accountId, input.getWalletId(), input.getAmount(), input.getStablecoinCurrency(), input.getFiatCurrency());
 
-        return convertPayoutToFetchDto(payoutRepository.save(payout));
+        return new FetchPayoutDto(payoutRepository.save(payout));
     }
 
     public List<FetchPayoutDto> findPayoutDtosWithFilters(
@@ -75,7 +73,7 @@ public class PayoutService {
 
         return payouts.getContent()
             .stream()
-            .map(this::convertPayoutToFetchDto)
+            .map(FetchPayoutDto::new)
             .collect(Collectors.toList());
     }
 }

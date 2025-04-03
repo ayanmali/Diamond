@@ -5,9 +5,8 @@ package com.diamond.diamond.entities.payments;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
-import com.diamond.diamond.entities.user.Account;
-import com.diamond.diamond.entities.user.AccountWallet;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.SimplePaymentCategory;
 import com.diamond.diamond.types.StablecoinCurrency;
@@ -19,8 +18,12 @@ import jakarta.persistence.Table;
 @Table(name="flexible_payments")
 // Inherits from the Simple Payment class. Does not include an explicit 'amount' value.
 public class FlexiblePayment extends SimplePayment {
-    public FlexiblePayment(BigDecimal minAmount, Account account, List<StablecoinCurrency> acceptedCurrencies, Blockchain chain, List<AccountWallet> accountWallets, Boolean hasMaxNumberOfPayments, Integer maxNumberOfPayments) {
-        super(minAmount, account, chain, accountWallets, hasMaxNumberOfPayments, maxNumberOfPayments, /*false, null, */SimplePaymentCategory.FLEXIBLE, acceptedCurrencies);
+    public FlexiblePayment(BigDecimal minAmount, UUID accountId, List<StablecoinCurrency> acceptedCurrencies, Blockchain chain, List<UUID> accountWalletIds, Boolean hasMaxNumberOfPayments, Integer maxNumberOfPayments) {
+        super(minAmount, accountId, chain, accountWalletIds, hasMaxNumberOfPayments, maxNumberOfPayments, SimplePaymentCategory.FLEXIBLE, acceptedCurrencies);
+    }
+
+    public FlexiblePayment(BigDecimal minAmount, UUID accountId, List<StablecoinCurrency> acceptedCurrencies, Blockchain chain, UUID accountWalletId, Boolean hasMaxNumberOfPayments, Integer maxNumberOfPayments) {
+        super(minAmount, accountId, chain, accountWalletId, hasMaxNumberOfPayments, maxNumberOfPayments, SimplePaymentCategory.FLEXIBLE, acceptedCurrencies);
     }
 
 }

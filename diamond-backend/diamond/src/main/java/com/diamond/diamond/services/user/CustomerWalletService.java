@@ -20,24 +20,24 @@ public class CustomerWalletService {
         this.customerWalletRepository = customerWalletRepository;
     }
 
-    public static FetchCustomerWalletDto convertCustomerWalletToFetchDto(CustomerWallet wallet) {
-        FetchCustomerWalletDto walletDto = new FetchCustomerWalletDto();
-        walletDto.setId(wallet.getId());
-        walletDto.setAddress(wallet.getAddress());
-        walletDto.setChain(wallet.getChain());
-        walletDto.setCustomerId(wallet.getCustomer().getId());
-        return walletDto;
-    }
+    // public static FetchCustomerWalletDto convertCustomerWalletToFetchDto(CustomerWallet wallet) {
+    //     FetchCustomerWalletDto walletDto = new FetchCustomerWalletDto();
+    //     walletDto.setId(wallet.getId());
+    //     walletDto.setAddress(wallet.getAddress());
+    //     walletDto.setChain(wallet.getChain());
+    //     walletDto.setCustomerId(wallet.getCustomer().getId());
+    //     return walletDto;
+    // }
 
-    public FetchCustomerWalletDto saveWallet(Customer customer, NewCustomerWalletDto walletDto) {
+    public FetchCustomerWalletDto saveWallet(UUID customerId, NewCustomerWalletDto walletDto) {
         CustomerWallet wallet = new CustomerWallet(walletDto.getAddress(),
                                                    walletDto.getChain(),
-                                                   customer);
-        return convertCustomerWalletToFetchDto(customerWalletRepository.save(wallet));
+                                                   customerId);
+        return new FetchCustomerWalletDto(customerWalletRepository.save(wallet));
     }
 
     public FetchCustomerWalletDto findWalletDtoById(UUID id) {
-        return convertCustomerWalletToFetchDto(customerWalletRepository.findById(id).orElseThrow());
+        return new FetchCustomerWalletDto(customerWalletRepository.findById(id).orElseThrow());
     }
 
     public CustomerWallet findWalletById(UUID id) {
@@ -45,7 +45,7 @@ public class CustomerWalletService {
     }
 
     public FetchCustomerWalletDto findWalletDtoByAddress(String address) {
-        return convertCustomerWalletToFetchDto(customerWalletRepository.findByAddress(address).orElseThrow());
+        return new FetchCustomerWalletDto(customerWalletRepository.findByAddress(address).orElseThrow());
     }
 
     public CustomerWallet findWalletByAddress(String address) {
@@ -58,7 +58,7 @@ public class CustomerWalletService {
 
     public List<FetchCustomerWalletDto> findWalletDtosByCustomer(Customer customer) {
         return customerWalletRepository.findByCustomer(customer).stream() // Convert the List<Customer> to a Stream<Customer>
-        .map(CustomerWalletService::convertCustomerWalletToFetchDto) // Map each Customer to FetchCustomerDto
+        .map(FetchCustomerWalletDto::new) // Map each Customer to FetchCustomerDto
         .collect(Collectors.toList());
     }
 

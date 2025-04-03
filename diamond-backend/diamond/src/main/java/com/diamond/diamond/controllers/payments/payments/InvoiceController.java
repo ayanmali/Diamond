@@ -1,39 +1,35 @@
 package com.diamond.diamond.controllers.payments.payments;
 
-import java.util.List;
-
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.diamond.diamond.dtos.payments.new_payments.NewInvoiceDto;
 import com.diamond.diamond.entities.payments.Invoice;
-import com.diamond.diamond.entities.user.AccountWallet;
+import com.diamond.diamond.services.payments.InvoiceService;
 import com.diamond.diamond.services.user.AccountService;
-import com.diamond.diamond.services.user.CustomerService;
+import com.diamond.diamond.services.user.AccountWalletService;
 
 @RestController
 @RequestMapping("/invoices")
 public class InvoiceController extends PaymentController<Invoice, NewInvoiceDto> {
-    private final CustomerService customerService;
+    //private final CustomerService customerService;
 
-    public InvoiceController(AccountService accountService, CustomerService customerService) {
-        this.accountService = accountService;
-        this.customerService = customerService;
+    public InvoiceController(InvoiceService invoiceService, AccountService accountService, AccountWalletService accountWalletService) {
+        super(invoiceService, accountService, accountWalletService);
     }
 
     @Override
     Invoice convertNewDtoToPayment(NewInvoiceDto paymentDto) {
         // TODO Auto-generated method stub
-        List<AccountWallet> accountWallets = this.getAccountWalletsFromPaymentDto(paymentDto);
+        //List<AccountWallet> accountWallets = this.getAccountWalletsFromPaymentDto(paymentDto);
 
-        Invoice invoice = new Invoice(paymentDto.getAmount(), 
-                                      accountService.findAccountById(paymentDto.getAccountId()), 
-                                      customerService.findCustomerById(paymentDto.getCustomerId()),  
-                                      paymentDto.getChain(), 
-                                      accountWallets, 
-                                      paymentDto.getAccountComments(),
-                                      paymentDto.getCurrencies());
-        return invoice;
+        return new Invoice(paymentDto.getAmount(), 
+                           paymentDto.getAccountId(), 
+                           paymentDto.getCustomerId(),  
+                           paymentDto.getChain(), 
+                           paymentDto.getAccountWalletIds(), 
+                           paymentDto.getAccountComments(),
+                           paymentDto.getCurrencies());
     }
 
     // TODO: override getWithFilters endpoint for invoices

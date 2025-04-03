@@ -10,7 +10,6 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -19,9 +18,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapKeyColumn;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
@@ -42,21 +39,27 @@ public class Customer {
     @Email
     private String email;
 
-    @OneToMany(mappedBy="customer", cascade=CascadeType.ALL)
-    private List<CustomerWallet> wallets;
+    //@OneToMany(mappedBy="customer", cascade=CascadeType.ALL)
+    //private List<CustomerWallet> wallets;
+    @ElementCollection
+    @CollectionTable(name = "customer_wallet_ids", joinColumns = @JoinColumn(name = "wallet_ids"))
+    @Column(name = "wallet_ids")
+    private List<UUID> walletIds;
 
-    @ManyToOne
-    @JoinColumn(name="account_id", referencedColumnName="id", nullable=false)
-    private Account account;
+    //@ManyToOne
+    //@JoinColumn(name="account_id", referencedColumnName="id", nullable=false)
+    //private Account account;
+    @Column(name="account_id", nullable=false)
+    private UUID accountId;
 
     @ElementCollection
     @CollectionTable(
-        name = "payment_metadata",
-        joinColumns = @JoinColumn(name = "payment_id")
+        name = "customer_metadata",
+        joinColumns = @JoinColumn(name = "customer_id")
     )
     @MapKeyColumn(name = "key")
     @Column(name = "value")
-    private Map<String, String> metadata = new HashMap<>();
+    private Map<String, String> metadata;
 
     @CreationTimestamp
     @Column(name="created_at")
@@ -77,25 +80,42 @@ public class Customer {
 
     public Customer() {}
 
-    public Customer(Account account, String name, String email, CustomerWallet wallet) {
-        this.account = account;
+    public Customer(UUID accountId, String name, String email, CustomerWallet wallet) {
+        this.accountId = accountId;
         this.name = name;
         this.email = email;
-        this.wallets = new ArrayList<>();
-        this.wallets.add(wallet);
+        this.walletIds = new ArrayList<>();
+        this.walletIds.add(wallet.getId());
+
+        this.metadata = new HashMap<>();
     }
 
-    public Customer(Account account, String name, String email) {
-        this.account = account;
+    public Customer(UUID accountId, String name, String email, UUID customerWalletId) {
+        this.accountId = accountId;
         this.name = name;
         this.email = email;
+        this.walletIds = new ArrayList<>();
+        this.walletIds.add(customerWalletId);
+
+        this.metadata = new HashMap<>();
     }
 
-    public Customer(Account account, String name, String email, List<CustomerWallet> wallets) {
-        this.account = account;
+    public Customer(UUID accountId, String name, String email) {
+        this.accountId = accountId;
         this.name = name;
         this.email = email;
-        this.wallets = wallets;
+
+        this.walletIds = new ArrayList<>();
+        this.metadata = new HashMap<>();
+    }
+
+    public Customer(UUID accountId, String name, String email, List<UUID> customerWalletIds) {
+        this.accountId = accountId;
+        this.name = name;
+        this.email = email;
+        this.walletIds = customerWalletIds;
+
+        this.metadata = new HashMap<>();
     }
 
     public String getEmail() {
@@ -106,20 +126,16 @@ public class Customer {
         this.email = email;
     }
 
-    public List<CustomerWallet> getWallets() {
-        return wallets;
-    }
-
-    public void addWallet(CustomerWallet wallet) {
+    public void addWallet(UUID walletId) {
         // connect and authorize the specified wallet
-        this.wallets.add(wallet);
+        this.walletIds.add(walletId);
     }
 
-    public void deleteWallet(CustomerWallet wallet) throws Exception {
-        if (wallets.contains(wallet)) {
-            wallets.remove(wallet);
+    public void deleteWallet(UUID walletId) throws Exception {
+        if (walletIds.contains(walletId)) {
+            walletIds.remove(walletId);
         } else {
-            throw new Exception("Not found");
+            throw new Exception("Wallet ID " + walletId + " not found");
         }
     }
 
@@ -171,20 +187,28 @@ public class Customer {
         return updatedAt;
     }
 
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
     public Map<String, String> getMetadata() {
         return metadata;
     }
 
     public void setMetadata(Map<String, String> metadata) {
         this.metadata = metadata;
+    }
+
+    public List<UUID> getWalletIds() {
+        return walletIds;
+    }
+
+    public void setWalletIds(List<UUID> walletIds) {
+        this.walletIds = walletIds;
+    }
+
+    public UUID getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(UUID accountId) {
+        this.accountId = accountId;
     }
 
 }

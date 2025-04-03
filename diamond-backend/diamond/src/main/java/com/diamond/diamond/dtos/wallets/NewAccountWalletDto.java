@@ -1,7 +1,5 @@
 package com.diamond.diamond.dtos.wallets;
 
-import java.util.UUID;
-
 import com.diamond.diamond.types.Blockchain;
 
 import jakarta.validation.constraints.Size;
@@ -11,15 +9,8 @@ public class NewAccountWalletDto {
     private Blockchain chain;
     @Size(min=1, max=40)
     private String walletName;
-    private UUID accountId;
-    private UUID idempotencyKey;
-
-    public UUID getAccountId() {
-        return accountId;
-    }
-    public void setAccountId(UUID accountId) {
-        this.accountId = accountId;
-    }
+    //private UUID accountId;
+    //private UUID idempotencyKey;
     // public String getAddress() {
     //     return address;
     // }
@@ -39,12 +30,12 @@ public class NewAccountWalletDto {
         this.walletName = walletName;
     }
 
-    public UUID getIdempotencyKey() {
-        return idempotencyKey;
-    }
+    // public UUID getIdempotencyKey() {
+    //     return idempotencyKey;
+    // }
 
-    public void setIdempotencyKey(UUID idempotencyKey) {
-        this.idempotencyKey = idempotencyKey;
-    }
+    // public void setIdempotencyKey(UUID idempotencyKey) {
+    //     this.idempotencyKey = idempotencyKey;
+    // }
 
 }

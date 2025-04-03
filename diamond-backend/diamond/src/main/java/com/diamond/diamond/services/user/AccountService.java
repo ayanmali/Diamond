@@ -13,7 +13,6 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -32,7 +31,7 @@ public class AccountService {
     private static final int DATA_LENGTH = 128;
     private static final String ALGORITHM = "AES/GCM/NoPadding";
 
-    // Encoded keys from application.properties
+    // Encoded (string) keys from application.properties
     @Value("${wallet.encryption.key}")
     private String walletEncryptionKey;
 
@@ -56,8 +55,9 @@ public class AccountService {
         //     System.out.println("ENCRYPTION KEY FOUND: " + WALLET_ENCRYPTION_KEY);
         // }
 
-        secretWalletKey = AccountService.stringToSecretKey(walletEncryptionKey);        // Decode the Base64-encoded String key
-        secretPinKey = AccountService.stringToSecretKey(pinEncryptionKey);              // Decode the Base64-encoded String key
+        secretWalletKey = stringToSecretKey(walletEncryptionKey);        // Decode the Base64-encoded String key
+        secretPinKey = stringToSecretKey(pinEncryptionKey);              // Decode the Base64-encoded String key
+        
         // byte[] decodedWalletKey = Base64.getDecoder().decode(WALLET_ENCRYPTION_KEY);
 
         // // Create a SecretKey object from the decoded key
@@ -76,24 +76,24 @@ public class AccountService {
     // public Account saveUser(Account account) {
     //     return accountRepository.save(account);
     // }
-    public FetchAccountDto convertAccountToFetchDto(Account account) {
-        FetchAccountDto accountDto = new FetchAccountDto();
+    // public FetchAccountDto convertAccountToFetchDto(Account account) {
+    //     FetchAccountDto accountDto = new FetchAccountDto();
         
-        accountDto.setEmail(account.getEmail());
-        accountDto.setName(account.getName());
-        accountDto.setBusinessName(account.getBusinessName());
-        accountDto.setId(account.getId());
-        accountDto.setCreatedAt(account.getCreatedAt());
-        accountDto.setUpdatedAt(account.getUpdatedAt());
+    //     accountDto.setEmail(account.getEmail());
+    //     accountDto.setName(account.getName());
+    //     accountDto.setBusinessName(account.getBusinessName());
+    //     accountDto.setId(account.getId());
+    //     accountDto.setCreatedAt(account.getCreatedAt());
+    //     accountDto.setUpdatedAt(account.getUpdatedAt());
 
-        if (account.getWallets() != null && Hibernate.isInitialized(account.getWallets())) {
-            accountDto.setWallets(
-                account.getWallets().stream() // Convert the List<AccountWallet> to a Stream<AccountWallet>
-                .map(AccountWalletService::convertAccountWalletToFetchDto) // Map each AccountWallet to FetchAccountWalletDto
-                .collect(Collectors.toList()));
-        }
-        return accountDto;
-    }
+    //     if (account.getWallets() != null && Hibernate.isInitialized(account.getWallets())) {
+    //         accountDto.setWallets(
+    //             account.getWallets().stream() // Convert the List<AccountWallet> to a Stream<AccountWallet>
+    //             .map(AccountWalletService::convertAccountWalletToFetchDto) // Map each AccountWallet to FetchAccountWalletDto
+    //             .collect(Collectors.toList()));
+    //     }
+    //     return accountDto;
+    // }
 
     //@Transactional
     public FetchAccountDto signUp(RegisterUserDto input) {
@@ -104,7 +104,7 @@ public class AccountService {
         //user.setWalletSetId(walletSetId);
 
         // saving the newly registered user to the Users repository
-        return convertAccountToFetchDto(accountRepository.save(user));
+        return new FetchAccountDto(accountRepository.save(user));
     }
 
     // public List<AccountWallet> getAccountWallets(UUID id) {
@@ -137,20 +137,20 @@ public class AccountService {
         // Returning the data in the appropriate format
         return accounts.getContent()
             .stream()
-            .map(this::convertAccountToFetchDto)
+            .map(FetchAccountDto::new)
             .collect(Collectors.toList());
     }
 
     //@Transactional
     public FetchAccountDto findAccountDtoById(String id) {
-        return convertAccountToFetchDto(
+        return new FetchAccountDto(
             accountRepository.findById(UUID.fromString(id))
             .orElseThrow());
     }
 
     //@Transactional
     public FetchAccountDto findAccountDtoById(UUID id) {
-        return convertAccountToFetchDto(
+        return new FetchAccountDto(
             accountRepository.findById(id)
             .orElseThrow());
     }   
@@ -168,7 +168,7 @@ public class AccountService {
     }
 
     public FetchAccountDto findAccountDtoByEmail(String email) {
-        return convertAccountToFetchDto(
+        return new FetchAccountDto(
             accountRepository.findByEmail(email)
             .orElseThrow());
 
@@ -207,13 +207,13 @@ public class AccountService {
     public FetchAccountDto updateAccountEmail(UUID id, String email) {
         Account account = accountRepository.findById(id).orElseThrow();
         account.setEmail(email);
-        return convertAccountToFetchDto(accountRepository.save(account));
+        return new FetchAccountDto(accountRepository.save(account));
     }
 
     public FetchAccountDto updateAccountName(UUID id, String name) {
         Account account = accountRepository.findById(id).orElseThrow();
         account.setBusinessName(name);
-        return convertAccountToFetchDto(accountRepository.save(account));
+        return new FetchAccountDto(accountRepository.save(account));
     }
 
     public void deleteAccountById(UUID id) {
@@ -275,7 +275,7 @@ public class AccountService {
 
     // Decrypt a string (wallet private key or user PIN) using AES/GCM
     // Pass in either the wallet encryption key or the PIN encryption key
-    public String decrypt(String encryptedData, SecretKey secretKey) throws Exception {
+    public byte[] decrypt(String encryptedData, SecretKey secretKey) throws Exception {
         // Get Cipher Instance
         Cipher cipher = Cipher.getInstance(ALGORITHM);
 
@@ -297,9 +297,9 @@ public class AccountService {
         cipher.init(Cipher.DECRYPT_MODE,  secretKey, gcmParameterSpec);
 
         // Perform Decryption
-        byte[] decryptedText = cipher.doFinal(cipherText);
+        return cipher.doFinal(cipherText);
 
-        return new String(decryptedText);
+        // return new String(decryptedText);
     }
 
     public static SecretKey getSecretWalletKey() {

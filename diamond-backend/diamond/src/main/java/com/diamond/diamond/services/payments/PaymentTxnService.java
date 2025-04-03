@@ -11,6 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.diamond.diamond.dtos.payments.txns.FetchPaymentTxnDto;
+import com.diamond.diamond.dtos.payments.txns.NewPaymentTxnDto;
 import com.diamond.diamond.entities.payments.PaymentTxn;
 import com.diamond.diamond.repositories.payments.PaymentTxnRepository;
 import com.diamond.diamond.types.Blockchain;
@@ -60,7 +61,8 @@ public class PaymentTxnService {
     //     }
     // }
 
-    public FetchPaymentTxnDto savePaymentTxn(PaymentTxn txn) {
+    public FetchPaymentTxnDto savePaymentTxn(NewPaymentTxnDto txnDto) {
+        PaymentTxn txn = new PaymentTxn(txnDto.getPaymentId(), txnDto.getCustomerId(), txnDto.getRevenue());
         return new FetchPaymentTxnDto(txnRepository.save(txn));
     }
 

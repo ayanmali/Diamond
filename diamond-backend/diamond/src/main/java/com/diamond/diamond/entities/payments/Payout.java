@@ -6,8 +6,6 @@ import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.diamond.diamond.entities.user.Account;
-import com.diamond.diamond.entities.user.AccountWallet;
 import com.diamond.diamond.types.FiatCurrency;
 import com.diamond.diamond.types.PayoutStatus;
 import com.diamond.diamond.types.StablecoinCurrency;
@@ -19,8 +17,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Positive;
 
@@ -32,9 +28,11 @@ public class Payout {
     @Column(nullable=false)
     private UUID id;
 
-    @ManyToOne
-    @JoinColumn(name="account_id", referencedColumnName="id")
-    private Account account;
+    // @ManyToOne
+    // @JoinColumn(name="account_id", referencedColumnName="id")
+    // private Account account;
+    @Column(name="account_id", nullable=false)
+    private UUID accountId;
 
     // @ManyToMany
     // @JoinTable(
@@ -43,9 +41,12 @@ public class Payout {
     //     inverseJoinColumns = @JoinColumn(name = "wallet_id")
     // )
     // private List<AccountWallet> offrampWallets;
-    @ManyToOne
-    @JoinColumn(name="wallet_id", referencedColumnName="id")
-    private AccountWallet offrampWallet;
+
+    // @ManyToOne
+    // @JoinColumn(name="wallet_id", referencedColumnName="id")
+    // private AccountWallet offrampWallet;
+    @Column(name="offramp_wallet_id", nullable=false)
+    private UUID offrampWalletId;
 
     // amount in tokens being off-ramped
     @Column(name="amount")
@@ -76,9 +77,9 @@ public class Payout {
 
     public Payout() {}
 
-    public Payout(Account account, AccountWallet offrampWallet, BigDecimal amount, StablecoinCurrency stablecoinCurrency, FiatCurrency fiatCurrency) {
-        this.account = account;
-        this.offrampWallet = offrampWallet;
+    public Payout(UUID accountId, UUID offrampWalletId, BigDecimal amount, StablecoinCurrency stablecoinCurrency, FiatCurrency fiatCurrency) {
+        this.accountId = accountId;
+        this.offrampWalletId = offrampWalletId;
         this.amount = amount;
         this.stablecoinCurrency = stablecoinCurrency;
         this.fiatCurrency = fiatCurrency;
@@ -91,14 +92,6 @@ public class Payout {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
     }
 
     public BigDecimal getAmount() {
@@ -133,14 +126,6 @@ public class Payout {
         this.payoutDate = payoutDate;
     }
 
-    public AccountWallet getOfframpWallet() {
-        return offrampWallet;
-    }
-
-    public void setOfframpWallet(AccountWallet offrampWallets) {
-        this.offrampWallet = offrampWallets;
-    }
-
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -157,4 +142,20 @@ public class Payout {
         this.status = status;
     }
 
+    public UUID getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(UUID accountId) {
+        this.accountId = accountId;
+    }
+
+    public UUID getOfframpWalletId() {
+        return offrampWalletId;
+    }
+
+    public void setOfframpWalletId(UUID offrampWalletId) {
+        this.offrampWalletId = offrampWalletId;
+    }
+    
 }

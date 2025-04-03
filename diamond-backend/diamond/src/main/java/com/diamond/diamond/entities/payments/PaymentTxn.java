@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.UUID;
 
-import com.diamond.diamond.entities.user.Customer;
 import com.diamond.diamond.types.PaymentStatus;
 import com.diamond.diamond.types.StablecoinCurrency;
 
@@ -15,8 +14,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
@@ -34,13 +31,17 @@ public class PaymentTxn {
     @Column(nullable=false)
     private UUID id;
 
-    @ManyToOne
-    @JoinColumn(name="payment_id", referencedColumnName="id", nullable=false)
-    private SimplePayment payment; // the payment configuration created by the Account that is associated with this transaction
+    // @ManyToOne
+    // @JoinColumn(name="payment_id", referencedColumnName="id", nullable=false)
+    // private SimplePayment payment; // the payment configuration created by the Account that is associated with this transaction
+    @Column(name="payment_id", nullable=false) // the payment configuration (SimplePayment) created by the Account that is associated with this transaction
+    private UUID paymentId;
     
-    @ManyToOne
-    @JoinColumn(name="customer_id", referencedColumnName="id")
-    private Customer customer;
+    // @ManyToOne
+    // @JoinColumn(name="customer_id", referencedColumnName="id")
+    // private Customer customer;
+    @Column(name="customer_id", nullable=false)
+    private UUID customerId;
 
     @Column(name="revenue")
     @Positive
@@ -87,9 +88,9 @@ public class PaymentTxn {
 
     public PaymentTxn() {}
 
-    public PaymentTxn(SimplePayment payment, Customer customer, BigDecimal revenue/*, List<PromoCode> codesApplied*/) {
-        this.payment = payment;
-        this.customer = customer;
+    public PaymentTxn(UUID paymentId, UUID customerId, BigDecimal revenue/*, List<PromoCode> codesApplied*/) {
+        this.paymentId = paymentId;
+        this.customerId = customerId;
         this.revenue = revenue;
         // this.codesApplied = codesApplied;
         this.status = PaymentStatus.PROCESSING;
@@ -110,18 +111,6 @@ public class PaymentTxn {
         return id != null ? id.hashCode() : 0;
     }
 
-    public SimplePayment getPayment() {
-        return payment;
-    }
-    public void setPayment(SimplePayment payment) {
-        this.payment = payment;
-    }
-    public Customer getCustomer() {
-        return customer;
-    }
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
     public BigDecimal getRevenue() {
         return revenue;
     }
@@ -179,6 +168,22 @@ public class PaymentTxn {
 
     public void setCurrencyUsed(StablecoinCurrency currencyUsed) {
         this.currencyUsed = currencyUsed;
+    }
+
+    public UUID getPaymentId() {
+        return paymentId;
+    }
+
+    public void setPaymentId(UUID paymentId) {
+        this.paymentId = paymentId;
+    }
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(UUID customerId) {
+        this.customerId = customerId;
     }
 
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.hibernate.Hibernate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,35 +25,35 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public static FetchCustomerDto convertCustomerToFetchDto(Customer customer) {
-        FetchCustomerDto customerDto = new FetchCustomerDto();
+    // public static FetchCustomerDto convertCustomerToFetchDto(Customer customer) {
+    //     FetchCustomerDto customerDto = new FetchCustomerDto();
         
-        customerDto.setId(customer.getId());
-        customerDto.setName(customer.getName());
-        customerDto.setEmail(customer.getEmail());
-        customerDto.setAccountId(customer.getAccount().getId());
-        customerDto.setCreatedAt(customer.getCreatedAt());
-        customerDto.setUpdatedAt(customer.getUpdatedAt());
+    //     customerDto.setId(customer.getId());
+    //     customerDto.setName(customer.getName());
+    //     customerDto.setEmail(customer.getEmail());
+    //     customerDto.setAccountId(customer.getAccount().getId());
+    //     customerDto.setCreatedAt(customer.getCreatedAt());
+    //     customerDto.setUpdatedAt(customer.getUpdatedAt());
 
 
-        if (customer.getWallets() != null && Hibernate.isInitialized(customer.getWallets())) {
-            customerDto.setWallets(
-                customer.getWallets().stream() // Convert the List<CustomerWallet> to a Stream<CustomerWallet>
-                .map(CustomerWalletService::convertCustomerWalletToFetchDto) // Map each Customerallet to FetchCustomerWalletDto
-                .collect(Collectors.toList()));
-        }
+    //     if (customer.getWallets() != null && Hibernate.isInitialized(customer.getWallets())) {
+    //         customerDto.setWallets(
+    //             customer.getWallets().stream() // Convert the List<CustomerWallet> to a Stream<CustomerWallet>
+    //             .map(CustomerWalletService::convertCustomerWalletToFetchDto) // Map each Customerallet to FetchCustomerWalletDto
+    //             .collect(Collectors.toList()));
+    //     }
 
-        return customerDto;
-    }
+    //     return customerDto;
+    // }
 
-    public FetchCustomerDto saveCustomer(NewCustomerDto newCustomer, Account account) {
-        Customer customer = new Customer(account,
+    public FetchCustomerDto saveCustomer(NewCustomerDto newCustomer, UUID accountId) {
+        Customer customer = new Customer(accountId,
                                          newCustomer.getName(),
                                          newCustomer.getEmail()
                                          //newCustomer.getWallets() 
                                         );
         
-        return convertCustomerToFetchDto(customerRepository.save(customer));
+        return new FetchCustomerDto(customerRepository.save(customer));
     }
 
     public List<FetchCustomerDto> findCustomerDtosWithFilters(
@@ -76,7 +75,7 @@ public class CustomerService {
         // returning the list of customers in the appropriate format
         return customers.getContent()
             .stream()
-            .map(CustomerService::convertCustomerToFetchDto)
+            .map(FetchCustomerDto::new)
             .collect(Collectors.toList());
     }
 
@@ -90,14 +89,14 @@ public class CustomerService {
 
     public FetchCustomerDto findCustomerDtoById(String id) {
         //return convertCustomerToFetchDto(customerRepository.findById(UUID.fromString(id)).orElseThrow());
-        return convertCustomerToFetchDto(
+        return new FetchCustomerDto(
             customerRepository.findById(UUID.fromString(id))
             .orElseThrow());
     }
 
     public FetchCustomerDto findCustomerDtoById(UUID id) {
         //return convertCustomerToFetchDto(customerRepository.findById(id).orElseThrow());
-        return convertCustomerToFetchDto(
+        return new FetchCustomerDto(
             customerRepository.findById(id)
             .orElseThrow());
     }
@@ -107,12 +106,12 @@ public class CustomerService {
     }
 
     public FetchCustomerDto findCustomerDtoByEmail(String email) {
-        return convertCustomerToFetchDto(customerRepository.findByEmail(email).orElseThrow());
+        return new FetchCustomerDto(customerRepository.findByEmail(email).orElseThrow());
     }
 
     public List<FetchCustomerDto> findCustomerDtosByAccount(Account account) {
         return customerRepository.findByAccount(account).stream() // Convert the List<Customer> to a Stream<Customer>
-        .map(CustomerService::convertCustomerToFetchDto) // Map each Customer to FetchCustomerDto
+        .map(FetchCustomerDto::new) // Map each Customer to FetchCustomerDto
         .collect(Collectors.toList());
     }
 
@@ -125,7 +124,7 @@ public class CustomerService {
         // Modify the entity's properties
         customer.setEmail(email);
         // Save the updated entity
-        return convertCustomerToFetchDto(customerRepository.save(customer));
+        return new FetchCustomerDto(customerRepository.save(customer));
     }
 
     public FetchCustomerDto updateCustomerName(UUID id, String name) {
@@ -133,7 +132,7 @@ public class CustomerService {
         // Modify the entity's properties
         customer.setName(name);
         // Save the updated entity
-        return convertCustomerToFetchDto(customerRepository.save(customer));
+        return new FetchCustomerDto(customerRepository.save(customer));
     }
 
     public void deleteCustomerById(UUID id) {

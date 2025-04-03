@@ -1,18 +1,15 @@
 package com.diamond.diamond.entities.user;
 
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.diamond.diamond.entities.payments.Payment;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.Wallet;
 import com.diamond.diamond.types.WalletStatus;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -20,9 +17,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -41,7 +35,7 @@ public class AccountWallet implements Wallet {
     private String address;
 
     @Column(unique=true, nullable=false, updatable=false)
-    private byte[] encryptedPrivateKey;
+    private String encryptedPrivateKey;
 
     @Column(updatable=false, nullable=false)
     @Enumerated(EnumType.STRING)
@@ -63,24 +57,27 @@ public class AccountWallet implements Wallet {
     @Column(name = "updated_at")
     private Date updatedAt;
 
-    @ManyToOne
-    @JoinColumn(name="account_id", referencedColumnName="id", nullable=false)
-    private Account account;
+    //@ManyToOne
+    //@JoinColumn(name="account_id", referencedColumnName="id", nullable=false)
+    //private Account account;
+    @Column(name="account_id", nullable=false)
+    private UUID accountId;
 
     // join table stores the account wallets used for a given payment
-    @ManyToMany(mappedBy = "walletDistribution", cascade=CascadeType.ALL)
-    private List<Payment> payments;
+    // @ManyToMany(mappedBy = "walletDistribution", cascade=CascadeType.ALL)
+    // private List<Payment> payments;
+    //private List<UUID> paymentIds;
 
     // @ManyToMany(mappedBy = "offrampWallet")
     // private List<Payout> payouts;
 
     public AccountWallet() {}
 
-    public AccountWallet(String address, byte[] encryptedPrivateKey, String walletName, Account account, Blockchain chain) {
+    public AccountWallet(String address, String encryptedPrivateKey, String walletName, UUID accountId, Blockchain chain) {
         this.address = address;
         this.encryptedPrivateKey = encryptedPrivateKey;
         this.walletName = walletName;
-        this.account = account;
+        this.accountId = accountId;
         this.chain = chain;
         this.createdAt = new Date();
         this.status = WalletStatus.ACTIVE;
@@ -104,10 +101,6 @@ public class AccountWallet implements Wallet {
         return createdAt;
     }
 
-    public Account getAccount() {
-        return account;
-    }
-
     public UUID getId() {
         return id;
     }
@@ -122,10 +115,6 @@ public class AccountWallet implements Wallet {
 
     public void setName(String name) {
         this.walletName = name;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
     }
 
     public WalletStatus getStatus() {
@@ -152,20 +141,20 @@ public class AccountWallet implements Wallet {
     //     this.payouts = payouts;
     // }
 
-    public List<Payment> getPayments() {
-        return payments;
-    }
-
-    public void setPayments(List<Payment> payments) {
-        this.payments = payments;
-    }
-
-    public byte[] getEncryptedPrivateKey() {
+    public String getEncryptedPrivateKey() {
         return encryptedPrivateKey;
     }
 
-    public void setEncryptedPrivateKey(byte[] encryptedPrivateKey) {
+    public void setEncryptedPrivateKey(String encryptedPrivateKey) {
         this.encryptedPrivateKey = encryptedPrivateKey;
+    }
+
+    public UUID getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(UUID accountId) {
+        this.accountId = accountId;
     }
 
 }

@@ -27,28 +27,28 @@ public class AccountWalletService {
         this.accountWalletRepository = accountWalletRepository;
     }
 
-    public static FetchAccountWalletDto convertAccountWalletToFetchDto(AccountWallet accountWallet) {
-        FetchAccountWalletDto walletDto = new FetchAccountWalletDto();
-        walletDto.setAddress(accountWallet.getAddress());
-        walletDto.setChain(accountWallet.getChain());
-        walletDto.setCreatedAt(accountWallet.getCreatedAt());
-        walletDto.setId(accountWallet.getId());
-        walletDto.setStatus(accountWallet.getStatus());
-        walletDto.setUpdatedAt(accountWallet.getUpdatedAt());
-        walletDto.setAccountId(accountWallet.getAccount().getId());
-        walletDto.setWalletName(accountWallet.getWalletName());
-        return walletDto;
-    }
+    // public static FetchAccountWalletDto convertAccountWalletToFetchDto(AccountWallet accountWallet) {
+    //     FetchAccountWalletDto walletDto = new FetchAccountWalletDto();
+    //     walletDto.setAddress(accountWallet.getAddress());
+    //     walletDto.setChain(accountWallet.getChain());
+    //     walletDto.setCreatedAt(accountWallet.getCreatedAt());
+    //     walletDto.setId(accountWallet.getId());
+    //     walletDto.setStatus(accountWallet.getStatus());
+    //     walletDto.setUpdatedAt(accountWallet.getUpdatedAt());
+    //     walletDto.setAccountId(accountWallet.getAccount().getId());
+    //     walletDto.setWalletName(accountWallet.getWalletName());
+    //     return walletDto;
+    // }
 
-    public FetchAccountWalletDto saveWallet(NewAccountWalletDto walletDto, Account account, String walletAddress, byte[] encryptedPrivateKey) {
+    public FetchAccountWalletDto saveWallet(NewAccountWalletDto walletDto, UUID accountId, String walletAddress, String encryptedPrivateKey) {
         AccountWallet accountWallet = new AccountWallet(
                                         walletAddress,
                                         encryptedPrivateKey,
                                         walletDto.getWalletName(),
-                                        account,
+                                        accountId,
                                         walletDto.getChain());
 
-        return convertAccountWalletToFetchDto(accountWalletRepository.save(accountWallet));
+        return new FetchAccountWalletDto(accountWalletRepository.save(accountWallet));
     }
 
     public List<FetchAccountWalletDto> findWalletDtosWithFilters(
@@ -80,12 +80,12 @@ public class AccountWalletService {
         // returning the list of wallets in the appropriate format
         return accountWallets.getContent()
             .stream()
-            .map(AccountWalletService::convertAccountWalletToFetchDto)
+            .map(FetchAccountWalletDto::new)
             .collect(Collectors.toList());
     }
 
     public FetchAccountWalletDto findWalletDtoById(UUID id) {
-        return convertAccountWalletToFetchDto(accountWalletRepository.findById(id).orElseThrow());
+        return new FetchAccountWalletDto(accountWalletRepository.findById(id).orElseThrow());
     }
 
     public AccountWallet findWalletById(UUID id) {
@@ -93,7 +93,7 @@ public class AccountWalletService {
     }
 
     public FetchAccountWalletDto findWalletDtoByAddress(String address) {
-        return convertAccountWalletToFetchDto(accountWalletRepository.findByAddress(address).orElseThrow());
+        return new FetchAccountWalletDto(accountWalletRepository.findByAddress(address).orElseThrow());
     }
 
     public AccountWallet findWalletByAddress(String address) {
@@ -104,7 +104,7 @@ public class AccountWalletService {
         // List<AccountWallet> accountWallets = accountWalletRepository.findByAccount(account);
         //List<AccountWallet> accountWallets = accountWalletRepository.findAll();
         return accountWalletRepository.findByAccount(account).stream() // Convert the List<AccountWallet> to a Stream<AccountWallet>
-            .map(AccountWalletService::convertAccountWalletToFetchDto) // Map each AccountWallet to FetchAccountWalletDto
+            .map(FetchAccountWalletDto::new) // Map each AccountWallet to FetchAccountWalletDto
             .collect(Collectors.toList()); // Collect the results into a List<FetchAccountWalletDto>
     }
 
@@ -118,7 +118,7 @@ public class AccountWalletService {
 
     public List<FetchAccountWalletDto> findWalletDtosByPayment(Payment payment) {
         return accountWalletRepository.findByPayments(List.of(payment)).stream() // Convert the List<AccountWallet> to a Stream<AccountWallet>
-        .map(AccountWalletService::convertAccountWalletToFetchDto) // Map each AccountWallet to FetchAccountWalletDto
+        .map(FetchAccountWalletDto::new) // Map each AccountWallet to FetchAccountWalletDto
         .collect(Collectors.toList()); // Collect the results into a List<FetchAccountWalletDto>
     }
 
@@ -128,26 +128,26 @@ public class AccountWalletService {
 
     public List<FetchAccountWalletDto> findWalletDtosByPayments(List<Payment> payments) {
         return accountWalletRepository.findByPayments(payments).stream() // Convert the List<AccountWallet> to a Stream<AccountWallet>
-        .map(AccountWalletService::convertAccountWalletToFetchDto) // Map each AccountWallet to FetchAccountWalletDto
+        .map(FetchAccountWalletDto::new) // Map each AccountWallet to FetchAccountWalletDto
         .collect(Collectors.toList()); // Collect the results into a List<FetchAccountWalletDto>
     }
 
     public FetchAccountWalletDto updateWalletName(UUID id, String name) {
         AccountWallet accountWallet = accountWalletRepository.findById(id).orElseThrow();
         accountWallet.setName(name);
-        return convertAccountWalletToFetchDto(accountWalletRepository.save(accountWallet));
+        return new FetchAccountWalletDto(accountWalletRepository.save(accountWallet));
     }
 
     public FetchAccountWalletDto archiveWallet(UUID id) {
         AccountWallet accountWallet = accountWalletRepository.findById(id).orElseThrow();
         accountWallet.setStatus(WalletStatus.ARCHIVED);
-        return convertAccountWalletToFetchDto(accountWalletRepository.save(accountWallet));
+        return new FetchAccountWalletDto(accountWalletRepository.save(accountWallet));
     }
 
     public FetchAccountWalletDto reactivateWallet(UUID id) {
         AccountWallet accountWallet = accountWalletRepository.findById(id).orElseThrow();
         accountWallet.setStatus(WalletStatus.ACTIVE);
-        return convertAccountWalletToFetchDto(accountWalletRepository.save(accountWallet));
+        return new FetchAccountWalletDto(accountWalletRepository.save(accountWallet));
     }
 
     public void deleteWalletById(UUID id) {

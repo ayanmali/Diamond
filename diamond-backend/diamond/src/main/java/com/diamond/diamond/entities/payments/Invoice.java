@@ -6,17 +6,13 @@ package com.diamond.diamond.entities.payments;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
-import com.diamond.diamond.entities.user.Account;
-import com.diamond.diamond.entities.user.AccountWallet;
-import com.diamond.diamond.entities.user.Customer;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.StablecoinCurrency;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.PastOrPresent;
 
@@ -28,9 +24,11 @@ import jakarta.validation.constraints.PastOrPresent;
 @Table(name="invoices")
 public class Invoice extends Payment {
 
-    @ManyToOne
-    @JoinColumn(name="customer_id", referencedColumnName="id")
-    private Customer customer;
+    // @ManyToOne
+    // @JoinColumn(name="customer_id", referencedColumnName="id")
+    // private Customer customer;
+    @Column(name="customer_id", nullable=false)
+    private UUID customerId;
 
     @Column(name="time_sent")
     @PastOrPresent
@@ -56,9 +54,17 @@ public class Invoice extends Payment {
 
     public Invoice() {}
 
-    public Invoice(BigDecimal amount, Account account, Customer customer, Blockchain chain, List<AccountWallet> accountWallets, String accountComments, List<StablecoinCurrency> acceptedCurrencies) {
-        super(amount, account, chain, accountWallets, acceptedCurrencies);
-        this.customer = customer;
+    public Invoice(BigDecimal amount, UUID accountId, UUID customerId, Blockchain chain, List<UUID> accountWalletIds, String accountComments, List<StablecoinCurrency> acceptedCurrencies) {
+        //super(amount, account, chain, accountWallets, acceptedCurrencies);
+        super(amount, accountId, chain, accountWalletIds, acceptedCurrencies);
+        this.customerId = customerId;
+        this.timeSent = new Date();
+        this.accountComments = accountComments;
+    }
+
+    public Invoice(BigDecimal amount, UUID accountId, UUID customerId, Blockchain chain, UUID accountWalletId, String accountComments, List<StablecoinCurrency> acceptedCurrencies) {
+        super(amount, accountId, chain, accountWalletId, acceptedCurrencies);
+        this.customerId = customerId;
         this.timeSent = new Date();
         this.accountComments = accountComments;
     }
@@ -101,14 +107,6 @@ public class Invoice extends Payment {
         this.customerComments = customerComments;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
     // public Set<Coupon> getCouponsApplied() {
     //     return couponsApplied;
     // }
@@ -116,6 +114,14 @@ public class Invoice extends Payment {
     // public void setCouponsApplied(Set<Coupon> couponsApplied) {
     //     this.couponsApplied = couponsApplied;
     // }
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(UUID customerId) {
+        this.customerId = customerId;
+    }
 
 }
 

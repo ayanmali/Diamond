@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import com.diamond.diamond.dtos.wallets.FetchAccountWalletDto;
+import com.diamond.diamond.entities.user.Account;
 
 public class FetchAccountDto {
     private String email;
@@ -13,7 +13,17 @@ public class FetchAccountDto {
     private String businessName;
     private Date createdAt;
     private Date updatedAt;
-    private List<FetchAccountWalletDto> wallets;
+    private List<UUID> walletIds;
+
+    public FetchAccountDto(Account account) {
+        this.email = account.getEmail();
+        this.name = account.getName();
+        this.id = account.getId();
+        this.businessName = account.getBusinessName();
+        this.createdAt = account.getCreatedAt();
+        this.updatedAt = account.getUpdatedAt();
+        this.walletIds = account.getWalletIds();
+    }
 
     public String getEmail() {
         return email;
@@ -55,12 +65,12 @@ public class FetchAccountDto {
         this.updatedAt = updatedAt;
     }
 
-    public List<FetchAccountWalletDto> getWallets() {
-        return wallets;
+    public List<UUID> getWalletIds() {
+        return walletIds;
     }
 
-    public void setWallets(List<FetchAccountWalletDto> wallets) {
-        this.wallets = wallets;
+    public void setWallets(List<UUID> walletids) {
+        this.walletIds = walletids;
     }
 
     public String getName() {

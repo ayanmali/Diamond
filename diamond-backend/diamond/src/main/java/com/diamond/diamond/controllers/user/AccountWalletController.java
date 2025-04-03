@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.diamond.diamond.dtos.wallets.FetchAccountWalletDto;
 import com.diamond.diamond.dtos.wallets.FetchTokenBalanceDto;
 import com.diamond.diamond.dtos.wallets.NewAccountWalletDto;
-import com.diamond.diamond.entities.user.Account;
 import com.diamond.diamond.services.solana.KeypairCreator;
 import com.diamond.diamond.services.solana.SolanaRPCClient;
 import com.diamond.diamond.services.user.AccountService;
@@ -49,10 +48,10 @@ public class AccountWalletController {
         //this.circleGrpcClient = circleGrpcClient;
     }
 
-    @PostMapping("/new")
-    public WalletKeypair createWallet(@Valid @RequestBody NewAccountWalletDto accountWalletDto) {
+    @PostMapping("/{id}/new")
+    public WalletKeypair createWallet(@PathVariable(value="id") UUID accountId, @Valid @RequestBody NewAccountWalletDto accountWalletDto) {
         //TODO: process POST request
-        Account account = accountService.findAccountById(accountWalletDto.getAccountId());
+        //Account account = accountService.findAccountById(accountWalletDto.getAccountId());
         // Optional<CreateWalletResponse> optionalWalletObj = circleGrpcClient.createWallet(
         //                                             accountWalletDto.getChain(),
         //                                             account.getWalletSetId(),
@@ -65,13 +64,20 @@ public class AccountWalletController {
         // CreateWalletResponse walletObj = optionalWalletObj.get();
         WalletKeypair keypair = keypairCreator.generate();
         // TODO: encrypt private keys before storing them
-        accountWalletService.saveWallet(accountWalletDto, account, keypair.getPublicKey(), keypair.getPrivateKey().getBytes());
-        return keypair;
+        try {
+            String encryptedPrivateKey = accountService.encrypt(keypair.getPrivateKey(), AccountService.getSecretWalletKey());
+            accountWalletService.saveWallet(accountWalletDto, accountId, keypair.getPublicKey(), encryptedPrivateKey);
+            return keypair;
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            System.out.println("Error encrypting generated private key: " + e.getMessage());
+            return null;
+        }
     }
 
-    @GetMapping("/wallets")
+    @GetMapping("/{id}/wallets")
     public List<FetchAccountWalletDto> getWallets(@RequestBody(required=false) UUID walletId,
-                                                  @RequestBody(required=false) UUID accountId,
+                                                  @PathVariable(value="id")    UUID accountId,
                                                   @RequestBody(required=false) Blockchain chain,
                                                   @RequestBody(required=false) WalletStatus status,
                                                   @RequestBody(required=false) Date createdBefore,
@@ -81,7 +87,7 @@ public class AccountWalletController {
     }
     
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/walletid/{id}")
     public FetchAccountWalletDto getWalletByWalletId(@PathVariable(value = "id") UUID id) {
         return accountWalletService.findWalletDtoById(id);
     }
@@ -89,10 +95,10 @@ public class AccountWalletController {
     /*
      * Get all wallets associated with a Account
      */
-    @GetMapping("/accountid/{id}")
-    public List<FetchAccountWalletDto> getWalletsByAccount(@PathVariable(value="id") UUID accountId) {
-        return accountWalletService.findWalletDtosByAccount(accountService.findAccountById(accountId));
-    }
+    // @GetMapping("/{id}")
+    // public List<FetchAccountWalletDto> getWalletsByAccount(@PathVariable(value="id") UUID accountId) {
+    //     return accountWalletService.findWalletDtosByAccount(accountService.findAccountById(accountId));
+    // }
     
     @GetMapping("/address/{address}")
     public FetchAccountWalletDto getWalletByAddress(@PathVariable(value = "address") String address) {
@@ -135,7 +141,7 @@ public class AccountWalletController {
     /*
      * Gets token balances for a specific user wallet
      */
-    @GetMapping("/id/{id}/balances")
+    @GetMapping("/walletid/{id}/balances")
     public List<FetchTokenBalanceDto> getTokenBalances(@PathVariable(value="id") UUID id) {
         // Getting this wallet's address based on its ID
         String walletAddress = accountWalletService.findWalletById(id).getAddress();
@@ -145,7 +151,7 @@ public class AccountWalletController {
         for (Token stablecoinToken : STABLECOIN_TOKENS) {
             balances.add(
                 new FetchTokenBalanceDto(
-                    solanaRPCClient.getTokenBalance(walletAddress, stablecoinToken.getTokenAddress()),
+                    solanaRPCClient.getTokenBalance(walletAddress, stablecoinToken),
                     stablecoinToken
                 )
             );
@@ -154,18 +160,18 @@ public class AccountWalletController {
         return balances;
     }
     
-    @PatchMapping("id/{id}/update-name")
+    @PatchMapping("/walletid/{id}/update-name")
     public FetchAccountWalletDto updateWalletName(@RequestBody String name, @PathVariable(value = "id") UUID id) {
         return accountWalletService.updateWalletName(id, name);
     }
 
-    @PatchMapping("/id/{id}/archive")
+    @PatchMapping("/walletid/{id}/archive")
     public FetchAccountWalletDto archiveWallet(@PathVariable(value="id") UUID id) {
         //TODO: process POST request
         return accountWalletService.archiveWallet(id);
     }
 
-    @PatchMapping("/id/{id}/activate")
+    @PatchMapping("/walletid/{id}/activate")
     public FetchAccountWalletDto reactivateWallet(@PathVariable(value="id") UUID id) {
         //TODO: process POST request
         return accountWalletService.reactivateWallet(id);

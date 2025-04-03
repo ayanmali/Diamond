@@ -2,7 +2,6 @@ package com.diamond.diamond.dtos.payments.txns;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 import com.diamond.diamond.entities.payments.PaymentTxn;
@@ -22,12 +21,12 @@ public class FetchPaymentTxnDto {
     private String txHash;
     private PaymentStatus status;
     private Date timePaid;
-    private List<Long> promoCodesAppliedIds;
+    //private List<Long> promoCodesAppliedIds;
 
     public FetchPaymentTxnDto(PaymentTxn txn) {
-        this.customerId = txn.getCustomer().getId();
+        this.customerId = txn.getCustomerId();
         this.id = txn.getId();
-        this.paymentId = txn.getPayment().getId();
+        this.paymentId = txn.getPaymentId();
         this.revenue = txn.getRevenue();
         this.signHash = txn.getSignHash();
         this.txHash = txn.getTxHash();
@@ -88,12 +87,12 @@ public class FetchPaymentTxnDto {
         this.status = status;
     }
 
-    public List<Long> getPromoCodesAppliedIds() {
-        return promoCodesAppliedIds;
-    }
-    public void setPromoCodesAppliedIds(List<Long> promoCodesAppliedIds) {
-        this.promoCodesAppliedIds = promoCodesAppliedIds;
-    }
+    // public List<Long> getPromoCodesAppliedIds() {
+    //     return promoCodesAppliedIds;
+    // }
+    // public void setPromoCodesAppliedIds(List<Long> promoCodesAppliedIds) {
+    //     this.promoCodesAppliedIds = promoCodesAppliedIds;
+    // }
 
     public Date getTimePaid() {
         return timePaid;

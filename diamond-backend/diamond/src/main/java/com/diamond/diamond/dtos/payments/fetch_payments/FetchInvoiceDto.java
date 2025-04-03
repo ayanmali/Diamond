@@ -16,7 +16,7 @@ public class FetchInvoiceDto extends FetchPaymentDto {
     //public FetchInvoiceDto() {}
     public FetchInvoiceDto(Invoice invoice) {
         super(invoice);
-        this.customerId = invoice.getCustomer().getId();
+        this.customerId = invoice.getCustomerId();
         this.timeSent = invoice.getTimeSent();
         this.timePaid = invoice.getTimePaid();
         this.accountComments = invoice.getAccountComments();

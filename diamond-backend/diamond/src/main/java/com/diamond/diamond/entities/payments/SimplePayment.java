@@ -5,9 +5,8 @@ package com.diamond.diamond.entities.payments;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
-import com.diamond.diamond.entities.user.Account;
-import com.diamond.diamond.entities.user.AccountWallet;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.SimplePaymentCategory;
 import com.diamond.diamond.types.StablecoinCurrency;
@@ -43,11 +42,23 @@ public class SimplePayment extends Payment {
 
     public SimplePayment() {}
    
-    public SimplePayment(BigDecimal amount, Account account, Blockchain chain, List<AccountWallet> accountWallets,
+    public SimplePayment(BigDecimal amount, UUID accountId, Blockchain chain, List<UUID> accountWalletIds,
                         Boolean hasMaxNumberOfPayments, Integer maxNumberOfPayments/* , Boolean enablePromoCodes, List<PromoCode> validPromoCodes*/, SimplePaymentCategory category,
                         List<StablecoinCurrency> acceptedCurrencies) {
-        super(amount, account, chain, accountWallets, acceptedCurrencies);
+        super(amount, accountId, chain, accountWalletIds, acceptedCurrencies);
         
+        this.hasMaxNumberOfPayments = hasMaxNumberOfPayments;
+        this.maxNumberOfPayments = maxNumberOfPayments;
+        // this.enablePromoCodes = enablePromoCodes;
+        // this.validPromoCodes = validPromoCodes;
+        this.category = category;
+    }
+
+    public SimplePayment(BigDecimal amount, UUID accountId, Blockchain chain, UUID accountWalletId,
+                         Boolean hasMaxNumberOfPayments, Integer maxNumberOfPayments/* , Boolean enablePromoCodes, List<PromoCode> validPromoCodes*/, SimplePaymentCategory category,
+                         List<StablecoinCurrency> acceptedCurrencies) {
+        super(amount, accountId, chain, accountWalletId, acceptedCurrencies);
+
         this.hasMaxNumberOfPayments = hasMaxNumberOfPayments;
         this.maxNumberOfPayments = maxNumberOfPayments;
         // this.enablePromoCodes = enablePromoCodes;

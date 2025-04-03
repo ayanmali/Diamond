@@ -3,6 +3,7 @@ package com.diamond.diamond.dtos.wallets;
 import java.util.Date;
 import java.util.UUID;
 
+import com.diamond.diamond.entities.user.AccountWallet;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.WalletStatus;
 
@@ -15,6 +16,17 @@ public class FetchAccountWalletDto {
     private Date createdAt;
     private Date updatedAt;
     private UUID accountId;
+
+    public FetchAccountWalletDto(AccountWallet wallet) {
+        this.id = wallet.getId();
+        this.accountId = wallet.getAccountId();
+        this.chain = wallet.getChain();
+        this.walletName = wallet.getWalletName();
+        this.status = wallet.getStatus();
+        this.createdAt = wallet.getCreatedAt();
+        this.updatedAt = wallet.getUpdatedAt();
+        this.address = wallet.getAddress();
+    }
 
     public UUID getId() {
         return id;

@@ -12,8 +12,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Pattern;
 
@@ -34,9 +32,11 @@ public class CustomerWallet implements Wallet {
     @Column(nullable=false, updatable=false)
     private Blockchain chain;
     
-    @ManyToOne
-    @JoinColumn(name="customer_id", referencedColumnName="id")
-    private Customer customer;
+    //@ManyToOne
+    //@JoinColumn(name="customer_id", referencedColumnName="id")
+    //private Customer customer;
+    @Column(name="customer_id", nullable=false)
+    private UUID customerId;
 
     // @Column
     // private final String email;
@@ -49,10 +49,10 @@ public class CustomerWallet implements Wallet {
     /* Constructor method */
     public CustomerWallet() {}
 
-    public CustomerWallet(String address, Blockchain chain, Customer customer /*,String email*/) {
+    public CustomerWallet(String address, Blockchain chain, UUID customerId /*,String email*/) {
         this.address = address;
         this.chain = chain;
-        this.customer = customer;
+        this.customerId = customerId;
         //this.email = email;
 
         // this.usdcBalance = 0;
@@ -96,19 +96,19 @@ public class CustomerWallet implements Wallet {
     //     return baseEthBalance;
     // }
 
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public void setCustomerId(Customer customer) {
-        this.customer = customer;
-    }
-
     public UUID getId() {
         return id;
     }
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public UUID getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(UUID customerId) {
+        this.customerId = customerId;
     }
 }

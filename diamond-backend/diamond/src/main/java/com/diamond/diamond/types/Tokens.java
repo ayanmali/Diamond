@@ -7,5 +7,5 @@ public class Tokens {
     public static final Token EURC_SOL = new Token(StablecoinCurrency.EURC, "SPL", Blockchain.SOL, 6, "HzwqbKZw8HxMN6bF2yFZNrht3c2iXXzpKcFu7uBEDKtr");
     public static final Token SPOT_SOL = new Token(StablecoinCurrency.SOL, "SPL", Blockchain.SOL, 6, "So11111111111111111111111111111111111111112");
 
-    public static final List<Token> STABLECOIN_TOKENS = List.of(USDC_SOL, EURC_SOL);
+    public static final List<Token> STABLECOIN_TOKENS = List.of(USDC_SOL, EURC_SOL, SPOT_SOL);
 }

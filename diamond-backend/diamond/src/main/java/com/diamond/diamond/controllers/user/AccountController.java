@@ -20,8 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.diamond.diamond.dtos.account.FetchAccountDto;
 import com.diamond.diamond.dtos.account.RegisterUserDto;
-import com.diamond.diamond.dtos.wallets.FetchAccountWalletDto;
-import com.diamond.diamond.entities.user.Account;
 import com.diamond.diamond.services.solana.SolanaRPCClient;
 import com.diamond.diamond.services.user.AccountService;
 import com.diamond.diamond.services.user.AccountWalletService;
@@ -33,7 +31,7 @@ import jakarta.validation.Valid;
 public class AccountController {
     private final AccountService accountService;
     private final AccountWalletService accountWalletService;
-    private final SolanaRPCClient solanaRpcClient;
+    private final SolanaRPCClient solanaRpcClient; // TODO: implement controller methods for Solana interactions
     //private final OAuthService oauthService;
     @Value("${solana.rpc.url}")
     private String rpcEndpoint;
@@ -51,14 +49,14 @@ public class AccountController {
     }
 
     // helper method to add wallets to an account DTO object by fetching from the DB
-    private FetchAccountDto loadAccountWallets(FetchAccountDto accountDto) {
-        Account account = accountService.findAccountById(accountDto.getId());
-        List<FetchAccountWalletDto> wallets = accountWalletService.findWalletDtosByAccount(
-                                                                account);
-        accountDto.setWallets(wallets);
-        return accountDto;
+    // private FetchAccountDto loadAccountWallets(FetchAccountDto accountDto) {
+    //     Account account = accountService.findAccountById(accountDto.getId());
+    //     List<FetchAccountWalletDto> wallets = accountWalletService.findWalletDtosByAccount(
+    //                                                             account);
+    //     accountDto.setWallets(wallets);
+    //     return accountDto;
         
-    }
+    // }
 
     @PostMapping("/signup")
     public FetchAccountDto signup(@Valid @RequestBody RegisterUserDto registerUserDto) {
@@ -76,7 +74,7 @@ public class AccountController {
     public FetchAccountDto getAccountById(@PathVariable(value = "id") UUID id) {
         FetchAccountDto accountDto = accountService.findAccountDtoById(id);
 
-        accountDto = loadAccountWallets(accountDto);
+        //accountDto = loadAccountWallets(accountDto);
 
         return accountDto;
     }
@@ -104,7 +102,7 @@ public class AccountController {
         // getting the account dto
         FetchAccountDto accountDto = accountService.findAccountDtoByEmail(email);
         
-        accountDto = loadAccountWallets(accountDto);
+        //accountDto = loadAccountWallets(accountDto);
 
         return accountDto;
     }
@@ -118,7 +116,7 @@ public class AccountController {
     public FetchAccountDto updateEmail(@RequestBody String email, @PathVariable(value="id") UUID id) {
         //TODO: process POST request
         FetchAccountDto accountDto = accountService.updateAccountEmail(id, email);
-        accountDto = loadAccountWallets(accountDto);
+        //accountDto = loadAccountWallets(accountDto);
         return accountDto;
     }
     
@@ -126,7 +124,7 @@ public class AccountController {
     public FetchAccountDto updateBusinessName(@RequestBody String name, @PathVariable(value="id") UUID id) {
         //TODO: process POST request
         FetchAccountDto accountDto = accountService.updateAccountName(id, name);
-        accountDto = loadAccountWallets(accountDto);
+        //accountDto = loadAccountWallets(accountDto);
         return accountDto;
     }
 
@@ -134,13 +132,25 @@ public class AccountController {
     public FetchAccountDto deleteAccount(@PathVariable(value="id") UUID id) {
         //TODO: process POST request
         FetchAccountDto accountDto = accountService.findAccountDtoById(id);
-        accountDto = loadAccountWallets(accountDto);
+        //accountDto = loadAccountWallets(accountDto);
         accountService.deleteAccountById(id);
         return accountDto;
     }
+
+    // TODO: integrate websockets for token transfers
+    /*
+     * Prepares a message and returns the estimated gas fee associated with the message
+     */
+    // @PostMapping("/message")
+    // public String prepareMessage(@RequestBody String entity) {
+    //     //TODO: process POST request
+        
+    //     return entity;
+    // }
     
+    // TODO: prevent any transfers for 24 hours if the PIN is not valid within 5 guesses + send email to user
     // @PostMapping("/transfer")
-    // public String transferTokens(@RequestBody NewTransferDto transferDto) {
+    // public String transferTokens(@RequestBody NewTokenTransferDto transferDto) {
     //     // Authenticate the PIN that the user entered    
 
     //     // Store this transfer in the DB

@@ -1,17 +1,11 @@
 package com.diamond.diamond.dtos.payments.fetch_payments;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import org.hibernate.Hibernate;
-
-import com.diamond.diamond.dtos.wallets.FetchAccountWalletDto;
 import com.diamond.diamond.entities.payments.Payment;
-import com.diamond.diamond.entities.user.AccountWallet;
-import com.diamond.diamond.services.user.AccountWalletService;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.StablecoinCurrency;
 
@@ -21,11 +15,11 @@ public class FetchPaymentDto {
     private UUID accountId;
     private List<StablecoinCurrency> currencies;
     private Blockchain chain;
-    private List<FetchAccountWalletDto> walletDistribution;
+    private List<UUID> walletDistribution;
     private Date createdAt;
     private Date updatedAt;
 
-    public FetchPaymentDto(UUID id, BigDecimal amount, UUID accountId, List<StablecoinCurrency> currencies, Blockchain chain, List<FetchAccountWalletDto> walletDistribution, Date createdAt, Date updatedAt) {
+    public FetchPaymentDto(UUID id, BigDecimal amount, UUID accountId, List<StablecoinCurrency> currencies, Blockchain chain, List<UUID> walletDistribution, Date createdAt, Date updatedAt) {
         this.id = id;
         this.amount = amount;
         this.accountId = accountId;
@@ -36,24 +30,35 @@ public class FetchPaymentDto {
         this.updatedAt = updatedAt;
     }
     
+    // public FetchPaymentDto(Payment payment) {
+    //     this.id = payment.getId();
+    //     this.amount = payment.getAmount();
+    //     this.currencies = payment.getAcceptedCurrencies();
+    //     this.chain = payment.getChain();
+
+    //     if (payment.getAccount() != null && Hibernate.isInitialized(payment.getAccount())) {
+    //         this.accountId = payment.getAccount().getId();
+    //     }
+
+    //     if (payment.getWalletDistribution() != null && Hibernate.isInitialized(payment.getWalletDistribution())) {
+    //         List<FetchAccountWalletDto> walletDtos = new ArrayList<>();
+    //         for (AccountWallet vw : payment.getWalletDistribution()) {
+    //             walletDtos.add(AccountWalletService.convertAccountWalletToFetchDto(vw));
+    //         }
+    //         this.walletDistribution = walletDtos;
+    //     }
+
+    //     this.createdAt = payment.getCreatedAt();
+    //     this.updatedAt = payment.getUpdatedAt();
+    // }
+
     public FetchPaymentDto(Payment payment) {
         this.id = payment.getId();
         this.amount = payment.getAmount();
+        this.accountId = payment.getAccountId();
+        this.walletDistribution = payment.getWalletDistribution();
         this.currencies = payment.getAcceptedCurrencies();
         this.chain = payment.getChain();
-
-        if (payment.getAccount() != null && Hibernate.isInitialized(payment.getAccount())) {
-            this.accountId = payment.getAccount().getId();
-        }
-
-        if (payment.getWalletDistribution() != null && Hibernate.isInitialized(payment.getWalletDistribution())) {
-            List<FetchAccountWalletDto> walletDtos = new ArrayList<>();
-            for (AccountWallet vw : payment.getWalletDistribution()) {
-                walletDtos.add(AccountWalletService.convertAccountWalletToFetchDto(vw));
-            }
-            this.walletDistribution = walletDtos;
-        }
-
         this.createdAt = payment.getCreatedAt();
         this.updatedAt = payment.getUpdatedAt();
     }
@@ -88,12 +93,6 @@ public class FetchPaymentDto {
     public void setChain(Blockchain chain) {
         this.chain = chain;
     }
-    public List<FetchAccountWalletDto> getAccountWalletDtos() {
-        return walletDistribution;
-    }
-    public void setAccountWalletDtos(List<FetchAccountWalletDto> accountWalletDtos) {
-        this.walletDistribution = accountWalletDtos;
-    }
 
     public Date getCreatedAt() {
         return createdAt;
@@ -109,6 +108,14 @@ public class FetchPaymentDto {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public List<UUID> getWalletDistribution() {
+        return walletDistribution;
+    }
+
+    public void setWalletDistribution(List<UUID> walletDistribution) {
+        this.walletDistribution = walletDistribution;
     }
 
 }

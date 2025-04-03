@@ -1,5 +1,6 @@
 /*
  * Class to interact with the Solana API
+ * TODO: convert synchronous HTTP requests to async (non blocking)
  */
 package com.diamond.diamond.services.solana;
 
@@ -30,7 +31,11 @@ import org.sol4k.instruction.TransferInstruction;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.diamond.diamond.dtos.account.NewTokenTransferDto;
+import com.diamond.diamond.entities.user.TokenTransfer;
+import com.diamond.diamond.repositories.user.TokenTransferRepository;
 import com.diamond.diamond.types.Token;
+import com.diamond.diamond.types.TokenTransferStatus;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -43,17 +48,26 @@ public class SolanaRPCClient {
 
     private final HttpClient httpClient;
     private final ObjectMapper objectMapper;
+
+    // For storing user-initiated token transfers in the DB
+    private final TokenTransferRepository tokenTransferRepository;
     
-    public SolanaRPCClient(@Value("${solana.rpc.url}") String rpcEndpoint) {
+    public SolanaRPCClient(@Value("${solana.rpc.url}") String rpcEndpoint, TokenTransferRepository tokenTransferRepository) {
         this.rpcEndpoint = rpcEndpoint;
+        this.tokenTransferRepository = tokenTransferRepository;
+
         this.httpClient = HttpClient.newBuilder()
         .connectTimeout(Duration.ofSeconds(10))
         .build();
         this.objectMapper = new ObjectMapper();
     }
     
-    public BigDecimal getTokenBalance(String walletAddress, String tokenAddress) {
+    /*
+     * Gets the balance of a single Solana token for a given wallet (HTTP)
+     */
+    public BigDecimal getTokenBalance(String walletAddress, Token token) {
         try {
+            String tokenAddress = token.getTokenAddress();
             String requestBody = String.format(
                 "{" +
                 "\"jsonrpc\": \"2.0\"," +
@@ -100,8 +114,16 @@ public class SolanaRPCClient {
         }
     }
 
+    /*
+     * Creates a message to transfer spot SOL over the blockchain.
+     * This does not actually transfer tokens, it only creates a placeholder which needs to be explicitly sent via the signMessage method
+     */
     public TransactionMessage createTransferSolMessage(Connection connection, byte[] fromPrivateKey, String toPublicKey, Long amount) {
         try {
+            // get user private key from DB
+
+            // decrypt private key using encryption key
+
             // 1. Establish connection
             // Connection connection = new Connection(rpcEndpoint);
             
@@ -206,19 +228,33 @@ public class SolanaRPCClient {
         }
     }
 
-    public String signMessage(Connection connection, TransactionMessage message, Keypair sender) {
+    /*
+     * Signs an existing message and transfers Solana tokens over the blockchain (HTTP).
+     */
+    public String signMessage(NewTokenTransferDto transferDto, Connection connection, TransactionMessage message, Keypair sender, BigDecimal networkFee) {
+        TokenTransfer transfer = new TokenTransfer(transferDto, networkFee);
         try {
             VersionedTransaction transaction = new VersionedTransaction(message);
-                
+            
             // 7. Sign transaction
             transaction.sign(sender);
+
+            tokenTransferRepository.save(transfer);
             
             // 8. Send transaction
             String signature = connection.sendTransaction(transaction);
+
+            transfer.setSignHash(signature);
+            transfer.setStatus(TokenTransferStatus.SUCCEEDED);
+            tokenTransferRepository.save(transfer);
             System.out.println("Transaction ID: " + signature);
+
+            
             return signature;
         }
          catch (Exception e) {
+            transfer.setStatus(TokenTransferStatus.FAILED);
+            tokenTransferRepository.save(transfer);
             System.out.println("Error signing message: " + e.getMessage());
             return null;
          }
@@ -284,7 +320,7 @@ public class SolanaRPCClient {
     }
     
     /**
-     * Gets the signature statuses for multiple transaction signatures.
+     * Gets the signature statuses for multiple transaction signatures (HTTP).
      * 
      * @param signatures List of transaction signatures to check
      * @param searchTransactionHistory Whether to search transaction history
@@ -346,8 +382,10 @@ public class SolanaRPCClient {
         return results;
     }
 
-    // public Long checkNetworkFee(String senderPublicKey, String receiverPublicKey, Long numLamports, Optional<String> commitment) {
-        public Long checkNetworkFee(TransactionMessage message, Optional<String> commitment) {
+    /*
+     * Checks the gas fee for a given message
+     */
+    public Long checkNetworkFee(TransactionMessage message, Optional<String> commitment) {
         try {
             // 1. Establish connection
             //Connection connection = new Connection(rpcEndpoint);
@@ -382,7 +420,7 @@ public class SolanaRPCClient {
     }
 
     /**
-     * Gets the fee for a serialized message.
+     * Gets the fee for a serialized message (helper method) (HTTP).
      * 
      * @param encodedMessage The base64 encoded message
      * @param commitment The commitment level to use (e.g., "processed", "confirmed", "finalized")
@@ -390,7 +428,7 @@ public class SolanaRPCClient {
      * @throws IOException If there's an error with the HTTP request or JSON parsing
      * @throws InterruptedException If the HTTP request is interrupted
      */
-    public Long getFeeForMessage(String encodedMessage, Optional<String> commitment) 
+    private Long getFeeForMessage(String encodedMessage, Optional<String> commitment) 
             throws IOException, InterruptedException {
         
         List<Object> params = List.of(encodedMessage);
