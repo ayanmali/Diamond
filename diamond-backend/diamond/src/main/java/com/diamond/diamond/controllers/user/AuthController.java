@@ -1,6 +1,7 @@
 package com.diamond.diamond.controllers.user;
 
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
@@ -8,19 +9,24 @@ import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2Aut
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.diamond.diamond.dtos.account.FetchAccountDto;
+import com.diamond.diamond.entities.user.Account;
 import com.diamond.diamond.services.OAuthService;
+import com.diamond.diamond.services.user.AccountService;
 
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
+
+    private final AccountService accountService;
     private final OAuthService oauthService;
 
-    public AuthController(OAuthService oauthService) {
+    public AuthController(OAuthService oauthService, AccountService accountService) {
+        this.accountService = accountService;
         this.oauthService = oauthService;
     }
 
@@ -30,12 +36,21 @@ public class AuthController {
         return oauthService.getUserNameAndEmail(principal, client);
     }
 
-    // TODO: implement this
-    @PostMapping("/signup")
-    public String postMethodName(@RequestBody String entity) {
-        //TODO: process POST request
+    @PostMapping("/login")
+    public FetchAccountDto loginUser(@AuthenticationPrincipal OAuth2User principal,
+                                     @RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient client) {
+        Map<String, String> userData = oauthService.getUserNameAndEmail(principal, client);
+        try {
+            // check to see if the user's email exists in DB
+            Account user = accountService.findAccountByEmail(userData.get("email"));
+            // if they exist, log them in
+            return new FetchAccountDto(user);
+        }
+        // if they don't exist, add them to DB
+        catch (NoSuchElementException e) {
+            return accountService.signUp(userData.get("email"), userData.get("name"));
+        }
         
-        return entity;
     }
     
 }

@@ -19,12 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.diamond.diamond.dtos.account.FetchAccountDto;
-import com.diamond.diamond.dtos.account.RegisterUserDto;
+import com.diamond.diamond.entities.user.Account;
 import com.diamond.diamond.services.solana.SolanaRPCClient;
 import com.diamond.diamond.services.user.AccountService;
 import com.diamond.diamond.services.user.AccountWalletService;
 
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/accounts")
@@ -58,17 +57,27 @@ public class AccountController {
         
     // }
 
-    @PostMapping("/signup")
-    public FetchAccountDto signup(@Valid @RequestBody RegisterUserDto registerUserDto) {
-        // Optional<UUID> optionalWalletSetId = circleGrpcClient.createWalletSet("");
-        // // todo: error handling
-        // if (optionalWalletSetId.isEmpty()) {
-        //     return new FetchAccountDto();
-        // }
-        // UUID walletSetId = optionalWalletSetId.get();
-        FetchAccountDto accountDto = accountService.signUp(registerUserDto);
-        return accountDto;
+    // @PostMapping("/signup")
+    // public FetchAccountDto signup(@Valid @RequestBody RegisterUserDto registerUserDto) {
+    //     // Optional<UUID> optionalWalletSetId = circleGrpcClient.createWalletSet("");
+    //     // // todo: error handling
+    //     // if (optionalWalletSetId.isEmpty()) {
+    //     //     return new FetchAccountDto();
+    //     // }
+    //     // UUID walletSetId = optionalWalletSetId.get();
+    //     FetchAccountDto accountDto = accountService.signUp(registerUserDto);
+    //     return accountDto;
+    // }
+
+    @PostMapping("/{id}/set-pin")
+    public FetchAccountDto postMethodName(@PathVariable(value="id") UUID id, @RequestBody String pin) throws Exception {
+        // Encrypting the user-provided PIN number
+        String encryptedPin = accountService.encrypt(pin, AccountService.getSecretPinKey());
+        Account account = accountService.findAccountById(id);
+        account.setEncryptedPin(encryptedPin);
+        return accountService.updatePin(id, encryptedPin);
     }
+    
     
     @GetMapping("/id/{id}")
     public FetchAccountDto getAccountById(@PathVariable(value = "id") UUID id) {

@@ -20,7 +20,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.account.FetchAccountDto;
-import com.diamond.diamond.dtos.account.RegisterUserDto;
 import com.diamond.diamond.entities.user.Account;
 import com.diamond.diamond.repositories.user.AccountRepository;
 
@@ -57,7 +56,7 @@ public class AccountService {
 
         secretWalletKey = stringToSecretKey(walletEncryptionKey);        // Decode the Base64-encoded String key
         secretPinKey = stringToSecretKey(pinEncryptionKey);              // Decode the Base64-encoded String key
-        
+
         // byte[] decodedWalletKey = Base64.getDecoder().decode(WALLET_ENCRYPTION_KEY);
 
         // // Create a SecretKey object from the decoded key
@@ -96,11 +95,11 @@ public class AccountService {
     // }
 
     //@Transactional
-    public FetchAccountDto signUp(RegisterUserDto input) {
+    public FetchAccountDto signUp(String email, String name) {
         Account user = new Account();
-        user.setEmail(input.getEmail());
-        user.setName(input.getName());
-        user.setBusinessName(input.getBusinessName());
+        user.setEmail(email);
+        user.setName(name);
+        // user.setBusinessName(input.getBusinessName());
         //user.setWalletSetId(walletSetId);
 
         // saving the newly registered user to the Users repository
@@ -110,6 +109,12 @@ public class AccountService {
     // public List<AccountWallet> getAccountWallets(UUID id) {
         
     // }
+
+    public FetchAccountDto updatePin(UUID id, String encryptedPin) {
+        Account account = accountRepository.findById(id).orElseThrow();
+        account.setEncryptedPin(encryptedPin);
+        return new FetchAccountDto(accountRepository.save(account));
+    }
 
     public List<FetchAccountDto> findAccountDtosWithFilters(
         UUID id, 
