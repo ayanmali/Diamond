@@ -4,11 +4,12 @@ Diamond is a cryptocurrency payment gateway that allows businesses to accept pay
 TODO
 - redis caching
 - cors
-- auth
+- auth/jwts
 - csrf protection (done)
 - rabbitmq
-- batch writes (redis)
 - rate limiting w/ leaky bucket algo (redis?)
+
+- batch writes (redis)
 
 - load balancing (aws/gcp)
 - microservices?

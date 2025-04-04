@@ -6,5 +6,5 @@ import com.diamond.diamond.entities.payments.Invoice;
 
 @Repository
 public interface InvoiceRepository extends PaymentRepository<Invoice> {
-    
+    // TODO: filters for invoices
 }

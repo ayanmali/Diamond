@@ -16,9 +16,10 @@ import com.diamond.diamond.types.Blockchain;
 
 @Repository
 public interface PaymentRepository<T extends Payment> extends JpaRepository<T, UUID> {
+    // TODO: filter for wallets
     @Query("SELECT p FROM #{#entityName} p WHERE " +
            "(:id IS NULL OR p.id = :id) AND " +
-           "(:accountId IS NULL OR p.account.id = :accountId) AND " +
+           "(:accountId IS NULL OR p.accountId = :accountId) AND " +
            "(:chain IS NULL OR p.chain = :chain) AND " +
            "(:amountGreaterThan IS NULL OR p.amount >= :amountGreaterThan) AND " +
            "(:amountLessThan IS NULL OR p.amount <= :amountLessThan) AND " +

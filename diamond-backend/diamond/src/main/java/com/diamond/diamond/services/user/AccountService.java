@@ -106,6 +106,20 @@ public class AccountService {
         return new FetchAccountDto(accountRepository.save(user));
     }
 
+    /*
+     * Checks if a given user exists in the database
+     */
+    public boolean existsById(UUID id) {
+        return accountRepository.existsById(id);
+    }
+
+    /*
+     * Checks if a given user email exists in the database
+     */
+    public boolean existsByEmail(String email) {
+        return accountRepository.existsByEmail(email);
+    }
+
     // public List<AccountWallet> getAccountWallets(UUID id) {
         
     // }

@@ -53,11 +53,11 @@ public class CustomerWalletService {
     }
 
     public List<CustomerWallet> findWalletsByCustomer(Customer customer) {
-        return customerWalletRepository.findByCustomer(customer);
+        return customerWalletRepository.findByCustomerId(customer.getId());
     }
 
     public List<FetchCustomerWalletDto> findWalletDtosByCustomer(Customer customer) {
-        return customerWalletRepository.findByCustomer(customer).stream() // Convert the List<Customer> to a Stream<Customer>
+        return customerWalletRepository.findByCustomerId(customer.getId()).stream() // Convert the List<Customer> to a Stream<Customer>
         .map(FetchCustomerWalletDto::new) // Map each Customer to FetchCustomerDto
         .collect(Collectors.toList());
     }

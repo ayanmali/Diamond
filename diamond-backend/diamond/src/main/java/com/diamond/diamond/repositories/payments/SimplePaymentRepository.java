@@ -8,5 +8,5 @@ import com.diamond.diamond.entities.payments.SimplePayment;
 @Repository
 @Primary
 public interface SimplePaymentRepository extends PaymentRepository<SimplePayment> {
-    
+    // TODO: filter for simple payments
 }

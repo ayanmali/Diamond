@@ -16,6 +16,7 @@ import com.diamond.diamond.entities.user.Account;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, UUID> {
     Optional<Account> findByEmail(String email);
+    boolean existsByEmail(String email);
     
     @Query("SELECT a FROM Account a WHERE " +
            "(:id IS NULL OR a.id = :id) AND " +

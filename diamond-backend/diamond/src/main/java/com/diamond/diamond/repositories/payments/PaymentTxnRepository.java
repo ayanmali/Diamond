@@ -22,11 +22,11 @@ public interface PaymentTxnRepository extends JpaRepository<PaymentTxn, UUID> {
     Optional<PaymentTxn> findByTxHash(String txHash);
     @Query("SELECT t FROM PaymentTxn t WHERE " +
            "(:id IS NULL OR t.id = :id) AND " +
-           "(:paymentId IS NULL OR t.payment.id = :paymentId) AND " +
-           "(:accountId IS NULL OR t.payment.account.id = :accountId) AND " +
-           "(:customerId IS NULL OR t.customer.id = :customerId) AND " +
+           "(:paymentId IS NULL OR t.paymentId = :paymentId) AND " +
+           "(:accountId IS NULL OR t.accountId = :accountId) AND " +
+           "(:customerId IS NULL OR t.customerId = :customerId) AND " +
            "(:currency IS NULL OR t.currencyUsed = :currency) AND " +
-           "(:chain IS NULL OR t.payment.chain = :chain) AND " +
+           "(:chain IS NULL OR t.chain = :chain) AND " +
            "(:revenueGreaterThan IS NULL OR t.revenue >= :revenueGreaterThan) AND " +
            "(:revenueLessThan IS NULL OR t.revenue <= :revenueLessThan) AND " +
            "(:status IS NULL OR t.status = :status) AND " +

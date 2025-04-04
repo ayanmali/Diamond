@@ -1,5 +1,6 @@
 package com.diamond.diamond.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -22,6 +23,16 @@ public class RedisService {
     // Store a value with a key and expiration time
     public void setWithExpiration(String key, Object value, long timeout, TimeUnit unit) {
         redisTemplate.opsForValue().set(key, value, timeout, unit);
+    }
+
+    // Set the TTL for a given key
+    public void expireKey(String key, long timeout, TimeUnit unit) {
+        redisTemplate.expire(key, timeout, unit);
+    }
+
+    // Set a date for the key to expire at
+    public void expireAt(String key, Date date) {
+        redisTemplate.expireAt(key, date);
     }
 
     // Retrieve a value by key

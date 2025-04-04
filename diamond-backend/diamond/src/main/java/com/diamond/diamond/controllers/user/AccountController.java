@@ -70,7 +70,7 @@ public class AccountController {
     // }
 
     @PostMapping("/{id}/set-pin")
-    public FetchAccountDto postMethodName(@PathVariable(value="id") UUID id, @RequestBody String pin) throws Exception {
+    public FetchAccountDto setPin(@PathVariable(value="id") UUID id, @RequestBody String pin) throws Exception {
         // Encrypting the user-provided PIN number
         String encryptedPin = accountService.encrypt(pin, AccountService.getSecretPinKey());
         Account account = accountService.findAccountById(id);

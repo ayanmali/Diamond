@@ -110,13 +110,13 @@ public class CustomerService {
     }
 
     public List<FetchCustomerDto> findCustomerDtosByAccount(Account account) {
-        return customerRepository.findByAccount(account).stream() // Convert the List<Customer> to a Stream<Customer>
+        return customerRepository.findByAccountId(account.getId()).stream() // Convert the List<Customer> to a Stream<Customer>
         .map(FetchCustomerDto::new) // Map each Customer to FetchCustomerDto
         .collect(Collectors.toList());
     }
 
     public List<Customer> findCustomersByAccount(Account account) {
-        return customerRepository.findByAccount(account);
+        return customerRepository.findByAccountId(account.getId());
     }
 
     public FetchCustomerDto updateCustomerEmail(UUID id, String email) {

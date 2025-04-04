@@ -192,7 +192,13 @@
 			<artifactId>async-http-client</artifactId>
 			<version>2.12.4</version>
 		</dependency> -->
-		
+
+		<!-- WebSockets -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>
+
 		<!-- For WebClient requests -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

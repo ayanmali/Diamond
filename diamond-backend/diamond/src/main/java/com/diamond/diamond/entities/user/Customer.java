@@ -42,7 +42,7 @@ public class Customer {
     //@OneToMany(mappedBy="customer", cascade=CascadeType.ALL)
     //private List<CustomerWallet> wallets;
     @ElementCollection
-    @CollectionTable(name = "customer_wallet_ids", joinColumns = @JoinColumn(name = "wallet_ids"))
+    @CollectionTable(name = "customer_wallet_ids", joinColumns = @JoinColumn(name = "customer_id"))
     @Column(name = "wallet_ids")
     private List<UUID> walletIds;
 

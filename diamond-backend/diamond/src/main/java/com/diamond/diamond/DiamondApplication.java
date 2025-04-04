@@ -1,11 +1,15 @@
 package com.diamond.diamond;
 
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.diamond.diamond.services.RedisService;
 
 
 
@@ -13,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @EnableScheduling
 public class DiamondApplication {
+
+    @Autowired
+    private RedisService redisService;
 
     @GetMapping("/")
     public String base() {
@@ -29,8 +36,20 @@ public class DiamondApplication {
     public String error() {
         return "Error";
     }
-    
 
+    @GetMapping("/redis")
+    public Map<String, Object> writeRedis() {
+        System.out.println("Writing to Redis DB");
+        redisService.set("app", "diamondpay");
+        return Map.of("app", "diamondpay");
+    }
+
+    @GetMapping("/redis-get")
+    public Object getRedis() {
+        return redisService.get("app");
+    }
+    
+    
     // @Bean
     // public WebMvcConfigurer corsConfigurer() {
     //     return new WebMvcConfigurer() {

@@ -12,7 +12,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.diamond.diamond.entities.user.Account;
 import com.diamond.diamond.entities.user.Customer;
 
 
@@ -20,12 +19,12 @@ import com.diamond.diamond.entities.user.Customer;
 public interface CustomerRepository extends JpaRepository<Customer, UUID> {
     Optional<Customer> findByEmail(String email);
 
-    List<Customer> findByAccount(Account account);
+    List<Customer> findByAccountId(UUID accountId);
 
     @Query("SELECT c FROM Customer c WHERE " + 
     "(:customerId IS NULL OR c.id = :customerId) AND " +
     "(:email IS NULL OR c.email = :email) AND " +
-    "(:accountId IS NULL OR c.account.id = :accountId) AND " +
+    "(:accountId IS NULL OR c.accountId = :accountId) AND " +
     "(:createdBefore IS NULL OR c.createdAt <= :createdBefore) AND " +
     "(:createdAfter IS NULL OR c.createdAt >= :createdAfter)")
     Page<Customer> findCustomersWithFilters(

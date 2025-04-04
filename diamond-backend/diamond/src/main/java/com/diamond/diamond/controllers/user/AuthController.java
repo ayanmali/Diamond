@@ -1,7 +1,6 @@
 package com.diamond.diamond.controllers.user;
 
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
@@ -40,16 +39,14 @@ public class AuthController {
     public FetchAccountDto loginUser(@AuthenticationPrincipal OAuth2User principal,
                                      @RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient client) {
         Map<String, String> userData = oauthService.getUserNameAndEmail(principal, client);
-        try {
-            // check to see if the user's email exists in DB
+
+        if (accountService.existsByEmail(userData.get("email"))) {
             Account user = accountService.findAccountByEmail(userData.get("email"));
             // if they exist, log them in
             return new FetchAccountDto(user);
         }
         // if they don't exist, add them to DB
-        catch (NoSuchElementException e) {
-            return accountService.signUp(userData.get("email"), userData.get("name"));
-        }
+        return accountService.signUp(userData.get("email"), userData.get("name"));
         
     }
     

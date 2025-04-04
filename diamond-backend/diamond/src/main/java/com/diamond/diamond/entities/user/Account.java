@@ -59,8 +59,8 @@ public class Account {
 
     //OneToMany(mappedBy="account", cascade=CascadeType.ALL)
     @ElementCollection
-    @CollectionTable(name="customer_ids", joinColumns= @JoinColumn(name = "customer_id"))
-    @Column(name="customer_id")
+    @CollectionTable(name="customer_ids", joinColumns= @JoinColumn(name = "account_id"))
+    @Column(name="customer_ids")
     private List<UUID> customerIds;
 
     @CreationTimestamp

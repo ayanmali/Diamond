@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.dtos.wallets.FetchAccountWalletDto;
 import com.diamond.diamond.dtos.wallets.NewAccountWalletDto;
-import com.diamond.diamond.entities.payments.Payment;
 import com.diamond.diamond.entities.user.Account;
 import com.diamond.diamond.entities.user.AccountWallet;
 import com.diamond.diamond.repositories.user.AccountWalletRepository;
@@ -103,34 +102,41 @@ public class AccountWalletService {
     public List<FetchAccountWalletDto> findWalletDtosByAccount(Account account) {
         // List<AccountWallet> accountWallets = accountWalletRepository.findByAccount(account);
         //List<AccountWallet> accountWallets = accountWalletRepository.findAll();
-        return accountWalletRepository.findByAccount(account).stream() // Convert the List<AccountWallet> to a Stream<AccountWallet>
+        return accountWalletRepository.findByAccountId(account.getId()).stream() // Convert the List<AccountWallet> to a Stream<AccountWallet>
             .map(FetchAccountWalletDto::new) // Map each AccountWallet to FetchAccountWalletDto
             .collect(Collectors.toList()); // Collect the results into a List<FetchAccountWalletDto>
     }
 
     public List<AccountWallet> findWalletsByAccount(Account account) {
-        return accountWalletRepository.findByAccount(account);
+        return accountWalletRepository.findByAccountId(account.getId());
     }
 
-    public List<AccountWallet> findWalletsByPayment(Payment payment) {
-        return accountWalletRepository.findByPayments(List.of(payment));
-    }
+    // public List<AccountWallet> findWalletsByPayment(Payment payment) {
+    //     return accountWalletRepository.findByPaymentIds(List.of(payment.getId()));
+    // }
 
-    public List<FetchAccountWalletDto> findWalletDtosByPayment(Payment payment) {
-        return accountWalletRepository.findByPayments(List.of(payment)).stream() // Convert the List<AccountWallet> to a Stream<AccountWallet>
-        .map(FetchAccountWalletDto::new) // Map each AccountWallet to FetchAccountWalletDto
-        .collect(Collectors.toList()); // Collect the results into a List<FetchAccountWalletDto>
-    }
+    // public List<FetchAccountWalletDto> findWalletDtosByPayment(Payment payment) {
+    //     return accountWalletRepository.findByPaymentIds(
+    //         List.of(payment.getId())
+    //     )
+    //     .stream()
+    //     .map(FetchAccountWalletDto::new)
+    //     .collect(Collectors.toList());
+    // }
 
-    public List<AccountWallet> findWalletsByPayments(List<Payment> payments) {
-        return accountWalletRepository.findByPayments(payments);
-    }
+    // public List<AccountWallet> findWalletsByPayments(List<Payment> payments) {
+    //     return accountWalletRepository.findByPaymentIds(payments.stream().map(Payment::getId).collect(Collectors.toList()));
+    // }
 
-    public List<FetchAccountWalletDto> findWalletDtosByPayments(List<Payment> payments) {
-        return accountWalletRepository.findByPayments(payments).stream() // Convert the List<AccountWallet> to a Stream<AccountWallet>
-        .map(FetchAccountWalletDto::new) // Map each AccountWallet to FetchAccountWalletDto
-        .collect(Collectors.toList()); // Collect the results into a List<FetchAccountWalletDto>
-    }
+    // public List<FetchAccountWalletDto> findWalletDtosByPayments(List<Payment> payments) {
+    //     return accountWalletRepository.findByPaymentIds(
+    //         payments.stream()
+    //         .map(Payment::getId)
+    //         .collect(Collectors.toList()))
+    //     .stream() // Convert the List<AccountWallet> to a Stream<AccountWallet>
+    //     .map(FetchAccountWalletDto::new) // Map each AccountWallet to FetchAccountWalletDto
+    //     .collect(Collectors.toList()); // Collect the results into a List<FetchAccountWalletDto>
+    // }
 
     public FetchAccountWalletDto updateWalletName(UUID id, String name) {
         AccountWallet accountWallet = accountWalletRepository.findById(id).orElseThrow();

@@ -18,8 +18,8 @@ import com.diamond.diamond.types.PayoutStatus;
 public interface PayoutRepository extends JpaRepository<Payout, UUID> {
     @Query("SELECT p FROM Payout p WHERE " +
            "(:id IS NULL OR p.id = :id) AND " +
-           "(:accountId IS NULL OR p.account.id = :accountId) AND " +
-           "(:walletId IS NULL OR p.offrampWallet.id = :walletId) AND " +
+           "(:accountId IS NULL OR p.accountId = :accountId) AND " +
+           "(:walletId IS NULL OR p.offrampWalletId = :walletId) AND " +
            "(:amountLessThan IS NULL OR p.amount <= :amountLessThan) AND " +
            "(:amountGreaterThan IS NULL OR p.amount >= :amountGreaterThan) AND " +
            "(:status IS NULL OR p.status = :status) AND " +
