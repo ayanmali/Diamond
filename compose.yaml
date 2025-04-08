@@ -16,17 +16,18 @@ services:
       image: 'redis:latest'
       ports:
         - '6379:6379'
-  # rabbitmq:
-  #   # image: rabbitmq:3-management
-  #   image: rabbitmq:latest
-  #   container_name: rabbitmq
-  #   env_file:
-  #     - .env
-  #   ports:
-  #     - 5672:5672
-  #     #- 15672:15672
-  #   volumes:
-  #     - rabbitmq_data:/var/lib/rabbitmq
+  rabbitmq:
+    # image: rabbitmq:3-management
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    env_file:
+      - .env
+    ports:
+      - 5672:5672
+      - 15672:15672
+      - 61613:61613
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
 
   api:
     build:
@@ -72,4 +73,4 @@ services:
 
 volumes:
   postgres_data:
-  #rabbitmq_data:
+  rabbitmq_data:

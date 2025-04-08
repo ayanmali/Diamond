@@ -150,11 +150,12 @@ public class AccountController {
     /*
      * Prepares a message and returns the estimated gas fee associated with the message
      */
-    // @PostMapping("/message")
-    // public String prepareMessage(@RequestBody String entity) {
+    // @MessageMapping("/message")
+    // @SendTo("/topic/messages")
+    // public String prepareTransferMessage(SampleMessage message) {
     //     //TODO: process POST request
         
-    //     return entity;
+    //     return "WebSocket Response";
     // }
     
     // TODO: prevent any transfers for 24 hours if the PIN is not valid within 5 guesses + send email to user

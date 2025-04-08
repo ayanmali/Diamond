@@ -9,7 +9,7 @@ import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.diamond.diamond.dtos.account.NewTokenTransferDto;
+import com.diamond.diamond.dtos.account.transfers.NewTokenTransferDto;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.StablecoinCurrency;
 import com.diamond.diamond.types.TokenTransferStatus;
@@ -88,8 +88,8 @@ public class TokenTransfer {
         this.status = TokenTransferStatus.PENDING;
     }
 
-    public TokenTransfer(NewTokenTransferDto transferDto, BigDecimal lamportsFee) {
-        this.accountId = transferDto.getAccountId();
+    public TokenTransfer(NewTokenTransferDto transferDto, UUID accountId, BigDecimal lamportsFee) {
+        this.accountId = accountId;
         this.accountWalletId = transferDto.getAccountWalletId();
         this.token = transferDto.getToken();
         this.receiverAddress = transferDto.getReceiverAddress();

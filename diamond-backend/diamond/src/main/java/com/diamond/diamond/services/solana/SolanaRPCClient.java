@@ -16,6 +16,7 @@ import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,7 +32,7 @@ import org.sol4k.instruction.TransferInstruction;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.diamond.diamond.dtos.account.NewTokenTransferDto;
+import com.diamond.diamond.dtos.account.transfers.NewTokenTransferDto;
 import com.diamond.diamond.entities.user.TokenTransfer;
 import com.diamond.diamond.repositories.user.TokenTransferRepository;
 import com.diamond.diamond.types.Token;
@@ -231,8 +232,8 @@ public class SolanaRPCClient {
     /*
      * Signs an existing message and transfers Solana tokens over the blockchain (HTTP).
      */
-    public String signMessage(NewTokenTransferDto transferDto, Connection connection, TransactionMessage message, Keypair sender, BigDecimal networkFee) {
-        TokenTransfer transfer = new TokenTransfer(transferDto, networkFee);
+    public String signMessage(NewTokenTransferDto transferDto, UUID accountId, Connection connection, TransactionMessage message, Keypair sender, BigDecimal networkFee) {
+        TokenTransfer transfer = new TokenTransfer(transferDto, accountId, networkFee);
         try {
             VersionedTransaction transaction = new VersionedTransaction(message);
             

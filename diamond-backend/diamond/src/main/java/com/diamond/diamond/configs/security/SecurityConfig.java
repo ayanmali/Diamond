@@ -1,7 +1,8 @@
-package com.diamond.diamond.configs;
+package com.diamond.diamond.configs.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -12,26 +13,21 @@ import org.springframework.security.web.SecurityFilterChain;
  */
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration {
+public class SecurityConfig {
     
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        // http.authorizeHttpRequests(authorize -> authorize
-        // .requestMatchers("/", "/error", "/webjars/**")
-        // .permitAll().anyRequest().authenticated())
         
-        http.csrf(csrf -> csrf.disable()) // CSRF protection
+        http
+        .cors(Customizer.withDefaults()) // enables CORS using the bean defined in CorsConfig
+        .csrf(csrf -> csrf.disable()) // CSRF protection
         .authorizeHttpRequests(auth -> auth
-        .requestMatchers("/", "/error", "/webjars/**").permitAll() // these URLs don't require authentication
+        .requestMatchers("/", "/error", "/webjars/**", "/ws/**", "/sockjs/**").permitAll() // these URLs don't require authentication
         .anyRequest().authenticated()) // anything else requires authentication
 
-        // Login
-        //.oauth2Login(Customizer.withDefaults());
-        // .oauth2Login(oauth2 -> oauth2
-        // .loginPage("/login")
-        // .defaultSuccessUrl("/dashboard"))
         .oauth2Login(oauth2login -> oauth2login
         .successHandler((request, response, authentication) -> response.sendRedirect("/auth/details")));
+
 
         // Logout user
         // .logout(logout -> logout
