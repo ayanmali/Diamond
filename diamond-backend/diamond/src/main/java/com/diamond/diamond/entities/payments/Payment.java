@@ -152,8 +152,6 @@ import jakarta.validation.constraints.Positive;
                 case USDT:
                     this.acceptUsdt = true;
                     break;
-                case SOL:
-                    break;
                 default:
                     throw new AssertionError();
             }
@@ -183,8 +181,6 @@ import jakarta.validation.constraints.Positive;
                 case USDT:
                     this.acceptUsdt = true;
                     break;
-                case SOL:
-                    break;
                 default:
                     throw new AssertionError();
             }
@@ -210,8 +206,6 @@ import jakarta.validation.constraints.Positive;
                     break;
                 case USDT:
                     this.acceptUsdt = true;
-                    break;
-                case SOL:
                     break;
                 default:
                     throw new AssertionError();

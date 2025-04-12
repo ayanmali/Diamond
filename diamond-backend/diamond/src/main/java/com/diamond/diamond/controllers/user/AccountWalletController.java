@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.diamond.diamond.dtos.wallets.FetchAccountWalletDto;
 import com.diamond.diamond.dtos.wallets.FetchTokenBalanceDto;
 import com.diamond.diamond.dtos.wallets.NewAccountWalletDto;
-import com.diamond.diamond.services.solana.KeypairCreator;
-import com.diamond.diamond.services.solana.SolanaRPCClient;
+import com.diamond.diamond.services.onchain.solana.KeypairCreator;
+import com.diamond.diamond.services.onchain.solana.SolanaRPCClient;
 import com.diamond.diamond.services.user.AccountService;
 import com.diamond.diamond.services.user.AccountWalletService;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.Token;
-import static com.diamond.diamond.types.Tokens.STABLECOIN_TOKENS;
+import static com.diamond.diamond.types.Tokens.SOL_STABLECOIN_TOKENS;
 import com.diamond.diamond.types.WalletKeypair;
 import com.diamond.diamond.types.WalletStatus;
 
@@ -148,7 +148,7 @@ public class AccountWalletController {
 
         List<FetchTokenBalanceDto> balances = List.of();
 
-        for (Token stablecoinToken : STABLECOIN_TOKENS) {
+        for (Token stablecoinToken : SOL_STABLECOIN_TOKENS) {
             balances.add(
                 new FetchTokenBalanceDto(
                     solanaRPCClient.getTokenBalance(walletAddress, stablecoinToken),

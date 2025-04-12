@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.diamond.diamond.dtos.account.FetchAccountDto;
 import com.diamond.diamond.entities.user.Account;
-import com.diamond.diamond.services.solana.SolanaRPCClient;
+import com.diamond.diamond.services.onchain.solana.SolanaRPCClient;
 import com.diamond.diamond.services.user.AccountService;
 import com.diamond.diamond.services.user.AccountWalletService;
 

@@ -277,11 +277,11 @@
         </dependency> -->
 
 		<!-- Web3J (Ethereum/Base/BSC Client) -->
-		<!-- <dependency>
+		<dependency>
 			<groupId>org.web3j</groupId>
 			<artifactId>core</artifactId>
-			<version>3.3.1</version>
-		</dependency> -->
+			<version>4.9.4</version>
+		</dependency>
 	</dependencies>
 
 	<build>

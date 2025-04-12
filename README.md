@@ -1,20 +1,6 @@
-# Diamond - Accept payments with crypto
-Diamond is a cryptocurrency payment gateway that allows businesses to accept payment from customers with cryptocurrencies, including BTC, ETH, SOL, and USDC.
+# DiamondPay - Accept payments with crypto
+DiamondPay is a cryptocurrency payment gateway that allows businesses to accept payment from customers with cryptocurrencies, including BTC, ETH, SOL, and USDC
 
-TODO
-- redis caching
-- cors
-- auth/jwts
-- csrf protection (done)
-- rabbitmq
-- rate limiting w/ leaky bucket algo (redis?)
-
-- batch writes (redis)
-
-- load balancing (aws/gcp)
-- microservices?
-
-- smart invoices
 
 
 <!-- 

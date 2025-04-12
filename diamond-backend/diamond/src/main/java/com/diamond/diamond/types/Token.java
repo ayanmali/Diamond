@@ -2,8 +2,9 @@ package com.diamond.diamond.types;
 
 public class Token {
     //private String tokenName;
+    // stablecoin/token symbol
+    private String symbol;
     // E.g. ERC20, Fungible, etc.
-    private StablecoinCurrency symbol;
     private String standard;
     private Blockchain chain;
     private Integer decimals;
@@ -11,7 +12,7 @@ public class Token {
     private String tokenAddress;
 
     public Token() {}
-    public Token(StablecoinCurrency symbol, String standard, Blockchain chain, Integer decimals, String tokenAddress) {
+    public Token(String symbol, String standard, Blockchain chain, Integer decimals, String tokenAddress) {
         this.symbol = symbol;
         this.standard = standard;
         this.chain = chain;
@@ -50,10 +51,10 @@ public class Token {
     // public void setIsNative(Boolean isNative) {
     //     this.isNative = isNative;
     // }
-    public StablecoinCurrency getSymbol() {
+    public String getSymbol() {
         return symbol;
     }
-    public void setSymbol(StablecoinCurrency symbol) {
+    public void setSymbol(String symbol) {
         this.symbol = symbol;
     }
     public String getTokenAddress() {

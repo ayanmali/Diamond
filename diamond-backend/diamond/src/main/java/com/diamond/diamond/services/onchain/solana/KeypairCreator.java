@@ -1,4 +1,4 @@
-package com.diamond.diamond.services.solana;
+package com.diamond.diamond.services.onchain.solana;
 
 import java.security.SecureRandom;
 
@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 
 import com.diamond.diamond.types.WalletKeypair;
 
+/*
+ * Generates a Solana wallet keypair.
+ */
 @Service
 public class KeypairCreator {
     Ed25519KeyPairGenerator keyPairGenerator;
@@ -57,4 +60,3 @@ public class KeypairCreator {
         return sb.toString();
     }
 }
-

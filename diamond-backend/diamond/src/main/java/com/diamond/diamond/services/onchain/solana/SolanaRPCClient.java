@@ -2,7 +2,7 @@
  * Class to interact with the Solana API
  * TODO: convert synchronous HTTP requests to async (non blocking)
  */
-package com.diamond.diamond.services.solana;
+package com.diamond.diamond.services.onchain.solana;
 
 import java.io.IOException;
 import java.math.BigDecimal;
