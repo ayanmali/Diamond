@@ -13,8 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.diamond.diamond.dtos.account.FetchAccountDto;
 import com.diamond.diamond.entities.user.Account;
+import com.diamond.diamond.services.AuthService;
 import com.diamond.diamond.services.OAuthService;
 import com.diamond.diamond.services.user.AccountService;
+
+import org.springframework.web.bind.annotation.RequestBody;
+
+import com.diamond.diamond.dtos.account.FetchAccountBalanceDto;
+import com.diamond.diamond.dtos.account.PasswordLoginDto;
+
 
 
 @RestController
@@ -23,10 +30,12 @@ public class AuthController {
 
     private final AccountService accountService;
     private final OAuthService oauthService;
+    private final AuthService authService;
 
-    public AuthController(OAuthService oauthService, AccountService accountService) {
+    public AuthController(OAuthService oauthService, AccountService accountService, AuthService authService) {
         this.accountService = accountService;
         this.oauthService = oauthService;
+        this.authService = authService;
     }
 
     @GetMapping("/details")
@@ -35,7 +44,7 @@ public class AuthController {
         return oauthService.getUserNameAndEmail(principal, client);
     }
 
-    @PostMapping("/login")
+    @PostMapping("/login-oauth")
     public FetchAccountDto loginUser(@AuthenticationPrincipal OAuth2User principal,
                                      @RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient client) {
         Map<String, String> userData = oauthService.getUserNameAndEmail(principal, client);
@@ -46,8 +55,13 @@ public class AuthController {
             return new FetchAccountDto(user);
         }
         // if they don't exist, add them to DB
-        return accountService.signUp(userData.get("email"), userData.get("name"));
-        
+        return new FetchAccountDto(authService.signUp(userData.get("email"), userData.get("name")));
     }
+
+    @PostMapping("/login-email")
+    public FetchAccountDto loginUser(@RequestBody PasswordLoginDto loginDto) {
+        return new FetchAccountDto(authService.authenticate(loginDto));
+    }
+    
     
 }

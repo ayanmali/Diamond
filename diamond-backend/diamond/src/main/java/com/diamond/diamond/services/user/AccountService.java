@@ -97,12 +97,6 @@ public class AccountService {
         
     // }
 
-    public FetchAccountDto updatePin(UUID id, String encryptedPin) {
-        Account account = accountRepository.findById(id).orElseThrow();
-        account.setEncryptedPin(encryptedPin);
-        return new FetchAccountDto(accountRepository.save(account));
-    }
-
     public List<FetchAccountDto> findAccountDtosWithFilters(
         UUID id, 
         String email, 

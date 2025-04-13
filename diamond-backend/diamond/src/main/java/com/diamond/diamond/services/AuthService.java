@@ -2,6 +2,7 @@ package com.diamond.diamond.services;
 
 import java.security.SecureRandom;
 import java.util.Base64;
+import java.util.UUID;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -49,6 +50,19 @@ public class AuthService {
         this.secretPasswordKey = stringToSecretKey(passwordEncryptionKey);    // Decode the Base64-encoded String key
     }
 
+    public Account setPin(UUID accountId, String plainTextPin) {
+        try {
+            String encryptedPin = encrypt(plainTextPin, secretPinKey);
+            Account account = accountRepository.findById(accountId).orElseThrow();
+            account.setEncryptedPin(encryptedPin);
+            return account;
+        }
+        catch (Exception e) {
+            System.out.println("Error setting user PIN: " + e.getMessage());
+            return null;
+        }
+    }
+
     // public Account saveUser(Account Account) {
     //     return AccountRepository.save(Account);
     // }
@@ -89,6 +103,9 @@ public class AuthService {
     //     accountRepository.delete(Account);
     // }
 
+    /*
+     * Email + password signup
+     */
     public Account signUp(EmailPasswordRegisterDto input) {
         try {
             // Getting the email and name specified in the request
@@ -100,6 +117,22 @@ public class AuthService {
             user.setEncryptedPassword(
                 encrypt(input.getPlainTextPassword(), this.secretPasswordKey)
             );
+
+            // saving the newly registered user to the Accounts repository
+            return accountRepository.save(user);
+        } 
+        catch (Exception e) {
+            System.out.println("Error signing up user: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public Account signUp(String email, String name) {
+        try {
+            // Getting the email and name specified in the request
+            Account user = new Account();
+            user.setEmail(email);
+            user.setName(name);
 
             // saving the newly registered user to the Accounts repository
             return accountRepository.save(user);

@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.diamond.diamond.dtos.account.FetchAccountDto;
-import com.diamond.diamond.entities.user.Account;
+import com.diamond.diamond.services.AuthService;
 import com.diamond.diamond.services.onchain.solana.SolanaRPCClient;
 import com.diamond.diamond.services.user.AccountService;
 import com.diamond.diamond.services.user.AccountWalletService;
@@ -28,6 +28,8 @@ import com.diamond.diamond.services.user.AccountWalletService;
 @RestController
 @RequestMapping("/accounts")
 public class AccountController {
+
+    private final AuthService authService;
     private final AccountService accountService;
     private final AccountWalletService accountWalletService;
     private final SolanaRPCClient solanaRpcClient; // TODO: implement controller methods for Solana interactions
@@ -37,10 +39,11 @@ public class AccountController {
     //private final CircleApiClient circleApiClient;
     //private final CircleGrpcClient circleGrpcClient;
 
-    public AccountController(AccountService accountService, AccountWalletService accountWalletService, SolanaRPCClient solanaRpcClient /*,CircleApiClient circleApiClient, CircleGrpcClient circleGrpcClient*/) {
+    public AccountController(AccountService accountService, AccountWalletService accountWalletService, SolanaRPCClient solanaRpcClient /*,CircleApiClient circleApiClient, CircleGrpcClient circleGrpcClient*/, AuthService authService) {
         this.accountService = accountService;
         this.accountWalletService = accountWalletService;
         this.solanaRpcClient = solanaRpcClient;
+        this.authService = authService;
         //this.oauthService = oauthService;
 
         //this.circleApiClient = circleApiClient;
@@ -71,11 +74,7 @@ public class AccountController {
 
     @PostMapping("/{id}/set-pin")
     public FetchAccountDto setPin(@PathVariable(value="id") UUID id, @RequestBody String pin) throws Exception {
-        // Encrypting the user-provided PIN number
-        String encryptedPin = accountService.encrypt(pin, AccountService.getSecretPinKey());
-        Account account = accountService.findAccountById(id);
-        account.setEncryptedPin(encryptedPin);
-        return accountService.updatePin(id, encryptedPin);
+        return new FetchAccountDto(authService.setPin(id, pin));
     }
     
     
