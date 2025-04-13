@@ -53,9 +53,12 @@ public class Account {
     private List<UUID> walletIds;
 
     // The email address belonging to this user
-    @Column(unique = true, length = 100, nullable = false)
+    @Column(unique = true, length = 64, nullable = false)
     @Email
     private String email;
+
+    @Column(length=64)
+    private String encryptedPassword;
 
     //OneToMany(mappedBy="account", cascade=CascadeType.ALL)
     @ElementCollection
@@ -183,6 +186,14 @@ public class Account {
 
     public void setEncryptedPin(String encryptedPin) {
         this.encryptedPin = encryptedPin;
+    }
+
+    public String getEncryptedPassword() {
+        return encryptedPassword;
+    }
+
+    public void setEncryptedPassword(String encryptedPassword) {
+        this.encryptedPassword = encryptedPassword;
     }
 
 }
