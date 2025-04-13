@@ -84,7 +84,7 @@ public class EVMTokenBalanceChecker {
     public void getAllBalances() {
         // The wallet address whose USDC balance you want to check.
         String walletAddress = "0xYourWalletAddressHere"; // Replace with the desired wallet address
-
+        
         // Loop through the chains.
         for (Blockchain chain : RPC_ENDPOINTS.keySet()) {
             String rpcUrl = RPC_ENDPOINTS.get(chain);
