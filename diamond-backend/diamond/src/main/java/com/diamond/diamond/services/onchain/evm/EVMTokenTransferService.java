@@ -30,7 +30,7 @@ public class EVMTokenTransferService {
             // Perform transfer
             TransactionReceipt receipt = token.transfer(recipientAddress, tokenAmount).send();
             System.out.println("Transfer successful, transaction hash: " + receipt.getTransactionHash());
-            System.out.println("Gas paid: " + receipt.get);
+            System.out.println("Gas paid: " + receipt.getGasUsed());
         
         } catch (Exception e) {
             System.out.println("Error transferring tokens " + e.getMessage());

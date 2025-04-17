@@ -18,13 +18,13 @@ import com.diamond.diamond.types.WalletKeypair;
  */
 @Service
 public class EVMWalletCreator {
-    private static ECDomainParameters secp256k1;
+    private final ECDomainParameters secp256k1;
     
     public EVMWalletCreator() {
         secp256k1 = getSecp256k1Params();
     }
 
-    public static WalletKeypair generate() {
+    public WalletKeypair generate() {
         // Generate private key (32 bytes)
         BigInteger privateKey = new BigInteger(256, new SecureRandom());
         

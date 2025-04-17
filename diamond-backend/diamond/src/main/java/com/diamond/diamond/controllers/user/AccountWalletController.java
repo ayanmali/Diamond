@@ -15,9 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.diamond.diamond.dtos.wallets.FetchAccountWalletDto;
 import com.diamond.diamond.dtos.wallets.FetchTokenBalanceDto;
 import com.diamond.diamond.dtos.wallets.NewAccountWalletDto;
+import com.diamond.diamond.services.AuthService;
+import com.diamond.diamond.services.onchain.evm.EVMWalletCreator;
 import com.diamond.diamond.services.onchain.solana.KeypairCreator;
 import com.diamond.diamond.services.onchain.solana.SolanaRPCClient;
-import com.diamond.diamond.services.user.AccountService;
 import com.diamond.diamond.services.user.AccountWalletService;
 import com.diamond.diamond.types.Blockchain;
 import com.diamond.diamond.types.Token;
@@ -31,20 +32,25 @@ import jakarta.validation.Valid;
 @RequestMapping("/wallets")
 public class AccountWalletController {
 
+    private final AuthService authService;
+
+    private final EVMWalletCreator evmWalletCreator;
+
     private final AccountWalletService accountWalletService;
-    private final AccountService accountService;
     //private final CircleApiClient circleApiClient;
-    private final KeypairCreator keypairCreator;
+    private final KeypairCreator solanaKeypairCreator;
     private final SolanaRPCClient solanaRPCClient;
 
     //private final CircleGrpcClient circleGrpcClient;
 
-    public AccountWalletController(AccountWalletService accountWalletService, AccountService accountService, /*CircleApiClient circleApiClient , CircleGrpcClient circleGrpcClient*/ KeypairCreator keypairCreator, SolanaRPCClient solanaRPCClient) {
+    public AccountWalletController(AccountWalletService accountWalletService,/*, AccountService accountService, CircleApiClient circleApiClient , CircleGrpcClient circleGrpcClient*/ KeypairCreator solanaKeypairCreator, SolanaRPCClient solanaRPCClient, EVMWalletCreator EVMWalletCreator, AuthService authService) {
         this.accountWalletService = accountWalletService;
-        this.accountService = accountService;
+        //this.accountService = accountService;
         //this.circleApiClient = circleApiClient;
-        this.keypairCreator = keypairCreator;
+        this.solanaKeypairCreator = solanaKeypairCreator;
         this.solanaRPCClient = solanaRPCClient;
+        this.evmWalletCreator = EVMWalletCreator;
+        this.authService = authService;
         //this.circleGrpcClient = circleGrpcClient;
     }
 
@@ -62,10 +68,12 @@ public class AccountWalletController {
         //     return new FetchAccountWalletDto();
         // }
         // CreateWalletResponse walletObj = optionalWalletObj.get();
-        WalletKeypair keypair = keypairCreator.generate();
+        // WalletKeypair keypair = solanaKeypairCreator.generate();
+        WalletKeypair keypair = evmWalletCreator.generate();
         // TODO: encrypt private keys before storing them
         try {
-            String encryptedPrivateKey = accountService.encrypt(keypair.getPrivateKey(), AccountService.getSecretWalletKey());
+            String encryptedPrivateKey = authService.encrypt(keypair.getPrivateKey(), authService.getSecretWalletKey());
+            //String encryptedPrivateKey = accountService.encrypt(keypair.getPrivateKey(), AccountService.getSecretWalletKey());
             accountWalletService.saveWallet(accountWalletDto, accountId, keypair.getPublicKey(), encryptedPrivateKey);
             return keypair;
         } catch (Exception e) {
