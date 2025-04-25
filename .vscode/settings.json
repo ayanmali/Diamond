@@ -8,4 +8,8 @@
     "editor.quickSuggestions": {
         "strings": "on"
     },
+    "java.project.sourcePaths": [
+        "diamond-backend"
+    ],
+    "editor.fontFamily": "Courier, Menlo, Monaco, 'Courier New', monospace",
 }

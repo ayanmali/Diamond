@@ -62,6 +62,11 @@ const paymentItems = [
     url: "/invoices",
     icon: LiaFileInvoiceSolid,
   },
+  {
+    title: "Donations",
+    url: "/donations",
+    icon: LiaFileInvoiceSolid,
+  },
 ] 
  
 export function AppSidebar() {

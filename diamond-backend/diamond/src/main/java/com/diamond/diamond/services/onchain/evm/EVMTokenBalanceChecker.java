@@ -23,6 +23,7 @@ import org.web3j.protocol.http.HttpService;
 import com.diamond.diamond.types.Blockchain;
 import static com.diamond.diamond.types.Tokens.EVM_CONTRACTS;
 
+// TODO: refactor this
 @Service
 public class EVMTokenBalanceChecker {
     // Map each chain with its RPC endpoint and USDC contract address.

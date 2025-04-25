@@ -1,13 +1,16 @@
 package com.diamond.diamond.services.onchain.evm;
 
-import org.web3j.protocol.Web3j;
-import org.web3j.protocol.http.HttpService;
-import org.springframework.stereotype.Service;
-import org.web3j.crypto.Credentials;
-import org.web3j.tx.gas.DefaultGasProvider;
-import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import java.math.BigInteger;
 
+import org.springframework.stereotype.Service;
+import org.web3j.crypto.Credentials;
+import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
+import org.web3j.protocol.http.HttpService;
+import org.web3j.tx.gas.DefaultGasProvider;
+
+
+//TODO: refactor this class
 @Service
 public class EVMTokenTransferService {
     public static void transferTokens() {

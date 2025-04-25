@@ -1,7 +1,5 @@
 package com.diamond.diamond.dtos.account;
 
-import java.util.UUID;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
 
