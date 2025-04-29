@@ -17,8 +17,8 @@ return(
     <DropdownMenuSeparator />
     <DropdownMenuItem>Invoice</DropdownMenuItem>
     <DropdownMenuItem>Payment Link</DropdownMenuItem>
-    <DropdownMenuItem>Checkout Page Integration</DropdownMenuItem>
-    <DropdownMenuItem>Donation</DropdownMenuItem>
+    {/* <DropdownMenuItem>Checkout Page Integration</DropdownMenuItem>
+    <DropdownMenuItem>Donation</DropdownMenuItem> */}
     {/* <DropdownMenuItem>Subscription</DropdownMenuItem> */}
   </DropdownMenuContent>
 </DropdownMenu>

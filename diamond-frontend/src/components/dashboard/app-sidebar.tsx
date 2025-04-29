@@ -13,7 +13,7 @@ import { Home, WalletMinimal } from "lucide-react"
 import { HiOutlineLink } from "react-icons/hi2";
 import { LiaFileInvoiceSolid, LiaExchangeAltSolid } from "react-icons/lia";
 import { IoPersonOutline } from "react-icons/io5";
-import { MdOutlineShoppingCart } from "react-icons/md";
+// import { MdOutlineShoppingCart } from "react-icons/md";
 //import { AiOutlineProduct } from "react-icons/ai";
 
  
@@ -52,21 +52,21 @@ const paymentItems = [
     url: "/links",
     icon: HiOutlineLink,
   },
-  {
-    title: "Checkout Page Integrations",
-    url: "/checkouts",
-    icon: MdOutlineShoppingCart,
-  },
+  // {
+  //   title: "Checkout Page Integrations",
+  //   url: "/checkouts",
+  //   icon: MdOutlineShoppingCart,
+  // },
   {
     title: "Invoices",
     url: "/invoices",
     icon: LiaFileInvoiceSolid,
   },
-  {
-    title: "Donations",
-    url: "/donations",
-    icon: LiaFileInvoiceSolid,
-  },
+  // {
+  //   title: "Donations",
+  //   url: "/donations",
+  //   icon: LiaFileInvoiceSolid,
+  // },
 ] 
  
 export function AppSidebar() {
